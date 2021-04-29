@@ -7,25 +7,14 @@ route.post("/create", async (req, res) => {
   const { form, options } = req.body;
   try {
     const link = `file://${path.join(__dirname + "/../../../public/views/")}`;
-
-    const [imagelink, csslink] = [
-      link + "images/logo.png",
-      link + "styles/template1.css",
-    ];
-    
     const html = pug.renderFile(
       path.join(__dirname + "/../../../public/views/template1.pug"),
-      {
-        imagelink,
-        csslink,
-        form,
-      }
+      { link, form }
     );
-    const success = await pdf
-      .create(html, options)
-      .toFile("./src/assets/routes/temp/response.pdf", (e) => e);
-
-    return res.sendFile(path.join(__dirname + "/temp/response.pdf"));
+    
+    return await pdf.create(html, options).toBuffer((e, buffer) => {
+      return res.send(buffer);
+    });
   } catch (e) {
     console.log(e);
     return res.status(500).send(e);
