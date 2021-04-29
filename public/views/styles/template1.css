@@ -1,0 +1,28 @@
+body {
+  font-size: 12px;
+  margin: 0px;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.header-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.university-logo {
+  width: 75px;
+  height: auto;
+}
+.header-info-p2 {
+  text-align: center;
+  margin: 2px;
+}
+.header-info-p1 {
+  text-align: center;
+  margin: 2px;
+}
