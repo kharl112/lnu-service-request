@@ -1,20 +1,45 @@
-<template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
-</template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import fileDownload from "js-file-download";
+import axios from "axios";
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  data() {
+    return {
+      form: {
+        subject: "That was intense",
+        body: "Ive been figuring this out from a long time.",
+      },
+      options: {
+        format: "Letter",
+        orientation: "portrait",
+        border: {
+          top: "0.5in",
+          right: "0.5in",
+          bottom: "0.5in",
+          left: "0.5in",
+        },
+      },
+    };
+  },
+  methods: {
+    handleGetPDF() {
+      const { form, options } = this;
+      axios
+        .post("api/pdf/create", { form, options }, { responseType: "blob" })
+        .then((res) => {
+          fileDownload(res.data, "response.pdf");
+        });
+    },
+  },
+  created() {
+    this.handleGetPDF();
+  },
+};
 </script>
+
+<template>
+  <div id="app"></div>
+</template>
 
 <style>
 #app {
