@@ -4,12 +4,30 @@ const Admin = new mongoose.Schema({
   staff_id: {
     type: String,
     required: true,
+    min: 11,
     max: 11,
   },
   name: {
-    type: String,
+    type: Object,
     required: true,
-    max: 255,
+    firstname: {
+      type: String,
+      required: true,
+      min: 2,
+      max: 255,
+    },
+    lastname: {
+      type: String,
+      required: true,
+      min: 2,
+      max: 255,
+    },
+    middlename: {
+      type: String,
+      required: true,
+      min: 2,
+      max: 255,
+    },
   },
   email: {
     type: String,
