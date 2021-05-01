@@ -42,7 +42,7 @@ const Admin = new mongoose.Schema({
   },
   permitted: {
     type: Boolean,
-    require: true,
+    required: true,
   },
 });
 
