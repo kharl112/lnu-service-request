@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const pdf = require("./src/routes/pdf");
+const admin = require("./src/routes/admin");
 const dbconnection = require("./src/db/connection");
 require("dotenv").config();
 
@@ -11,7 +12,7 @@ app.set("view engine", "pug");
 app.use(express.static(__dirname + "/public/views"));
 
 app.use("/api/pdf", pdf);
-
+app.use("/api/admin", admin);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`running on port ${PORT}`));
