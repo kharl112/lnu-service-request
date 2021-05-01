@@ -4,12 +4,13 @@ html
     link(rel="stylesheet", href=link+"styles/template1.css")
 body
   header
+    img(class="university-logo", src=link+"images/logo.png")
     div(class="header-info")
-      img(class="university-logo", src=link+"images/logo.png")
       p(class="header-info-p1") Republic of the Philippines
       p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
-  div 
-  h1=form.subject
-  p=form.body
+      p(class="header-info-p3") P. Paterno St., Tacloban City 
+  div(class="main")
+  h3(class="subject")=form.subject
+  p(class="body")=form.body
     
 
