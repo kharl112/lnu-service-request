@@ -11,14 +11,12 @@ route.post("/create", async (req, res) => {
 
   const found = await Admin.findOne({ email: req.body.email });
   if (found)
-    return res
-      .status(400)
-      .send(message(false, "this email already exist, login to continue"));
+    return res.status(400).send({ message: "this email already exists." });
 
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(req.body.password, salt);
 
-  const user = new Admin({
+  const admin = new Admin({
     staff_id: req.body.staff_id,
     name: req.body.name,
     email: req.body.email,
@@ -27,8 +25,8 @@ route.post("/create", async (req, res) => {
   });
 
   try {
-    const admin = await user.save();
-    const token = jwt.sign({ _id: admin._id }, process.env.JWT_SECRET, {
+    const new_admin = await admin.save();
+    const token = jwt.sign({ _id: new_admin._id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     return res.send({ token });
