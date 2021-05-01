@@ -6,9 +6,9 @@ const pug = require("pug");
 route.post("/create", async (req, res) => {
   const { form, options } = req.body;
   try {
-    const link = `file://${path.join(__dirname + "/../../../public/views/")}`;
+    const link = `file://${path.join(__dirname + "/../../public/views/")}`;
     const html = pug.renderFile(
-      path.join(__dirname + "/../../../public/views/template1.pug"),
+      path.join(__dirname + "/../../public/views/template1.pug"),
       { link, form }
     );
     
