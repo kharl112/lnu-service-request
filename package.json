@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "server": "nodemon server.js",
-    "admin": "cd admin && npm run serve",
-    "dev": "concurrently -n 'server,admin' -c 'magenta,blue' \"npm run server\" \"npm run admin\""
+    "client": "cd client && npm run serve",
+    "dev": "concurrently -n 'server,client' -c 'magenta,blue' \"npm run server\" \"npm run client\""
   },
   "keywords": [],
   "author": "",
