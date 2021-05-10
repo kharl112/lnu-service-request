@@ -3,10 +3,9 @@ export default {
   name: "LeftBg1",
 };
 </script>
-<style lang=""></style>
 <template>
   <svg width="331" height="1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="2" width="283" height="1024" fill="#E78A00" />
+    <rect x="2" width="283" height="100vh" fill="#E78A00" />
     <g filter="url(#filter0_d)">
       <rect
         width="69.3611"

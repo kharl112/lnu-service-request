@@ -1,4 +1,7 @@
+@import "../../_var";
+
 #login-container {
+  font-family: $ubuntu-font;
   margin: 0px;
   padding: 0px;
   #login-row1 {
@@ -7,11 +10,62 @@
     #login-col1 {
       margin: 0px;
       padding: 0px;
-      display: flex;
-      flex-direction: row;
-      justify-content: stretch;
-      align-items: stretch;
-      width: 100%;
+      svg {
+        height: 100vh;
+        rect {
+          height: 100vh;
+        }
+      }
+    }
+    #login-right-row {
+      width: auto;
+      background-color: white;
+      padding: 10px;
+      #header-container {
+        margin: 0px 0px 25px;
+        #heading {
+          padding: 0px 0px 20px;
+          margin: 0px 0px 20px;
+          border-bottom: 3px solid gray;
+          .faculty-color {
+            color: $color-yellow;
+            font-style: normal;
+            font-weight: bolder;
+          }
+          .admin-color {
+            color: $color-blue;
+            font-style: normal;
+            font-weight: bolder;
+          }
+        }
+        #heading2a {
+          color: $color-yellow;
+          font-style: normal;
+          font-weight: bolder;
+        }
+        #heading2b {
+          color: $color-blue;
+          font-style: normal;
+          font-weight: bolder;
+        }
+      }
+      form {
+        .input {
+            margin: 0px;
+        }
+        .alert {
+            margin: 0px;
+        }
+        .check-box {
+            margin-bottom: 10px;
+            text-align: justify;
+            font-size: 12px;
+        }
+      }
+      .links {
+          margin: 15px 15px 0px 0px;
+          font-size: 12px;
+      }
     }
   }
 }
