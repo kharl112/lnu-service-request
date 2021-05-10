@@ -20,9 +20,17 @@
       button {
         margin-right: 15px;
       }
+      .tooltip-text {
+        text-align: center;
+      }
     }
     .footer-row {
       padding: 10px;
+      span {
+        text-decoration: underline;
+        cursor: pointer;
+        color: $color-blue;
+      }
     }
   }
 }

@@ -32,6 +32,14 @@ export default {
             :to="`/faculty/register/step=${getStepIndex - 1}`"
             >Go back</router-link
           >
+          <v-tooltip bottom v-if="getStepIndex === '4'">
+            <template v-slot:activator="{ on, attrs }">
+              <span v-bind="attrs" v-on="on" class="tooltip-text"
+                >What is this?</span
+              >
+            </template>
+            <span>Please approach the admin department and ask for code</span>
+          </v-tooltip>
           <small>
             <strong> Step {{ getStepIndex }} of 4</strong> of creating an
             account.
