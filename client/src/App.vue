@@ -9,3 +9,9 @@ export default {
     <v-main><router-view></router-view> </v-main>
   </v-app>
 </template>
+<style lang="scss">
+body {
+  margin: 0;
+  padding: 0;
+}
+</style>
