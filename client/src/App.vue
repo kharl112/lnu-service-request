@@ -1,9 +1,3 @@
-<template>
-  <v-app>
-    <v-main> </v-main>
-  </v-app>
-</template>
-
 <script>
 export default {
   name: "App",
@@ -11,3 +5,9 @@ export default {
   data: () => ({}),
 };
 </script>
+
+<template>
+  <v-app>
+    <v-main> </v-main>
+  </v-app>
+</template>
