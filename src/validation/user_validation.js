@@ -13,7 +13,7 @@ const create = (body) => {
     password: validString.min(8).max(255),
     department: Joi.object({
       unit_name: validString.min(2).max(255),
-      unit_role: validString.min(2).max(255),
+      unit_role: Joi.number().min(1).max(5),
     }),
   });
   return schema.validate(body);

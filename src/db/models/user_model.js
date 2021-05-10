@@ -50,10 +50,10 @@ const User = new mongoose.Schema({
       max: 255,
     },
     unit_role: {
-      type: String,
+      type: Number,
       required: true,
-      min: 2,
-      max: 255,
+      min: 1,
+      max: 5,
     },
   },
   signature_url: {
