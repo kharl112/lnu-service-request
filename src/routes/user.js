@@ -1,6 +1,6 @@
 const route = require("express").Router();
 const User = require("../db/models/user_model");
-const { create } = require("../validation/user_validation");
+const { create, login } = require("../validation/user_validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -9,8 +9,8 @@ route.post("/create", async (req, res) => {
   const { error } = create(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const found = await User.findOne({ email: req.body.email });
-  if (found)
+  const user_found = await User.findOne({ email: req.body.email });
+  if (user_found)
     return res.status(400).send({ message: "this email already exists." });
 
   const salt = bcrypt.genSaltSync(10);
@@ -34,7 +34,30 @@ route.post("/create", async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .send({ message: "something went wrong, please try again." });
+      .send({ message: "we can't process your request, please try again." });
+  }
+});
+
+route.post("/login", async (req, res) => {
+  const { error } = login(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const user_found = await User.findOne({ email: req.body.email });
+  if (!user_found)
+    return res.status(400).send({ message: "account not found" });
+
+  const hash = bcrypt.compareSync(req.body.password, user_found.password);
+  if (!hash) return res.status(400).send({ message: "invalid password" });
+
+  try {
+    const token = jwt.sign({ _id: user_found._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+    return res.send({ token });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "we can't process your request, please try again." });
   }
 });
 

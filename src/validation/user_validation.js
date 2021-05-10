@@ -19,4 +19,12 @@ const create = (body) => {
   return schema.validate(body);
 };
 
-module.exports = { create };
+const login = (body) => {
+  const schema = Joi.object({
+    email: validString.email().max(255),
+    password: validString.min(8).max(255),
+  });
+  return schema.validate(body);
+};
+
+module.exports = { create, login };
