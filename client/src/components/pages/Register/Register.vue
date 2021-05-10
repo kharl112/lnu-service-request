@@ -25,7 +25,9 @@ export default {
           <em>LNU</em>
           Service Request System
         </h3>
-        <router-view></router-view>
+        <transition name="slide-right" mode="out-in">
+          <router-view></router-view>
+        </transition>
         <v-row justify="space-between" class="footer-row">
           <router-link
             v-show="getStepIndex !== '1' && getStepIndex !== '4'"

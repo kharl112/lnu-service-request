@@ -11,7 +11,6 @@ export const routes = [
     component: Login,
     beforeEnter: (to, from, next) => {
       const { user_type } = to.params;
-      console.log(user_type);
       return user_type === "faculty" || user_type === "admin"
         ? next()
         : next(false);
@@ -22,7 +21,6 @@ export const routes = [
     component: Register,
     beforeEnter: (to, from, next) => {
       const { user_type } = to.params;
-      console.log(user_type);
       return user_type === "faculty" ? next() : next(false);
     },
     children: [

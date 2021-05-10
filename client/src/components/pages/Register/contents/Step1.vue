@@ -1,6 +1,16 @@
 <script>
 export default {
   name: "Step1",
+  data: () => {
+    return {
+      rules: {
+        email: [
+          (v) => !!v || "E-mail is required",
+          (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+        ],
+      },
+    };
+  },
 };
 </script>
 <template>
@@ -10,6 +20,7 @@ export default {
         class="input"
         label="Type your email first"
         type="email"
+        :rules="rules.email"
         autofocus
         outlined
         hint="for example: johndoe123@yahoo.com"
