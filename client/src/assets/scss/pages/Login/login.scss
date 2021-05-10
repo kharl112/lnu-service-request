@@ -24,8 +24,8 @@
       #header-container {
         margin: 0px 0px 25px;
         #heading {
-          padding: 0px 0px 20px;
-          margin: 0px 0px 20px;
+          padding: 0px 0px 10px;
+          margin: 0px 0px 15px;
           border-bottom: 3px solid gray;
           .faculty-color {
             color: $color-yellow;
@@ -50,21 +50,25 @@
         }
       }
       form {
+        padding-left: 10px;
         .input {
-            margin: 0px;
+          margin: 0px;
         }
         .alert {
-            margin: 0px;
+          margin: 0px;
         }
         .check-box {
-            margin-bottom: 10px;
-            text-align: justify;
-            font-size: 12px;
-        }
-      }
-      .links {
-          margin: 15px 15px 0px 0px;
+          margin-bottom: 10px;
+          text-align: justify;
           font-size: 12px;
+        }
+        button {
+            margin-bottom: 10px;
+        }
+        .links {
+          padding: 15px 15px 0px 0px;
+          font-size: 15px;
+        }
       }
     }
   }

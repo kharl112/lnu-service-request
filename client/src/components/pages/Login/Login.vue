@@ -59,7 +59,7 @@ export default {
             </h4>
           </v-container>
           <v-form>
-            <v-row no-gutters >
+            <v-row no-gutters>
               <v-col cols="11">
                 <v-text-field
                   class="input"
@@ -85,7 +85,7 @@ export default {
                 />
               </v-col>
               <v-col cols="11">
-                <v-alert class="alert" v-show="true" dense type="error">
+                <v-alert class="alert" v-show="false" dense type="error">
                   Invalid
                 </v-alert>
               </v-col>
@@ -106,20 +106,28 @@ export default {
                   Login
                 </v-btn>
               </v-col>
+              <v-col
+                cols="11"
+                class="links-container"
+                v-show="getUserType === 'faculty'"
+              >
+                <router-link
+                  v-bind:to="`/${getUserType}/register`"
+                  class="links"
+                  >Create Account</router-link
+                >
+              </v-col>
+              <v-col class="links-container">
+                <router-link
+                  v-bind:to="
+                    `/${getUserType === 'faculty' ? 'admin' : 'faculty'}/login`
+                  "
+                  class="links"
+                  >I'm not an {{ getUserType }} member</router-link
+                >
+              </v-col>
             </v-row>
           </v-form>
-          <router-link v-bind:to="`/${getUserType}/register`" class="links"
-            >Create Account</router-link
-          >
-          <v-col>
-            <router-link
-              v-bind:to="
-                `/${getUserType === 'faculty' ? 'admin' : 'faculty'}/login`
-              "
-              class="links"
-              >I'm not an {{ getUserType }} member</router-link
-            >
-          </v-col>
         </v-row>
       </v-col>
     </v-row>
