@@ -1,10 +1,13 @@
 <script>
 export default {
   name: "Register",
+  computed: {
+    getUserType() {
+      return this.$route.params.user_type;
+    },
+  },
 };
 </script>
 <template>
-  <div>
-    Registers Page
-  </div>
+  <div>{{ getUserType }} Register Page</div>
 </template>
