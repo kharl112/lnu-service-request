@@ -1,0 +1,25 @@
+@import "../../_var";
+
+.register-main-container {
+  width: 100vw;
+  height: 100vh;
+  .register-row1 {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    #heading {
+      em {
+        color: $color-yellow;
+        font-style: normal;
+        font-weight: bolder;
+      }
+    }
+    .card-container {
+      margin: 20px 0px 20px;
+      padding: 25px;
+    }
+    .footer-row {
+        padding: 10px;
+    }
+  }
+}

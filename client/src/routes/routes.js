@@ -1,4 +1,6 @@
 import Register from "../components/pages/Register/Register";
+import Step1 from "../components/pages/Register/contents/Step1";
+import Step2 from "../components/pages/Register/contents/Step2";
 import Login from "../components/pages/Login/Login";
 
 export const routes = [
@@ -19,9 +21,11 @@ export const routes = [
     beforeEnter: (to, from, next) => {
       const { user_type } = to.params;
       console.log(user_type);
-      return user_type === "faculty" || user_type === "admin"
-        ? next()
-        : next(false);
+      return user_type === "faculty" ? next() : next(false);
     },
+    children: [
+      { path: "step=1", component: Step1 },
+      { path: "step=2", component: Step2 },
+    ],
   },
 ];
