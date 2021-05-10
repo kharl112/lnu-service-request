@@ -1,79 +1,60 @@
-<script>
-import fileDownload from "js-file-download";
-import axios from "axios";
-export default {
-  name: "App",
-  data() {
-    return {
-      form: {
-        subject: "",
-        body: "",
-      },
-      options: {
-        format: "A4",
-        orientation: "portrait",
-        border: {
-          top: "0.5in",
-          right: "0.5in",
-          bottom: "0.5in",
-          left: "0.5in",
-        },
-      },
-    };
-  },
-  methods: {
-    handleGetPDF(e) {
-      e.preventDefault();
-      const { form, options } = this;
-      axios
-        .post("api/pdf/create", { form, options }, { responseType: "blob" })
-        .then((res) => {
-          fileDownload(res.data, "response.pdf");
-        });
-    },
-  },
-  created() {
-    this.handleGetPDF();
-  },
-};
-</script>
-
 <template>
-  <div id="app">
-    <form @submit="handleGetPDF">
-      <label>Subject</label>
-      <input type="text" v-model="form.subject" />
-      <label>Body</label>
-      <textarea type="text" v-model="form.body" rows="7"/>
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          transition="scale-transition"
+          width="40"
+        />
+
+        <v-img
+          alt="Vuetify Name"
+          class="shrink mt-1 hidden-sm-and-down"
+          contain
+          min-width="100"
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          width="100"
+        />
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Latest Release</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-main>
+      <HelloWorld/>
+    </v-main>
+  </v-app>
 </template>
 
-<style lang="scss" scoped>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  form {
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-    align-items: stretch;
-    label{
-      text-align: left;
-      margin: 15px 0px 2px;
-    }
-    button {
-      margin: 5px 0px;
-    }
-  }
-}
-</style>
+<script>
+import HelloWorld from './components/HelloWorld';
+
+export default {
+  name: 'App',
+
+  components: {
+    HelloWorld,
+  },
+
+  data: () => ({
+    //
+  }),
+};
+</script>
