@@ -31,7 +31,6 @@ export default {
         :items="roles"
         item-text="role"
         item-value="value"
-        autofocus
         outlined
         background-color="#E5E5E5"
         required

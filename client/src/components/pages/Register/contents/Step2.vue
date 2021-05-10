@@ -29,7 +29,6 @@ export default {
           <v-text-field
             class="input"
             label="Lastname"
-            autofocus
             outlined
             background-color="#E5E5E5"
             required
@@ -39,7 +38,6 @@ export default {
           <v-text-field
             class="input"
             label="Middle Initial"
-            autofocus
             outlined
             background-color="#E5E5E5"
             required
@@ -51,7 +49,6 @@ export default {
           <v-text-field
             class="input"
             label="Prefix"
-            autofocus
             outlined
             background-color="#E5E5E5"
             required
@@ -62,7 +59,6 @@ export default {
             class="input"
             label="Suffixes"
             hint="comma separated ex: engr, mit"
-            autofocus
             outlined
             background-color="#E5E5E5"
             required

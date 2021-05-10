@@ -28,7 +28,7 @@ export default {
         <router-view></router-view>
         <v-row justify="space-between" class="footer-row">
           <router-link
-            v-show="getStepIndex !== '1'"
+            v-show="getStepIndex !== '1' && getStepIndex !== '4'"
             :to="`/faculty/register/step=${getStepIndex - 1}`"
             >Go back</router-link
           >
