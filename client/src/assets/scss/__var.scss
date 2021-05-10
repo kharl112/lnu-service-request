@@ -11,5 +11,13 @@ $roboto-font: "Roboto", sans-serif;
 $open-font: "Open Sans", sans-serif;
 $ubuntu-font: "Ubuntu", sans-serif;
 
-$color-blue: #0C0996;
-$color-yellow: #E78A00;
+.v-application {
+  [class*="text-"] {
+    color: #36405a;
+    font-family: $ubuntu-font, sans-serif !important;
+  }
+  font-family: $ubuntu-font, sans-serif !important;
+}
+
+$color-blue: #0c0996;
+$color-yellow: #e78a00;
