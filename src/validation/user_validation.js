@@ -12,7 +12,8 @@ const create = (body) => {
     email: validString.email().max(255),
     password: validString.min(8).max(255),
     department: Joi.object({
-      name: validString.min(2).max(255),
+      unit_name: validString.min(2).max(255),
+      unit_role: validString.min(2).max(255),
     }),
   });
   return schema.validate(body);

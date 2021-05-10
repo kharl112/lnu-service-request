@@ -43,7 +43,13 @@ const User = new mongoose.Schema({
   department: {
     type: Object,
     required: true,
-    name: {
+    unit_name: {
+      type: String,
+      required: true,
+      min: 2,
+      max: 255,
+    },
+    unit_role: {
       type: String,
       required: true,
       min: 2,
