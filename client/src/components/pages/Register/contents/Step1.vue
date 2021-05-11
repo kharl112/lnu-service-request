@@ -11,11 +11,17 @@ export default {
       },
     };
   },
+  methods: {
+    handleSubmit(e) {
+      e.preventDefault();
+      if (this.$refs.form.validate()) return;
+    },
+  },
 };
 </script>
 <template>
   <v-card class="card-container" elevation="5">
-    <v-form>
+    <v-form ref="form" @submit="handleSubmit">
       <v-text-field
         class="input"
         label="Type your email first"
