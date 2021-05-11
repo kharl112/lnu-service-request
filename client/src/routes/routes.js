@@ -4,6 +4,8 @@ import Step2 from "../components/pages/Register/contents/Step2";
 import Step3 from "../components/pages/Register/contents/Step3";
 import Step4 from "../components/pages/Register/contents/Step4";
 import Login from "../components/pages/Login/Login";
+import HomeUser from "../components/pages/Home/user/HomeUser";
+import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
 
 export const routes = [
   {
@@ -29,5 +31,13 @@ export const routes = [
       { path: "step=3", component: Step3 },
       { path: "step=4", component: Step4 },
     ],
+  },
+  {
+    path: "/faculty/home",
+    component: HomeUser,
+  },
+  {
+    path: "/admin/home",
+    component: HomeAdmin,
   },
 ];
