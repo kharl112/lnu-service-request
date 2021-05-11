@@ -13,7 +13,14 @@ export default {
         { role: "Head", value: 3 },
       ],
       rules: {
+        id: [(v) => v.length === 11 || "id length must be 11 characters"],
         notNull: [(v) => !!v || "This field is required"],
+        letters: [
+          (v) => !/\d/gi.test(v) || "Only letters allowed in this field",
+        ],
+        numbers: [
+          (v) => /\d/gi.test(v) || "Only numbers allowed in this field",
+        ],
       },
     };
   },
@@ -32,7 +39,8 @@ export default {
         class="input"
         label="ID"
         background-color="#E5E5E5"
-        :rules="rules.notNull"
+        type="number"
+        :rules="[...rules.notNull, ...rules.numbers, ...rules.id]"
         v-model="form.staff_id"
         autofocus
         outlined
@@ -41,9 +49,8 @@ export default {
         class="input"
         label="Department"
         :items="departments"
-        :rules="rules.notNull"
+        :rules="[...rules.notNull, ...rules.letters]"
         v-model="form.department.name"
-        autofocus
         outlined
         background-color="#E5E5E5"
       />

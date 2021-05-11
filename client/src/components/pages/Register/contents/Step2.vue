@@ -8,11 +8,15 @@ export default {
     return {
       show: false,
       rules: {
+        letters: [
+          (v) => !/\d/gi.test(v) || "Only letters allowed in this field",
+        ],
         name: [(v) => !!v || "This field is required"],
         middle_initial: [
           (v) =>
             (v && v.length < 2) ||
             "middle initial must only contain 1 character",
+          (v) => !/\d/gi.test(v) || "Only letters allowed in this field",
         ],
         password: [
           (v) =>
@@ -40,7 +44,7 @@ export default {
       <v-text-field
         class="input"
         label="Firstname"
-        :rules="rules.name"
+        :rules="[...rules.name, ...rules.letters]"
         v-model="form.name.firstname"
         autofocus
         outlined
@@ -51,7 +55,7 @@ export default {
           <v-text-field
             class="input"
             label="Lastname"
-            :rules="rules.name"
+            :rules="[...rules.name, ...rules.letters]"
             v-model="form.name.lastname"
             outlined
             background-color="#E5E5E5"
@@ -61,7 +65,7 @@ export default {
           <v-text-field
             class="input"
             label="Middle Initial"
-            :rules="rules.middle_initial"
+            :rules="[...rules.middle_initial, ...rules.letters]"
             v-model="form.name.middle_initial"
             outlined
             background-color="#E5E5E5"
@@ -74,6 +78,7 @@ export default {
             class="input"
             label="Prefix"
             v-model="form.name.prefix"
+            :rules="rules.letters"
             outlined
             background-color="#E5E5E5"
           />
@@ -82,6 +87,7 @@ export default {
           <v-text-field
             class="input"
             label="Suffixes"
+            :rules="rules.letters"
             v-model="form.name.suffixes"
             hint="comma separated ex: engr, mit"
             outlined
