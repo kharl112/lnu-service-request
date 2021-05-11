@@ -7,7 +7,9 @@ const create = (body) => {
     name: Joi.object({
       firstname: validString.min(2).max(255),
       lastname: validString.min(2).max(255),
-      middlename: validString.min(2).max(255),
+      middle_initial: validString.min(1).max(1),
+      prefix: Joi.string().allow(""),
+      suffixes: Joi.array(),
     }),
     email: validString.email().max(255),
     password: validString.min(8).max(255),
