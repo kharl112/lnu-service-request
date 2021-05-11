@@ -6,6 +6,10 @@ export default {
   data() {
     return {
       show: false,
+      form: {
+        email: "",
+        password: "",
+      },
       rules: {
         email: [
           (v) => !!v || "E-mail is required",
@@ -28,12 +32,16 @@ export default {
     },
     handleSubmit(e) {
       e.preventDefault();
-      if (this.$refs.form.validate()) return;
+      if (this.$refs.form.validate())
+        return this.$store.dispatch("faculty/userLogin", this.form);
     },
   },
   computed: {
     getUserType() {
       return this.$route.params.user_type;
+    },
+    getError() {
+      return this.$store.getters["faculty/getError"];
     },
   },
 };
@@ -54,7 +62,7 @@ export default {
           id="login-right-row"
         >
           <v-container id="header-container">
-            <h3 id="heading" class=" text-h5 text-sm-h5 text-md-h4">
+            <h3 id="heading" class=" text-h5 text-sm-h4 text-md-h4">
               <em
                 v-bind:class="
                   getUserType === 'faculty' ? 'faculty-color' : 'admin-color'
@@ -65,7 +73,7 @@ export default {
             </h3>
             <h4
               id="heading2a"
-              class="text-h6 text-sm-h6 text-md-h5 faculty-color"
+              class="text-h6 text-sm-h5 text-md-h5 faculty-color"
               v-if="getUserType === 'faculty'"
             >
               Head and staff Login
@@ -85,9 +93,10 @@ export default {
                   :rules="rules.email"
                   class="input"
                   label="E-mail"
+                  background-color="#E5E5E5"
+                  v-model="form.email"
                   type="email"
                   autofocus
-                  background-color="#E5E5E5"
                   outlined
                   required
                 />
@@ -95,20 +104,21 @@ export default {
 
               <v-col cols="12" md="11" sm="12">
                 <v-text-field
-                  :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                  :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
                   :rules="rules.password"
-                  :type="show ? 'password' : 'text'"
+                  :type="show ? 'text' : 'password'"
                   class="input"
                   label="Password"
                   background-color="#E5E5E5"
+                  v-model="form.password"
                   @click:append="handleShowPassword"
                   outlined
                   required
                 />
               </v-col>
               <v-col cols="12" md="11" sm="12">
-                <v-alert class="alert" v-show="false" dense type="error">
-                  Invalid
+                <v-alert class="alert" v-if="getError" dense type="error">
+                  {{ getError }}
                 </v-alert>
               </v-col>
 
