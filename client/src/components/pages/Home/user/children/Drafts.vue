@@ -5,7 +5,7 @@ export default {
 </script>
 <template>
   <v-container fluid id="draft-container">
-    <v-row dense justify="stretch" justify-sm="stretch" justify-md="center">
+    <v-row dense justify="start" justify-sm="start" justify-md="center">
       <v-col cols="12" sm="12" md="10">
         <div class="card-container">
           <div class="options-name">

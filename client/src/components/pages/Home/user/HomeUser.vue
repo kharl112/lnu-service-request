@@ -25,7 +25,7 @@ export default {
       <SideNav :showLogout="showLogout" />
       <v-col class="home-col1">
         <v-container fluid class="home-container2">
-          <v-row justify="stretch" align="stretch" class="home-row2">
+          <v-row justify="start" align="start" class="home-row2">
             <v-col cols="12">
               <Header />
             </v-col>
