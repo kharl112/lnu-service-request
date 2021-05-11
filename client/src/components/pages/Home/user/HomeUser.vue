@@ -1,16 +1,26 @@
 <script>
 import SideNav from "../contents/SideNav";
+import ConfirmLogout from "../contents/ConfirmLogout";
 export default {
   name: "HomeUser",
   components: {
     SideNav,
+    ConfirmLogout,
+  },
+  data: () => ({
+    logout: false,
+  }),
+  methods: {
+    showLogout() {
+      return (this.logout = !this.logout);
+    },
   },
 };
 </script>
 <template>
   <v-container fluid class="home-container">
     <v-row no-gutters dense class="home-row1">
-      <SideNav />
+      <SideNav :showLogout="showLogout" />
       <v-col class="home-col1">
         <v-container fluid class="home-container2">
           <v-row justify="stretch" align="stretch" class="home-row2">
@@ -19,6 +29,7 @@ export default {
         </v-container>
       </v-col>
     </v-row>
+    <ConfirmLogout :logout="logout" :showLogout="showLogout" />
   </v-container>
 </template>
 

@@ -1,6 +1,9 @@
 <script>
 export default {
   name: "SideNav",
+  props: {
+    showLogout: Function,
+  },
   data: () => ({
     drawer: true,
     mini: true,
@@ -75,12 +78,12 @@ export default {
         </v-list-item-content>
       </v-list-item>
 
-      <v-list-item link>
+      <v-list-item link @click="showLogout">
         <v-list-item-icon>
           <v-icon>mdi-logout</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title @click="dialog = true">Logout</v-list-item-title>
+          <v-list-item-title>Logout</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
