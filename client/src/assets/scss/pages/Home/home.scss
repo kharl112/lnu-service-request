@@ -14,7 +14,7 @@
       .home-container2 {
         .home-row2 {
           .home-container3 {
-            @include flex(row, end, center);
+            @include flex(row, flex-end, center);
             padding: 7px;
             border-bottom: 1px solid #e5e5e5e5;
             button {
