@@ -106,26 +106,30 @@ export default {
                   Login
                 </v-btn>
               </v-col>
-              <v-col
-                cols="11"
-                class="links-container"
-                v-show="getUserType === 'faculty'"
-              >
-                <router-link
-                  v-bind:to="`/${getUserType}/register/step=1`"
-                  class="links"
-                  >Create Account</router-link
+              <v-row dense>
+                <v-col
+                  cols="11"
+                  class="links-container"
+                  v-show="getUserType === 'faculty'"
                 >
-              </v-col>
-              <v-col class="links-container">
-                <router-link
-                  v-bind:to="
-                    `/${getUserType === 'faculty' ? 'admin' : 'faculty'}/login`
-                  "
-                  class="links"
-                  >I'm not an {{ getUserType }} member</router-link
-                >
-              </v-col>
+                  <router-link
+                    v-bind:to="`/${getUserType}/register/step=1`"
+                    class="links"
+                    >Create Account</router-link
+                  >
+                </v-col>
+                <v-col class="links-container">
+                  <router-link
+                    v-bind:to="
+                      `/${
+                        getUserType === 'faculty' ? 'admin' : 'faculty'
+                      }/login`
+                    "
+                    class="links"
+                    >I'm not an {{ getUserType }} member</router-link
+                  >
+                </v-col>
+              </v-row>
             </v-row>
           </v-form>
         </v-row>
