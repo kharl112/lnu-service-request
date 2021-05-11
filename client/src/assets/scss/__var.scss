@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&family=Ubuntu&family=Roboto&family=Roboto+Mono&display=swap");
+
+@mixin flex($direction, $justify, $align) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify;
+  align-items: $align;
+}
+
+$roboto-font: "Roboto", sans-serif;
+$open-font: "Open Sans", sans-serif;
+$ubuntu-font: "Ubuntu", sans-serif;
+
+.v-application {
+  [class*="text-"] {
+    color: #36405a;
+    font-family: $ubuntu-font, sans-serif !important;
+  }
+  font-family: $ubuntu-font, sans-serif !important;
+}
+
+$color-blue: #0c0996;
+$color-yellow: #e78a00;

@@ -1,0 +1,54 @@
+@import "../../_var";
+
+.register-main-container {
+  width: 100vw;
+  height: 100vh;
+  .register-row1 {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    #heading {
+      em {
+        color: $color-yellow;
+        font-style: normal;
+        font-weight: bolder;
+      }
+    }
+    .card-container {
+      margin: 20px 0px 20px;
+      padding: 25px;
+      button {
+        margin-right: 15px;
+      }
+      .tooltip-text {
+        text-align: center;
+      }
+    }
+    .footer-row {
+      padding: 10px;
+      span {
+        text-decoration: underline;
+        cursor: pointer;
+        color: $color-blue;
+      }
+    }
+  }
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition-duration: 200ms;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
+
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translate(2em, 0);
+}
+
+.slide-right-enter {
+  opacity: 0;
+  transform: translate(-2em, 0);
+}
