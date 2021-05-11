@@ -11,6 +11,7 @@ export default {
         password: "",
       },
       rules: {
+        checkBox: [(v) => !!v || "This is required"],
         email: [
           (v) => !!v || "E-mail is required",
           (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
@@ -42,6 +43,9 @@ export default {
     },
     getError() {
       return this.$store.getters["faculty/getError"];
+    },
+    getLoading() {
+      return this.$store.getters["faculty/getLoading"];
     },
   },
 };
@@ -91,6 +95,7 @@ export default {
               <v-col cols="12" md="11" sm="12">
                 <v-text-field
                   :rules="rules.email"
+                  :disabled="getLoading.login"
                   class="input"
                   label="E-mail"
                   background-color="#E5E5E5"
@@ -98,7 +103,6 @@ export default {
                   type="email"
                   autofocus
                   outlined
-                  required
                 />
               </v-col>
 
@@ -107,34 +111,41 @@ export default {
                   :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
                   :rules="rules.password"
                   :type="show ? 'text' : 'password'"
+                  :disabled="getLoading.login"
                   class="input"
                   label="Password"
                   background-color="#E5E5E5"
                   v-model="form.password"
                   @click:append="handleShowPassword"
                   outlined
-                  required
                 />
               </v-col>
               <v-col cols="12" md="11" sm="12">
-                <v-alert class="alert" v-if="getError" dense type="error">
-                  {{ getError }}
+                <v-alert class="alert" v-if="getError.login" dense type="error">
+                  {{ getError.login }}
                 </v-alert>
               </v-col>
 
               <v-col cols="12" md="11" sm="12">
                 <v-checkbox
                   class="check-box"
+                  :rules="rules.checkBox"
                   label="I know what am I doing."
                   color="#e78a00"
                   value="1"
                   hide-details
-                  required
                 ></v-checkbox>
               </v-col>
 
               <v-col cols="12" md="11" sm="12">
-                <v-btn type="submit" bottom color="primary" block large>
+                <v-btn
+                  type="submit"
+                  bottom
+                  color="primary"
+                  :disabled="getLoading.login"
+                  block
+                  large
+                >
                   Login
                 </v-btn>
               </v-col>
