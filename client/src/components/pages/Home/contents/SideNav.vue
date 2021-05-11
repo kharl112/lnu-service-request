@@ -42,7 +42,6 @@ export default {
         </v-btn>
       </v-list-item>
     </v-list>
-    <v-divider />
     <v-list shaped>
       <v-list-item link>
         <v-list-item-icon>

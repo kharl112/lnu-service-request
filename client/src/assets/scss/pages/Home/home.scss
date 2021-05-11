@@ -15,7 +15,8 @@
         .home-row2 {
           .home-container3 {
             @include flex(row, end, center);
-            padding: 5px;
+            padding: 7px;
+            border-bottom: 1px solid #e5e5e5e5;
             button {
               margin: 6px;
             }
