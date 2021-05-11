@@ -1,15 +1,28 @@
 <script>
 export default {
   name: "Step4",
+  data: () => {
+    return {
+      rules: {
+        notNull: [(v) => !!v || "This field is not allowed to be empty"],
+      },
+    };
+  },
+  methods: {
+    handleSubmit(e) {
+      e.preventDefault();
+      if (this.$refs.form.validate()) return;
+    },
+  },
 };
 </script>
 <template>
   <v-card class="card-container" elevation="5">
-    <v-form>
+    <v-form ref="form" @submit="handleSubmit">
       <v-text-field
         class="input"
         label="Enter Administration Referal Code"
-        placeholder="XXX-XXX-XXX"
+        :rules="rules.notNull"
         autofocus
         outlined
         background-color="#E5E5E5"
