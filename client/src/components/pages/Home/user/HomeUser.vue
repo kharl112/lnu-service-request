@@ -10,7 +10,14 @@ export default {
 <template>
   <v-container fluid class="home-container">
     <v-row no-gutters dense class="home-row1">
-      <v-col class="home-col1-left"> <SideNav /></v-col>
+      <SideNav />
+      <v-col class="home-col1">
+        <v-container fluid class="home-container2">
+          <v-row justify="stretch" align="stretch" class="home-row2">
+            <v-container fluid class="home-container3"> </v-container>
+          </v-row>
+        </v-container>
+      </v-col>
     </v-row>
   </v-container>
 </template>
