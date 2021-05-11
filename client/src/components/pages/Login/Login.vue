@@ -6,6 +6,16 @@ export default {
   data() {
     return {
       show: false,
+      rules: {
+        email: [
+          (v) => !!v || "E-mail is required",
+          (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+        ],
+        password: [
+          (v) => !!v || "Password is required",
+          (v) => v.length >= 8 || "Password must be 8 characters long",
+        ],
+      },
     };
   },
   components: {
@@ -15,6 +25,10 @@ export default {
   methods: {
     handleShowPassword() {
       return (this.show = !this.show);
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      if (this.$refs.form.validate()) return;
     },
   },
   computed: {
@@ -58,12 +72,13 @@ export default {
               Administrator Login
             </h4>
           </v-container>
-          <v-form>
+          <v-form ref="form" @submit="handleSubmit">
             <v-row no-gutters>
               <v-col cols="11">
                 <v-text-field
                   class="input"
                   label="Email"
+                  :rules="rules.email"
                   type="email"
                   autofocus
                   background-color="#E5E5E5"
@@ -76,6 +91,7 @@ export default {
                 <v-text-field
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                   class="input"
+                  :rules="rules.password"
                   label="Password"
                   :type="show ? 'password' : 'text'"
                   background-color="#E5E5E5"
