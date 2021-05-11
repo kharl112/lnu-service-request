@@ -6,21 +6,9 @@ export default {
     mini: true,
     selected: 1,
     items: [
-      {
-        items: [
-          { title: "Sent", icon: "mdi-email-check" },
-          { title: "Drafts", icon: "mdi-email-edit" },
-          { title: "Signed", icon: "mdi-check-underline" },
-        ],
-        title: "Requests",
-      },
-      {
-        items: [
-          { title: "Settings", icon: "mdi-account-settings" },
-          { title: "Logout", icon: "mdi-logout" },
-        ],
-        title: "Account",
-      },
+      { title: "Sent", icon: "mdi-send-check" },
+      { title: "Drafts", icon: "mdi-email-edit" },
+      { title: "Received", icon: "mdi-email-receive" },
     ],
   }),
 };
@@ -54,28 +42,35 @@ export default {
 
     <v-list dense>
       <v-subheader>Requests</v-subheader>
-      <v-list-item-group v-model="selected" color="primary">
-        <v-list-item v-for="(child, i) in items[0].items" :key="i">
+      <v-list-item-group v-model="selected" color="#e78a00">
+        <v-list-item v-for="(child, i) in items" :key="i">
           <v-list-item-icon>
-            <v-icon v-text="child.icon"></v-icon>
+            <v-icon v-text="child.icon" />
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title v-text="child.title"></v-list-item-title>
+            <v-list-item-title v-text="child.title" />
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
 
       <v-subheader>Account</v-subheader>
-      <v-list-item-group color="primary">
-        <v-list-item v-for="(child, i) in items[1].items" :key="i">
-          <v-list-item-icon>
-            <v-icon v-text="child.icon"></v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title v-text="child.title"></v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
+      <v-list-item link>
+        <v-list-item-icon>
+          <v-icon>mdi-account-settings</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Settings</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item link>
+        <v-list-item-icon>
+          <v-icon>mdi-logout</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Logout</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
   </v-navigation-drawer>
 </template>
