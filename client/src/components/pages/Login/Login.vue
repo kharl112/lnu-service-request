@@ -13,7 +13,7 @@ export default {
         ],
         password: [
           (v) => !!v || "Password is required",
-          (v) => v.length >= 8 || "Password must be 8 characters long",
+          (v) => (!!v && v.length >= 8) || "Password must be 8 characters long",
         ],
       },
     };
@@ -41,12 +41,18 @@ export default {
 <template>
   <v-container fluid id="login-container">
     <v-row id="login-row1" justify="start" align="start">
-      <v-col cols="3" sm="3" class="d-none d-sm-flex" id="login-col1">
+      <v-col sm="3" md="3" class="d-none d-sm-flex" id="login-col1">
         <LeftBg1 v-if="getUserType === 'faculty'" />
         <LeftBg2 v-else />
       </v-col>
       <v-col sm="9" md="4" id="login-col2">
-        <v-row justify="start" align="start" id="login-right-row">
+        <v-row
+          justify-md="start"
+          align-md="start"
+          justify-sm="center"
+          align-sm="center"
+          id="login-right-row"
+        >
           <v-container id="header-container">
             <h3 id="heading" class=" text-h5 text-sm-h5 text-md-h4">
               <em
@@ -74,11 +80,11 @@ export default {
           </v-container>
           <v-form ref="form" @submit="handleSubmit">
             <v-row no-gutters>
-              <v-col cols="11">
+              <v-col cols="12" md="11" sm="12">
                 <v-text-field
-                  class="input"
-                  label="Email"
                   :rules="rules.email"
+                  class="input"
+                  label="E-mail"
                   type="email"
                   autofocus
                   background-color="#E5E5E5"
@@ -87,26 +93,26 @@ export default {
                 />
               </v-col>
 
-              <v-col cols="11">
+              <v-col cols="12" md="11" sm="12">
                 <v-text-field
                   :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                  class="input"
                   :rules="rules.password"
-                  label="Password"
                   :type="show ? 'password' : 'text'"
+                  class="input"
+                  label="Password"
                   background-color="#E5E5E5"
                   @click:append="handleShowPassword"
                   outlined
                   required
                 />
               </v-col>
-              <v-col cols="11">
+              <v-col cols="12" md="11" sm="12">
                 <v-alert class="alert" v-show="false" dense type="error">
                   Invalid
                 </v-alert>
               </v-col>
 
-              <v-col cols="11">
+              <v-col cols="12" md="11" sm="12">
                 <v-checkbox
                   class="check-box"
                   label="I know what am I doing."
@@ -117,14 +123,16 @@ export default {
                 ></v-checkbox>
               </v-col>
 
-              <v-col cols="11">
+              <v-col cols="12" md="11" sm="12">
                 <v-btn type="submit" bottom color="primary" block large>
                   Login
                 </v-btn>
               </v-col>
               <v-row dense>
                 <v-col
-                  cols="11"
+                  cols="12"
+                  md="11"
+                  sm="12"
                   class="links-container"
                   v-show="getUserType === 'faculty'"
                 >
@@ -134,7 +142,7 @@ export default {
                     >Create Account</router-link
                   >
                 </v-col>
-                <v-col class="links-container">
+                <v-col cols="12" md="11" sm="12" class="links-container">
                   <router-link
                     v-bind:to="
                       `/${
