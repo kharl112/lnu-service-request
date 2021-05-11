@@ -112,7 +112,7 @@ export default {
                 v-show="getUserType === 'faculty'"
               >
                 <router-link
-                  v-bind:to="`/${getUserType}/register`"
+                  v-bind:to="`/${getUserType}/register/step=1`"
                   class="links"
                   >Create Account</router-link
                 >
