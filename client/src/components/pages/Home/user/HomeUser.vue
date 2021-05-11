@@ -1,13 +1,13 @@
 <script>
-import SideNav from "../contents/SideNav";
-import HomeUserHeader from "../contents/HomeUserHeader";
-import ConfirmLogout from "../contents/ConfirmLogout";
+import SideNav from "./contents/SideNav";
+import Header from "./contents/Header";
+import ConfirmLogout from "./contents/ConfirmLogout";
 export default {
   name: "HomeUser",
   components: {
     SideNav,
     ConfirmLogout,
-    HomeUserHeader,
+    Header,
   },
   data: () => ({
     logout: false,
@@ -27,10 +27,10 @@ export default {
         <v-container fluid class="home-container2">
           <v-row justify="stretch" align="stretch" class="home-row2">
             <v-col cols="12">
-              <HomeUserHeader />
+              <Header />
             </v-col>
             <v-col cols="12">
-              <v-container> </v-container>
+              <router-view></router-view>
             </v-col>
           </v-row>
         </v-container>

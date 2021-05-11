@@ -15,6 +15,11 @@ export default {
       { title: "Received", icon: "mdi-email-receive" },
     ],
   }),
+  methods: {
+    handleLinks(link) {
+      return this.$router.replace(`/faculty/home/${link}`);
+    },
+  },
 };
 </script>
 <template>
@@ -57,7 +62,11 @@ export default {
     <v-list dense>
       <v-subheader>Requests</v-subheader>
       <v-list-item-group v-model="selected" color="primary">
-        <v-list-item v-for="(child, i) in items" :key="i">
+        <v-list-item
+          v-for="(child, i) in items"
+          :key="i"
+          @click="handleLinks(child.title.toLowerCase())"
+        >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
           </v-list-item-icon>
