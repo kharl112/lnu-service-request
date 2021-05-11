@@ -1,6 +1,9 @@
 <script>
 export default {
   name: "Step1",
+  props: {
+    form: Object,
+  },
   data: () => {
     return {
       rules: {
@@ -17,6 +20,9 @@ export default {
       if (this.$refs.form.validate()) return;
     },
   },
+  updated() {
+    console.log(this.form.email);
+  },
 };
 </script>
 <template>
@@ -27,6 +33,7 @@ export default {
         label="Type your email first"
         type="email"
         :rules="rules.email"
+        v-model="form.email"
         autofocus
         outlined
         hint="for example: johndoe123@yahoo.com"

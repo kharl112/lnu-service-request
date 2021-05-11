@@ -1,6 +1,26 @@
 <script>
 export default {
   name: "Register",
+  data: () => {
+    return {
+      form: {
+        staff_id: "",
+        email: "",
+        password: "",
+        name: {
+          firstname: "",
+          lastname: "",
+          middle_initial: "",
+          prefix: "",
+          suffixes: "",
+        },
+        department: {
+          unit: "",
+          role: 1,
+        },
+      },
+    };
+  },
   computed: {
     getUserType() {
       return this.$route.params.user_type;
@@ -26,7 +46,7 @@ export default {
           Service Request System
         </h3>
         <transition name="slide-right" mode="out-in">
-          <router-view></router-view>
+          <router-view :form="form"></router-view>
         </transition>
         <v-row justify="space-between" class="footer-row">
           <router-link
