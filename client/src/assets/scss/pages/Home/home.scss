@@ -1,0 +1,15 @@
+@import "../../_var";
+.home-container {
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+  .home-row1 {
+    width: 100%;
+    height: 100%;
+    .home-col1-left {
+      width: auto;
+      height: 100%;
+    }
+  }
+}
