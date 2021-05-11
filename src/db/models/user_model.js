@@ -22,11 +22,19 @@ const User = new mongoose.Schema({
       min: 2,
       max: 255,
     },
-    middlename: {
+    middle_initial: {
       type: String,
       required: true,
-      min: 2,
+      min: 1,
+      max: 1,
+    },
+    prefix: {
+      type: String,
+      min: 1,
       max: 255,
+    },
+    suffixes: {
+      type: Array,
     },
   },
   email: {
