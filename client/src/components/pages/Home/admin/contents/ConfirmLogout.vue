@@ -3,7 +3,18 @@ export default {
   name: "ConfirmLogout",
   props: {
     logout: Boolean,
-    showLogout: Function
+    showLogout: Function,
+  },
+  computed: {
+    getUserType() {
+      return this.$route.fullPath.split("/")[1];
+    },
+  },
+  methods: {
+    handleLogout() {
+      sessionStorage.clear();
+      return this.$router.replace(`/${this.getUserType}/login`);
+    },
   },
 };
 </script>
@@ -22,7 +33,7 @@ export default {
       </v-list-item>
 
       <v-card-actions>
-        <v-btn color="secondary">
+        <v-btn @click="handleLogout" color="secondary">
           Confirm
         </v-btn>
         <v-btn color="primary" @click="showLogout">
