@@ -1,7 +1,6 @@
 const route = require("express").Router();
 const adminAuth = require("../authentication/adminAuth");
 const Token = require("../db/models/token_model");
-const { create } = require("../validation/token_validation");
 
 route.post("/create", adminAuth, async (req, res) => {
   const { error } = create(req.body);
