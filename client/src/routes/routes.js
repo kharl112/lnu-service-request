@@ -8,6 +8,8 @@ import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
 import Tokens from "../components/pages/Home/admin/children/Tokens";
+import Signed from "../components/pages/Home/admin/children/Signed";
+import Pending from "../components/pages/Home/admin/children/Pending";
 
 import store from "../store/store";
 
@@ -85,6 +87,10 @@ export const routes = [
       }
       return next("/admin/login");
     },
-    children: [{ path: "tokens", component: Tokens }],
+    children: [
+      { path: "tokens", component: Tokens },
+      { path: "signed", component: Signed },
+      { path: "pending", component: Pending },
+    ],
   },
 ];
