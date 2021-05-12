@@ -3,9 +3,14 @@ import Step1 from "../components/pages/Register/contents/Step1";
 import Step2 from "../components/pages/Register/contents/Step2";
 import Step3 from "../components/pages/Register/contents/Step3";
 import Step4 from "../components/pages/Register/contents/Step4";
+
 import Login from "../components/pages/Login/Login";
+
 import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
+import Sent from "../components/pages/Home/user/children/Sent";
+import Received from "../components/pages/Home/user/children/Received";
+
 import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
 import Tokens from "../components/pages/Home/admin/children/Tokens";
 import Signed from "../components/pages/Home/admin/children/Signed";
@@ -74,7 +79,11 @@ export const routes = [
       }
       return next("/faculty/login");
     },
-    children: [{ path: "drafts", component: Drafts }],
+    children: [
+      { path: "drafts", component: Drafts },
+      { path: "sent", component: Sent },
+      { path: "received", component: Received },
+    ],
   },
   {
     path: "/admin/home",
