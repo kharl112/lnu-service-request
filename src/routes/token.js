@@ -26,7 +26,21 @@ route.post("/create", adminAuth, async (req, res) => {
 });
 
 route.get("/all", adminAuth, async (req, res) => {
-  const users_token = await Token.find({});
+  const users_token = await Token.find({}).select({ creatorID: 0 });
+  return res.send(users_token);
+});
+
+route.get("/claimed", adminAuth, async (req, res) => {
+  const users_token = await Token.find({ claimed: true }).select({
+    creatorID: 0,
+  });
+  return res.send(users_token);
+});
+
+route.get("/unclaimed", adminAuth, async (req, res) => {
+  const users_token = await Token.find({ claimed: false }).select({
+    creatorID: 0,
+  });
   return res.send(users_token);
 });
 
