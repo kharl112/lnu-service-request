@@ -6,12 +6,23 @@ export default {
 
 <template>
   <v-app>
-    <v-main><router-view></router-view> </v-main>
+    <v-main>
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
+    </v-main>
   </v-app>
 </template>
 <style lang="scss">
-body {
-  margin: 0;
-  padding: 0;
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 200ms;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
 }
 </style>

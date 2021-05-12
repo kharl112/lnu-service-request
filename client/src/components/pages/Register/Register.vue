@@ -54,6 +54,9 @@ export default {
             :to="`/faculty/register/step=${getStepIndex - 1}`"
             >Go back</router-link
           >
+          <router-link v-show="getStepIndex === '1'" to="/faculty/login/"
+            >I have an account</router-link
+          >
           <v-tooltip bottom v-if="getStepIndex === '4'">
             <template v-slot:activator="{ on, attrs }">
               <span v-bind="attrs" v-on="on" class="tooltip-text"
