@@ -2,50 +2,31 @@
 export default {
   name: "Tokens",
   data: () => ({
-    items: ["All", "Claimed", "Unclaimed"],
-    desserts: [
-      {
-        name: "Frozen Yogurt",
-        calories: 159,
-      },
-      {
-        name: "Ice cream sandwich",
-        calories: 237,
-      },
-      {
-        name: "Eclair",
-        calories: 262,
-      },
-      {
-        name: "Cupcake",
-        calories: 305,
-      },
-      {
-        name: "Gingerbread",
-        calories: 356,
-      },
-      {
-        name: "Jelly bean",
-        calories: 375,
-      },
-      {
-        name: "Lollipop",
-        calories: 392,
-      },
-      {
-        name: "Honeycomb",
-        calories: 408,
-      },
-      {
-        name: "Donut",
-        calories: 452,
-      },
-      {
-        name: "KitKat",
-        calories: 518,
-      },
+    items: [
+      { text: "All", value: "all" },
+      { text: "Claimed", value: "claimed" },
+      { text: "Unclaimed", value: "unclaimed" },
     ],
   }),
+  computed: {
+    getTokens() {
+      return this.$store.getters["token/getTokens"];
+    },
+    getLoading() {
+      return this.$store.getters["token/getLoading"];
+    },
+    getError() {
+      return this.$store.getters["token/getError"];
+    },
+  },
+  methods: {
+    filterTokens(filter) {
+      return this.$store.dispatch(`token/showTokens`, filter);
+    },
+  },
+  created() {
+    return this.filterTokens("all");
+  },
 };
 </script>
 <template>
@@ -60,32 +41,72 @@ export default {
     >
       <v-col cols="12" sm="12" md="11" align-self="end">
         <v-row justify-md="end" align-md="start">
-          <v-col cols="5" sm="5" md="3">
-            <v-select :items="items" label="Filter" outlined />
+          <v-col cols="12" sm="12" md="3">
+            <v-select
+              @change="(event) => filterTokens(event)"
+              :items="items"
+              item-value="value"
+              item-text="text"
+              label="Filter"
+              outlined
+            />
           </v-col>
         </v-row>
       </v-col>
       <v-col cols="12" sm="12" md="11">
-        <v-simple-table fixed-header height="400px">
+        <v-simple-table
+          fixed-header
+          height="400px"
+          width="100%"
+          v-if="!getLoading"
+        >
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left">
-                  Name
+                <th class="text-left hidden-sm-and-down">
+                  ID
+                </th>
+                <th class="text-left hidden-sm-and-down">
+                  Claimer
                 </th>
                 <th class="text-left">
-                  Calories
+                  Claimed
+                </th>
+                <th class="text-left">
+                  Token
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in desserts" :key="item.name">
-                <td>{{ item.name }}</td>
-                <td>{{ item.calories }}</td>
+              <tr v-for="token in getTokens" :key="token._id">
+                <td class="hidden-sm-and-down">
+                  {{
+                    token._id
+                      .split("")
+                      .slice(2, 8)
+                      .join("")
+                  }}
+                </td>
+                <td class="hidden-sm-and-down">
+                  {{
+                    token.claimerID
+                      .split("")
+                      .slice(2, 8)
+                      .join("") || "--"
+                  }}
+                </td>
+                <td>{{ JSON.stringify(token.claimed) }}</td>
+                <td>{{ token.token }}</td>
               </tr>
             </tbody>
           </template>
         </v-simple-table>
+        <v-skeleton-loader
+          v-else
+          class="mx-auto"
+          max-width="100%"
+          type="table"
+        />
       </v-col>
     </v-row>
   </v-container>
