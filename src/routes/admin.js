@@ -1,5 +1,6 @@
 const route = require("express").Router();
 const Admin = require("../db/models/admin_model");
+const adminAuth = require("../authentication/adminAuth");
 const { create, login } = require("../validation/admin_validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -58,6 +59,10 @@ route.post("/login", async (req, res) => {
       .status(500)
       .send({ message: "we can't process your request, please try again." });
   }
+});
+
+route.get("/profile", adminAuth, async (req, res) => {
+  return res.send(req.locals);
 });
 
 module.exports = route;
