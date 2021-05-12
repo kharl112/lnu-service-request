@@ -34,7 +34,9 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate()) {
-        return this.$store.dispatch("faculty/userLogin", this.form);
+        return this.getUserType === "faculty"
+          ? this.$store.dispatch("faculty/userLogin", this.form)
+          : this.$store.dispatch("admin/adminLogin", this.form);
       }
     },
   },
@@ -43,10 +45,14 @@ export default {
       return this.$route.params.user_type;
     },
     getError() {
-      return this.$store.getters["faculty/getError"];
+      return this.getUserType === "faculty"
+        ? this.$store.getters["faculty/getError"]
+        : this.$store.getters["admin/getError"];
     },
     getLoading() {
-      return this.$store.getters["faculty/getLoading"];
+      return this.getUserType === "faculty"
+        ? this.$store.getters["faculty/getLoading"]
+        : this.$store.getters["admin/getLoading"];
     },
   },
 };
