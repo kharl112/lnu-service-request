@@ -15,7 +15,11 @@ const adminAuth = async (req, res, next) => {
     if (!admin_found.permitted)
       return res.status(401).send({ message: "account is not permitted" });
 
-    req.locals = admin_found.name;
+    req.locals = {
+      name: admin_found.name,
+      email: admin_found.email,
+    };
+
     next();
   } catch (error) {
     console.log(error);
