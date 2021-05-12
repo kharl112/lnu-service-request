@@ -7,16 +7,17 @@ export default {
   data: () => ({
     drawer: true,
     mini: true,
-    selected: 1,
+    selected: 2,
     dialog: false,
     items: [
       { title: "Signed", icon: "mdi-email-edit" },
       { title: "Pending", icon: "mdi-email-alert" },
+      { title: "Tokens", icon: "mdi-checkbox-multiple-blank-circle" },
     ],
   }),
   methods: {
     handleLinks(link) {
-      return this.$router.replace(`/faculty/home/${link}`);
+      return this.$router.replace(`/admin/home/${link}`);
     },
   },
   computed: {

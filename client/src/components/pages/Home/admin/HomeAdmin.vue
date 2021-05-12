@@ -30,7 +30,7 @@ export default {
               <Header />
             </v-col>
             <v-col cols="12">
-
+              <router-view></router-view>
             </v-col>
           </v-row>
         </v-container>

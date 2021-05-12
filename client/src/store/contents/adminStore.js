@@ -34,7 +34,7 @@ const admin = {
         const { data } = await axios.post("/api/admin/login", form);
         commit("setLoading", { loading: false, type: "login" });
         sessionStorage.setItem("Authorization", data.token);
-        return router.replace("/admin/home/");
+        return router.replace("/admin/home/tokens");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });

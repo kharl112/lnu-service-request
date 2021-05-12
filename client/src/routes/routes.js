@@ -7,6 +7,7 @@ import Login from "../components/pages/Login/Login";
 import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
+import Tokens from "../components/pages/Home/admin/children/Tokens";
 
 import store from "../store/store";
 
@@ -84,5 +85,6 @@ export const routes = [
       }
       return next("/admin/login");
     },
+    children: [{ path: "tokens", component: Tokens }],
   },
 ];
