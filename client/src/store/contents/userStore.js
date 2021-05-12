@@ -4,7 +4,7 @@ import { router } from "../../main";
 const faculty = {
   namespaced: true,
   state: () => ({
-    user: null,
+    profile: null,
     email: null,
     error: {
       login: null,
@@ -18,7 +18,7 @@ const faculty = {
     },
   }),
   getters: {
-    getUser: (state) => state.user,
+    getProfile: (state) => state.profile,
     getError: (state) => state.error,
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
@@ -30,6 +30,7 @@ const faculty = {
       return (state.error = { login: null, email: null, register: null });
     },
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
+    setProfile: (state, user_profile) => (state.profile = user_profile),
   },
   actions: {
     userLogin: async ({ commit }, form) => {
@@ -73,6 +74,16 @@ const faculty = {
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", null);
         return commit("setError", { message, type: "email" });
+      }
+    },
+    userProfile: async ({ commit }) => {
+      try {
+        const { data } = await axios.get("/api/user/profile", {
+          headers: { Authorization: sessionStorage.getItem("Authorization") },
+        });
+        return commit("setProfile", data);
+      } catch (error) {
+        return;
       }
     },
   },

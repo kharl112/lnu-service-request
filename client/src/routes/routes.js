@@ -63,10 +63,13 @@ export const routes = [
   {
     path: "/faculty/home",
     component: HomeUser,
-    beforeEnter: (to, from, next) => {
-      return sessionStorage.getItem("Authorization")
-        ? next()
-        : next("/faculty/login");
+    beforeEnter: async (to, from, next) => {
+      if (sessionStorage.getItem("Authorization")) {
+        await store.dispatch("faculty/userProfile");
+        if (store.getters["faculty/getProfile"]) return next();
+        return next("/faculty/login");
+      }
+      return next("/faculty/login");
     },
     children: [{ path: "drafts", component: Drafts }],
   },

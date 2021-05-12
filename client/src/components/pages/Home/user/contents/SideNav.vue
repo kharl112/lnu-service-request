@@ -20,6 +20,27 @@ export default {
       return this.$router.replace(`/faculty/home/${link}`);
     },
   },
+  computed: {
+    getFacultyProfile() {
+      return this.$store.getters["faculty/getProfile"];
+    },
+    getFacultyFullName() {
+      const {
+        firstname,
+        lastname,
+        middle_initial,
+        prefix,
+        suffixes,
+      } = this.getFacultyProfile.name;
+      return `${prefix}. ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${JSON.stringify(
+        ...suffixes
+      )}`;
+    },
+    getFacultyInitials() {
+      const { firstname, lastname } = this.getFacultyProfile.name;
+      return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
+    },
+  },
 };
 </script>
 <template>
@@ -33,13 +54,15 @@ export default {
       <v-list-item class="px-2">
         <v-list-item-avatar>
           <v-avatar color="#e78a00" size="40">
-            <span class="white--text headline">KY</span>
+            <span class="white--text headline">{{ getFacultyInitials }}</span>
           </v-avatar>
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>Kharl Yumul MIT</v-list-item-title>
-          <v-list-item-subtitle>kharl112@gmail.com</v-list-item-subtitle>
+          <v-list-item-title>{{ getFacultyFullName }}</v-list-item-title>
+          <v-list-item-subtitle>{{
+            getFacultyProfile.email
+          }}</v-list-item-subtitle>
         </v-list-item-content>
 
         <v-btn icon @click.stop="mini = !mini">
