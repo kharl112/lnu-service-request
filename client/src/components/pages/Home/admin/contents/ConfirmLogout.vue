@@ -19,7 +19,7 @@ export default {
 };
 </script>
 <template>
-  <v-overlay :value="logout" :z-index="1">
+  <v-overlay :value="logout" :z-index="100">
     <v-card class="mx-auto" max-width="344" outlined>
       <v-list-item three-line>
         <v-list-item-content>

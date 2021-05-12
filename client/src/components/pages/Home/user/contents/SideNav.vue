@@ -45,7 +45,7 @@ export default {
 </script>
 <template>
   <v-navigation-drawer
-    floating
+    fixed
     permanent
     v-model="drawer"
     :mini-variant.sync="mini"

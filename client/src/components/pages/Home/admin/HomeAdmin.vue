@@ -22,14 +22,21 @@ export default {
 <template>
   <v-container fluid class="home-container">
     <v-row no-gutters dense class="home-row1">
-      <SideNav :showLogout="showLogout" />
+      <v-col cols="1">
+        <SideNav :showLogout="showLogout" />
+      </v-col>
       <v-col class="home-col1">
         <v-container fluid class="home-container2">
-          <v-row justify="start" align="stretch" class="home-row2">
+          <v-row
+            justify="end"
+            justify-sm="center"
+            align="stretch"
+            class="home-row2"
+          >
             <v-col cols="12">
               <Header />
             </v-col>
-            <v-col cols="12">
+            <v-col cols="11" sm="12">
               <router-view></router-view>
             </v-col>
           </v-row>
