@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../db/models/user_model");
+const Token = require("../db/models/token_model");
 require("dotenv").config();
 
 const userAuth = async (req, res, next) => {
@@ -7,10 +8,14 @@ const userAuth = async (req, res, next) => {
   if (!token) return res.status(401).send({ message: "access denied" });
   try {
     const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-    const user_found = await User.findById(_id);
 
+    const user_found = await User.findById(_id);
     if (!user_found)
       return res.status(400).send({ message: "account not found" });
+
+    const user_token_found = await Token.findOne({ claimerID: _id });
+    if (!user_token_found)
+      return res.status(400).send({ message: "account not permitted" });
 
     req.locals = {
       name: user_found.name,
