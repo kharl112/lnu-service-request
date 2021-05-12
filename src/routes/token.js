@@ -25,4 +25,9 @@ route.post("/create", adminAuth, async (req, res) => {
   }
 });
 
+route.get("/all", adminAuth, async (req, res) => {
+  const users_token = await Token.find({});
+  return res.send(users_token);
+});
+
 module.exports = route;
