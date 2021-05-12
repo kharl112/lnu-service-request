@@ -60,8 +60,7 @@ export const routes = [
         path: "step=4",
         component: Step4,
         beforeEnter: (to, from, next) => {
-          return store.getters["faculty/getEmail"] &&
-            sessionStorage.getItem("Authorization")
+          return sessionStorage.getItem("Authorization")
             ? next()
             : next("/faculty/register/step=1");
         },
@@ -75,7 +74,7 @@ export const routes = [
       if (sessionStorage.getItem("Authorization")) {
         await store.dispatch("faculty/userProfile");
         if (store.getters["faculty/getProfile"]) return next();
-        return next("/faculty/login");
+        return next("/faculty/register/step=4");
       }
       return next("/faculty/login");
     },

@@ -13,6 +13,9 @@ export default {
       e.preventDefault();
       if (this.$refs.form.validate()) return;
     },
+    handleGoBack() {
+      return this.$router.back();
+    },
   },
 };
 </script>
@@ -35,8 +38,8 @@ export default {
           </v-btn>
         </v-col>
         <v-col cols="4">
-          <v-btn type="reset" bottom color="gray" medium>
-            Skip
+          <v-btn type="reset" @click="handleGoBack" bottom color="gray" medium>
+            Not Now
           </v-btn>
         </v-col>
       </v-row>
