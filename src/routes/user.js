@@ -6,6 +6,9 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 route.post("/create", async (req, res) => {
+  req.body.name.middle_initial = req.body.name.middle_initial.toUpperCase();
+  req.body.name.suffixes = req.body.name.suffixes.split(",");
+  
   const { error } = create(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -59,6 +62,14 @@ route.post("/login", async (req, res) => {
       .status(500)
       .send({ message: "we can't process your request, please try again." });
   }
+});
+
+route.post("/validate/email", async (req, res) => {
+  const email_found = await User.findOne({ email: req.body.email });
+  if (email_found)
+    return res.status(400).send({ message: "this email already exists" });
+
+  return res.send({ email: req.body.email });
 });
 
 module.exports = route;

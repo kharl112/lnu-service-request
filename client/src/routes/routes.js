@@ -8,6 +8,8 @@ import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
 
+import store from "../store/store";
+
 export const routes = [
   {
     path: "/:user_type/login",
@@ -28,9 +30,34 @@ export const routes = [
     },
     children: [
       { path: "step=1", component: Step1 },
-      { path: "step=2", component: Step2 },
-      { path: "step=3", component: Step3 },
-      { path: "step=4", component: Step4 },
+      {
+        path: "step=2",
+        component: Step2,
+        beforeEnter: (to, from, next) => {
+          return store.getters["faculty/getEmail"]
+            ? next()
+            : next("/faculty/register/step=1");
+        },
+      },
+      {
+        path: "step=3",
+        component: Step3,
+        beforeEnter: (to, from, next) => {
+          return store.getters["faculty/getEmail"]
+            ? next()
+            : next("/faculty/register/step=1");
+        },
+      },
+      {
+        path: "step=4",
+        component: Step4,
+        beforeEnter: (to, from, next) => {
+          return store.getters["faculty/getEmail"] &&
+            sessionStorage.getItem("Authorization")
+            ? next()
+            : next("/faculty/register/step=1");
+        },
+      },
     ],
   },
   {

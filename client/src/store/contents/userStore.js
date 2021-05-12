@@ -5,6 +5,7 @@ const faculty = {
   namespaced: true,
   state: () => ({
     user: null,
+    email: null,
     error: {
       login: null,
       email: null,
@@ -20,9 +21,11 @@ const faculty = {
     getUser: (state) => state.user,
     getError: (state) => state.error,
     getLoading: (state) => state.loading,
+    getEmail: (state) => state.email,
   },
   mutations: {
     setError: (state, { message, type }) => (state.error[type] = message),
+    setEmail: (state, email) => (state.email = email),
     clearError: (state) => {
       return (state.error = { login: null, email: null, register: null });
     },
@@ -49,11 +52,27 @@ const faculty = {
       try {
         const { data } = await axios.post("/api/user/create", form);
         commit("setLoading", { loading: false, type: "register" });
-        return sessionStorage.setItem("Authorization", data.token);
+        sessionStorage.setItem("Authorization", data.token);
+        return router.replace("/faculty/register/step=4");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
         return commit("setError", { message, type: "register" });
+      }
+    },
+    validateEmail: async ({ commit }, form) => {
+      commit("clearError");
+      commit("setLoading", { loading: true, type: "email" });
+      try {
+        const { data } = await axios.post("/api/user/validate/email", form);
+        commit("setLoading", { loading: false, type: "email" });
+        commit("setEmail", data.email);
+        return router.replace("/faculty/register/step=2");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "email" });
+        commit("setEmail", null);
+        return commit("setError", { message, type: "email" });
       }
     },
   },

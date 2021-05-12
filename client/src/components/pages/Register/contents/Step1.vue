@@ -17,11 +17,19 @@ export default {
   methods: {
     handleSubmit(e) {
       e.preventDefault();
-      if (this.$refs.form.validate()) return;
+      if (this.$refs.form.validate())
+        return this.$store.dispatch("faculty/validateEmail", {
+          email: this.form.email,
+        });
     },
   },
-  updated() {
-    console.log(this.form.email);
+  computed: {
+    getError() {
+      return this.$store.getters["faculty/getError"];
+    },
+    getLoading() {
+      return this.$store.getters["faculty/getLoading"];
+    },
   },
 };
 </script>
@@ -34,13 +42,22 @@ export default {
         type="email"
         :rules="rules.email"
         v-model="form.email"
+        :disabled="getLoading.email"
         autofocus
         outlined
         hint="for example: johndoe123@yahoo.com"
         background-color="#E5E5E5"
-        required
       />
-      <v-btn type="submit" bottom color="warning" medium>
+      <v-alert class="alert" v-if="getError.email" dense type="error">
+        {{ getError.email }}
+      </v-alert>
+      <v-btn
+        :disabled="getLoading.email"
+        type="submit"
+        bottom
+        color="warning"
+        medium
+      >
         Next
       </v-btn>
     </v-form>

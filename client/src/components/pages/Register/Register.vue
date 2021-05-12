@@ -15,8 +15,8 @@ export default {
           suffixes: "",
         },
         department: {
-          unit: "",
-          role: 1,
+          unit_name: "",
+          unit_role: 1,
         },
       },
     };

@@ -24,10 +24,20 @@ export default {
       },
     };
   },
+  computed: {
+    getError() {
+      return this.$store.getters["faculty/getError"];
+    },
+    getLoading() {
+      return this.$store.getters["faculty/getLoading"];
+    },
+  },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
-      if (this.$refs.form.validate()) return;
+      if (this.$refs.form.validate()) {
+        return this.$store.dispatch("faculty/userRegister", this.form);
+      }
     },
   },
 };
@@ -36,6 +46,7 @@ export default {
   <v-card class="card-container" elevation="5">
     <v-form ref="form" @submit="handleSubmit">
       <v-text-field
+        :disabled="getLoading.register"
         class="input"
         label="ID"
         background-color="#E5E5E5"
@@ -46,26 +57,37 @@ export default {
         outlined
       />
       <v-select
+        :disabled="getLoading.register"
         class="input"
         label="Department"
         :items="departments"
         :rules="[...rules.notNull, ...rules.letters]"
-        v-model="form.department.name"
+        v-model="form.department.unit_name"
         outlined
         background-color="#E5E5E5"
       />
       <v-select
+        :disabled="getLoading.register"
         class="input"
         label="Role/Position"
         :items="roles"
         :rules="rules.notNull"
-        v-model="form.department.role"
+        v-model="form.department.unit_role"
         item-text="role"
         item-value="value"
         outlined
         background-color="#E5E5E5"
       />
-      <v-btn type="submit" bottom color="warning" medium>
+      <v-alert class="alert" v-if="getError.register" dense type="error">
+        {{ getError.register }}
+      </v-alert>
+      <v-btn
+        :disabled="getLoading.register"
+        type="submit"
+        bottom
+        color="warning"
+        medium
+      >
         Next
       </v-btn>
     </v-form>
