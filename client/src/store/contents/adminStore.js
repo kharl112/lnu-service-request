@@ -4,7 +4,7 @@ import { router } from "../../main";
 const admin = {
   namespaced: true,
   state: () => ({
-    user: null,
+    profile: null,
     error: {
       login: null,
     },
@@ -13,7 +13,7 @@ const admin = {
     },
   }),
   getters: {
-    getUser: (state) => state.user,
+    getProfile: (state) => state.profile,
     getError: (state) => state.error,
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
@@ -24,6 +24,7 @@ const admin = {
       return (state.error = { login: null, email: null, register: null });
     },
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
+    setProfile: (state, admin_profile) => (state.profile = admin_profile),
   },
   actions: {
     adminLogin: async ({ commit }, form) => {
@@ -38,6 +39,17 @@ const admin = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });
         return commit("setError", { message, type: "login" });
+      }
+    },
+
+    adminProfile: async ({ commit }) => {
+      try {
+        const { data } = await axios.get("/api/admin/profile", {
+          headers: { Authorization: sessionStorage.getItem("Authorization") },
+        });
+        return commit("setProfile", data);
+      } catch (error) {
+        return;
       }
     },
   },
