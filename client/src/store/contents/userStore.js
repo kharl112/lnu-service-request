@@ -1,4 +1,5 @@
 import axios from "axios";
+import { router } from "../../main";
 
 const faculty = {
   namespaced: true,
@@ -34,7 +35,8 @@ const faculty = {
       try {
         const { data } = await axios.post("/api/user/login", form);
         commit("setLoading", { loading: false, type: "login" });
-        return sessionStorage.setItem("Authorization", data.token);
+        sessionStorage.setItem("Authorization", data.token);
+        return router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });

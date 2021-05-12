@@ -33,8 +33,9 @@ export default {
     },
     handleSubmit(e) {
       e.preventDefault();
-      if (this.$refs.form.validate())
+      if (this.$refs.form.validate()) {
         return this.$store.dispatch("faculty/userLogin", this.form);
+      }
     },
   },
   computed: {

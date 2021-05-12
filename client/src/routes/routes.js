@@ -36,6 +36,11 @@ export const routes = [
   {
     path: "/faculty/home",
     component: HomeUser,
+    beforeEnter: (to, from, next) => {
+      return sessionStorage.getItem("Authorization")
+        ? next()
+        : next("/faculty/login");
+    },
     children: [{ path: "drafts", component: Drafts }],
   },
   {
