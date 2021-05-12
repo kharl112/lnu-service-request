@@ -3,12 +3,13 @@ const User = require("../db/models/user_model");
 const { create, login } = require("../validation/user_validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const userAuth = require("../authentication/userAuth");
 require("dotenv").config();
 
 route.post("/create", async (req, res) => {
   req.body.name.middle_initial = req.body.name.middle_initial.toUpperCase();
   req.body.name.suffixes = req.body.name.suffixes.split(",");
-  
+
   const { error } = create(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -70,6 +71,10 @@ route.post("/validate/email", async (req, res) => {
     return res.status(400).send({ message: "this email already exists" });
 
   return res.send({ email: req.body.email });
+});
+
+route.get("/profile", userAuth, async (req, res) => {
+  return res.send(req.locals);
 });
 
 module.exports = route;
