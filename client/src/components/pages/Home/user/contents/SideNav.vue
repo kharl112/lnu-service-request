@@ -32,9 +32,11 @@ export default {
         prefix,
         suffixes,
       } = this.getFacultyProfile.name;
-      return `${prefix}. ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${JSON.stringify(
-        ...suffixes
-      )}`;
+      return `${
+        prefix ? prefix + "." : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
+        suffixes[0] ? JSON.stringify(...suffixes) : ""
+      }`;
     },
     getFacultyInitials() {
       const { firstname, lastname } = this.getFacultyProfile.name;
