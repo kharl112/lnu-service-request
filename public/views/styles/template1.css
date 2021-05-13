@@ -1,6 +1,7 @@
 body {
   font-size: 12px;
   margin: 0px;
+  padding: 50px;
 }
 header {
   display: flex;
@@ -47,6 +48,43 @@ header {
   text-align: center;
 }
 .body {
-  font-size: 11px;
+  font-size: 10px;
   text-align: justify;
+}
+.recipients {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  grid-row-start: 1;
+}
+.greetings {
+  margin-top: 25px;
+}
+.dept-head {
+  font-size: 11px;
+  width: 25%;
+  margin-top: 35px;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 0.5px solid black;
+}
+.admin-dept {
+  font-size: 11px;
+  width: 25%;
+  margin-top: 35px;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 0.5px solid black;
+}
+.user-name {
+  font-size: 11px;
+  width: 25%;
+  margin-top: 35px;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 0.5px solid black;
 }

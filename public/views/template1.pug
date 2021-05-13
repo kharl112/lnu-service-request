@@ -10,7 +10,12 @@ body
       p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
       p(class="header-info-p3") P. Paterno St., Tacloban City 
   div(class="main")
-  h3(class="subject")=form.subject
-  p(class="body")=form.body
+    h3(class="subject")=form.subject
+    p(class="greetings")=form.greetings
+    p(class="body")=form.body
+  div(class="recipients")
+    p(class="dept-head")=form.head
+    p(class="admin-dept")=form.admin
+    p(class="user-name")=form.user
     
 
