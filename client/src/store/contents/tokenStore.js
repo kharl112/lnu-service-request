@@ -34,6 +34,24 @@ const token = {
         return commit("setError", message);
       }
     },
+    generateToken: async ({ commit }) => {
+      commit("clearError");
+      commit("setLoading", true);
+      try {
+        await axios.post(
+          "/api/token/create",
+          {},
+          {
+            headers: { Authorization: sessionStorage.getItem("Authorization") },
+          }
+        );
+        return commit("setLoading", false);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", false);
+        return commit("setError", message);
+      }
+    },
     claimToken: async ({ commit }, token) => {
       commit("clearError");
       commit("setLoading", true);

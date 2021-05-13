@@ -30,6 +30,7 @@ const admin = {
     adminLogin: async ({ commit }, form) => {
       commit("clearError");
       commit("setLoading", { loading: true, type: "login" });
+      commit("setProfile", null);
       try {
         const { data } = await axios.post("/api/admin/login", form);
         commit("setLoading", { loading: false, type: "login" });
