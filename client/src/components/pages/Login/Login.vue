@@ -64,7 +64,7 @@ export default {
         <LeftBg1 v-if="getUserType === 'faculty'" />
         <LeftBg2 v-else />
       </v-col>
-      <v-col sm="9" md="4" id="login-col2">
+      <v-col cols="12" sm="6" md="4" id="login-col2">
         <v-row
           justify-md="start"
           align-md="start"

@@ -16,7 +16,7 @@ export default {
 <style lang="scss">
 .fade-enter-active,
 .fade-leave-active {
-  transition-duration: 200ms;
+  transition-duration: 100ms;
   transition-property: opacity;
   transition-timing-function: ease;
 }
