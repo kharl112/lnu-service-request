@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import { router } from "../../main";
 const token = {
   namespaced: true,
   state: () => ({
@@ -28,6 +28,25 @@ const token = {
         });
         commit("setLoading", false);
         return commit("setTokens", data);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", false);
+        return commit("setError", message);
+      }
+    },
+    claimToken: async ({ commit }, token) => {
+      commit("clearError");
+      commit("setLoading", true);
+      try {
+        await axios.post(
+          "/api/token/claim",
+          { token },
+          {
+            headers: { Authorization: sessionStorage.getItem("Authorization") },
+          }
+        );
+        commit("setLoading", false);
+        return router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);

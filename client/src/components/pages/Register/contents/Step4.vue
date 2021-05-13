@@ -3,15 +3,25 @@ export default {
   name: "Step4",
   data: () => {
     return {
+      token: "",
       rules: {
         notNull: [(v) => !!v || "This field is not allowed to be empty"],
       },
     };
   },
+  computed: {
+    getError() {
+      return this.$store.getters["token/getError"];
+    },
+    getLoading() {
+      return this.$store.getters["token/getLoading"];
+    },
+  },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
-      if (this.$refs.form.validate()) return;
+      if (this.$refs.form.validate())
+        return this.$store.dispatch("token/claimToken", this.token);
     },
     handleGoBack() {
       return this.$router.replace("/faculty/login");
@@ -25,15 +35,26 @@ export default {
       <v-text-field
         class="input"
         label="Enter Administration Referal Code"
+        v-model="token"
         :rules="rules.notNull"
+        :disabled="getLoading"
         autofocus
         outlined
         background-color="#E5E5E5"
         required
       />
+      <v-alert class="alert" v-if="getError" dense type="error">
+        {{ getError }}
+      </v-alert>
       <v-row dense>
         <v-col cols="4">
-          <v-btn type="submit" bottom color="warning" medium>
+          <v-btn
+            type="submit"
+            :disabled="getLoading"
+            bottom
+            color="warning"
+            medium
+          >
             Submit
           </v-btn>
         </v-col>
