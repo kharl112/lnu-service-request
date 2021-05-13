@@ -73,7 +73,7 @@ export default {
       </v-list-item>
     </v-list>
     <v-list shaped>
-      <v-list-item link>
+      <v-list-item link @click="handleLinks('compose')">
         <v-list-item-icon>
           <v-icon color="primary">mdi-plus</v-icon>
         </v-list-item-icon>
