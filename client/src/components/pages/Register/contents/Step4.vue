@@ -14,7 +14,7 @@ export default {
       if (this.$refs.form.validate()) return;
     },
     handleGoBack() {
-      return this.$router.back();
+      return this.$router.replace("/faculty/login");
     },
   },
 };

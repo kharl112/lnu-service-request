@@ -35,6 +35,7 @@ const faculty = {
   actions: {
     userLogin: async ({ commit }, form) => {
       commit("clearError");
+      commit("setProfile", null);
       commit("setLoading", { loading: true, type: "login" });
       try {
         const { data } = await axios.post("/api/user/login", form);
@@ -49,6 +50,7 @@ const faculty = {
     },
     userRegister: async ({ commit }, form) => {
       commit("clearError");
+      commit("setProfile", null);
       commit("setLoading", { loading: true, type: "register" });
       try {
         const { data } = await axios.post("/api/user/create", form);
@@ -83,7 +85,7 @@ const faculty = {
         });
         return commit("setProfile", data);
       } catch (error) {
-        return;
+        return router.replace("/faculty/register/step=4");
       }
     },
   },
