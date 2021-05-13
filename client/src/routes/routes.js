@@ -85,12 +85,9 @@ export const routes = [
     path: "/admin/home",
     component: HomeAdmin,
     beforeEnter: async (to, from, next) => {
-      if (sessionStorage.getItem("Authorization")) {
-        await store.dispatch("admin/adminProfile");
-        if (store.getters["admin/getProfile"]) return next();
-        return next("/admin/login");
-      }
-      return next("/admin/login");
+      return sessionStorage.getItem("Authorization")
+        ? next()
+        : next(false);
     },
     children: [
       { path: "tokens", component: Tokens },

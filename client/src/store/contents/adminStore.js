@@ -41,7 +41,6 @@ const admin = {
         return commit("setError", { message, type: "login" });
       }
     },
-
     adminProfile: async ({ commit }) => {
       try {
         const { data } = await axios.get("/api/admin/profile", {
@@ -49,7 +48,9 @@ const admin = {
         });
         return commit("setProfile", data);
       } catch (error) {
-        return;
+        const { message } = error.response.data || error;
+        commit("setError", { message, type: "login" });
+        return router.replace("/admin/login");
       }
     },
   },

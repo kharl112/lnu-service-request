@@ -12,16 +12,24 @@ export default {
   data: () => ({
     logout: false,
   }),
+  computed: {
+    getAdminProfile() {
+      return this.$store.getters["admin/getProfile"];
+    },
+  },
   methods: {
     showLogout() {
       return (this.logout = !this.logout);
     },
   },
+  created() {
+    return this.$store.dispatch("admin/adminProfile");
+  },
 };
 </script>
 <template>
   <v-container fluid class="home-container">
-    <v-row no-gutters dense class="home-row1">
+    <v-row no-gutters dense class="home-row1" v-if="getAdminProfile">
       <v-col cols="1">
         <SideNav :showLogout="showLogout" />
       </v-col>
@@ -42,6 +50,13 @@ export default {
           </v-row>
         </v-container>
       </v-col>
+    </v-row>
+    <v-row id="spinner-container" justify="center" align="center" v-else>
+      <v-progress-circular
+        :size="50"
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
     </v-row>
     <ConfirmLogout :logout="logout" :showLogout="showLogout" />
   </v-container>
