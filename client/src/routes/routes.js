@@ -11,6 +11,7 @@ import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
 import Received from "../components/pages/Home/user/children/Received";
 import Compose from "../components/pages/Home/user/children/Compose";
+import Signature from "../components/pages/Home/user/children/Signature";
 
 import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
 import Tokens from "../components/pages/Home/admin/children/Tokens";
@@ -81,6 +82,7 @@ export const routes = [
       { path: "sent", component: Sent },
       { path: "received", component: Received },
       { path: "compose", component: Compose },
+      { path: "signature", component: Signature },
     ],
   },
   {
