@@ -14,8 +14,18 @@ body
     p(class="greetings")=form.greetings
     p(class="body")=form.body
   div(class="recipients")
-    p(class="dept-head")=form.head
-    p(class="admin-dept")=form.admin
-    p(class="user-name")=form.user
+    if form.head !== ""
+    div(class="signature")
+      p(class="dept-head")=form.head
+      p(class="dept-head-title") IT Chairperson
+    | !{form.signature}
+    div(class="signature")
+      p(class="admin-dept")=form.admin
+      p(class="admin-dept-title") Administration Department Head
+    | !{form.signature}
+    div(class="signature")
+      p(class="user-name")=form.user
+    | !{form.signature}
+
     
 

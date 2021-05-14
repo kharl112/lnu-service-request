@@ -1,7 +1,7 @@
 body {
   font-size: 12px;
   margin: 0px;
-  padding: 50px;
+  padding: 50px 50px 50px 50px;
 }
 header {
   display: flex;
@@ -66,25 +66,49 @@ header {
 }
 .dept-head {
   font-size: 11px;
-  width: 25%;
-  margin-top: 35px;
+  width: 35%;
+  margin: 0px;
+  margin-top: 10px;
   text-align: center;
   padding-bottom: 5px;
-  border-bottom: 0.5px solid black;
+  border-bottom: 1px solid black;
+}
+.dept-head-title {
+  font-size: 9px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0px;
+  width: 35%;
 }
 .admin-dept {
   font-size: 11px;
-  width: 25%;
-  margin-top: 35px;
+  width: 35%;
+  margin: 0px;
+  margin-top: 10px;
   text-align: center;
   padding-bottom: 5px;
-  border-bottom: 0.5px solid black;
+  border-bottom: 1px solid black;
+}
+.admin-dept-title {
+  font-size: 9px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0px;
+  width: 35%;
 }
 .user-name {
   font-size: 11px;
-  width: 25%;
-  margin-top: 35px;
+  width: 35%;
+  margin: 0px;
+  margin-top: 10px;
   text-align: center;
   padding-bottom: 5px;
-  border-bottom: 0.5px solid black;
+  border-bottom: 1px solid black;
+}
+.signature {
+  margin: 0px;
+}
+svg {
+  width: 100%;
+  margin: -65px 0px 0px -20px;
 }
