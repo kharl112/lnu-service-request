@@ -7,21 +7,17 @@ const create = (body) => {
     body: Joi.string().min(10).required(),
     options: Joi.object({}).required(),
     user: Joi.object({
-      staff_id: Joi.string().required(),
-      signed: Joi.boolean().required(),
-      signature: Joi.string(),
+      signature: Joi.string().allow(""),
     }).required(),
     admin: Joi.object({
-      staff_id: Joi.string(),
-      signed: Joi.boolean().required(),
-      signature: Joi.string(),
+      staff_id: Joi.string().required(),
+      signature: Joi.string().allow(""),
     }).required(),
     head: Joi.object({
-      staff_id: Joi.string(),
-      signed: Joi.boolean().required(),
-      signature: Joi.string(),
+      staff_id: Joi.string().required().allow(""),
+      signature: Joi.string().allow(""),
     }).required(),
-    save_as: Joi.boolean().require(),
+    save_as: Joi.number().min(0).max(1).required(),
   });
   return schema.validate(body);
 };
