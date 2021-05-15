@@ -20,6 +20,11 @@ export default {
       subject: "",
     },
   }),
+  computed: {
+    getFacultyProfile() {
+      return this.$store.getters["faculty/getProfile"];
+    },
+  },
   methods: {
     async handleSubmit(e) {
       e.preventDefault();
@@ -60,7 +65,12 @@ export default {
         </v-col>
         <v-col cols="12">
           <v-row justify="start" align="start" dense>
-            <v-col cols="12" sm="3" md="2">
+            <v-col
+              cols="12"
+              sm="3"
+              md="2"
+              v-if="getFacultyProfile.department.unit_role === 1"
+            >
               <v-autocomplete
                 v-model="form.head"
                 :items="items"
