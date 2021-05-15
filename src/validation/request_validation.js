@@ -7,7 +7,7 @@ const create = (body) => {
     body: Joi.string().min(10).required(),
     options: Joi.object({}).required(),
     user: Joi.object({
-      signature: Joi.string().allow(""),
+      signature: Joi.string().required(),
     }).required(),
     admin: Joi.object({
       staff_id: Joi.string().required(),
