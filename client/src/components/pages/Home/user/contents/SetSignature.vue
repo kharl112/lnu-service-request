@@ -26,7 +26,9 @@ export default {
       this.$refs.sketch.clean();
     },
     getJSON() {
+      const signature = document.getElementById("sketch").innerHTML;
       console.log(this.$refs.sketch.getJSON());
+      return console.log(JSON.stringify(signature.toString()));
     },
   },
 };
@@ -65,7 +67,7 @@ export default {
                 </v-btn>
               </v-col>
               <v-col cols="auto">
-                <v-btn @click="clean" small color="primary" elevation="0">
+                <v-btn @click="getJSON" small color="primary" elevation="0">
                   confirm
                 </v-btn>
               </v-col>
@@ -88,6 +90,6 @@ export default {
   padding: 10px 2px 10px 10px;
 }
 #close-button {
-    margin: 5px 10px 15px;
+  margin: 5px 10px 15px;
 }
 </style>
