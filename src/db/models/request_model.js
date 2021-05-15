@@ -24,14 +24,10 @@ const Request = new mongoose.Schema({
   },
   head: {
     type: Object,
-    require: true,
+    required: true,
     staff_id: {
       type: String,
       required: false,
-    },
-    signed: {
-      type: Boolean,
-      required: true,
     },
     signature: {
       type: String,
@@ -40,14 +36,10 @@ const Request = new mongoose.Schema({
   },
   admin: {
     type: Object,
-    require: true,
+    required: true,
     staff_id: {
       type: String,
       required: false,
-    },
-    signed: {
-      type: Boolean,
-      required: true,
     },
     signature: {
       type: String,
@@ -56,14 +48,14 @@ const Request = new mongoose.Schema({
   },
   user: {
     type: Object,
-    require: true,
+    required: true,
     staff_id: {
       type: String,
       required: false,
     },
     signature: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   save_as: {
