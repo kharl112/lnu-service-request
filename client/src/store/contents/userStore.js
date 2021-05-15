@@ -11,13 +11,13 @@ const faculty = {
       login: null,
       email: null,
       register: null,
-      head: null,
+      all_head: null,
     },
     loading: {
       login: false,
       email: false,
       register: false,
-      head: null,
+      all_head: null,
     },
   }),
   getters: {
@@ -25,7 +25,7 @@ const faculty = {
     getError: (state) => state.error,
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
-    getHeads: (state) => state.heads,
+    getAllHead: (state) => state.heads,
   },
   mutations: {
     setError: (state, { message, type }) => (state.error[type] = message),
@@ -35,12 +35,12 @@ const faculty = {
         login: null,
         email: null,
         register: null,
-        head: null,
+        all_head: null,
       });
     },
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
     setProfile: (state, user_profile) => (state.profile = user_profile),
-    setHeads: (state, heads) => (state.heads = [...heads]),
+    setAllHead: (state, heads) => (state.heads = [...heads]),
   },
   actions: {
     userLogin: async ({ commit }, form) => {
@@ -103,18 +103,17 @@ const faculty = {
     },
     allHead: async ({ commit }) => {
       commit("clearError");
-      commit("setLoading", { loading: true, type: "head" });
+      commit("setLoading", { loading: true, type: "all_head" });
       try {
         const { data } = await axios.get("/api/user/head/all", {
           headers: { Authorization: sessionStorage.getItem("Authorization") },
         });
-        commit("setLoading", { loading: false, type: "head" });
-        console.log(data);
-        return commit("setHeads", data);
+        commit("setLoading", { loading: false, type: "all_head" });
+        return commit("setAllHead", data);
       } catch (error) {
         const { message } = error.response.data || error;
-        commit("setLoading", { loading: false, type: "head" });
-        return commit("setError", { message, type: "head" });
+        commit("setLoading", { loading: false, type: "all_head" });
+        return commit("setError", { message, type: "all_head" });
       }
     },
   },
