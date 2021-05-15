@@ -4,6 +4,7 @@ const adminAuth = require("../authentication/adminAuth");
 const { create, login } = require("../validation/admin_validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const userAuth = require("../authentication/userAuth");
 require("dotenv").config();
 
 route.post("/create", async (req, res) => {
@@ -63,6 +64,17 @@ route.post("/login", async (req, res) => {
 
 route.get("/profile", adminAuth, async (req, res) => {
   return res.send(req.locals);
+});
+
+route.get("/all", userAuth, async (req, res) => {
+  const all_admin = await Admin.find({ permitted: true }).select({
+    _id: 0,
+    email: 0,
+    password: 0,
+    signature_url: 0,
+    __v: 0,
+  });
+  return res.send(all_admin);
 });
 
 module.exports = route;

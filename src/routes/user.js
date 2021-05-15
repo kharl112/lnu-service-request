@@ -77,4 +77,15 @@ route.get("/profile", userAuth, async (req, res) => {
   return res.send(req.locals);
 });
 
+route.get("/head/all", userAuth, async (req, res) => {
+  const all_head = await User.find({ "department.unit_role": 3 || 4 }).select({
+    _id: 0,
+    email: 0,
+    password: 0,
+    signature_url: 0,
+    __v: 0,
+  });
+  return res.send(all_head);
+});
+
 module.exports = route;
