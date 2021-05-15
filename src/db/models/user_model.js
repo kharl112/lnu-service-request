@@ -64,8 +64,13 @@ const User = new mongoose.Schema({
       max: 5,
     },
   },
-  signature_url: {
-    type: String,
+  signature: {
+    type: Object,
+    required: false,
+  },
+  permitted: {
+    type: Boolean,
+    required: true,
   },
 });
 

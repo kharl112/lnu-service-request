@@ -48,6 +48,10 @@ const Admin = new mongoose.Schema({
     min: 8,
     max: 255,
   },
+  signature: {
+    type: Object,
+    required: false,
+  },
   permitted: {
     type: Boolean,
     required: true,
