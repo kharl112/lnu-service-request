@@ -4,6 +4,7 @@ export default {
   name: "SetSignature",
   props: {
     signatureVisibility: Boolean,
+    handleSetSignature: Function,
     showSignature: Function,
   },
   components: {
@@ -29,6 +30,10 @@ export default {
       const signature = document.getElementById("sketch").innerHTML;
       console.log(this.$refs.sketch.getJSON());
       return console.log(JSON.stringify(signature.toString()));
+    },
+    handleSubmit(signatureId) {
+      this.handleSetSignature(signatureId);
+      this.showSignature();
     },
   },
 };
@@ -67,7 +72,12 @@ export default {
                 </v-btn>
               </v-col>
               <v-col cols="auto">
-                <v-btn @click="getJSON" small color="primary" elevation="0">
+                <v-btn
+                  @click="handleSubmit('sketch')"
+                  small
+                  color="primary"
+                  elevation="0"
+                >
                   confirm
                 </v-btn>
               </v-col>

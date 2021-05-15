@@ -1,64 +1,66 @@
 <script>
-import axios from "axios";
 import SetSignature from "../contents/SetSignature";
-const fileDownload = require("js-file-download");
 export default {
   name: "Compose",
   components: {
     SetSignature,
   },
   data: () => ({
-    items: ["Dixie E. Normous", "Ben D. Over"],
-    signature: "",
     signatureVisibility: false,
     form: {
-      user: "Kharl L. Yumul",
-      admin: "",
-      head: "",
-      body: "",
-      greetings: "",
       subject: "",
+      greetings: "",
+      body: "",
+      user: {
+        signature: "",
+      },
+      admin: {
+        staff_id: "",
+        signature: "",
+      },
+      head: {
+        staff_id: "",
+        signature: "",
+      },
+      save_as: 0,
     },
   }),
   computed: {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
     },
-    getHeads() {
-      return this.$store.getters["faculty/getHeads"];
+    getAllHead() {
+      return this.$store.getters["faculty/getAllHead"];
+    },
+    getAllAdmin() {
+      return this.$store.getters["admin/getAllAdmin"];
     },
     getLoading() {
-      return this.$store.getters["faculty/getLoading"];
+      const { getters } = this.$store;
+      if (
+        !getters["faculty/getLoading"].all_head &&
+        !getters["admin/getLoading"].all_admin
+      )
+        return false;
+      return true;
     },
   },
   methods: {
-    async handleSubmit(e) {
-      e.preventDefault();
-      try {
-        const data = await axios.post(
-          "/api/pdf/create",
-          {
-            form: {
-              ...this.form,
-              signature: this.signature,
-            },
-            options: { format: "Letter" },
-          },
-          {
-            responseType: "blob",
-          }
-        );
-        return fileDownload(data.data, "response.pdf");
-      } catch (error) {
-        console.log(error);
-      }
-    },
     showSignature() {
       this.signatureVisibility = !this.signatureVisibility;
     },
+    handleSubmit(e) {
+      e.preventDefault();
+      return console.log(this.form);
+    },
+    handleSetSignature(signatureId) {
+      const signatureElement = document.getElementById(signatureId).innerHTML;
+      return (this.form.user.signature = signatureElement.toString());
+    },
   },
   created() {
-    return this.$store.dispatch("faculty/allHead");
+    this.$store.dispatch("faculty/allHead");
+    this.$store.dispatch("admin/allAdmin");
   },
 };
 </script>
@@ -66,7 +68,7 @@ export default {
   <v-container fluid>
     <v-row justify="start" align="start">
       <v-col cols="12" sm="10" md="8">
-        <v-form @submit="handleSubmit" v-if="!getLoading.head">
+        <v-form @submit="handleSubmit" v-if="!getLoading">
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid>
@@ -83,8 +85,8 @@ export default {
                   v-if="getFacultyProfile.department.unit_role === 1"
                 >
                   <v-autocomplete
-                    v-model="form.head"
-                    :items="getHeads"
+                    v-model="form.head.staff_id"
+                    :items="getAllHead"
                     item-text="name"
                     item-value="staff_id"
                     outlined
@@ -94,8 +96,10 @@ export default {
                 </v-col>
                 <v-col cols="12" sm="4" md="5">
                   <v-autocomplete
-                    v-model="form.admin"
-                    :items="items"
+                    v-model="form.admin.staff_id"
+                    :items="getAllAdmin"
+                    item-text="name"
+                    item-value="staff_id"
                     outlined
                     label="Administration"
                     dense
@@ -223,7 +227,7 @@ export default {
     <SetSignature
       :signatureVisibility="signatureVisibility"
       :showSignature="showSignature"
-      :signature="signature"
+      :handleSetSignature="handleSetSignature"
     />
   </v-container>
 </template>
