@@ -119,6 +119,8 @@ export default {
                       label="Subject"
                       placeholder="Technician for the modification of our faculty"
                       dense
+                      counter
+                      maxlength="50"
                     />
                   </v-col>
                   <v-col cols="12">
@@ -127,6 +129,8 @@ export default {
                       outlined
                       label="Greetings"
                       placeholder="Salutations"
+                      counter
+                      maxlength="20"
                       dense
                     />
                   </v-col>
@@ -199,6 +203,11 @@ export default {
             </v-col>
           </v-row>
         </v-form>
+        <v-skeleton-loader
+          v-else
+          class="mx-auto"
+          type="card, card, card"
+        ></v-skeleton-loader>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
       <v-col sm="2" md="4" class="hidden-sm-and-down">
