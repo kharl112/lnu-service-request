@@ -78,6 +78,12 @@ export default {
             </v-col>
             <v-col cols="12">
               <v-container fluid>
+                <v-subheader id="subheader">Recipients</v-subheader>
+                <v-divider />
+              </v-container>
+            </v-col>
+            <v-col cols="12">
+              <v-container fluid id="recipients-container">
                 <v-row justify="start" align="start" dense>
                   <v-col
                     cols="12"
@@ -107,6 +113,12 @@ export default {
                     />
                   </v-col>
                 </v-row>
+              </v-container>
+            </v-col>
+            <v-col cols="12">
+              <v-container fluid>
+                <v-subheader id="subheader">Request Letter</v-subheader>
+                <v-divider />
               </v-container>
             </v-col>
             <v-col cols="12">
@@ -159,8 +171,8 @@ export default {
                     </v-btn>
                   </v-col>
                   <v-col cols="12">
-                    <v-container fluid>
-                      <h4>Save As</h4>
+                    <v-container fluid id="save-banner">
+                      <v-subheader id="subheader">Save As</v-subheader>
                       <v-divider />
                     </v-container>
                   </v-col>
@@ -249,3 +261,16 @@ export default {
     />
   </v-container>
 </template>
+<style scoped lang="scss">
+#subheader {
+  margin: 0px;
+  padding: 0px;
+}
+#recipients-container {
+  margin: 0px;
+  padding-bottom: 0px;
+}
+#save-banner {
+  margin: 15px 0px;
+}
+</style>
