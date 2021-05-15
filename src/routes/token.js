@@ -1,4 +1,5 @@
 const route = require("express").Router();
+const jwt = require("jsonwebtoken");
 const adminAuth = require("../authentication/adminAuth");
 const userAuth = require("../authentication/userAuth");
 const User = require("../db/models/user_model");
@@ -23,22 +24,23 @@ route.post("/create", adminAuth, async (req, res) => {
   }
 });
 
-route.post("/claim", userAuth, async (req, res) => {
+route.post("/claim", async (req, res) => {
+  const token = req.header("Authorization");
+  const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+
   try {
-    const user_token = await Token.findOneAndUpdate(
-      { token: req.body.token, claimed: false },
-      { claimed: true, claimerID: req.locals.staff_id }
-    );
-
-    if (!user_token)
-      return res.status(400).send({ message: "token not found" });
-
     const claimer = await User.findOneAndUpdate(
-      { staff_id: req.locals.staff_id },
+      { _id: _id, permitted: false },
       { permitted: true }
     );
+    if (!claimer) return res.status(400).send({ message: "user not found" });
 
-    if (!claimer) return res.status(400).send({ message: "token not found" });
+    const user_token = await Token.findOneAndUpdate(
+      { token: req.body.token, claimed: false },
+      { claimed: true, claimerID: claimer.staff_id }
+    );
+    if (!user_token)
+      return res.status(400).send({ message: "token not found" });
 
     return res.send({ message: "token claimed" });
   } catch (error) {
