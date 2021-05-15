@@ -31,7 +31,9 @@ route.post("/create", userAuth, async (req, res) => {
 
   try {
     const new_request = await request.save();
-    return res.send(new_request);
+    return res.send({
+      message: `request ${req.body.save_as === 0 ? "saved as draft" : "sent"}`,
+    });
   } catch (error) {
     return res
       .status(500)
