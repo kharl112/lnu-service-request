@@ -32,7 +32,7 @@ route.post("/create", async (req, res) => {
   try {
     const new_admin = await admin.save();
     const token = jwt.sign({ _id: new_admin._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "5h",
     });
     return res.send({ token });
   } catch (error) {
