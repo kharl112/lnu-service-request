@@ -74,7 +74,7 @@ export const routes = [
     beforeEnter: async (to, from, next) => {
       return sessionStorage.getItem("Authorization")
         ? next()
-        : next("/faculty/register/step=4");
+        : next("/faculty/login");
     },
     children: [
       { path: "drafts", component: Drafts },

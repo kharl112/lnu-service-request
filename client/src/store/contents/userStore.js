@@ -85,7 +85,10 @@ const faculty = {
         });
         return commit("setProfile", data);
       } catch (error) {
-        return router.replace("/faculty/register/step=4");
+        const { message } = error.response.data || error;
+        return message === "account not permitted"
+          ? router.replace("/faculty/register/step=4")
+          : router.replace("/faculty/login");
       }
     },
   },
