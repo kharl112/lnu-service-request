@@ -105,8 +105,11 @@ const faculty = {
       commit("clearError");
       commit("setLoading", { loading: true, type: "head" });
       try {
-        const { data } = await axios.get("/api/user/head/all");
+        const { data } = await axios.get("/api/user/head/all", {
+          headers: { Authorization: sessionStorage.getItem("Authorization") },
+        });
         commit("setLoading", { loading: false, type: "head" });
+        console.log(data);
         return commit("setHeads", data);
       } catch (error) {
         const { message } = error.response.data || error;

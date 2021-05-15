@@ -24,6 +24,12 @@ export default {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
     },
+    getHeads() {
+      return this.$store.getters["faculty/getHeads"];
+    },
+    getLoading() {
+      return this.$store.getters["faculty/getLoading"];
+    },
   },
   methods: {
     async handleSubmit(e) {
@@ -51,11 +57,14 @@ export default {
       this.signatureVisibility = !this.signatureVisibility;
     },
   },
+  created() {
+    return this.$store.dispatch("faculty/allHead");
+  },
 };
 </script>
 <template>
   <v-container fluid>
-    <v-form @submit="handleSubmit">
+    <v-form @submit="handleSubmit" v-if="!getLoading.head">
       <v-row justify="start" align="start" no-gutters dense>
         <v-col cols="12" sm="11" md="7">
           <v-container fluid>
@@ -73,7 +82,9 @@ export default {
             >
               <v-autocomplete
                 v-model="form.head"
-                :items="items"
+                :items="getHeads"
+                item-text="name"
+                item-value="staff_id"
                 outlined
                 label="Department Head"
                 dense
