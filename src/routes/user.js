@@ -87,7 +87,14 @@ route.get("/head/all", userAuth, async (req, res) => {
     signature_url: 0,
     __v: 0,
   });
-  return res.send(all_head);
+  return res.send(
+    all_head.map((node, index) => ({
+      name: `${node.name.prefix}. ${node.name.firstname} ${
+        node.name.middle_initial
+      }. ${node.name.lastname}`,
+      staff_id: node.staff_id,
+    }))
+  );
 });
 
 module.exports = route;
