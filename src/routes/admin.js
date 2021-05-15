@@ -19,10 +19,9 @@ route.post("/create", async (req, res) => {
   const hash = bcrypt.hashSync(req.body.password, salt);
 
   const admin = new Admin({
-    staff_id: req.body.staff_id,
-    name: req.body.name,
-    email: req.body.email,
+    ...req.body,
     password: hash,
+    signature: {},
     permitted: false,
   });
 
