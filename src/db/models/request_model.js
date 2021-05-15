@@ -58,6 +58,11 @@ const Request = new mongoose.Schema({
       required: true,
     },
   },
+  date: {
+    type: Date,
+    default: new Date(),
+    required: true,
+  },
   save_as: {
     type: Number,
     required: true,
