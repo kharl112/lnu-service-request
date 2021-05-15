@@ -11,9 +11,13 @@ route.post("/create", async (req, res) => {
   const { error } = create(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const found = await Admin.findOne({ email: req.body.email });
-  if (found)
+  const email_found = await Admin.findOne({ email: req.body.email });
+  if (email_found)
     return res.status(400).send({ message: "this email already exists." });
+
+  const staff_id_found = await Admin.findOne({ staff_id: req.body.staff_id });
+  if (staff_id_found)
+    return res.status(400).send({ message: "staff_id already exists." });
 
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(req.body.password, salt);
