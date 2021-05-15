@@ -34,7 +34,7 @@ const token = {
         return commit("setError", message);
       }
     },
-    generateToken: async ({ commit }) => {
+    generateToken: async ({ commit, dispatch }) => {
       commit("clearError");
       commit("setLoading", true);
       try {
@@ -45,7 +45,7 @@ const token = {
             headers: { Authorization: sessionStorage.getItem("Authorization") },
           }
         );
-        return commit("setLoading", false);
+        return dispatch("showTokens", "all");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
