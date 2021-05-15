@@ -18,6 +18,7 @@ const userAuth = async (req, res, next) => {
       return res.status(400).send({ message: "account not permitted" });
 
     req.locals = {
+      staff_id: user_found.staff_id,
       name: user_found.name,
       email: user_found.email,
       department: user_found.department,
