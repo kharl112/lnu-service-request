@@ -1,5 +1,4 @@
 const route = require("express").Router();
-const jwt = require("jsonwebtoken");
 const adminAuth = require("../authentication/adminAuth");
 const userAuth = require("../authentication/userAuth");
 const User = require("../db/models/user_model");
@@ -7,11 +6,8 @@ const Token = require("../db/models/token_model");
 require("dotenv").config();
 
 route.post("/create", adminAuth, async (req, res) => {
-  const token = req.header("Authorization");
-  const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-
   const user_token = new Token({
-    creatorID: _id,
+    creatorID: req.locals.staff_id,
     claimerID: "",
     claimed: false,
     token: Math.random().toString(36).substring(4),
@@ -27,18 +23,22 @@ route.post("/create", adminAuth, async (req, res) => {
   }
 });
 
-route.post("/claim", async (req, res) => {
-  const token = req.header("Authorization");
-  const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-
+route.post("/claim", userAuth, async (req, res) => {
   try {
     const user_token = await Token.findOneAndUpdate(
       { token: req.body.token, claimed: false },
-      { claimed: true, claimerID: _id }
+      { claimed: true, claimerID: req.locals.staff_id }
     );
 
     if (!user_token)
       return res.status(400).send({ message: "token not found" });
+
+    const claimer = await User.findOneAndUpdate(
+      { staff_id: req.locals.staff_id },
+      { permitted: true }
+    );
+
+    if (!claimer) return res.status(400).send({ message: "token not found" });
 
     return res.send({ message: "token claimed" });
   } catch (error) {
