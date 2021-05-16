@@ -5,7 +5,19 @@ const create = (body) => {
     subject: Joi.string().min(10).max(100).required(),
     greetings: Joi.string().min(10).max(100).required(),
     body: Joi.string().min(10).required(),
-    options: Joi.object({}).required(),
+    options: Joi.object({
+      format: Joi.string().allow(""),
+      border: Joi.object({
+        top: Joi.string().default("1in"),
+        right: Joi.string().default("1in"),
+        bottom: Joi.string().default("1in"),
+        left: Joi.string().default("1in"),
+      })
+        .required()
+        .allow({}),
+    })
+      .required()
+      .allow({}),
     user: Joi.object({
       signature: Joi.string().required(),
     }).required(),
