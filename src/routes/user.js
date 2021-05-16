@@ -80,7 +80,9 @@ route.get("/profile", userAuth, async (req, res) => {
 });
 
 route.get("/head/all", userAuth, async (req, res) => {
-  const all_head = await User.find({ "department.unit_role": 3 || 4 }).select({
+  const all_head = await User.find({
+    "department.unit_role": { $in: [2, 3] },
+  }).select({
     _id: 0,
     email: 0,
     password: 0,
@@ -89,9 +91,7 @@ route.get("/head/all", userAuth, async (req, res) => {
   });
   return res.send(
     all_head.map((node, index) => ({
-      name: `${node.name.prefix}. ${node.name.firstname} ${
-        node.name.middle_initial
-      }. ${node.name.lastname}`,
+      name: `${node.name.prefix}. ${node.name.firstname} ${node.name.middle_initial}. ${node.name.lastname}`,
       staff_id: node.staff_id,
     }))
   );

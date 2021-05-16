@@ -18,7 +18,7 @@ route.post("/create", userAuth, async (req, res) => {
   if (req.body.head.staff_id) {
     const head_found = await User.findOne({
       staff_id: req.body.head.staff_id,
-      "department.unit_role": 2 || 3,
+      "department.unit_role": { $in: [2, 3] },
     });
     if (!head_found)
       return res.status(400).send({ message: "head dept. not found" });
