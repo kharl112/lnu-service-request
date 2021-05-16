@@ -17,7 +17,9 @@ export default {
   }),
   methods: {
     handleLinks(link) {
-      return this.$router.replace(`/admin/home/${link}`);
+      if (this.$route.fullPath !== `/admin/home/${link}`)
+        return this.$router.push(`/admin/home/${link}`);
+      return;
     },
   },
   computed: {

@@ -17,7 +17,9 @@ export default {
   }),
   methods: {
     handleLinks(link) {
-      return this.$router.replace(`/faculty/home/${link}`);
+      if (this.$route.fullPath !== `/faculty/home/${link}`)
+        return this.$router.push(`/faculty/home/${link}`);
+      return;
     },
   },
   computed: {
