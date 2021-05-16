@@ -6,6 +6,14 @@ const Admin = require("../db/models/admin_model");
 const Request = require("../db/models/request_model");
 
 route.post("/create", userAuth, async (req, res) => {
+  const borderToString = (position) => `${position}in`;
+  req.body.options.border.top = borderToString(req.body.options.border.top);
+  req.body.options.border.right = borderToString(req.body.options.border.right);
+  req.body.options.border.bottom = borderToString(
+    req.body.options.border.bottom
+  );
+  req.body.options.border.left = borderToString(req.body.options.border.left);
+
   const { error } = create(req.body);
   if (error) return res.status(400).send(error.details[0]);
 
