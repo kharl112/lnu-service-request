@@ -13,15 +13,6 @@ export default {
       subject: "",
       greetings: "",
       body: "",
-      options: {
-        format: "A4",
-        border: {
-          top: "2in",
-          right: "1in",
-          bottom: "2in",
-          left: "1.5in",
-        },
-      },
       user: {
         signature: "",
       },
