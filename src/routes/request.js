@@ -4,7 +4,6 @@ const userAuth = require("../authentication/userAuth");
 const User = require("../db/models/user_model");
 const Admin = require("../db/models/admin_model");
 const Request = require("../db/models/request_model");
-const { reset } = require("nodemon");
 
 route.post("/create", userAuth, async (req, res) => {
   const { error } = create(req.body);
