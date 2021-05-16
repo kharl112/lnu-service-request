@@ -105,7 +105,7 @@ export default {
           </v-row>
         </v-container>
         <v-container fluid v-else>
-          <v-row justify="sm">
+          <v-row justify="start">
             <v-col cols="12" sm="5" md="4">
               <v-skeleton-loader type="card" />
             </v-col>
