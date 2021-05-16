@@ -1,5 +1,5 @@
 const route = require("express").Router();
-const { create } = require("../validation/request_validation");
+const { create, deleteSelected } = require("../validation/request_validation");
 const userAuth = require("../authentication/userAuth");
 const adminAuth = require("../authentication/adminAuth");
 const User = require("../db/models/user_model");
@@ -49,11 +49,19 @@ route.post("/create", userAuth, async (req, res) => {
   }
 });
 
-route.delete("/faculty/draft/selected", userAuth, async (req, res) => {
+route.delete("/faculty/draft/delete/selected", userAuth, async (req, res) => {
+  const { error } = deleteSelected(req.body);
+  if (error) return res.status(400).send(error.details[0]);
+
   try {
-    await Request.findByIdAndDelete({ $in: req.body.selected });
+    await Request.find({
+      "user.staff_id": req.locals.staff_id,
+      _id: { $in: req.body.selected },
+    }).deleteMany();
+    
     return res.send({ message: "selected requests deleted" });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
