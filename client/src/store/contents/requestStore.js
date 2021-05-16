@@ -104,10 +104,12 @@ const request = {
           }
         );
         commit("setLoading", { loading: false, type: "selected" });
+        commit("setSelected", []);
         return dispatch("allDraft");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "selected" });
+        commit("setSelected", []);
         return commit("setError", { message, type: "selected" });
       }
     },
