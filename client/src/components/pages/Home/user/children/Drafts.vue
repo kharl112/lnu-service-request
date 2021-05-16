@@ -55,7 +55,7 @@ export default {
   <v-container fluid id="draft-container">
     <v-row dense justify="start" justify-sm="start" justify-md="center">
       <v-col cols="12" sm="12" md="8">
-        <v-simple-table v-if="getLoading.all_draft && !getError.all_draft">
+        <v-simple-table v-if="!getLoading.all_draft && !getError.all_draft">
           <template v-slot:default>
             <thead>
               <tr>
@@ -77,6 +77,7 @@ export default {
             </tbody>
           </template>
         </v-simple-table>
+        <v-skeleton-loader type="table" v-else />
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
       <v-col md="4" class="hidden-sm-and-down">
