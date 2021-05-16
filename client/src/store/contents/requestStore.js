@@ -12,11 +12,13 @@ const request = {
       compose: null,
       all_draft: null,
       all_send: null,
+      selected: null,
     },
     loading: {
       compose: null,
       all_draft: null,
       all_send: null,
+      selected: null,
     },
   }),
   getters: {
@@ -29,7 +31,13 @@ const request = {
   },
   mutations: {
     setError: (state, { message, type }) => (state.error[type] = message),
-    clearError: (state) => (state.error = { compose: null, all_draft: null }),
+    clearError: (state) =>
+      (state.error = {
+        compose: null,
+        all_draft: null,
+        all_send: null,
+        selected: null,
+      }),
     setSnackbar: (state, { snackbar, type }) =>
       (state.snackbar[type] = snackbar),
     setAllDraft: (state, all_draft) => (state.all_draft = [...all_draft]),
@@ -82,6 +90,25 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_send" });
         return commit("setError", { message, type: "all_send" });
+      }
+    },
+    deleteSelected: async ({ commit, getters, dispatch }) => {
+      commit("clearError");
+      commit("setLoading", { loading: true, type: "selected" });
+      try {
+        await axios.post(
+          "/api/request/faculty/draft/delete/selected",
+          { selected: getters.getSelected },
+          {
+            headers: { Authorization: sessionStorage.getItem("Authorization") },
+          }
+        );
+        commit("setLoading", { loading: false, type: "selected" });
+        return dispatch("allDraft");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "selected" });
+        return commit("setError", { message, type: "selected" });
       }
     },
   },
