@@ -56,10 +56,10 @@ export default {
       return true;
     },
     getComposeLoading() {
-      return this.$store.getters["request/getLoading"];
+      return this.$store.getters["request/getLoading"].compose;
     },
     getComposeError() {
-      return this.$store.getters["request/getError"];
+      return this.$store.getters["request/getError"].compose;
     },
     getSnackbar() {
       return this.$store.getters["request/getSnackbar"];
@@ -97,7 +97,7 @@ export default {
             type: "compose",
           });
         }
-        return console.log(this.form);
+        return this.$store.dispatch("request/createRequest", this.form);
       }
       return console.log("unvalidated");
     },
@@ -115,7 +115,7 @@ export default {
             type: "compose",
           });
         }
-        return console.log(this.form);
+        return this.$store.dispatch("request/createRequest", this.form);
       }
       return console.log("unvalidated");
     },
@@ -130,7 +130,12 @@ export default {
   <v-container fluid>
     <v-row justify="start" align="start">
       <v-col cols="12" sm="12" md="8">
-        <v-form ref="form" @submit="handleSubmitForm" v-if="!getLoading">
+        <v-form
+          ref="form"
+          @submit="handleSubmitForm"
+          :disabled="getComposeLoading"
+          v-if="!getLoading"
+        >
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid>
@@ -225,9 +230,10 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-btn
+                      :disabled="getComposeLoading"
                       color="success"
                       @click="showSignature"
-                      type="reset"
+                      type="none"
                       block
                       rounded
                       elevation="0"
@@ -248,8 +254,9 @@ export default {
                     <v-row justify="start" align="start" dense>
                       <v-col cols="12" sm="5" md="3">
                         <v-btn
+                          :disabled="getComposeLoading"
                           color="primary"
-                          type="reset"
+                          type="none"
                           @click="handleSubmitSend"
                           rounded
                           outlined
@@ -264,8 +271,9 @@ export default {
                       </v-col>
                       <v-col cols="12" sm="5" md="3">
                         <v-btn
+                          :disabled="getComposeLoading"
                           color="warning"
-                          type="reset"
+                          type="none"
                           @click="handleSubmitDraft"
                           rounded
                           outlined
@@ -324,7 +332,7 @@ export default {
         </v-row>
       </v-col>
       <v-snackbar color="error" v-model="getSnackbar.compose">
-        {{ getComposeError.compose }}
+        {{ getComposeError }}
         <template v-slot:action="{ attrs }">
           <v-btn color="white" text v-bind="attrs" @click="closeSnackbar">
             Close

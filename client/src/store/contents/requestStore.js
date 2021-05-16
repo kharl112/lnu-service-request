@@ -29,7 +29,9 @@ const request = {
       commit("clearError");
       commit("setLoading", { loading: true, type: "compose" });
       try {
-        await axios.post("/api/admin/login", form);
+        await axios.post("/api/request/create", form, {
+          headers: { Authorization: sessionStorage.getItem("Authorization") },
+        });
         commit("setLoading", { loading: false, type: "compose" });
         return router.push("/faculty/home/drafts");
       } catch (error) {
