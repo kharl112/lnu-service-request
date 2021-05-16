@@ -8,6 +8,7 @@ export default {
   data: () => ({
     signatureVisibility: false,
     rules: [(v) => !!v || "This field is not allowed to be empty"],
+    items: ["A4", "Letter"],
     timeout: 3000,
     form: {
       subject: "",
@@ -16,10 +17,10 @@ export default {
       options: {
         format: "A4",
         border: {
-          top: "2in",
-          right: "1in",
-          bottom: "2in",
-          left: "1.5in",
+          top: 1.5,
+          right: 1.5,
+          bottom: 1.5,
+          left: 1.5,
         },
       },
       user: {
@@ -304,27 +305,67 @@ export default {
         <v-row justify="start" align="start">
           <v-col cols="12">
             <v-container fluid>
-              <h4 class="text-6 text-sm-h6 text-md-h5">Requesting on LNU</h4>
+              <h4 class="text-6 text-sm-h6 text-md-h5">Options</h4>
               <v-divider />
             </v-container>
           </v-col>
           <v-col cols="12">
             <v-card outlined class="mx-auto" max-width="344">
-              <v-img
-                height="200px"
-                src="https://www.webmedia.com.ph/sites/default/files/Drupal-Training-Basic-Advance-Leyte-Normal-University-LNU-Tacloban-Leyte-10.jpg"
-              >
-              </v-img>
               <v-list-item>
                 <v-list-item-content>
-                  1. Be polite
-                  <v-divider />
+                  <v-card-title>Format</v-card-title>
+                  <v-select
+                    label="Document Format"
+                    dense
+                    outlined
+                    :items="items"
+                    v-model="form.options.format"
+                  />
                 </v-list-item-content>
               </v-list-item>
+            </v-card>
+          </v-col>
+          <v-col cols="12">
+            <v-card outlined class="mx-auto" max-width="344">
               <v-list-item>
                 <v-list-item-content>
-                  2. Behave like you would in real life
-                  <v-divider />
+                  <v-card-title> Border</v-card-title>
+                  <v-text-field
+                    label="top"
+                    :rules="rules"
+                    v-model="form.options.border.top"
+                    outlined
+                    dense
+                    type="number"
+                    suffix="inch"
+                  />
+                  <v-text-field
+                    label="right"
+                    :rules="rules"
+                    v-model="form.options.border.right"
+                    outlined
+                    dense
+                    type="number"
+                    suffix="inch"
+                  />
+                  <v-text-field
+                    label="bottom"
+                    :rules="rules"
+                    v-model="form.options.border.bottom"
+                    outlined
+                    dense
+                    type="number"
+                    suffix="inch"
+                  />
+                  <v-text-field
+                    label="left"
+                    :rules="rules"
+                    v-model="form.options.border.left"
+                    outlined
+                    dense
+                    type="number"
+                    suffix="inch"
+                  />
                 </v-list-item-content>
               </v-list-item>
             </v-card>
