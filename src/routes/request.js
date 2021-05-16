@@ -49,7 +49,7 @@ route.post("/create", userAuth, async (req, res) => {
   }
 });
 
-route.delete("/faculty/draft/delete/selected", userAuth, async (req, res) => {
+route.post("/faculty/draft/delete/selected", userAuth, async (req, res) => {
   const { error } = deleteSelected(req.body);
   if (error) return res.status(400).send(error.details[0]);
 
