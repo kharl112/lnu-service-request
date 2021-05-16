@@ -34,4 +34,11 @@ const create = (body) => {
   return schema.validate(body);
 };
 
-module.exports = { create };
+const deleteSelected = (body) => {
+  const schema = Joi.object({
+    selected: Joi.array().min(1).required(),
+  }).required();
+  return schema.validate(body);
+};
+
+module.exports = { create, deleteSelected };
