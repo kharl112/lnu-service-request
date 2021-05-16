@@ -52,7 +52,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid>
+  <v-container fluid id="main-container">
     <v-row dense justify="start" justify-sm="start" justify-md="center">
       <v-col cols="12" sm="10" md="8">
         <v-container fluid v-if="!getLoading.all_send && !getError.all_send">
@@ -146,3 +146,15 @@ export default {
     </v-row>
   </v-container>
 </template>
+<style scoped lang="scss">
+#main-container {
+  padding: 0px;
+  margin: 0px;
+  padding-left: 45px;
+}
+@media (max-width: 600px){
+  #main-container{
+    padding-left: 25px;
+  }
+}
+</style>

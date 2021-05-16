@@ -52,7 +52,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid>
+  <v-container fluid id="main-container">
     <v-row dense justify="start" justify-sm="start" justify-md="center">
       <v-col cols="12" sm="12" md="8">
         <v-simple-table v-if="!getLoading.all_draft && !getError.all_draft">
@@ -104,3 +104,11 @@ export default {
     </v-row>
   </v-container>
 </template>
+
+<style scoped lang="scss">
+#main-container {
+  padding: 0px;
+  margin: 0px;
+  padding-left: 20px;
+}
+</style>
