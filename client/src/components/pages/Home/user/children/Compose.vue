@@ -7,6 +7,9 @@ export default {
   },
   data: () => ({
     signatureVisibility: false,
+    rules: [(v) => !!v || "This field is not allowed to be empty"],
+    snackbar: true,
+    timeout: 3000,
     form: {
       subject: "",
       greetings: "",
@@ -68,7 +71,7 @@ export default {
   <v-container fluid>
     <v-row justify="start" align="start">
       <v-col cols="12" sm="12" md="8">
-        <v-form @submit="handleSubmit" v-if="!getLoading">
+        <v-form ref="form" @submit="handleSubmit" v-if="!getLoading">
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid>
@@ -104,6 +107,7 @@ export default {
                   <v-col cols="12" sm="4" md="5">
                     <v-autocomplete
                       v-model="form.admin.staff_id"
+                      :rules="rules"
                       :items="getAllAdmin"
                       item-text="name"
                       item-value="staff_id"
@@ -127,7 +131,9 @@ export default {
                   <v-col cols="12">
                     <v-text-field
                       v-model="form.subject"
+                      autofocus
                       outlined
+                      :rules="rules"
                       label="Subject"
                       placeholder="Technician for the modification of our faculty"
                       dense
@@ -139,6 +145,7 @@ export default {
                     <v-text-field
                       v-model="form.greetings"
                       outlined
+                      :rules="rules"
                       label="Greetings"
                       placeholder="Salutations"
                       counter
@@ -151,6 +158,7 @@ export default {
                       rows="10"
                       v-model="form.body"
                       outlined
+                      :rules="rules"
                       label="Body"
                       auto-grow
                     />
@@ -253,7 +261,16 @@ export default {
           </v-col>
         </v-row>
       </v-col>
+      <v-snackbar color="error" v-model="snackbar">
+        An error occured
+        <template v-slot:action="{ attrs }">
+          <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-row>
+
     <SetSignature
       :signatureVisibility="signatureVisibility"
       :showSignature="showSignature"
