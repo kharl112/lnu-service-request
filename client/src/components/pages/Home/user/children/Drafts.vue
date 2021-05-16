@@ -11,6 +11,14 @@ export default {
     getAllDraft() {
       return this.$store.getters["request/getAllDraft"];
     },
+    selected: {
+      get() {
+        return this.$store.getters["request/getSelected"];
+      },
+      set(selected) {
+        return this.$store.commit("request/setSelected", selected );
+      },
+    },
   },
   methods: {
     getTimeOrDate(date) {
@@ -70,7 +78,7 @@ export default {
             </thead>
             <tbody>
               <tr v-for="draft in getAllDraft" :key="draft.name">
-                <td><v-checkbox /></td>
+                <td><v-checkbox v-model="selected" :value="draft._id" /></td>
                 <td>{{ draft.subject }}</td>
                 <td>{{ getTimeOrDate(draft.date) }}</td>
               </tr>

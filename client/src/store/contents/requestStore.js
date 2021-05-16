@@ -7,6 +7,7 @@ const request = {
     snackbar: { compose: false },
     all_draft: null,
     all_send: null,
+    selected: [],
     error: {
       compose: null,
       all_draft: null,
@@ -23,6 +24,7 @@ const request = {
     getSnackbar: (state) => state.snackbar,
     getAllDraft: (state) => state.all_draft,
     getAllSend: (state) => state.all_send,
+    getSelected: (state) => state.selected,
     getLoading: (state) => state.loading,
   },
   mutations: {
@@ -32,6 +34,7 @@ const request = {
       (state.snackbar[type] = snackbar),
     setAllDraft: (state, all_draft) => (state.all_draft = [...all_draft]),
     setAllSend: (state, all_send) => (state.all_send = [...all_send]),
+    setSelected: (state, selected) => (state.selected = selected),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
   },
   actions: {
