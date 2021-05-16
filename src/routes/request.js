@@ -1,6 +1,7 @@
 const route = require("express").Router();
 const { create } = require("../validation/request_validation");
 const userAuth = require("../authentication/userAuth");
+const adminAuth = require("../authentication/adminAuth");
 const User = require("../db/models/user_model");
 const Admin = require("../db/models/admin_model");
 const Request = require("../db/models/request_model");
@@ -46,6 +47,30 @@ route.post("/create", userAuth, async (req, res) => {
       .status(500)
       .send({ message: "something went wrong, please try again." });
   }
+});
+
+route.get("/faculty/draft", userAuth, async (req, res) => {
+  const faculty_drafts = await Request.find({
+    "user.staff_id": req.locals.staff_id,
+    save_as: 0,
+  })
+  return res.send(faculty_drafts);
+});
+
+route.get("/faculty/sent", userAuth, async (req, res) => {
+  const faculty_sent = await Request.find({
+    "user.staff_id": req.locals.staff_id,
+    save_as: 1,
+  });
+  return res.send(faculty_sent);
+});
+
+route.get("/admin/sent", adminAuth, async (req, res) => {
+  const admin_sent = await Request.find({
+    "user.staff_id": req.locals.staff_id,
+    save_as: 1,
+  });
+  return res.send(admin_sent);
 });
 
 module.exports = route;
