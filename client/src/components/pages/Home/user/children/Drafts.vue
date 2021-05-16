@@ -52,7 +52,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid id="draft-container">
+  <v-container fluid>
     <v-row dense justify="start" justify-sm="start" justify-md="center">
       <v-col cols="12" sm="12" md="8">
         <v-simple-table v-if="!getLoading.all_draft && !getError.all_draft">
@@ -84,7 +84,7 @@ export default {
         <v-row>
           <v-col cols="12">
             <v-container fluid>
-              <v-card outlined >
+              <v-card outlined>
                 <v-img
                   src="https://anlantawan.files.wordpress.com/2020/08/ellenyu.jpg?w=720"
                   height="200px"

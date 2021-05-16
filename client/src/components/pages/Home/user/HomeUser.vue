@@ -38,7 +38,8 @@ export default {
           <v-row
             justify="end"
             justify-sm="center"
-            align="stretch"
+            justify-md="center"
+            align="start"
             class="home-row2"
           >
             <v-col cols="12">
