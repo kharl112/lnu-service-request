@@ -7,7 +7,7 @@ const Request = require("../db/models/request_model");
 
 route.post("/create", userAuth, async (req, res) => {
   const { error } = create(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).send(error.details[0]);
 
   const admin_found = await Admin.findOne({
     staff_id: req.body.admin.staff_id,
