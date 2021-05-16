@@ -49,11 +49,22 @@ route.post("/create", userAuth, async (req, res) => {
   }
 });
 
+route.delete("/faculty/draft/selected", userAuth, async (req, res) => {
+  try {
+    await Request.findByIdAndDelete({ $in: req.body.selected });
+    return res.send({ message: "selected requests deleted" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+  }
+});
+
 route.get("/faculty/draft", userAuth, async (req, res) => {
   const faculty_drafts = await Request.find({
     "user.staff_id": req.locals.staff_id,
     save_as: 0,
-  })
+  });
   return res.send(faculty_drafts);
 });
 
