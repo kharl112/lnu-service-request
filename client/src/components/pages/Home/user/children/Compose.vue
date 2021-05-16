@@ -8,7 +8,6 @@ export default {
   data: () => ({
     signatureVisibility: false,
     rules: [(v) => !!v || "This field is not allowed to be empty"],
-    snackbar: true,
     timeout: 3000,
     form: {
       subject: "",
@@ -47,18 +46,69 @@ export default {
         return false;
       return true;
     },
+    getComposeLoading() {
+      return this.$store.getters["request/getLoading"];
+    },
+    getComposeError() {
+      return this.$store.getters["request/getError"];
+    },
+    getSnackbar() {
+      return this.$store.getters["request/getSnackbar"];
+    },
   },
   methods: {
+    closeSnackbar() {
+      return this.$store.commit("request/setSnackbar", {
+        snackbar: false,
+        type: "compose",
+      });
+    },
     showSignature() {
       this.signatureVisibility = !this.signatureVisibility;
-    },
-    handleSubmit(e) {
-      e.preventDefault();
-      return console.log(this.form);
     },
     handleSetSignature(signatureId) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
       return (this.form.user.signature = signatureElement.toString());
+    },
+    handleSubmitForm(e) {
+      e.preventDefault();
+      return;
+    },
+    handleSubmitDraft(e) {
+      e.preventDefault();
+      this.form.save_as = 0;
+      if (this.$refs.form.validate()) {
+        if (!this.form.user.signature) {
+          this.$store.commit("request/setError", {
+            message: "You must sign this document to proceed",
+            type: "compose",
+          });
+          return this.$store.commit("request/setSnackbar", {
+            snackbar: true,
+            type: "compose",
+          });
+        }
+        return console.log(this.form);
+      }
+      return console.log("unvalidated");
+    },
+    handleSubmitSend(e) {
+      e.preventDefault();
+      this.form.save_as = 1;
+      if (this.$refs.form.validate()) {
+        if (!this.form.user.signature) {
+          this.$store.commit("request/setError", {
+            message: "You must sign this document to proceed",
+            type: "compose",
+          });
+          return this.$store.commit("request/setSnackbar", {
+            snackbar: true,
+            type: "compose",
+          });
+        }
+        return console.log(this.form);
+      }
+      return console.log("unvalidated");
     },
   },
   created() {
@@ -71,7 +121,7 @@ export default {
   <v-container fluid>
     <v-row justify="start" align="start">
       <v-col cols="12" sm="12" md="8">
-        <v-form ref="form" @submit="handleSubmit" v-if="!getLoading">
+        <v-form ref="form" @submit="handleSubmitForm" v-if="!getLoading">
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid>
@@ -97,6 +147,7 @@ export default {
                     <v-autocomplete
                       v-model="form.head.staff_id"
                       :items="getAllHead"
+                      :rules="rules"
                       item-text="name"
                       item-value="staff_id"
                       outlined
@@ -189,7 +240,8 @@ export default {
                       <v-col cols="12" sm="5" md="3">
                         <v-btn
                           color="primary"
-                          type="submit"
+                          type="reset"
+                          @click="handleSubmitSend"
                           rounded
                           outlined
                           block
@@ -204,7 +256,8 @@ export default {
                       <v-col cols="12" sm="5" md="3">
                         <v-btn
                           color="warning"
-                          type="submit"
+                          type="reset"
+                          @click="handleSubmitDraft"
                           rounded
                           outlined
                           block
@@ -261,16 +314,15 @@ export default {
           </v-col>
         </v-row>
       </v-col>
-      <v-snackbar color="error" v-model="snackbar">
-        An error occured
+      <v-snackbar color="error" v-model="getSnackbar.compose">
+        {{ getComposeError.compose }}
         <template v-slot:action="{ attrs }">
-          <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+          <v-btn color="white" text v-bind="attrs" @click="closeSnackbar">
             Close
           </v-btn>
         </template>
       </v-snackbar>
     </v-row>
-
     <SetSignature
       :signatureVisibility="signatureVisibility"
       :showSignature="showSignature"
