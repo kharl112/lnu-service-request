@@ -6,19 +6,23 @@ const request = {
   state: () => ({
     snackbar: { compose: false },
     all_draft: null,
+    all_send: null,
     error: {
       compose: null,
       all_draft: null,
+      all_send: null,
     },
     loading: {
       compose: null,
       all_draft: null,
+      all_send: null,
     },
   }),
   getters: {
     getError: (state) => state.error,
     getSnackbar: (state) => state.snackbar,
     getAllDraft: (state) => state.all_draft,
+    getAllSend: (state) => state.all_send,
     getLoading: (state) => state.loading,
   },
   mutations: {
@@ -27,6 +31,7 @@ const request = {
     setSnackbar: (state, { snackbar, type }) =>
       (state.snackbar[type] = snackbar),
     setAllDraft: (state, all_draft) => (state.all_draft = [...all_draft]),
+    setAllSend: (state, all_send) => (state.all_send = [...all_send]),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
   },
   actions: {
@@ -53,12 +58,27 @@ const request = {
         const { data } = await axios.get("/api/request/faculty/draft", {
           headers: { Authorization: sessionStorage.getItem("Authorization") },
         });
-        commit("setLoading", { loading: false, type: "compose" });
+        commit("setLoading", { loading: false, type: "all_draft" });
         return commit("setAllDraft", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_draft" });
         return commit("setError", { message, type: "all_draft" });
+      }
+    },
+    allSend: async ({ commit }) => {
+      commit("clearError");
+      commit("setLoading", { loading: true, type: "all_send" });
+      try {
+        const { data } = await axios.get("/api/request/faculty/sent", {
+          headers: { Authorization: sessionStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "all_send" });
+        return commit("setAllSend", data);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "all_send" });
+        return commit("setError", { message, type: "all_send" });
       }
     },
   },
