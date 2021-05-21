@@ -8,10 +8,10 @@ const create = (body) => {
     options: Joi.object({
       format: Joi.string().allow(""),
       border: Joi.object({
-        top: Joi.string().default("1in"),
-        right: Joi.string().default("1in"),
-        bottom: Joi.string().default("1in"),
-        left: Joi.string().default("1in"),
+        top: Joi.number().default(1.5).min(0.5).max(4),
+        right: Joi.number().default(1.5).min(0.5).max(4),
+        bottom: Joi.number().default(1.5).min(0.5).max(4),
+        left: Joi.number().default(1.5).min(0.5).max(4),
       })
         .required()
         .allow({}),
