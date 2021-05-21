@@ -5,8 +5,8 @@ const request = {
   namespaced: true,
   state: () => ({
     snackbar: { compose: false, edit: false },
-    all_draft: null,
-    all_send: null,
+    all_draft: [],
+    all_send: [],
     letter_info: {},
     selected: [],
     error: {
