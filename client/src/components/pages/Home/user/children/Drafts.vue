@@ -16,7 +16,7 @@ export default {
         return this.$store.getters["request/getSelected"];
       },
       set(selected) {
-        return this.$store.commit("request/setSelected", selected );
+        return this.$store.commit("request/setSelected", selected);
       },
     },
   },
@@ -53,6 +53,9 @@ export default {
           : `${months[created.getMonth()]} ago`
         : `${created.getFullYear()} ago`;
     },
+    gotoEdit(id) {
+      return this.$router.push(`/faculty/home/edit/letter=${id}`);
+    },
   },
   created() {
     return this.$store.dispatch("request/allDraft");
@@ -63,7 +66,13 @@ export default {
   <v-container fluid id="main-container">
     <v-row dense justify="start" justify-sm="start" justify-md="center">
       <v-col cols="12" sm="12" md="8">
-        <v-simple-table v-if="!getLoading.all_draft && !getError.all_draft">
+        <v-simple-table
+          v-if="
+            !getLoading.all_draft &&
+              !getError.all_draft &&
+              !getLoading.letter_info
+          "
+        >
           <template v-slot:default>
             <thead>
               <tr>
@@ -79,7 +88,12 @@ export default {
             <tbody>
               <tr v-for="draft in getAllDraft" :key="draft.name">
                 <td><v-checkbox v-model="selected" :value="draft._id" /></td>
-                <td>{{ draft.subject }}</td>
+
+                <td>
+                  <router-link :to="`/faculty/home/edit/letter=${draft._id}`">
+                    {{ draft.subject }}
+                  </router-link>
+                </td>
                 <td>{{ getTimeOrDate(draft.date) }}</td>
               </tr>
             </tbody>
