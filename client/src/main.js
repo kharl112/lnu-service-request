@@ -6,7 +6,7 @@ import { routes } from "./routes/routes";
 import store from "./store/store";
 import './registerServiceWorker'
 
-Vue.config.productionTip = true;
+Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 export const router = new VueRouter({
