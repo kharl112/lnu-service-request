@@ -98,6 +98,7 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
     const form = await Request.findOne({
       _id: id,
       "user.staff_id": req.locals.staff_id,
+      save_as: 0,
     });
     return res.send({ form });
   } catch (error) {
