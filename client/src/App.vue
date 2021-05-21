@@ -7,6 +7,7 @@ export default {
 <template>
   <v-app>
     <v-main>
+      <h1>Hello World</h1>
       <transition name="fade" mode="out-in">
         <router-view></router-view>
       </transition>
