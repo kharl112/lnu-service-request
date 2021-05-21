@@ -124,10 +124,15 @@ const request = {
     editRequest: async ({ commit }, form) => {
       commit("clearError");
       commit("setLoading", { loading: true, type: "edit" });
+      const { id } = router.history.current.params;
       try {
-        await axios.post("/api/request/faculty/update/letter=:id", form, {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
-        });
+        await axios.post(
+          `/api/request/faculty/update/letter=${id}`,
+          { form },
+          {
+            headers: { Authorization: sessionStorage.getItem("Authorization") },
+          }
+        );
         commit("setLoading", { loading: false, type: "edit" });
         return router.push("/faculty/home/drafts");
       } catch (error) {

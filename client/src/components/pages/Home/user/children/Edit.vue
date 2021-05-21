@@ -56,11 +56,11 @@ export default {
         return false;
       return true;
     },
-    getComposeLoading() {
-      return this.$store.getters["request/getLoading"].compose;
+    getEditLoading() {
+      return this.$store.getters["request/getLoading"].edit;
     },
-    getComposeError() {
-      return this.$store.getters["request/getError"].compose;
+    getEditError() {
+      return this.$store.getters["request/getError"].edit;
     },
     getSnackbar() {
       return this.$store.getters["request/getSnackbar"];
@@ -91,14 +91,14 @@ export default {
         if (!this.form.user.signature) {
           this.$store.commit("request/setError", {
             message: "You must sign this document to proceed",
-            type: "compose",
+            type: "edit",
           });
           return this.$store.commit("request/setSnackbar", {
             snackbar: true,
-            type: "compose",
+            type: "edit",
           });
         }
-        return this.$store.dispatch("request/createRequest", this.form);
+        return this.$store.dispatch("request/editRequest", this.form);
       }
       return console.log("unvalidated");
     },
@@ -109,14 +109,14 @@ export default {
         if (!this.form.user.signature) {
           this.$store.commit("request/setError", {
             message: "You must sign this document to proceed",
-            type: "compose",
+            type: "edit",
           });
           return this.$store.commit("request/setSnackbar", {
             snackbar: true,
-            type: "compose",
+            type: "edit",
           });
         }
-        return this.$store.dispatch("request/createRequest", this.form);
+        return this.$store.dispatch("request/editRequest", this.form);
       }
       return console.log("unvalidated");
     },
@@ -135,7 +135,7 @@ export default {
         <v-form
           ref="form"
           @submit="handleSubmitForm"
-          :disabled="getComposeLoading"
+          :disabled="getEditLoading"
           v-if="!getLoading"
         >
           <v-row justify="start" align="start" no-gutters dense>
@@ -232,7 +232,7 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-btn
-                      :disabled="getComposeLoading"
+                      :disabled="getEditLoading"
                       color="success"
                       @click="showSignature"
                       type="none"
@@ -256,7 +256,7 @@ export default {
                     <v-row justify="start" align="start" dense>
                       <v-col cols="12" sm="5" md="3">
                         <v-btn
-                          :disabled="getComposeLoading"
+                          :disabled="getEditLoading"
                           color="primary"
                           type="none"
                           @click="handleSubmitSend"
@@ -273,7 +273,7 @@ export default {
                       </v-col>
                       <v-col cols="12" sm="5" md="3">
                         <v-btn
-                          :disabled="getComposeLoading"
+                          :disabled="getEditLoading"
                           color="warning"
                           type="none"
                           @click="handleSubmitDraft"
@@ -373,8 +373,8 @@ export default {
           </v-col>
         </v-row>
       </v-col>
-      <v-snackbar color="error" v-model="getSnackbar.compose">
-        {{ getComposeError }}
+      <v-snackbar color="error" v-model="getSnackbar.edit">
+        {{ getEditLoading }}
         <template v-slot:action="{ attrs }">
           <v-btn color="white" text v-bind="attrs" @click="closeSnackbar">
             Close
