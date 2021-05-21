@@ -100,4 +100,18 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
   }
 });
 
+route.post("/faculty/update/letter=:id", userAuth, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updated_request = await Request.findByIdAndUpdate(id, req.body.form);
+    if (!updated_request)
+      return res.status(404).send({ message: "request letter not found." });
+    return res.send({ message: "request letter updated" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+  }
+});
+
 module.exports = route;
