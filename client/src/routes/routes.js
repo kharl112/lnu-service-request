@@ -19,6 +19,7 @@ import Signed from "../components/pages/Home/admin/children/Signed";
 import Pending from "../components/pages/Home/admin/children/Pending";
 
 import store from "../store/store";
+import axios from "axios";
 
 export const routes = [
   {
@@ -82,7 +83,49 @@ export const routes = [
       { path: "sent", component: Sent },
       { path: "received", component: Received },
       { path: "compose", component: Compose },
-      { path: "edit/letter=:id", component: Edit },
+      {
+        path: "edit/letter=:id",
+        component: Edit,
+        beforeEnter: async (to, from, next) => {
+          store.commit("request/clearError");
+          store.commit("request/setLoading", {
+            loading: true,
+            type: "letter_info",
+          });
+          try {
+            const { id } = to.params;
+            const { data } = await axios.get(
+              `/api/request/faculty/letter=${id}`,
+              {
+                headers: {
+                  Authorization: sessionStorage.getItem("Authorization"),
+                },
+              }
+            );
+            store.commit("request/setLoading", {
+              loading: false,
+              type: "letter_info",
+            });
+            if (data.form) {
+              store.commit("request/setLetterInfo", data.form);
+              return next();
+            }
+            return next("/faculty/home/drafts");
+          } catch (error) {
+            const { message } = error.response.data || error;
+            store.commit("request/setLoading", {
+              loading: false,
+              type: "letter_info",
+            });
+            store.commit("request/setLetterInfo", {});
+            store.commit("request/setError", {
+              message,
+              type: "letter_info",
+            });
+            return next("/faculty/home/drafts");
+          }
+        },
+      },
     ],
   },
   {
