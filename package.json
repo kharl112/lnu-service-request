@@ -6,6 +6,8 @@
   "scripts": {
     "server": "nodemon server.js",
     "client": "cd client && npm run serve",
+    "install-dep-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-dep-client && npm run build",
     "dev": "concurrently -n 'server,client' -c 'magenta,blue' \"npm run server\" \"npm run client\""
   },
   "keywords": [],
