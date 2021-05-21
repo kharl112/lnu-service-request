@@ -24,7 +24,6 @@ const userAuth = async (req, res, next) => {
 
     next();
   } catch (error) {
-    console.log(error);
     return res.status(400).send({ message: "invalid session token" });
   }
 };
