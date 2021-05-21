@@ -91,7 +91,8 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
       _id: id,
       "user.staff_id": req.locals.staff_id,
       save_as: 0,
-    });
+    }).select({ _id: 0, __v: 0, date: 0, "user.staff_id": 0 });
+
     return res.send({ form });
   } catch (error) {
     return res
@@ -102,6 +103,10 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
 
 route.post("/faculty/update/letter=:id", userAuth, async (req, res) => {
   const { id } = req.params;
+  const { error } = create(req.body.form);
+  if (error) return res.status(400).send(error.details[0]);
+  req.body.form.user.staff_id = req.locals.staff_id;
+
   try {
     const updated_request = await Request.findByIdAndUpdate(id, req.body.form);
     if (!updated_request)
