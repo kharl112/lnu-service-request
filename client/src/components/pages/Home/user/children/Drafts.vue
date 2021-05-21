@@ -64,15 +64,15 @@ export default {
 </script>
 <template>
   <v-container fluid id="main-container">
-    <v-row dense justify="start" justify-sm="start" justify-md="center">
+    <v-row
+      dense
+      justify="start"
+      justify-sm="start"
+      justify-md="center"
+      v-if="!getLoading.letter_info"
+    >
       <v-col cols="12" sm="12" md="8">
-        <v-simple-table
-          v-if="
-            !getLoading.all_draft &&
-              !getError.all_draft &&
-              !getLoading.letter_info
-          "
-        >
+        <v-simple-table v-if="!getLoading.all_draft && !getError.all_draft">
           <template v-slot:default>
             <thead>
               <tr>
@@ -122,6 +122,20 @@ export default {
             </v-container>
           </v-col>
         </v-row>
+      </v-col>
+    </v-row>
+    <v-row
+      id="spinner-container"
+      justify="center"
+      align="center"
+      v-else-if="getLoading.letter_info"
+    >
+      <v-col cols="12" align="center">
+        <v-progress-circular
+          :size="50"
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
       </v-col>
     </v-row>
   </v-container>
