@@ -70,7 +70,7 @@ export default {
     closeSnackbar() {
       return this.$store.commit("request/setSnackbar", {
         snackbar: false,
-        type: "compose",
+        type: "edit",
       });
     },
     showSignature() {
@@ -374,7 +374,7 @@ export default {
         </v-row>
       </v-col>
       <v-snackbar color="error" v-model="getSnackbar.edit">
-        {{ getEditLoading }}
+        {{ getEditError }}
         <template v-slot:action="{ attrs }">
           <v-btn color="white" text v-bind="attrs" @click="closeSnackbar">
             Close
