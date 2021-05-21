@@ -44,6 +44,7 @@ const request = {
         all_send: null,
         selected: null,
         letter_info: null,
+        edit: null,
       }),
     setSnackbar: (state, { snackbar, type }) =>
       (state.snackbar[type] = snackbar),
