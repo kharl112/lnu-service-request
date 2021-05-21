@@ -92,7 +92,7 @@ route.get("/admin/sent", adminAuth, async (req, res) => {
   return res.send(admin_sent);
 });
 
-route.get("/letter=:id", userAuth, async (req, res) => {
+route.get("/faculty/letter=:id", userAuth, async (req, res) => {
   const { id } = req.params;
   try {
     const form = await Request.findOne({
