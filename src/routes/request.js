@@ -58,7 +58,7 @@ route.post("/faculty/draft/delete/selected", userAuth, async (req, res) => {
       "user.staff_id": req.locals.staff_id,
       _id: { $in: req.body.selected },
     }).deleteMany();
-    
+
     return res.send({ message: "selected requests deleted" });
   } catch (error) {
     console.log(error);
@@ -90,6 +90,21 @@ route.get("/admin/sent", adminAuth, async (req, res) => {
     save_as: 1,
   });
   return res.send(admin_sent);
+});
+
+route.get("/letter=:id", userAuth, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const form = await Request.findOne({
+      _id: id,
+      "user.staff_id": req.locals.staff_id,
+    });
+    return res.send({ form });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+  }
 });
 
 module.exports = route;
