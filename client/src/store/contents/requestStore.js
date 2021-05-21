@@ -4,7 +4,7 @@ import { router } from "../../main";
 const request = {
   namespaced: true,
   state: () => ({
-    snackbar: { compose: false },
+    snackbar: { compose: false, edit: false },
     all_draft: null,
     all_send: null,
     letter_info: {},
@@ -15,6 +15,7 @@ const request = {
       all_send: null,
       selected: null,
       letter_info: null,
+      edit: null,
     },
     loading: {
       compose: null,
@@ -22,6 +23,7 @@ const request = {
       all_send: null,
       selected: null,
       letter_info: null,
+      edit: null,
     },
   }),
   getters: {
@@ -117,6 +119,22 @@ const request = {
         commit("setLoading", { loading: false, type: "selected" });
         commit("setSelected", []);
         return commit("setError", { message, type: "selected" });
+      }
+    },
+    editRequest: async ({ commit }, form) => {
+      commit("clearError");
+      commit("setLoading", { loading: true, type: "edit" });
+      try {
+        await axios.post("/api/request/faculty/update/letter=:id", form, {
+          headers: { Authorization: sessionStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "edit" });
+        return router.push("/faculty/home/drafts");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "edit" });
+        commit("setSnackbar", { snackbar: true, type: "edit" });
+        return commit("setError", { message, type: "edit" });
       }
     },
   },
