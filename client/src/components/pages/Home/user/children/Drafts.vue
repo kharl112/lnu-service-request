@@ -56,6 +56,9 @@ export default {
     gotoEdit(id) {
       return this.$router.push(`/faculty/home/edit/letter=${id}`);
     },
+    gotoCreate() {
+      return this.$router.push(`/faculty/home/compose`);
+    },
   },
   created() {
     return this.$store.dispatch("request/allDraft");
@@ -71,8 +74,13 @@ export default {
       justify-md="center"
       v-if="!getLoading.letter_info"
     >
-      <v-col cols="12" sm="12" md="8">
-        <v-simple-table v-if="!getLoading.all_draft && !getError.all_draft">
+      <v-col
+        cols="12"
+        sm="12"
+        md="8"
+        v-if="getAllDraft[0] && !getLoading.all_draft"
+      >
+        <v-simple-table>
           <template v-slot:default>
             <thead>
               <tr>
@@ -99,7 +107,31 @@ export default {
             </tbody>
           </template>
         </v-simple-table>
-        <v-skeleton-loader type="table" v-else />
+      </v-col>
+      <v-col cols="12" sm="12" md="8" v-else-if="getLoading.all_draft">
+        <v-skeleton-loader type="table" />
+      </v-col>
+      <v-col
+        cols="12"
+        sm="12"
+        md="8"
+        v-else-if="!getAllDraft[0] && !getLoading.all_draft"
+      >
+        <v-row justify="start">
+          <v-col cols="12">
+            <v-banner single-line>
+              <v-icon slot="icon" color="warning" size="36">
+                mdi-exclamation-thick
+              </v-icon>
+              You have empty unsent requests
+              <template v-slot:actions>
+                <v-btn color="primary" @click="gotoCreate" text>
+                  make one
+                </v-btn>
+              </template>
+            </v-banner>
+          </v-col>
+        </v-row>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
       <v-col md="4" class="hidden-sm-and-down">
