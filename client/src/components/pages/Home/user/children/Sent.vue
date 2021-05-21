@@ -45,6 +45,9 @@ export default {
           : `${months[created.getMonth()]} ago`
         : `${created.getFullYear()} ago`;
     },
+    gotoCreate() {
+      return this.$router.push(`/faculty/home/compose`);
+    },
   },
   created() {
     return this.$store.dispatch("request/allSend");
@@ -55,7 +58,7 @@ export default {
   <v-container fluid id="main-container">
     <v-row dense justify="start" justify-sm="start" justify-md="center">
       <v-col cols="12" sm="10" md="8">
-        <v-container fluid v-if="!getLoading.all_send && !getError.all_send">
+        <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
           <v-row justify="start" justify-sm="start" align="start">
             <v-col
               cols="12"
@@ -104,7 +107,7 @@ export default {
             </v-col>
           </v-row>
         </v-container>
-        <v-container fluid v-else>
+        <v-container fluid v-else-if="getLoading.all_send">
           <v-row justify="start">
             <v-col cols="12" sm="5" md="4">
               <v-skeleton-loader type="card" />
@@ -117,6 +120,23 @@ export default {
             </v-col>
             <v-col cols="12" sm="5" md="4">
               <v-skeleton-loader type="card" />
+            </v-col>
+          </v-row>
+        </v-container>
+        <v-container fluid v-else-if="!getAllSend[0] && !getLoading.all_send">
+          <v-row justify="start">
+            <v-col cols="12">
+              <v-banner single-line>
+                <v-icon slot="icon" color="warning" size="36">
+                  mdi-exclamation-thick
+                </v-icon>
+                You have empty sent requests
+                <template v-slot:actions>
+                  <v-btn color="primary" @click="gotoCreate" text>
+                    make one
+                  </v-btn>
+                </template>
+              </v-banner>
             </v-col>
           </v-row>
         </v-container>
@@ -152,8 +172,8 @@ export default {
   margin: 0px;
   padding-left: 45px;
 }
-@media (max-width: 600px){
-  #main-container{
+@media (max-width: 600px) {
+  #main-container {
     padding-left: 25px;
   }
 }
