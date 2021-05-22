@@ -15,13 +15,6 @@ export default {
       { title: "Received", icon: "mdi-email-receive" },
     ],
   }),
-  methods: {
-    handleLinks(link) {
-      if (this.$route.fullPath !== `/faculty/home/${link}`)
-        return this.$router.push(`/faculty/home/${link}`);
-      return;
-    },
-  },
   computed: {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
@@ -44,6 +37,17 @@ export default {
       const { firstname, lastname } = this.getFacultyProfile.name;
       return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
     },
+    route: {
+      get() {
+        return this.$route.fullPath.split("/")[3];
+      },
+      set(link) {
+        if (link)
+          if (this.$route.fullPath !== `/faculty/home/${link}`)
+            return this.$router.push(`/faculty/home/${link}`);
+        return;
+      },
+    },
   },
 };
 </script>
@@ -51,6 +55,7 @@ export default {
   <v-navigation-drawer
     fixed
     permanent
+    disable-route-watcher
     v-model="drawer"
     :mini-variant.sync="mini"
   >
@@ -75,24 +80,26 @@ export default {
       </v-list-item>
     </v-list>
     <v-list shaped>
-      <v-list-item link @click="handleLinks('compose')">
-        <v-list-item-icon>
-          <v-icon color="primary">mdi-plus</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Compose</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <v-list-item-group v-model="route">
+        <v-list-item value="compose">
+          <v-list-item-icon>
+            <v-icon color="primary">mdi-plus</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Compose</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
     <v-divider />
 
     <v-list dense>
       <v-subheader>Requests</v-subheader>
-      <v-list-item-group v-model="selected" color="primary">
+      <v-list-item-group color="primary" v-model="route">
         <v-list-item
           v-for="(child, i) in items"
           :key="i"
-          @click="handleLinks(child.title.toLowerCase())"
+          :value="child.title.toLowerCase()"
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
@@ -104,14 +111,18 @@ export default {
       </v-list-item-group>
 
       <v-subheader>Account</v-subheader>
-      <v-list-item link>
-        <v-list-item-icon>
-          <v-icon>mdi-account-settings</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Settings</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+      <v-list>
+        <v-list-item-group v-model="route">
+          <v-list-item value="settings">
+            <v-list-item-icon>
+              <v-icon>mdi-account-settings</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>Settings</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
 
       <v-list-item link @click="showLogout">
         <v-list-item-icon>
