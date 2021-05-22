@@ -67,11 +67,7 @@ export default {
 </script>
 <template>
   <v-container fluid class="pa-0">
-    <v-row
-      dense
-      justify="start"
-      v-if="!getLoading.letter_info"
-    >
+    <v-row dense justify="start" v-if="!getLoading.letter_info">
       <v-col
         cols="12"
         sm="12"
@@ -94,14 +90,15 @@ export default {
             </thead>
             <tbody>
               <tr v-for="draft in getAllDraft" :key="draft.name">
-                <td><v-checkbox v-model="selected" :value="draft._id" /></td>
-
                 <td>
-                  <router-link :to="`/faculty/home/edit/letter=${draft._id}`">
-                    {{ draft.subject }}
-                  </router-link>
+                  <v-checkbox v-model="selected" :value="draft._id" />
                 </td>
-                <td>{{ getTimeOrDate(draft.date) }}</td>
+                <td @click="gotoEdit(draft._id)">
+                  {{ draft.subject }}
+                </td>
+                <td @click="gotoEdit(draft._id)">
+                  <small>{{ getTimeOrDate(draft.date) }}</small>
+                </td>
               </tr>
             </tbody>
           </template>
