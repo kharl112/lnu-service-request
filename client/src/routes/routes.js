@@ -6,6 +6,8 @@ import Step4 from "../components/pages/Register/contents/Step4";
 
 import Login from "../components/pages/Login/Login";
 
+import Landing from "../components/pages/Landing/Landing";
+
 import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
@@ -22,6 +24,7 @@ import store from "../store/store";
 import axios from "axios";
 
 export const routes = [
+  { path: "/", component: Landing },
   {
     path: "/:user_type/login",
     component: Login,
