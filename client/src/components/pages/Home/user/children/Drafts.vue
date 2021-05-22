@@ -70,15 +70,13 @@ export default {
     <v-row
       dense
       justify="start"
-      justify-sm="center"
-      justify-md="center"
       v-if="!getLoading.letter_info"
     >
       <v-col
         cols="12"
         sm="12"
         md="8"
-        class="pl-10 pa-sm-0 pa-md-0"
+        class="pl-5 pl-sm-0 pl-md-4 pl-lg-0"
         v-if="getAllDraft[0] && !getLoading.all_draft"
       >
         <v-simple-table>

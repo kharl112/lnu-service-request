@@ -55,9 +55,9 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid id="main-container">
-    <v-row dense justify="start" justify-sm="start" justify-md="center">
-      <v-col cols="12" sm="10" md="8">
+  <v-container fluid class="pa-0">
+    <v-row dense justify="start">
+      <v-col cols="12" sm="12" md="7" class="pl-7 pl-sm-0 pl-md-12 pl-lg-0">
         <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
           <v-row justify="start" justify-sm="start" align="start">
             <v-col
