@@ -66,11 +66,11 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid id="main-container">
+  <v-container fluid class="pa-0">
     <v-row
       dense
       justify="start"
-      justify-sm="start"
+      justify-sm="center"
       justify-md="center"
       v-if="!getLoading.letter_info"
     >
@@ -78,6 +78,7 @@ export default {
         cols="12"
         sm="12"
         md="8"
+        class="pl-10 pa-sm-0 pa-md-0"
         v-if="getAllDraft[0] && !getLoading.all_draft"
       >
         <v-simple-table>
@@ -172,11 +173,3 @@ export default {
     </v-row>
   </v-container>
 </template>
-
-<style scoped lang="scss">
-#main-container {
-  padding: 0px;
-  margin: 0px;
-  padding-left: 20px;
-}
-</style>

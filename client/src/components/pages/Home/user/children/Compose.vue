@@ -128,9 +128,9 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid>
+  <v-container fluid class="pa-0">
     <v-row justify="start" align="start">
-      <v-col cols="12" sm="12" md="8">
+      <v-col cols="12" sm="12" md="8" class="pl-2 pa-sm-0 pa-md-0">
         <v-form
           ref="form"
           @submit="handleSubmitForm"
@@ -146,12 +146,12 @@ export default {
             </v-col>
             <v-col cols="12">
               <v-container fluid>
-                <v-subheader id="subheader">Recipients</v-subheader>
+                <v-subheader >Recipients</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
             <v-col cols="12">
-              <v-container fluid id="recipients-container">
+              <v-container fluid class="pt-2 pb-0">
                 <v-row justify="start" align="start" dense>
                   <v-col
                     cols="12"
@@ -186,8 +186,8 @@ export default {
               </v-container>
             </v-col>
             <v-col cols="12">
-              <v-container fluid>
-                <v-subheader id="subheader">Request Letter</v-subheader>
+              <v-container fluid class="pt-0 pb-0">
+                <v-subheader>Request Letter</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
@@ -246,8 +246,8 @@ export default {
                     </v-btn>
                   </v-col>
                   <v-col cols="12">
-                    <v-container fluid id="save-banner">
-                      <v-subheader id="subheader">Save As</v-subheader>
+                    <v-container fluid>
+                      <v-subheader >Save As</v-subheader>
                       <v-divider />
                     </v-container>
                   </v-col>
@@ -388,16 +388,3 @@ export default {
     />
   </v-container>
 </template>
-<style scoped lang="scss">
-#subheader {
-  margin: 0px;
-  padding: 0px;
-}
-#recipients-container {
-  margin: 0px;
-  padding-bottom: 0px;
-}
-#save-banner {
-  margin: 15px 0px;
-}
-</style>
