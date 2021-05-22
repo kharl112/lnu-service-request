@@ -75,138 +75,151 @@ export default {
           align-md="start"
           justify-sm="center"
           align-sm="center"
-          id="login-right-row"
+          dense
+          class="pa-5 pl-md-10"
         >
-          <v-container id="header-container">
-            <h3 id="heading" class=" text-h5 text-sm-h4 text-md-h4">
-              <em
-                v-bind:class="
-                  getUserType === 'faculty' ? 'faculty-color' : 'admin-color'
-                "
-                >LNU</em
-              >
-              Service Request System
-            </h3>
-            <h4
-              id="heading2a"
-              class="text-h6 text-sm-h5 text-md-h5 faculty-color"
-              v-if="getUserType === 'faculty'"
-            >
-              Head and staff Login
-            </h4>
-            <h4
-              id="heading2b"
-              class=" text-h6 text-sm-h6 text-md-h5 admin-color"
-              v-else
-            >
-              Administrator Login
-            </h4>
-          </v-container>
-          <v-form ref="form" @submit="handleSubmit">
-            <v-row no-gutters>
-              <v-col cols="12" md="11" sm="12">
-                <v-text-field
-                  :rules="rules.email"
-                  :disabled="getLoading.login"
-                  class="input"
-                  label="E-mail"
-                  background-color="#E5E5E5"
-                  v-model="form.email"
-                  type="email"
-                  autofocus
-                  outlined
-                />
+          <v-col cols="12">
+            <v-row>
+              <v-col cols="12">
+                <h3 class=" text-h5 text-sm-h4 text-md-h4">
+                  <strong class="warning--text">LNU</strong>
+                  Service Request System
+                </h3>
               </v-col>
+              <v-divider />
+              <v-col cols="12" v-if="getUserType === 'faculty'">
+                <h4 class="text-h6 text-sm-h5 text-md-h5">
+                  Head and staff Login
+                </h4>
+              </v-col>
+              <v-col cols="12" v-else>
+                <h4 class="text-h6 text-sm-h5 text-md-h5">
+                  Administrator Login
+                </h4>
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col cols="12">
+            <v-form ref="form" @submit="handleSubmit">
+              <v-row no-gutters>
+                <v-col cols="12" md="11" sm="12">
+                  <v-text-field
+                    :rules="rules.email"
+                    :disabled="getLoading.login"
+                    class="input"
+                    label="E-mail"
+                    background-color="#E5E5E5"
+                    v-model="form.email"
+                    type="email"
+                    autofocus
+                    outlined
+                  />
+                </v-col>
 
-              <v-col cols="12" md="11" sm="12">
-                <v-text-field
-                  :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
-                  :rules="rules.password"
-                  :type="show ? 'text' : 'password'"
-                  :disabled="getLoading.login"
-                  class="input"
-                  label="Password"
-                  background-color="#E5E5E5"
-                  v-model="form.password"
-                  @click:append="handleShowPassword"
-                  outlined
-                />
-              </v-col>
-              <v-col cols="12" md="11" sm="12">
-                <v-alert class="alert" v-if="getError.login" dense type="error">
-                  {{ getError.login }}
-                </v-alert>
-              </v-col>
-
-              <v-col cols="12" md="11" sm="12">
-                <v-checkbox
-                  class="check-box"
-                  :rules="rules.checkBox"
-                  label="I know what am I doing."
-                  color="#e78a00"
-                  value="1"
-                  hide-details
-                />
-              </v-col>
-              <v-col cols="12" md="11" sm="12">
-                <v-btn
-                  type="submit"
-                  bottom
-                  color="primary"
-                  :disabled="getLoading.login"
-                  block
-                  large
-                >
-                  Login
-                </v-btn>
-              </v-col>
-              <v-col cols="12" md="11" sm="12">
-                <v-row justify="center" align="center">
-                  <v-col cols="5">
-                    <v-divider />
-                  </v-col>
-                  <v-col cols="2">
-                    <p class="text-center">or</p>
-                  </v-col>
-                  <v-col cols="5">
-                    <v-divider />
-                  </v-col>
-                </v-row>
-              </v-col>
-
-              <v-row dense>
+                <v-col cols="12" md="11" sm="12">
+                  <v-text-field
+                    :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
+                    :rules="rules.password"
+                    :type="show ? 'text' : 'password'"
+                    :disabled="getLoading.login"
+                    class="input"
+                    label="Password"
+                    background-color="#E5E5E5"
+                    v-model="form.password"
+                    @click:append="handleShowPassword"
+                    outlined
+                  />
+                </v-col>
+                <v-col cols="12" md="11" sm="12" class="pa-0">
+                  <v-alert
+                    class="alert"
+                    v-if="getError.login"
+                    dense
+                    type="error"
+                  >
+                    {{ getError.login }}
+                  </v-alert>
+                </v-col>
+                <v-col cols="12" md="11" sm="12">
+                  <v-container fluid class="pa-0 pb-4">
+                    <v-checkbox
+                      class="check-box"
+                      :rules="rules.checkBox"
+                      label="I need to login"
+                      color="#e78a00"
+                      value="1"
+                      hide-details
+                    />
+                  </v-container>
+                </v-col>
+                <v-col cols="12" md="11" sm="12">
+                  <v-btn
+                    type="submit"
+                    bottom
+                    color="primary"
+                    :disabled="getLoading.login"
+                    block
+                    large
+                  >
+                    Login
+                  </v-btn>
+                </v-col>
                 <v-col
                   cols="12"
                   md="11"
                   sm="12"
-                  class="links-container"
+                  class="pa-6"
                   v-show="getUserType === 'faculty'"
                 >
-                  <v-btn
-                    type="none"
-                    bottom
-                    color="warning"
-                    @click="gotoRegister"
-                    block
-                    medium
-                  >
-                    Create Account
-                  </v-btn>
+                  <v-row justify="center" align="center">
+                    <v-col cols="5">
+                      <v-divider />
+                    </v-col>
+                    <v-col cols="2">
+                      <v-row justify="center" align="center">
+                        <small class="text-center">or</small>
+                      </v-row>
+                    </v-col>
+                    <v-col cols="5">
+                      <v-divider />
+                    </v-col>
+                  </v-row>
                 </v-col>
-                <v-col cols="12" md="11" sm="12" class="links-container">
-                  <router-link
-                    v-bind:to="
-                      `/${
-                        getUserType === 'faculty' ? 'admin' : 'faculty'
-                      }/login`
-                    "
-                    class="links"
-                    >I'm not an {{ getUserType }} member</router-link
+
+                <v-row dense>
+                  <v-col
+                    cols="12"
+                    md="11"
+                    sm="12"
+                    class="links-container"
+                    v-show="getUserType === 'faculty'"
                   >
-                </v-col>
+                    <v-btn
+                      type="none"
+                      bottom
+                      color="warning"
+                      @click="gotoRegister"
+                      block
+                      medium
+                    >
+                      Create Account
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="12" md="11" sm="12" class="pt-6">
+                    <router-link
+                      v-bind:to="
+                        `/${
+                          getUserType === 'faculty' ? 'admin' : 'faculty'
+                        }/login`
+                      "
+                      class="links"
+                      >I'm not an {{ getUserType }} member</router-link
+                    >
+                  </v-col>
+                </v-row>
               </v-row>
-            </v-row>
-          </v-form>
+            </v-form>
+          </v-col>
         </v-row>
       </v-col>
     </v-row>
