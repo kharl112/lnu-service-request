@@ -7,7 +7,6 @@ export default {
   data: () => ({
     drawer: true,
     mini: true,
-    selected: 1,
     dialog: false,
     items: [
       { title: "Sent", icon: "mdi-send-check" },
