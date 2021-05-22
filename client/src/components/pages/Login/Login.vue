@@ -39,6 +39,9 @@ export default {
           : this.$store.dispatch("admin/adminLogin", this.form);
       }
     },
+    gotoRegister() {
+      return this.$router.push("/faculty/register/step=1");
+    },
   },
   computed: {
     getUserType() {
@@ -66,6 +69,8 @@ export default {
       </v-col>
       <v-col cols="12" sm="6" md="4" id="login-col2">
         <v-row
+          justify="center"
+          align="start"
           justify-md="start"
           align-md="start"
           justify-sm="center"
@@ -141,9 +146,8 @@ export default {
                   color="#e78a00"
                   value="1"
                   hide-details
-                ></v-checkbox>
+                />
               </v-col>
-
               <v-col cols="12" md="11" sm="12">
                 <v-btn
                   type="submit"
@@ -156,6 +160,20 @@ export default {
                   Login
                 </v-btn>
               </v-col>
+              <v-col cols="12" md="11" sm="12">
+                <v-row justify="center" align="center">
+                  <v-col cols="5">
+                    <v-divider />
+                  </v-col>
+                  <v-col cols="2">
+                    <p class="text-center">or</p>
+                  </v-col>
+                  <v-col cols="5">
+                    <v-divider />
+                  </v-col>
+                </v-row>
+              </v-col>
+
               <v-row dense>
                 <v-col
                   cols="12"
@@ -164,11 +182,16 @@ export default {
                   class="links-container"
                   v-show="getUserType === 'faculty'"
                 >
-                  <router-link
-                    v-bind:to="`/${getUserType}/register/step=1`"
-                    class="links"
-                    >Create Account</router-link
+                  <v-btn
+                    type="none"
+                    bottom
+                    color="warning"
+                    @click="gotoRegister"
+                    block
+                    medium
                   >
+                    Create Account
+                  </v-btn>
                 </v-col>
                 <v-col cols="12" md="11" sm="12" class="links-container">
                   <router-link
