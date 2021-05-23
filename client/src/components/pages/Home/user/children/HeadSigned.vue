@@ -86,9 +86,9 @@ export default {
                   <small>{{ getTimeOrDate(signed.date) }}</small>
                 </td>
                 <td>
-                  <v-btn elevation="0" fab dark small color="success">
+                  <v-btn elevation="0" fab dark small color="error">
                     <v-icon dark>
-                      mdi-signature-freehand
+                      mdi-cloud-download
                     </v-icon>
                   </v-btn>
                 </td>
