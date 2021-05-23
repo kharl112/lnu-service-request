@@ -26,14 +26,12 @@ export default {
     clean() {
       this.$refs.sketch.clean();
     },
-    getJSON() {
-      const signature = document.getElementById("sketch").innerHTML;
-      console.log(this.$refs.sketch.getJSON());
-      return console.log(JSON.stringify(signature.toString()));
-    },
     handleSubmit(signatureId) {
-      this.handleSetSignature(signatureId);
-      this.showSignature();
+      if (this.$refs.sketch.getJSON().paths[0]) {
+        this.handleSetSignature(signatureId);
+        return this.showSignature();
+      }
+      return;
     },
   },
 };
