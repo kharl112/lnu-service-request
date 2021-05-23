@@ -162,7 +162,7 @@ route.get("/admin/signed", adminAuth, async (req, res) => {
 route.post("/admin/sign", adminAuth, async (req, res) => {
   try {
     const admin_sign = await Request.findByIdAndUpdate(req.body.request_id, {
-      "head.signature": req.body.signature,
+      "admin.signature": req.body.signature,
     });
     if (!admin_sign)
       return res
