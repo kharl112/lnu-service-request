@@ -8,15 +8,21 @@ export default {
     drawer: true,
     mini: true,
     dialog: false,
-    items: [
+    request_items: [
       { title: "Sent", icon: "mdi-send-check" },
       { title: "Drafts", icon: "mdi-email-edit" },
-      { title: "Received", icon: "mdi-email-receive" },
+    ],
+    received_items: [
+      { title: "Pending", icon: "mdi-email-receive" },
+      { title: "Signed", icon: "mdi-signature-freehand" },
     ],
   }),
   computed: {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
+    },
+    getUserType() {
+      return this.$route.path.split("/")[1];
     },
     getFacultyFullName() {
       const {
@@ -78,6 +84,7 @@ export default {
         </v-btn>
       </v-list-item>
     </v-list>
+
     <v-list shaped>
       <v-list-item-group v-model="route">
         <v-list-item value="compose">
@@ -90,13 +97,14 @@ export default {
         </v-list-item>
       </v-list-item-group>
     </v-list>
+
     <v-divider />
 
     <v-list dense>
       <v-subheader>Requests</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item
-          v-for="(child, i) in items"
+          v-for="(child, i) in request_items"
           :key="i"
           :value="child.title.toLowerCase()"
         >
@@ -108,29 +116,47 @@ export default {
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
+    </v-list>
 
+    <v-list dense>
+      <v-subheader>Received</v-subheader>
+      <v-list-item-group color="primary" v-model="route">
+        <v-list-item
+          v-for="(child, i) in received_items"
+          :key="i"
+          :value="child.title.toLowerCase()"
+        >
+          <v-list-item-icon>
+            <v-icon v-text="child.icon" />
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title v-text="child.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+
+    <v-list dense>
       <v-subheader>Account</v-subheader>
-      <v-list>
-        <v-list-item-group v-model="route">
-          <v-list-item value="settings">
-            <v-list-item-icon>
-              <v-icon>mdi-account-settings</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Settings</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+      <v-list-item-group v-model="route">
+        <v-list-item value="settings">
+          <v-list-item-icon>
+            <v-icon>mdi-account-settings</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-list-item link @click="showLogout">
-        <v-list-item-icon>
-          <v-icon>mdi-logout</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Logout</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+        <v-list-item link @click="showLogout" value="settings">
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
 </template>
