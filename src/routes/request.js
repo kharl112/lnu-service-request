@@ -109,6 +109,32 @@ route.get("/faculty/head/pending", userAuth, async (req, res) => {
   return res.send(head_sent);
 });
 
+route.get("/faculty/head/signed", userAuth, async (req, res) => {
+  const head_sent = await Request.find({
+    "head.staff_id": req.locals.staff_id,
+    "head.signature": !"",
+    save_as: 1,
+  });
+  return res.send(head_sent);
+});
+
+route.get("/admin/pending", adminAuth, async (req, res) => {
+  const head_sent = await Request.find({
+    "admin.staff_id": req.locals.staff_id,
+    save_as: 1,
+  });
+  return res.send(head_sent);
+});
+
+route.get("/admin/signed", adminAuth, async (req, res) => {
+  const head_sent = await Request.find({
+    "admin.staff_id": req.locals.staff_id,
+    "admin.signature": !"",
+    save_as: 1,
+  });
+  return res.send(head_sent);
+});
+
 route.post("/faculty/update/letter=:id", userAuth, async (req, res) => {
   const { id } = req.params;
   const { error } = create(req.body.form);
