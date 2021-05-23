@@ -31,19 +31,19 @@ export default {
         "DEC",
       ];
       const day = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
-      return now.getFullYear() === created.getFullYear()
-        ? now.getMonth() === created.getMonth()
-          ? now.getDate() === created.getDate()
-            ? now.getHours() === created.getHours()
-              ? now.getMinutes() === created.getMinutes()
-                ? now.Seconds() === created.Seconds()
+      return now.getFullYear() >= created.getFullYear()
+        ? now.getMonth() <= created.getMonth()
+          ? now.getDate() <= created.getDate()
+            ? now.getHours() <= created.getHours()
+              ? now.getMinutes() <= created.getMinutes()
+                ? now.getSeconds() <= created.getSeconds()
                   ? ""
                   : `${now.Seconds() - created.Seconds()} sec ago`
                 : `${now.getMinutes() - created.getMinutes()} min ago`
               : `${now.getHours() - created.getHours()} hr ago`
-            : `${day[created.getDay()]} ago`
-          : `${months[created.getMonth()]} ago`
-        : `${created.getFullYear()} ago`;
+            : `Last ${day[created.getDay()]}`
+          : `Last ${months[created.getMonth()]}`
+        : `Last year${created.getFullYear()}`;
     },
   },
   created() {
