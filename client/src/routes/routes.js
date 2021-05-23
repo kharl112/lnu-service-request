@@ -19,8 +19,8 @@ import Edit from "../components/pages/Home/user/children/Edit";
 
 import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
 import Tokens from "../components/pages/Home/admin/children/Tokens";
-import Signed from "../components/pages/Home/admin/children/Signed";
-import Pending from "../components/pages/Home/admin/children/Pending";
+import AdminSigned from "../components/pages/Home/admin/children/AdminSigned";
+import AdminPending from "../components/pages/Home/admin/children/AdminPending";
 
 import store from "../store/store";
 import axios from "axios";
@@ -161,8 +161,14 @@ export const routes = [
     },
     children: [
       { path: "tokens", component: Tokens },
-      { path: "signed", component: Signed },
-      { path: "pending", component: Pending },
+      {
+        path: "pending",
+        component: AdminPending,
+      },
+      {
+        path: "signed",
+        component: AdminSigned,
+      },
     ],
   },
 ];
