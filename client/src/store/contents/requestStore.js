@@ -7,12 +7,16 @@ const request = {
     snackbar: { compose: false, edit: false },
     all_draft: [],
     all_send: [],
+    all_pending: [],
+    all_signed: [],
     letter_info: {},
     selected: [],
     error: {
       compose: null,
       all_draft: null,
       all_send: null,
+      all_pending: null,
+      all_signed: null,
       selected: null,
       letter_info: null,
       edit: null,
@@ -21,6 +25,8 @@ const request = {
       compose: null,
       all_draft: null,
       all_send: null,
+      all_pending: null,
+      all_signed: null,
       selected: null,
       letter_info: null,
       edit: null,
@@ -31,6 +37,9 @@ const request = {
     getSnackbar: (state) => state.snackbar,
     getAllDraft: (state) => state.all_draft,
     getAllSend: (state) => state.all_send,
+    getAllPending: (state) => state.all_pending,
+    getAllSigned: (state) => state.all_signed,
+
     getLetterInfo: (state) => state.letter_info,
     getSelected: (state) => state.selected,
     getLoading: (state) => state.loading,
@@ -50,6 +59,9 @@ const request = {
       (state.snackbar[type] = snackbar),
     setAllDraft: (state, all_draft) => (state.all_draft = [...all_draft]),
     setAllSend: (state, all_send) => (state.all_send = [...all_send]),
+    setAllPending: (state, all_pending) =>
+      (state.all_pending = [...all_pending]),
+    setAllSigned: (state, all_signed) => (state.all_signed = [...all_signed]),
     setLetterInfo: (state, letter_info) => (state.letter_info = letter_info),
     setSelected: (state, selected) => (state.selected = selected),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
@@ -99,6 +111,36 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_send" });
         return commit("setError", { message, type: "all_send" });
+      }
+    },
+    allPending: async ({ commit }, type) => {
+      commit("clearError");
+      commit("setLoading", { loading: true, type: "all_pending" });
+      try {
+        const { data } = await axios.get(`/api/request/${type}/pending`, {
+          headers: { Authorization: sessionStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "all_pending" });
+        return commit("setAllPending", data);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "all_pending" });
+        return commit("setError", { message, type: "all_pending" });
+      }
+    },
+    allSigned: async ({ commit }, type) => {
+      commit("clearError");
+      commit("setLoading", { loading: true, type: "all_signed" });
+      try {
+        const { data } = await axios.get(`/api/request/${type}/signed`, {
+          headers: { Authorization: sessionStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "all_signed" });
+        return commit("setAllSigned", data);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "all_signed" });
+        return commit("setError", { message, type: "all_signed" });
       }
     },
     deleteSelected: async ({ commit, getters, dispatch }) => {
