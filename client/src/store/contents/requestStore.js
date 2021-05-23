@@ -4,7 +4,7 @@ import { router } from "../../main";
 const request = {
   namespaced: true,
   state: () => ({
-    snackbar: { compose: false, edit: false },
+    snackbar: { compose: false, edit: false, sign: false },
     all_draft: [],
     all_send: [],
     all_pending: [],
@@ -20,6 +20,7 @@ const request = {
       selected: null,
       letter_info: null,
       edit: null,
+      sign: null,
     },
     loading: {
       compose: null,
@@ -30,6 +31,7 @@ const request = {
       selected: null,
       letter_info: null,
       edit: null,
+      sign: null,
     },
   }),
   getters: {
@@ -39,7 +41,6 @@ const request = {
     getAllSend: (state) => state.all_send,
     getAllPending: (state) => state.all_pending,
     getAllSigned: (state) => state.all_signed,
-
     getLetterInfo: (state) => state.letter_info,
     getSelected: (state) => state.selected,
     getLoading: (state) => state.loading,
@@ -54,6 +55,7 @@ const request = {
         selected: null,
         letter_info: null,
         edit: null,
+        sign: null,
       }),
     setSnackbar: (state, { snackbar, type }) =>
       (state.snackbar[type] = snackbar),
@@ -183,6 +185,27 @@ const request = {
         commit("setLoading", { loading: false, type: "edit" });
         commit("setSnackbar", { snackbar: true, type: "edit" });
         return commit("setError", { message, type: "edit" });
+      }
+    },
+    signRequest: async ({ commit, dispatch }, { request_id, signature, type }) => {
+      commit("clearError");
+      commit("setLoading", { loading: true, type: "sign" });
+      try {
+        await axios.post(
+          `/api/request/${type}/sign`,
+          { request_id, signature },
+          {
+            headers: { Authorization: sessionStorage.getItem("Authorization") },
+          }
+        );
+        await dispatch("allPending", type);
+        commit("setLoading", { loading: false, type: "sign" });
+        return router.push("/faculty/home/signed");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "sign" });
+        commit("setSnackbar", { snackbar: true, type: "sign" });
+        return commit("setError", { message, type: "sign" });
       }
     },
   },
