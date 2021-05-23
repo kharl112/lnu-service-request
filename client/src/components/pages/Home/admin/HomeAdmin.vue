@@ -44,8 +44,10 @@ export default {
             <v-col cols="12">
               <Header />
             </v-col>
-            <v-col cols="11" sm="12">
-              <router-view></router-view>
+            <v-col cols="11" sm="10" md="12" lg="12">
+              <transition name="slide-right" mode="out-in">
+                <router-view></router-view>
+              </transition>
             </v-col>
           </v-row>
         </v-container>
