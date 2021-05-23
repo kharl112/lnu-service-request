@@ -75,18 +75,7 @@ export default {
         </v-btn>
       </v-list-item>
     </v-list>
-    <v-list shaped>
-      <v-list-item-group v-model="route">
-        <v-list-item link value="compose">
-          <v-list-item-icon>
-            <v-icon color="primary">mdi-plus</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Compose</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
+
     <v-divider />
 
     <v-list dense>
