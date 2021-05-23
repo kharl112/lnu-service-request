@@ -187,7 +187,10 @@ const request = {
         return commit("setError", { message, type: "edit" });
       }
     },
-    signRequest: async ({ commit, dispatch }, { request_id, signature, type }) => {
+    signRequest: async (
+      { commit, dispatch },
+      { request_id, signature, type }
+    ) => {
       commit("clearError");
       commit("setLoading", { loading: true, type: "sign" });
       try {
@@ -200,7 +203,9 @@ const request = {
         );
         await dispatch("allPending", type);
         commit("setLoading", { loading: false, type: "sign" });
-        return router.push("/faculty/home/signed");
+        return router.push(
+          `/${type === "head" ? "faculty" : "admin"}/home/signed`
+        );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "sign" });
