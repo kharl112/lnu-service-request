@@ -86,10 +86,28 @@ export const routes = [
     children: [
       { path: "drafts", component: Drafts },
       { path: "sent", component: Sent },
-      { path: "pending", component: HeadPending },
-      { path: "signed", component: HeadSigned },
       { path: "compose", component: Compose },
       { path: "settings", component: UserSettings },
+      {
+        path: "pending",
+        component: HeadPending,
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch("faculty/userProfile");
+          return store.getters["faculty/getProfile"].department.unit_role !== 1
+            ? next()
+            : next("/faculty/home/drafts");
+        },
+      },
+      {
+        path: "signed",
+        component: HeadSigned,
+        beforeEnter: async (to, from, next) => {
+          await store.dispatch("faculty/userProfile");
+          return store.getters["faculty/getProfile"].department.unit_role !== 1
+            ? next()
+            : next("/faculty/home/drafts");
+        },
+      },
       {
         path: "edit/letter=:id",
         component: Edit,
