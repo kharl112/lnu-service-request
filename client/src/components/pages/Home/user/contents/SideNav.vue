@@ -22,7 +22,7 @@ export default {
       return this.$store.getters["faculty/getProfile"];
     },
     isHead() {
-      return this.getFacultyProfile.department.unit_role === 2 || 3;
+      return this.getFacultyProfile.department.unit_role !== 1;
     },
     getFacultyFullName() {
       const {
