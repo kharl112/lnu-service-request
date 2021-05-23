@@ -8,12 +8,14 @@ const faculty = {
     email: null,
     heads: null,
     error: {
+      profile: null,
       login: null,
       email: null,
       register: null,
       all_head: null,
     },
     loading: {
+      profile: false,
       login: false,
       email: false,
       register: false,
@@ -32,6 +34,7 @@ const faculty = {
     setEmail: (state, email) => (state.email = email),
     clearError: (state) => {
       return (state.error = {
+        profile: null,
         login: null,
         email: null,
         register: null,
@@ -89,13 +92,19 @@ const faculty = {
       }
     },
     userProfile: async ({ commit }) => {
+      commit("clearError");
+      commit("setLoading", { loading: true, type: "profile" });
       try {
         const { data } = await axios.get("/api/user/profile", {
           headers: { Authorization: sessionStorage.getItem("Authorization") },
         });
+        commit("setLoading", { loading: false, type: "profile" });
         return commit("setProfile", data);
       } catch (error) {
         const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "profile" });
+        commit("setProfile", null);
+        commit("setError", { message, type: "profile" });
         return message === "account not permitted"
           ? router.replace("/faculty/register/step=4")
           : router.replace("/faculty/login");

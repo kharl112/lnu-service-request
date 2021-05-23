@@ -8,6 +8,9 @@ export default {
     getError() {
       return this.$store.getters["request/getError"];
     },
+    getProfileLoading() {
+      return this.$store.getters["faculty/getLoading"].profile;
+    },
     getAllPending() {
       return this.$store.getters["request/getAllPending"];
     },
@@ -53,7 +56,7 @@ export default {
 </script>
 <template>
   <v-container fluid class="pa-0">
-    <v-row dense justify="start">
+    <v-row dense justify="start" v-if="!getProfileLoading">
       <v-col
         cols="12"
         sm="12"
@@ -143,6 +146,20 @@ export default {
             </v-container>
           </v-col>
         </v-row>
+      </v-col>
+    </v-row>
+    <v-row
+      id="spinner-container"
+      justify="center"
+      align="center"
+      v-else-if="getProfileLoading"
+    >
+      <v-col cols="12" align="center">
+        <v-progress-circular
+          :size="50"
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
       </v-col>
     </v-row>
   </v-container>
