@@ -16,16 +16,17 @@ body
   div(class="recipients")
     if form.head !== ""
     div(class="signature")
-      p(class="dept-head")=form.head
-      p(class="dept-head-title") IT Chairperson
-    | !{form.signature}
+      p(class="dept-head")=form.head.profile
+      p(class="dept-head-title")=form.head.department
+    | !{form.head.signature}
     div(class="signature")
-      p(class="admin-dept")=form.admin
-      p(class="admin-dept-title") Administration Department Head
-    | !{form.signature}
+      p(class="admin-dept")=form.admin.profile
+      p(class="admin-dept-title") Administration Department
+    | !{form.admin.signature}
     div(class="signature")
-      p(class="user-name")=form.user
-    | !{form.signature}
+      p(class="user-name")=form.user.profile
+      p(class="admin-dept-title")=form.user.department
+    | !{form.user.signature}
 
     
 

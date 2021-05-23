@@ -1,7 +1,6 @@
 body {
   font-size: 12px;
   margin: 0px;
-  padding: 50px 50px 50px 50px;
 }
 header {
   display: flex;
@@ -109,6 +108,7 @@ header {
   margin: 0px;
 }
 svg {
-  width: 100%;
-  margin: -65px 0px 0px -20px;
+  height: 100px;
+  width: 100px;
+  border: 1px solid black;
 }
