@@ -12,6 +12,7 @@ import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
 import HeadPending from "../components/pages/Home/user/children/HeadPending";
+import HeadSigned from "../components/pages/Home/user/children/HeadSigned";
 import Compose from "../components/pages/Home/user/children/Compose";
 import Edit from "../components/pages/Home/user/children/Edit";
 
@@ -85,6 +86,7 @@ export const routes = [
       { path: "drafts", component: Drafts },
       { path: "sent", component: Sent },
       { path: "pending", component: HeadPending },
+      { path: "signed", component: HeadSigned },
       { path: "compose", component: Compose },
       {
         path: "edit/letter=:id",
