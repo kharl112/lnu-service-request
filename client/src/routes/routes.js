@@ -13,6 +13,7 @@ import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
 import HeadPending from "../components/pages/Home/user/children/HeadPending";
 import HeadSigned from "../components/pages/Home/user/children/HeadSigned";
+import UserSettings from "../components/pages/Home/user/children/UserSettings";
 import Compose from "../components/pages/Home/user/children/Compose";
 import Edit from "../components/pages/Home/user/children/Edit";
 
@@ -88,6 +89,7 @@ export const routes = [
       { path: "pending", component: HeadPending },
       { path: "signed", component: HeadSigned },
       { path: "compose", component: Compose },
+      { path: "settings", component: UserSettings },
       {
         path: "edit/letter=:id",
         component: Edit,
