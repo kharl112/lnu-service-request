@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "Received",
+  name: "HeadPending",
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];

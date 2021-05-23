@@ -11,7 +11,7 @@ import Landing from "../components/pages/Landing/Landing";
 import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
-import Received from "../components/pages/Home/user/children/Received";
+import HeadPending from "../components/pages/Home/user/children/HeadPending";
 import Compose from "../components/pages/Home/user/children/Compose";
 import Edit from "../components/pages/Home/user/children/Edit";
 
@@ -84,7 +84,7 @@ export const routes = [
     children: [
       { path: "drafts", component: Drafts },
       { path: "sent", component: Sent },
-      { path: "received", component: Received },
+      { path: "pending", component: HeadPending },
       { path: "compose", component: Compose },
       {
         path: "edit/letter=:id",
