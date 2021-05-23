@@ -21,8 +21,8 @@ export default {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
     },
-    getUserType() {
-      return this.$route.path.split("/")[1];
+    isHead() {
+      return this.getFacultyProfile.department.unit_role === 2 || 3;
     },
     getFacultyFullName() {
       const {
@@ -118,7 +118,7 @@ export default {
       </v-list-item-group>
     </v-list>
 
-    <v-list dense>
+    <v-list dense v-if="isHead">
       <v-subheader>Received</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item
