@@ -58,6 +58,31 @@ export default {
   <v-container fluid class="pa-0">
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="7" class="pl-7 pl-sm-0 pl-md-12 pl-lg-0">
+        <v-container fluid class="pa-0">
+          <v-col cols="12">
+            <v-row class="pa-2 pt-0" justify="start" align="start">
+              <v-col cols="3" sm="3" md="2" class="pa-0">
+                <v-subheader class="pa-0">Flags:</v-subheader>
+              </v-col>
+              <v-col cols="3" sm="3" md="2">
+                <v-chip small color="error">
+                  <small class="hidden-sm-and-down"> unsigned </small>
+                </v-chip>
+              </v-col>
+              <v-col cols="3" sm="3" md="2">
+                <v-chip small color="primary">
+                  <small class="hidden-sm-and-down"> signed </small>
+                </v-chip>
+              </v-col>
+              <v-col cols="3" sm="3" md="2">
+                <v-chip small color="success">
+                  <small class="hidden-sm-and-down"> fully signed </small>
+                </v-chip>
+              </v-col>
+            </v-row>
+            <v-divider />
+          </v-col>
+        </v-container>
         <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
           <v-row justify="start" justify-sm="start" align="start">
             <v-col
@@ -72,6 +97,30 @@ export default {
                   <v-list-item-content>
                     <div class="overline mb-4">
                       {{ getTimeOrDate(send.date) }}
+                      <v-badge
+                        class="pl-2"
+                        v-if="send.head.signature && send.admin.signature"
+                        small
+                        color="success"
+                      />
+                      <v-badge
+                        class="pl-2"
+                        v-else-if="send.head.signature"
+                        small
+                        color="primary"
+                      />
+                      <v-badge
+                        class="pl-2"
+                        v-else-if="send.admin.signature"
+                        small
+                        color="primary"
+                      />
+                      <v-badge
+                        class="pl-2"
+                        v-else
+                        small
+                        color="error"
+                      />
                     </div>
                     <v-list-item-title class="headline mb-1">
                       {{ send.subject }}
