@@ -1,6 +1,14 @@
 <script>
+import SetSignature from "../contents/SetSignature";
 export default {
   name: "HeadPending",
+  components: {
+    SetSignature,
+  },
+  data: () => ({
+    signatureVisibility: false,
+    selectedRequest: "",
+  }),
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];
@@ -48,6 +56,14 @@ export default {
           : `Last ${months[created.getMonth()]}`
         : `Last year${created.getFullYear()}`;
     },
+    showSignature(request_id = "") {
+      this.selectedRequest = request_id;
+      this.signatureVisibility = !this.signatureVisibility;
+    },
+    handleSetSignature(signatureId) {
+      const signatureElement = document.getElementById(signatureId).innerHTML;
+      console.log(signatureElement, this.selectedRequest);
+    },
   },
   created() {
     return this.$store.dispatch("request/allPending", "head");
@@ -87,7 +103,14 @@ export default {
                   <small>{{ getTimeOrDate(pending.date) }}</small>
                 </td>
                 <td>
-                  <v-btn elevation="0" fab dark small color="success">
+                  <v-btn
+                    elevation="0"
+                    fab
+                    dark
+                    small
+                    color="success"
+                    @click="showSignature(pending._id)"
+                  >
                     <v-icon dark>
                       mdi-signature-freehand
                     </v-icon>
@@ -162,5 +185,10 @@ export default {
         ></v-progress-circular>
       </v-col>
     </v-row>
+    <SetSignature
+      :signatureVisibility="signatureVisibility"
+      :showSignature="showSignature"
+      :handleSetSignature="handleSetSignature"
+    />
   </v-container>
 </template>
