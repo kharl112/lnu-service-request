@@ -104,6 +104,7 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
 route.get("/head/pending", userAuth, async (req, res) => {
   const head_pending = await Request.find({
     "head.staff_id": req.locals.staff_id,
+    "head.signature": "",
     save_as: 1,
   });
   return res.send(head_pending);
@@ -112,7 +113,7 @@ route.get("/head/pending", userAuth, async (req, res) => {
 route.get("/head/signed", userAuth, async (req, res) => {
   const head_signed = await Request.find({
     "head.staff_id": req.locals.staff_id,
-    "head.signature": !"",
+    "head.signature": { $ne: "" },
     save_as: 1,
   });
   return res.send(head_signed);
@@ -143,6 +144,7 @@ route.post("/head/sign", userAuth, async (req, res) => {
 route.get("/admin/pending", adminAuth, async (req, res) => {
   const admin_pending = await Request.find({
     "admin.staff_id": req.locals.staff_id,
+    "admin.signature": "",
     save_as: 1,
   });
   return res.send(admin_pending);
@@ -151,7 +153,7 @@ route.get("/admin/pending", adminAuth, async (req, res) => {
 route.get("/admin/signed", adminAuth, async (req, res) => {
   const admin_signed = await Request.find({
     "admin.staff_id": req.locals.staff_id,
-    "admin.signature": !"",
+    "admin.signature": { $ne: "" },
     save_as: 1,
   });
   return res.send(admin_signed);
