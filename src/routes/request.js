@@ -102,37 +102,78 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
 });
 
 route.get("/head/pending", userAuth, async (req, res) => {
-  const head_sent = await Request.find({
+  const head_pending = await Request.find({
     "head.staff_id": req.locals.staff_id,
     save_as: 1,
   });
-  return res.send(head_sent);
+  return res.send(head_pending);
 });
 
 route.get("/head/signed", userAuth, async (req, res) => {
-  const head_sent = await Request.find({
+  const head_signed = await Request.find({
     "head.staff_id": req.locals.staff_id,
     "head.signature": !"",
     save_as: 1,
   });
-  return res.send(head_sent);
+  return res.send(head_signed);
+});
+
+route.post("/head/sign", userAuth, async (req, res) => {
+  if (req.locals.department.unit_role === 1)
+    return res.status(401).send({ message: "invalid user type" });
+
+  try {
+    const head_sign = await Request.findByIdAndUpdate(req.body.request_id, {
+      "head.signature": req.body.signature,
+    });
+    if (!head_sign)
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again." });
+
+    return res.send({ message: "signing complete" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+    I;
+  }
 });
 
 route.get("/admin/pending", adminAuth, async (req, res) => {
-  const head_sent = await Request.find({
+  const admin_pending = await Request.find({
     "admin.staff_id": req.locals.staff_id,
     save_as: 1,
   });
-  return res.send(head_sent);
+  return res.send(admin_pending);
 });
 
 route.get("/admin/signed", adminAuth, async (req, res) => {
-  const head_sent = await Request.find({
+  const admin_signed = await Request.find({
     "admin.staff_id": req.locals.staff_id,
     "admin.signature": !"",
     save_as: 1,
   });
-  return res.send(head_sent);
+  return res.send(admin_signed);
+});
+
+route.post("/admin/sign", adminAuth, async (req, res) => {
+  try {
+    const admin_sign = await Request.findByIdAndUpdate(req.body.request_id, {
+      "head.signature": req.body.signature,
+    });
+    if (!admin_sign)
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again." });
+
+    return res.send({ message: "signing complete" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+    I;
+  }
 });
 
 route.post("/faculty/update/letter=:id", userAuth, async (req, res) => {
