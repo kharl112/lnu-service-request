@@ -11,6 +11,12 @@ export default {
     getAllSigned() {
       return this.$store.getters["request/getAllSigned"];
     },
+    getPDFLoading() {
+      return this.$store.getters["pdf/getLoading"];
+    },
+    getPDFError() {
+      return this.$store.getters["pdf/getError"];
+    },
   },
   methods: {
     getTimeOrDate(date) {
