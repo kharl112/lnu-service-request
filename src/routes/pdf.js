@@ -43,7 +43,6 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
       return res.send(buffer);
     });
   } catch (e) {
-    console.log(e);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
@@ -53,7 +52,6 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
 route.post("/head/create/id=:id", userAuth, async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
-    console.log(id);
     const form = await Request.aggregate(
       pdfQuery(id, "head.staff_id", req.locals.staff_id)
     );
@@ -85,7 +83,6 @@ route.post("/head/create/id=:id", userAuth, async (req, res) => {
       return res.send(buffer);
     });
   } catch (e) {
-    console.log(e);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
@@ -95,7 +92,6 @@ route.post("/head/create/id=:id", userAuth, async (req, res) => {
 route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
-    console.log(id);
     const form = await Request.aggregate(
       pdfQuery(id, "admin.staff_id", req.locals.staff_id)
     );
@@ -127,7 +123,6 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
       return res.send(buffer);
     });
   } catch (e) {
-    console.log(e);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
