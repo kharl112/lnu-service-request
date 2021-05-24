@@ -11,10 +11,22 @@ export default {
   },
   data: () => ({
     logout: false,
+    timeout: 2000,
   }),
   computed: {
     getAdminProfile() {
       return this.$store.getters["admin/getProfile"];
+    },
+    getSuccess() {
+      return this.$store.getters["pdf/getSuccess"];
+    },
+    snackbar: {
+      get() {
+        return this.$store.getters["pdf/getSnackbar"];
+      },
+      set(flag) {
+        return this.$store.commit("pdf/setSnackbar", flag);
+      },
     },
   },
   methods: {
@@ -61,6 +73,14 @@ export default {
       ></v-progress-circular>
     </v-row>
     <ConfirmLogout :logout="logout" :showLogout="showLogout" />
+    <v-snackbar :timeout="timeout" color="success" v-model="snackbar">
+      {{ getSuccess }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </v-container>
 </template>
 
