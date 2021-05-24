@@ -78,7 +78,9 @@ export default {
     },
     handleSetSignature(signatureId) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
-      return (this.form.user.signature = signatureElement.toString());
+      return (this.form.user.signature = signatureElement
+        .toString()
+        .replace('height="300"', 'height="150" viewBox="0 0 300 150"'));
     },
     handleSubmitForm(e) {
       e.preventDefault();
@@ -146,7 +148,7 @@ export default {
             </v-col>
             <v-col cols="12">
               <v-container fluid>
-                <v-subheader >Recipients</v-subheader>
+                <v-subheader>Recipients</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
@@ -247,7 +249,7 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-container fluid>
-                      <v-subheader >Save As</v-subheader>
+                      <v-subheader>Save As</v-subheader>
                       <v-divider />
                     </v-container>
                   </v-col>

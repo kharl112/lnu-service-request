@@ -68,7 +68,10 @@ export default {
       this.signatureVisibility = !this.signatureVisibility;
     },
     handleSetSignature(signatureId) {
-      const signature = document.getElementById(signatureId).innerHTML;
+      const signature = document
+        .getElementById(signatureId)
+        .innerHTML.toString()
+        .replace('height="300"', 'height="150" viewBox="0 0 300 150"');
       return this.$store.dispatch("request/signRequest", {
         request_id: this.selectedRequest,
         signature,
