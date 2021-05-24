@@ -45,6 +45,12 @@ export default {
           : `Last ${months[created.getMonth()]}`
         : `Last year${created.getFullYear()}`;
     },
+    downloadPDF(id) {
+      return this.$store.dispatch("pdf/generatePDF", {
+        user_type: "admin",
+        id,
+      });
+    },
   },
   created() {
     return this.$store.dispatch("request/allSigned", "admin");
@@ -83,7 +89,15 @@ export default {
                   <small>{{ getTimeOrDate(signed.date) }}</small>
                 </td>
                 <td>
-                  <v-btn elevation="0" fab dark small color="error">
+                  <v-btn
+                    elevation="0"
+                    fab
+                    dark
+                    small
+                    color="error"
+                    :disabled="getPDFLoading"
+                    @click="downloadPDF(signed._id)"
+                  >
                     <v-icon dark>
                       mdi-cloud-download
                     </v-icon>

@@ -29,6 +29,12 @@ export default {
     getSnackbar() {
       return this.$store.getters["request/getSnackbar"];
     },
+    getPDFLoading() {
+      return this.$store.getters["pdf/getLoading"];
+    },
+    getPDFError() {
+      return this.$store.getters["pdf/getError"];
+    },
   },
   methods: {
     getTimeOrDate(date) {
@@ -84,6 +90,12 @@ export default {
         type: "sign",
       });
     },
+    downloadPDF(id) {
+      return this.$store.dispatch("pdf/generatePDF", {
+        user_type: "admin",
+        id,
+      });
+    },
   },
   created() {
     return this.$store.dispatch("request/allPending", "admin");
@@ -137,7 +149,15 @@ export default {
                   </v-btn>
                 </td>
                 <td>
-                  <v-btn elevation="0" fab dark small color="error">
+                  <v-btn
+                    elevation="0"
+                    fab
+                    dark
+                    small
+                    color="error"
+                    :disabled="getPDFLoading"
+                    @click="downloadPDF(pending._id)"
+                  >
                     <v-icon dark>
                       mdi-cloud-download
                     </v-icon>
