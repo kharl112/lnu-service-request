@@ -17,10 +17,10 @@ export default {
       options: {
         format: "A4",
         border: {
-          top: 1.5,
-          right: 1.5,
-          bottom: 1.5,
-          left: 1.5,
+          top: 0.5,
+          right: 0.5,
+          bottom: 0.5,
+          left: 0.5,
         },
       },
       user: {
