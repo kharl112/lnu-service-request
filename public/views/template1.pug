@@ -13,7 +13,8 @@ body
   div(class="main")
     h3(class="subject")=form.subject
     p(class="greetings")=form.greetings
-    p(class="body")=form.body
+    div(class="body")
+    | !{form.body}
   div(class="recipients")
   if form.head.staff_id != ""
     div(class="signature")

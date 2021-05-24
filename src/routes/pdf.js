@@ -8,6 +8,7 @@ const adminAuth = require("../authentication/adminAuth");
 const Request = require("../db/models/request_model");
 const pdfQuery = require("../functions/pdfQuery");
 const { getFullName, getDepartment } = require("../functions/generateProfile");
+const md = require("markdown-it")();
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
@@ -32,6 +33,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form[0].user.department = getDepartment(req.locals.department);
     form[0].user.profile = getFullName(req.locals.name);
     form[0].admin.profile = getFullName(form[0].admin.profile[0].name);
+    form[0].body = md.render(form[0].body).toString();
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
@@ -71,6 +73,7 @@ route.post("/head/create/id=:id", userAuth, async (req, res) => {
     form[0].user.department = getDepartment(form[0].user.profile[0].department);
     form[0].user.profile = getFullName(form[0].user.profile[0].name);
     form[0].admin.profile = getFullName(form[0].admin.profile[0].name);
+    form[0].body = md.render(form[0].body).toString();
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
@@ -110,6 +113,7 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form[0].user.department = getDepartment(form[0].user.profile[0].department);
     form[0].user.profile = getFullName(form[0].user.profile[0].name);
     form[0].admin.profile = getFullName(form[0].admin.profile[0].name);
+    form[0].body = md.render(form[0].body).toString();
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),

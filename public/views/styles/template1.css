@@ -8,6 +8,9 @@ header {
   justify-content: center;
   align-items: center;
 }
+p {
+  text-align: justify;
+}
 .header-info {
   display: flex;
   flex-direction: column;
