@@ -19,7 +19,7 @@ const faculty = {
       login: false,
       email: false,
       register: false,
-      all_head: null,
+      all_head: false,
     },
   }),
   getters: {

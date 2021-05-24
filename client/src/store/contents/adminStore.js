@@ -12,7 +12,7 @@ const admin = {
     },
     loading: {
       login: false,
-      all_admin: null,
+      all_admin: false,
     },
   }),
   getters: {
