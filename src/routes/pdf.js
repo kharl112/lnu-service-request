@@ -33,10 +33,9 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form[0].user.profile = getFullName(req.locals.name);
     form[0].admin.profile = getFullName(form[0].admin.profile[0].name);
 
-    const link = `file://${path.join(__dirname + "/../../public/views/")}`;
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
-      { link, form: form[0] }
+      { form: form[0] }
     );
 
     return await pdf.create(html, form[0].options).toBuffer((e, buffer) => {
@@ -73,10 +72,9 @@ route.post("/head/create/id=:id", userAuth, async (req, res) => {
     form[0].user.profile = getFullName(form[0].user.profile[0].name);
     form[0].admin.profile = getFullName(form[0].admin.profile[0].name);
 
-    const link = `file://${path.join(__dirname + "/../../public/views/")}`;
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
-      { link, form: form[0] }
+      { form: form[0] }
     );
 
     return await pdf.create(html, form[0].options).toBuffer((e, buffer) => {
@@ -113,10 +111,9 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form[0].user.profile = getFullName(form[0].user.profile[0].name);
     form[0].admin.profile = getFullName(form[0].admin.profile[0].name);
 
-    const link = `file://${path.join(__dirname + "/../../public/views/")}`;
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
-      { link, form: form[0] }
+      { form: form[0] }
     );
 
     return await pdf.create(html, form[0].options).toBuffer((e, buffer) => {
