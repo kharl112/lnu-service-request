@@ -29,6 +29,12 @@ export default {
     getSnackbar() {
       return this.$store.getters["request/getSnackbar"];
     },
+    getPDFLoading() {
+      return this.$store.getters["pdf/getLoading"];
+    },
+    getPDFError() {
+      return this.$store.getters["pdf/getError"];
+    },
   },
   methods: {
     getTimeOrDate(date) {
@@ -72,7 +78,7 @@ export default {
         .getElementById(signatureId)
         .innerHTML.toString()
         .replace('height="300"', 'height="150" viewBox="0 0 300 150"');
-        
+
       return this.$store.dispatch("request/signRequest", {
         request_id: this.selectedRequest,
         signature,
@@ -83,6 +89,12 @@ export default {
       return this.$store.commit("request/setSnackbar", {
         snackbar: false,
         type: "sign",
+      });
+    },
+    downloadPDF(id) {
+      return this.$store.dispatch("pdf/generatePDF", {
+        user_type: "head",
+        id,
       });
     },
   },
@@ -138,7 +150,15 @@ export default {
                   </v-btn>
                 </td>
                 <td>
-                  <v-btn elevation="0" fab dark small color="error">
+                  <v-btn
+                    elevation="0"
+                    fab
+                    dark
+                    small
+                    color="error"
+                    :disabled="getPDFLoading"
+                    @click="downloadPDF(pending._id)"
+                  >
                     <v-icon dark>
                       mdi-cloud-download
                     </v-icon>
