@@ -63,10 +63,16 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
         name.middle_initial
       }. ${name.lastname} ${name.suffixes.toString()}`;
 
-    form[0].head.department = getDepartment(form[0].head.profile[0].department);
+    form[0].head.department = !form[0].head.staff_id
+      ? ""
+      : getDepartment(form[0].head.profile[0].department);
+
+    form[0].head.profile = !form[0].head.staff_id
+      ? ""
+      : getFullName(form[0].head.profile[0].name);
+
     form[0].user.department = getDepartment(req.locals.department);
     form[0].admin.profile = getFullName(form[0].admin.profile[0].name);
-    form[0].head.profile = getFullName(form[0].head.profile[0].name);
     form[0].user.profile = getFullName(req.locals.name);
 
     const link = `file://${path.join(__dirname + "/../../public/views/")}`;
@@ -79,6 +85,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
       return res.send(buffer);
     });
   } catch (e) {
+    console.log(e);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });

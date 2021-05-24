@@ -14,11 +14,12 @@ body
     p(class="greetings")=form.greetings
     p(class="body")=form.body
   div(class="recipients")
-    if form.head !== ""
+  if form.head.staff_id != ""
     div(class="signature")
       p(class="dept-head")=form.head.profile
       p(class="dept-head-title")=form.head.department
     | !{form.head.signature}
+  if form.head.staff_id == "" || form.head.staff_id != ""
     div(class="signature")
       p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Administration Department
