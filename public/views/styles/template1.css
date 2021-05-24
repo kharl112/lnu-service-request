@@ -65,7 +65,7 @@ header {
 }
 .dept-head {
   font-size: 11px;
-  width: 35%;
+  width: 40%;
   margin: 0px;
   margin-top: 10px;
   text-align: center;
@@ -77,11 +77,11 @@ header {
   font-weight: bold;
   text-align: center;
   margin: 0px;
-  width: 35%;
+  width: 40%;
 }
 .admin-dept {
   font-size: 11px;
-  width: 35%;
+  width: 40%;
   margin: 0px;
   margin-top: 10px;
   text-align: center;
@@ -93,11 +93,11 @@ header {
   font-weight: bold;
   text-align: center;
   margin: 0px;
-  width: 35%;
+  width: 40%;
 }
 .user-name {
   font-size: 11px;
-  width: 35%;
+  width: 40%;
   margin: 0px;
   margin-top: 10px;
   text-align: center;
@@ -105,10 +105,11 @@ header {
   border-bottom: 1px solid black;
 }
 .signature {
-  margin: 0px;
+  margin: 45px 0px 0px 0px;
 }
 svg {
-  height: 100px;
-  width: 100px;
-  border: 1px solid black;
+  height: 50px;
+  width: 40%;
+  position: absolute;
+  margin-top: -65px;
 }
