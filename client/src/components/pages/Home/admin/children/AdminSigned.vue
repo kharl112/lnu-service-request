@@ -1,7 +1,6 @@
 <script>
 export default {
   name: "AdminSigned",
-  data: () => ({ timeout: 3000 }),
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];
@@ -17,17 +16,6 @@ export default {
     },
     getPDFError() {
       return this.$store.getters["pdf/getError"];
-    },
-    getSuccess() {
-      return this.$store.getters["pdf/getSuccess"];
-    },
-    snackbar: {
-      get() {
-        return this.$store.getters["pdf/getSnackbar"];
-      },
-      set(flag) {
-        return this.$store.commit("pdf/setSnackbar", flag);
-      },
     },
   },
   methods: {
@@ -168,14 +156,6 @@ export default {
           </v-col>
         </v-row>
       </v-col>
-      <v-snackbar color="success" v-model="snackbar">
-        {{ getSuccess }}
-        <template v-slot:action="{ attrs }">
-          <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
     </v-row>
   </v-container>
 </template>
