@@ -6,14 +6,20 @@ const pdf = {
   state: () => ({
     loading: false,
     error: null,
+    success: null,
+    snackbar: false,
   }),
   getters: {
     getLoading: (state) => state.loading,
     getError: (state) => state.error,
+    getSuccess: (state) => state.sucess,
+    getSnackbar: (state) => state.snackbar,
   },
   mutations: {
     setLoading: (state, loading) => (state.loading = loading),
     setError: (state, message) => (state.error = message),
+    setSnackbar: (state, snackbar) => (state.snackbar = snackbar),
+    setSuccess: (state, message) => (state.sucess = message),
   },
   actions: {
     generatePDF: async ({ commit }, { user_type, id }) => {
@@ -30,6 +36,8 @@ const pdf = {
             },
           }
         );
+        commit("setSnackbar", true);
+        commit("setSuccess", "download completed");
         commit("setLoading", false);
         return fileDownload(data, `${new Date().toString()}.pdf`);
       } catch (error) {
