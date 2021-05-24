@@ -11,6 +11,12 @@ export default {
     getAllSend() {
       return this.$store.getters["request/getAllSend"];
     },
+    getPDFLoading() {
+      return this.$store.getters["pdf/getLoading"];
+    },
+    getPDFError() {
+      return this.$store.getters["pdf/getError"];
+    },
   },
   methods: {
     getTimeOrDate(date) {
@@ -47,6 +53,12 @@ export default {
     },
     gotoCreate() {
       return this.$router.push(`/faculty/home/compose`);
+    },
+    downloadPDF(id) {
+      return this.$store.dispatch("pdf/generatePDF", {
+        user_type: "faculty",
+        id,
+      });
     },
   },
   created() {
@@ -115,12 +127,7 @@ export default {
                         small
                         color="primary"
                       />
-                      <v-badge
-                        class="pl-2"
-                        v-else
-                        small
-                        color="error"
-                      />
+                      <v-badge class="pl-2" v-else small color="error" />
                     </div>
                     <v-list-item-title class="headline mb-1">
                       {{ send.subject }}
@@ -133,6 +140,8 @@ export default {
                   <v-btn
                     color="error"
                     class="ma-2 white--text hidden-md-and-down"
+                    :disabled="getPDFLoading"
+                    @click="downloadPDF(send._id)"
                   >
                     Download PDF
                     <v-icon right dark>
@@ -146,6 +155,8 @@ export default {
                     dark
                     small
                     color="error"
+                    :disabled="getPDFLoading"
+                    @click="downloadPDF(send._id)"
                   >
                     <v-icon dark>
                       mdi-cloud-download
