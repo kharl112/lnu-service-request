@@ -39,7 +39,8 @@ export default {
           : this.$store.dispatch("admin/adminLogin", this.form);
       }
     },
-    gotoRegister() {
+    gotoRegister(e) {
+      e.preventDefault();
       return this.$router.push("/faculty/register/step=1");
     },
   },
