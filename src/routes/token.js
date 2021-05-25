@@ -29,21 +29,26 @@ route.post("/claim", async (req, res) => {
   const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
   try {
-    const claimer = await User.findOneAndUpdate(
-      { _id: _id, permitted: false },
-      { permitted: true }
-    );
+    const claimer = await User.findOne({ _id: _id, permitted: false });
     if (!claimer) return res.status(400).send({ message: "user not found" });
 
-    const user_token = await Token.findOneAndUpdate(
-      { token: req.body.token, claimed: false },
-      { claimed: true, claimerID: claimer.staff_id }
-    );
+    const user_token = await Token.findOne({
+      token: req.body.token,
+      claimed: false,
+    });
     if (!user_token)
       return res.status(400).send({ message: "token not found" });
 
+    claimer.permitted = true;
+    user_token.claimed = true;
+    user_token.claimerID = claimer.staff_id;
+
+    await user_token.save();
+    await claimer.save();
+
     return res.send({ message: "token claimed" });
   } catch (error) {
+    console.log(error)
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
