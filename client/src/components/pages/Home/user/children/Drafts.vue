@@ -5,9 +5,6 @@ export default {
     getLoading() {
       return this.$store.getters["request/getLoading"];
     },
-    getError() {
-      return this.$store.getters["request/getError"];
-    },
     getAllDraft() {
       return this.$store.getters["request/getAllDraft"];
     },
