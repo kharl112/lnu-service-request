@@ -15,9 +15,6 @@ export default {
     getLoading() {
       return this.$store.getters["token/getLoading"];
     },
-    getError() {
-      return this.$store.getters["token/getError"];
-    },
   },
   methods: {
     filterTokens(filter) {
