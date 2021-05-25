@@ -16,7 +16,7 @@ const token = {
   },
   actions: {
     showTokens: async ({ commit, dispatch }, filter) => {
-      commit("clearError");
+      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", true);
       try {
         const { data } = await axios.get(`/api/token/${filter}`, {
@@ -31,7 +31,7 @@ const token = {
       }
     },
     generateToken: async ({ commit, dispatch }) => {
-      commit("clearError");
+      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", true);
       try {
         await axios.post(
@@ -52,7 +52,7 @@ const token = {
       }
     },
     claimToken: async ({ commit, dispatch }, token) => {
-      commit("clearError");
+      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", true);
       try {
         await axios.post(
