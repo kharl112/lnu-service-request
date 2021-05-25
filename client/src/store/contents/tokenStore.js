@@ -4,22 +4,18 @@ const token = {
   namespaced: true,
   state: () => ({
     tokens: null,
-    error: null,
     loading: false,
   }),
   getters: {
     getTokens: (state) => state.tokens,
-    getError: (state) => state.error,
     getLoading: (state) => state.loading,
   },
   mutations: {
-    setError: (state, message) => (state.error = message),
-    clearError: (state) => (state.error = null),
     setLoading: (state, loading) => (state.loading = loading),
     setTokens: (state, tokens) => (state.tokens = tokens),
   },
   actions: {
-    showTokens: async ({ commit }, filter) => {
+    showTokens: async ({ commit, dispatch }, filter) => {
       commit("clearError");
       commit("setLoading", true);
       try {
@@ -31,7 +27,7 @@ const token = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
-        return commit("setError", message);
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
     generateToken: async ({ commit, dispatch }) => {
@@ -45,11 +41,14 @@ const token = {
             headers: { Authorization: sessionStorage.getItem("Authorization") },
           }
         );
+        dispatch("message/successMessage", "new token generated", {
+          root: true,
+        });
         return dispatch("showTokens", "all");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
-        return commit("setError", message);
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
     claimToken: async ({ commit }, token) => {
@@ -68,7 +67,7 @@ const token = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
-        return commit("setError", message);
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
   },
