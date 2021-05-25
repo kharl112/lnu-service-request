@@ -112,7 +112,7 @@ export const routes = [
         path: "edit/letter=:id",
         component: Edit,
         beforeEnter: async (to, from, next) => {
-          store.commit("request/clearError");
+          store.dispatch("message/defaultState", null, { root: true });
           store.commit("request/setLoading", {
             loading: true,
             type: "letter_info",
@@ -143,10 +143,7 @@ export const routes = [
               type: "letter_info",
             });
             store.commit("request/setLetterInfo", {});
-            store.commit("request/setError", {
-              message,
-              type: "letter_info",
-            });
+            store.dispatch("message/errorMessage", message, { root: true });
             return next("/faculty/home/drafts");
           }
         },
