@@ -31,6 +31,7 @@ export const routes = [
     path: "/:user_type/login",
     component: Login,
     beforeEnter: (to, from, next) => {
+      store.dispatch("message/defaultState", null);
       const { user_type } = to.params;
       return user_type === "faculty" || user_type === "admin"
         ? next()
@@ -41,6 +42,7 @@ export const routes = [
     path: "/:user_type/register",
     component: Register,
     beforeEnter: (to, from, next) => {
+      store.dispatch("message/defaultState", null);
       const { user_type } = to.params;
       return user_type === "faculty" ? next() : next(false);
     },
@@ -79,6 +81,7 @@ export const routes = [
     path: "/faculty/home",
     component: HomeUser,
     beforeEnter: async (to, from, next) => {
+      store.dispatch("message/defaultState", null);
       return sessionStorage.getItem("Authorization")
         ? next()
         : next("/faculty/login");
@@ -112,7 +115,7 @@ export const routes = [
         path: "edit/letter=:id",
         component: Edit,
         beforeEnter: async (to, from, next) => {
-          store.dispatch("message/defaultState", null, { root: true });
+          store.dispatch("message/defaultState", null);
           store.commit("request/setLoading", {
             loading: true,
             type: "letter_info",
@@ -143,7 +146,7 @@ export const routes = [
               type: "letter_info",
             });
             store.commit("request/setLetterInfo", {});
-            store.dispatch("message/errorMessage", message, { root: true });
+            store.dispatch("message/errorMessage", message);
             return next("/faculty/home/drafts");
           }
         },
@@ -154,6 +157,7 @@ export const routes = [
     path: "/admin/home",
     component: HomeAdmin,
     beforeEnter: async (to, from, next) => {
+      store.dispatch("message/defaultState", null);
       return sessionStorage.getItem("Authorization") ? next() : next(false);
     },
     children: [
