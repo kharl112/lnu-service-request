@@ -25,7 +25,7 @@ export default {
   },
   computed: {
     getError() {
-      return this.$store.getters["faculty/getError"];
+      return this.$store.getters["message/getError"];
     },
     getLoading() {
       return this.$store.getters["faculty/getLoading"];
@@ -48,8 +48,8 @@ export default {
         hint="for example: johndoe123@yahoo.com"
         background-color="#E5E5E5"
       />
-      <v-alert class="alert" v-if="getError.email" dense type="error">
-        {{ getError.email }}
+      <v-alert class="alert" v-if="getError" dense type="error">
+        {{ getError }}
       </v-alert>
       <v-btn
         :disabled="getLoading.email"

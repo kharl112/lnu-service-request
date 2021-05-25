@@ -11,7 +11,7 @@ export default {
   },
   computed: {
     getError() {
-      return this.$store.getters["token/getError"];
+      return this.$store.getters["message/getError"];
     },
     getLoading() {
       return this.$store.getters["token/getLoading"];

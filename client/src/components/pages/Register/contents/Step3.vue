@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     getError() {
-      return this.$store.getters["faculty/getError"];
+      return this.$store.getters["message/getError"];
     },
     getLoading() {
       return this.$store.getters["faculty/getLoading"];
@@ -78,8 +78,8 @@ export default {
         outlined
         background-color="#E5E5E5"
       />
-      <v-alert class="alert" v-if="getError.register" dense type="error">
-        {{ getError.register }}
+      <v-alert class="alert" v-if="getError" dense type="error">
+        {{ getError }}
       </v-alert>
       <v-btn
         :disabled="getLoading.register"
