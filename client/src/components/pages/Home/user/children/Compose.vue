@@ -47,6 +47,9 @@ export default {
     getAllAdmin() {
       return this.$store.getters["admin/getAllAdmin"];
     },
+    getComposeLoading() {
+      return this.$store.getters["request/getLoading"].compose;
+    },
     getLoading() {
       const { getters } = this.$store;
       if (
@@ -76,7 +79,7 @@ export default {
       this.form.save_as = 0;
       if (this.$refs.form.validate()) {
         if (!this.form.user.signature)
-          return this.$store.commit(
+          return this.$store.dispatch(
             "message/errorMessage",
             "You must sign this document to proceed"
           );
@@ -89,7 +92,7 @@ export default {
       this.form.save_as = 1;
       if (this.$refs.form.validate()) {
         if (!this.form.user.signature)
-          return this.$store.commit(
+          return this.$store.dispatch(
             "message/errorMessage",
             "You must sign this document to proceed"
           );
