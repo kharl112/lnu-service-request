@@ -5,17 +5,11 @@ export default {
     getLoading() {
       return this.$store.getters["request/getLoading"];
     },
-    getError() {
-      return this.$store.getters["request/getError"];
-    },
     getAllSend() {
       return this.$store.getters["request/getAllSend"];
     },
     getPDFLoading() {
       return this.$store.getters["pdf/getLoading"];
-    },
-    getPDFError() {
-      return this.$store.getters["pdf/getError"];
     },
   },
   methods: {
