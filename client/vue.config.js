@@ -19,6 +19,10 @@ module.exports = {
       display: "standalone",
       background_color: "#ffffff",
     },
+    workboxOptions: {
+      skipWaiting: true,
+      clientsClaim: true,
+    },
   },
 
   transpileDependencies: ["vuetify"],
