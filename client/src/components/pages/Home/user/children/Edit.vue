@@ -59,20 +59,8 @@ export default {
     getEditLoading() {
       return this.$store.getters["request/getLoading"].edit;
     },
-    getEditError() {
-      return this.$store.getters["request/getError"].edit;
-    },
-    getSnackbar() {
-      return this.$store.getters["request/getSnackbar"];
-    },
   },
   methods: {
-    closeSnackbar() {
-      return this.$store.commit("request/setSnackbar", {
-        snackbar: false,
-        type: "edit",
-      });
-    },
     showSignature() {
       this.signatureVisibility = !this.signatureVisibility;
     },
@@ -88,16 +76,11 @@ export default {
       e.preventDefault();
       this.form.save_as = 0;
       if (this.$refs.form.validate()) {
-        if (!this.form.user.signature) {
-          this.$store.commit("request/setError", {
-            message: "You must sign this document to proceed",
-            type: "edit",
-          });
-          return this.$store.commit("request/setSnackbar", {
-            snackbar: true,
-            type: "edit",
-          });
-        }
+        if (!this.form.user.signature)
+          return this.$store.commit(
+            "message/errorMessage",
+            "You must sign this document to proceed"
+          );
         return this.$store.dispatch("request/editRequest", this.form);
       }
       return console.log("unvalidated");
@@ -106,16 +89,11 @@ export default {
       e.preventDefault();
       this.form.save_as = 1;
       if (this.$refs.form.validate()) {
-        if (!this.form.user.signature) {
-          this.$store.commit("request/setError", {
-            message: "You must sign this document to proceed",
-            type: "edit",
-          });
-          return this.$store.commit("request/setSnackbar", {
-            snackbar: true,
-            type: "edit",
-          });
-        }
+        if (!this.form.user.signature)
+          return this.$store.commit(
+            "message/errorMessage",
+            "You must sign this document to proceed"
+          );
         return this.$store.dispatch("request/editRequest", this.form);
       }
       return console.log("unvalidated");
@@ -373,14 +351,6 @@ export default {
           </v-col>
         </v-row>
       </v-col>
-      <v-snackbar color="error" v-model="getSnackbar.edit">
-        {{ getEditError }}
-        <template v-slot:action="{ attrs }">
-          <v-btn color="white" text v-bind="attrs" @click="closeSnackbar">
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
     </v-row>
     <SetSignature
       :signatureVisibility="signatureVisibility"
