@@ -5,9 +5,6 @@ export default {
     getLoading() {
       return this.$store.getters["request/getLoading"];
     },
-    getError() {
-      return this.$store.getters["request/getError"];
-    },
     getProfileLoading() {
       return this.$store.getters["faculty/getLoading"].profile;
     },
@@ -16,9 +13,6 @@ export default {
     },
     getPDFLoading() {
       return this.$store.getters["pdf/getLoading"];
-    },
-    getPDFError() {
-      return this.$store.getters["pdf/getError"];
     },
   },
   methods: {
