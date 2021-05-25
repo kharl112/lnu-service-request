@@ -18,14 +18,17 @@ export default {
       return this.$store.getters["admin/getProfile"];
     },
     getSuccess() {
-      return this.$store.getters["pdf/getSuccess"];
+      return this.$store.getters["message/getSuccess"];
+    },
+    getError() {
+      return this.$store.getters["message/getError"];
     },
     snackbar: {
       get() {
-        return this.$store.getters["pdf/getSnackbar"];
+        return this.$store.getters["message/getSnackbar"];
       },
       set(flag) {
-        return this.$store.commit("pdf/setSnackbar", flag);
+        return this.$store.commit("message/setSnackbar", flag);
       },
     },
   },
@@ -73,8 +76,27 @@ export default {
       ></v-progress-circular>
     </v-row>
     <ConfirmLogout :logout="logout" :showLogout="showLogout" />
-    <v-snackbar :timeout="timeout" color="success" v-model="snackbar">
+    <v-snackbar
+      :timeout="timeout"
+      v-show="getSuccess"
+      color="success"
+      v-model="snackbar"
+    >
       {{ getSuccess }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+    <v-snackbar
+      :timeout="timeout"
+      v-show="getError"
+      color="error"
+      v-model="snackbar"
+    >
+      {{ getError }}
       <template v-slot:action="{ attrs }">
         <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
           Close
