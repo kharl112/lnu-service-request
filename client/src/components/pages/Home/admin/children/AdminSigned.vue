@@ -1,6 +1,9 @@
 <script>
 export default {
   name: "AdminSigned",
+  data: () => ({
+    show: false,
+  }),
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];
@@ -133,18 +136,42 @@ export default {
         <v-row>
           <v-col cols="12">
             <v-container fluid>
-              <v-card outlined>
+              <v-card class="mx-auto" max-width="344">
                 <v-img
-                  src="https://anlantawan.files.wordpress.com/2020/08/ellenyu.jpg?w=720"
-                  height="200px"
-                ></v-img>
-                <v-card-subtitle clas="blue--text">
-                  Leyte Normal University Requesting Guidlines
-                </v-card-subtitle>
-                <v-divider />
-                <v-list-item>
-                  1. Be polite
-                </v-list-item>
+                  src="https://www.windowsphonefr.com/wp-content/uploads/2019/05/ThinkstockPhotos-187625854.jpg"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  class="white--text align-end"
+                  width="720px"
+                  height="auto"
+                >
+                  <v-card-title>
+                    Requesting Services in LNU
+                  </v-card-title>
+                </v-img>
+
+                <v-card-actions>
+                  <v-btn color="warning" text>
+                    Contact Us
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-btn icon @click="show = !show">
+                    <v-icon>{{
+                      show ? "mdi-chevron-up" : "mdi-chevron-down"
+                    }}</v-icon>
+                  </v-btn>
+                </v-card-actions>
+
+                <v-expand-transition>
+                  <div v-show="show">
+                    <v-divider></v-divider>
+                    <v-card-text>
+                      Leyte Normal University <br />
+                      Paterno Street Tacloban City 6500 <br />
+                      +63 (53) 832 3205 info@lnu.edu.ph <br />
+                      www.facebook.com/lnuofficial
+                    </v-card-text>
+                  </div>
+                </v-expand-transition>
               </v-card>
             </v-container>
           </v-col>
