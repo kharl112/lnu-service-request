@@ -74,7 +74,6 @@ const faculty = {
       }
     },
     userProfile: async ({ commit, dispatch }) => {
-      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "profile" });
       try {
         const { data } = await axios.get("/api/user/profile", {
@@ -93,7 +92,6 @@ const faculty = {
       }
     },
     allHead: async ({ commit, dispatch }) => {
-      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "all_head" });
       try {
         const { data } = await axios.get("/api/user/head/all", {

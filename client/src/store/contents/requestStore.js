@@ -89,7 +89,6 @@ const request = {
       }
     },
     allPending: async ({ commit, dispatch }, type) => {
-      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "all_pending" });
       try {
         const { data } = await axios.get(`/api/request/${type}/pending`, {
@@ -153,7 +152,9 @@ const request = {
             headers: { Authorization: sessionStorage.getItem("Authorization") },
           }
         );
-        dispatch("message/successMessage", "request letter updated", { root: true });
+        dispatch("message/successMessage", "request letter updated", {
+          root: true,
+        });
         commit("setLoading", { loading: false, type: "edit" });
         return router.push("/faculty/home/drafts");
       } catch (error) {
@@ -177,9 +178,13 @@ const request = {
             headers: { Authorization: sessionStorage.getItem("Authorization") },
           }
         );
+
+        dispatch("message/successMessage", "request letter signed", {
+          root: true,
+        });
+        
         await dispatch("allPending", type);
         commit("setLoading", { loading: false, type: "sign" });
-        dispatch("message/successMessage", "request letter signed", { root: true });
         return router.push(
           `/${type === "head" ? "faculty" : "admin"}/home/signed`
         );
