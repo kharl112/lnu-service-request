@@ -94,29 +94,29 @@ export default {
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
+    </v-list>
 
+    <v-list dense>
       <v-subheader>Account</v-subheader>
-      <v-list>
-        <v-list-item-group v-model="route">
-          <v-list-item value="settings">
-            <v-list-item-icon>
-              <v-icon>mdi-account-settings</v-icon>
-            </v-list-item-icon>
-            <v-list-item-content>
-              <v-list-item-title>Settings</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
+      <v-list-item-group v-model="route">
+        <v-list-item value="settings">
+          <v-list-item-icon>
+            <v-icon>mdi-account-settings</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Settings</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
-      <v-list-item link @click="showLogout">
-        <v-list-item-icon>
-          <v-icon>mdi-logout</v-icon>
-        </v-list-item-icon>
-        <v-list-item-content>
-          <v-list-item-title>Logout</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+        <v-list-item link @click="showLogout" :value="route">
+          <v-list-item-icon>
+            <v-icon>mdi-logout</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
 </template>
