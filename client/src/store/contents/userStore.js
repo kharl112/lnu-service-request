@@ -7,13 +7,6 @@ const faculty = {
     profile: null,
     email: null,
     heads: null,
-    error: {
-      profile: null,
-      login: null,
-      email: null,
-      register: null,
-      all_head: null,
-    },
     loading: {
       profile: false,
       login: false,
@@ -24,30 +17,19 @@ const faculty = {
   }),
   getters: {
     getProfile: (state) => state.profile,
-    getError: (state) => state.error,
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
     getAllHead: (state) => state.heads,
   },
   mutations: {
-    setError: (state, { message, type }) => (state.error[type] = message),
     setEmail: (state, email) => (state.email = email),
-    clearError: (state) => {
-      return (state.error = {
-        profile: null,
-        login: null,
-        email: null,
-        register: null,
-        all_head: null,
-      });
-    },
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
     setProfile: (state, user_profile) => (state.profile = user_profile),
     setAllHead: (state, heads) => (state.heads = [...heads]),
   },
   actions: {
-    userLogin: async ({ commit }, form) => {
-      commit("clearError");
+    userLogin: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
       commit("setProfile", null);
       commit("setLoading", { loading: true, type: "login" });
       try {
@@ -58,11 +40,11 @@ const faculty = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });
-        return commit("setError", { message, type: "login" });
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    userRegister: async ({ commit }, form) => {
-      commit("clearError");
+    userRegister: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
       commit("setProfile", null);
       commit("setLoading", { loading: true, type: "register" });
       try {
@@ -73,11 +55,11 @@ const faculty = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
-        return commit("setError", { message, type: "register" });
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    validateEmail: async ({ commit }, form) => {
-      commit("clearError");
+    validateEmail: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "email" });
       try {
         const { data } = await axios.post("/api/user/validate/email", form);
@@ -88,11 +70,11 @@ const faculty = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", null);
-        return commit("setError", { message, type: "email" });
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    userProfile: async ({ commit }) => {
-      commit("clearError");
+    userProfile: async ({ commit, dispatch }) => {
+      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "profile" });
       try {
         const { data } = await axios.get("/api/user/profile", {
@@ -104,14 +86,14 @@ const faculty = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "profile" });
         commit("setProfile", null);
-        commit("setError", { message, type: "profile" });
+        dispatch("message/errorMessage", message, { root: true });
         return message === "account not permitted"
           ? router.replace("/faculty/register/step=4")
           : router.replace("/faculty/login");
       }
     },
-    allHead: async ({ commit }) => {
-      commit("clearError");
+    allHead: async ({ commit, dispatch }) => {
+      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "all_head" });
       try {
         const { data } = await axios.get("/api/user/head/all", {
@@ -122,7 +104,7 @@ const faculty = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_head" });
-        return commit("setError", { message, type: "all_head" });
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
   },
