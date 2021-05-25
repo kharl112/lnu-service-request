@@ -136,18 +136,83 @@ export default {
         <v-row>
           <v-col cols="12">
             <v-container fluid>
-              <v-card outlined>
+              <v-card>
                 <v-img
                   src="https://anlantawan.files.wordpress.com/2020/08/ellenyu.jpg?w=720"
-                  height="200px"
-                ></v-img>
-                <v-card-subtitle clas="blue--text">
-                  Leyte Normal University Requesting Guidlines
-                </v-card-subtitle>
-                <v-divider />
-                <v-list-item>
-                  1. Be polite
-                </v-list-item>
+                  class="white--text align-end"
+                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+                  width="720px"
+                  height="auto"
+                >
+                  <v-card-title>
+                    Leyte Normal University
+                  </v-card-title>
+                  <v-subheader class="white--text">
+                    Pamantasang Normal ng Leyte
+                  </v-subheader>
+                </v-img>
+                <v-card-text>
+                  <v-row align="center" class="mx-0">
+                    <v-rating
+                      :value="4.2"
+                      color="amber"
+                      dense
+                      half-increments
+                      readonly
+                      size="14"
+                    />
+                    <div class="grey--text ms-4">
+                      4.2 (81 reviews)
+                    </div>
+                  </v-row>
+                  <div class="my-4 subtitle-1">
+                    Public University
+                  </div>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+                <v-card-actions>
+                  <v-list dense>
+                    <v-row justify="start" align="start">
+                      <v-col cols="12" class="pa-2 pt-0 pb-0">
+                        <v-list-item>
+                          <v-icon color="primary">
+                            mdi-google-maps
+                          </v-icon>
+                          <v-subheader>
+                            <a
+                              href="https://www.google.com/maps/place/Leyte+Normal+University/@11.2380362,124.9995256,17z/data=!4m9!1m2!2m1!1slnu!3m5!1s0x3308772c87c4c367:0xa5e5c080ec6a88ef!8m2!3d11.2381879!4d125.001328!15sCgNsbnWSARFwdWJsaWNfdW5pdmVyc2l0eQ"
+                              color="primary"
+                            >
+                              Paterno St, Downtown, Tacloban City, 6500 Leyte
+                            </a>
+                          </v-subheader>
+                        </v-list-item>
+                      </v-col>
+                      <v-col cols="12" class="pa-2 pt-0 pb-0">
+                        <v-list-item>
+                          <v-icon color="primary">
+                            mdi-web
+                          </v-icon>
+                          <v-subheader>
+                            <a href="http://www.lnu.edu.ph/" color="primary">
+                              lnu.edu.ph
+                            </a>
+                          </v-subheader>
+                        </v-list-item>
+                      </v-col>
+                      <v-col cols="12" class="pa-2 pt-0 pb-0">
+                        <v-list-item>
+                          <v-icon color="primary">
+                            mdi-phone
+                          </v-icon>
+                          <v-subheader>
+                            +63538880855
+                          </v-subheader>
+                        </v-list-item>
+                      </v-col>
+                    </v-row>
+                  </v-list>
+                </v-card-actions>
               </v-card>
             </v-container>
           </v-col>
