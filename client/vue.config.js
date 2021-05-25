@@ -14,6 +14,11 @@ module.exports = {
     msTileColor: "#ffffff",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black",
+    manifestOptions: {
+      start_url: "/faculty/login",
+      display: "standalone",
+      background_color: "#ffffff",
+    },
   },
 
   transpileDependencies: ["vuetify"],
