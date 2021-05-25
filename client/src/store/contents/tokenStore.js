@@ -51,7 +51,7 @@ const token = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    claimToken: async ({ commit }, token) => {
+    claimToken: async ({ commit, dispatch }, token) => {
       commit("clearError");
       commit("setLoading", true);
       try {
