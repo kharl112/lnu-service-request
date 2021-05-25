@@ -8,14 +8,10 @@ export default {
   data: () => ({
     signatureVisibility: false,
     selectedRequest: "",
-    timeout: 3000,
   }),
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];
-    },
-    getError() {
-      return this.$store.getters["request/getError"];
     },
     getProfileLoading() {
       return this.$store.getters["faculty/getLoading"].profile;
@@ -23,17 +19,8 @@ export default {
     getAllPending() {
       return this.$store.getters["request/getAllPending"];
     },
-    getSignError() {
-      return this.$store.getters["request/getError"].sign;
-    },
-    getSnackbar() {
-      return this.$store.getters["request/getSnackbar"];
-    },
     getPDFLoading() {
       return this.$store.getters["pdf/getLoading"];
-    },
-    getPDFError() {
-      return this.$store.getters["pdf/getError"];
     },
   },
   methods: {
@@ -83,12 +70,6 @@ export default {
         request_id: this.selectedRequest,
         signature,
         type: "head",
-      });
-    },
-    closeSnackbar() {
-      return this.$store.commit("request/setSnackbar", {
-        snackbar: false,
-        type: "sign",
       });
     },
     downloadPDF(id) {
@@ -221,14 +202,6 @@ export default {
       <v-col cols="12" align="center">
         <v-progress-circular :size="50" indeterminate color="primary" />
       </v-col>
-      <v-snackbar color="error" v-model="getSnackbar.sign">
-        {{ getSignError }}
-        <template v-slot:action="{ attrs }">
-          <v-btn color="white" text v-bind="attrs" @click="closeSnackbar">
-            Close
-          </v-btn>
-        </template>
-      </v-snackbar>
     </v-row>
     <SetSignature
       :signatureVisibility="signatureVisibility"
