@@ -61,7 +61,16 @@ export default {
 </script>
 <template>
   <v-container fluid id="login-container">
-    <v-row id="login-row1" justify="start" align="start">
+    <v-row
+      id="login-row1"
+      justify="center"
+      align="center"
+      justify-sm="start"
+      align-sm="start"
+      justify-md="start"
+      align-md="start"
+      class="pt-6 pa-sm-0"
+    >
       <v-col sm="3" md="3" class="d-none d-sm-flex" id="login-col1">
         <LeftBg1 v-if="getUserType === 'faculty'" />
         <LeftBg2 v-else />
@@ -70,10 +79,10 @@ export default {
         <v-row
           justify="center"
           align="start"
+          justify-sm="start"
+          align-sm="center"
           justify-md="start"
           align-md="start"
-          justify-sm="center"
-          align-sm="center"
           dense
           class="pa-5 pl-md-10"
         >
@@ -85,13 +94,13 @@ export default {
                   Service Request System
                 </h3>
               </v-col>
-              <v-divider />
-              <v-col cols="12" v-if="getUserType === 'faculty'">
+              <v-col cols="12" class="pa-2"><v-divider /></v-col>
+              <v-col cols="12" class="pa-2 pb-5" v-if="getUserType === 'faculty'">
                 <h4 class="text-h6 text-sm-h5 text-md-h5">
                   Head and staff Login
                 </h4>
               </v-col>
-              <v-col cols="12" v-else>
+              <v-col cols="12" class="pa-2  pb-5" v-else>
                 <h4 class="text-h6 text-sm-h5 text-md-h5">
                   Administrator Login
                 </h4>
@@ -130,12 +139,7 @@ export default {
                   />
                 </v-col>
                 <v-col cols="12" md="11" sm="12" class="pa-0">
-                  <v-alert
-                    class="alert"
-                    v-if="getError"
-                    dense
-                    type="error"
-                  >
+                  <v-alert class="alert" v-if="getError" dense type="error">
                     {{ getError }}
                   </v-alert>
                 </v-col>
