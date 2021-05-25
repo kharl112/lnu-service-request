@@ -1,4 +1,5 @@
 const message = {
+  namespaced: true,
   state: () => ({
     error: null,
     success: null,
@@ -14,4 +15,20 @@ const message = {
     setSnackbar: (state, snackbar) => (state.snackbar = snackbar),
     setSuccess: (state, message) => (state.success = message),
   },
+  actions: {
+    defaultState: ({ commit }) => {
+      commit("setError", null);
+      commit("setSuccess", null);
+      commit("setSnackbar", false);
+    },
+    successMessage: ({ commit }, message) => {
+      commit("setSuccess", message);
+      commit("setSnackbar", true);
+    },
+    errorMessage: ({ commit }, message) => {
+      commit("setError", message);
+      commit("setSnackbar", true);
+    },
+  },
 };
+export default message;

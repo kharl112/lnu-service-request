@@ -5,25 +5,16 @@ const pdf = {
   namespaced: true,
   state: () => ({
     loading: false,
-    error: null,
-    success: null,
-    snackbar: false,
   }),
   getters: {
     getLoading: (state) => state.loading,
-    getError: (state) => state.error,
-    getSuccess: (state) => state.success,
-    getSnackbar: (state) => state.snackbar,
   },
   mutations: {
     setLoading: (state, loading) => (state.loading = loading),
-    setError: (state, message) => (state.error = message),
-    setSnackbar: (state, snackbar) => (state.snackbar = snackbar),
-    setSuccess: (state, message) => (state.success = message),
   },
   actions: {
-    generatePDF: async ({ commit }, { user_type, id }) => {
-      commit("setError", null);
+    generatePDF: async ({ commit, dispatch }, { user_type, id }) => {
+      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", true);
       try {
         const { data } = await axios.post(
@@ -36,14 +27,13 @@ const pdf = {
             },
           }
         );
-        commit("setSnackbar", true);
-        commit("setSuccess", "Download completed, check your downloads");
+        dispatch("message/successMessage", "Download Completed", { root: true });
         commit("setLoading", false);
         return fileDownload(data, `${new Date().toString()}.pdf`);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
-        return commit("setError", message);
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
   },
