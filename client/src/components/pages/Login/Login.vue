@@ -48,9 +48,7 @@ export default {
       return this.$route.params.user_type;
     },
     getError() {
-      return this.getUserType === "faculty"
-        ? this.$store.getters["faculty/getError"]
-        : this.$store.getters["admin/getError"];
+      return this.$store.getters["message/getError"];
     },
     getLoading() {
       return this.getUserType === "faculty"
@@ -133,11 +131,11 @@ export default {
                 <v-col cols="12" md="11" sm="12" class="pa-0">
                   <v-alert
                     class="alert"
-                    v-if="getError.login"
+                    v-if="getError"
                     dense
                     type="error"
                   >
-                    {{ getError.login }}
+                    {{ getError }}
                   </v-alert>
                 </v-col>
                 <v-col cols="12" md="11" sm="12">
