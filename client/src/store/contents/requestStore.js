@@ -61,7 +61,6 @@ const request = {
       }
     },
     allDraft: async ({ commit, dispatch }) => {
-      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "all_draft" });
       try {
         const { data } = await axios.get("/api/request/faculty/draft", {
@@ -76,7 +75,6 @@ const request = {
       }
     },
     allSend: async ({ commit, dispatch }) => {
-      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "all_send" });
       try {
         const { data } = await axios.get("/api/request/faculty/sent", {
@@ -106,7 +104,6 @@ const request = {
       }
     },
     allSigned: async ({ commit, dispatch }, type) => {
-      dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "all_signed" });
       try {
         const { data } = await axios.get(`/api/request/${type}/signed`, {
