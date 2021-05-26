@@ -8,7 +8,6 @@ export default {
   data: () => ({
     signatureVisibility: false,
     selectedRequest: "",
-    colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
     getLoading() {
@@ -78,19 +77,6 @@ export default {
         id,
       });
     },
-    getInitials(name) {
-      const { firstname, lastname } = name;
-      return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
-    },
-    getFullname(name) {
-      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
-      return `${
-        prefix ? `${prefix}.` : ""
-      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
-    },
-    getRandomColor() {
-      return this.colors[Math.floor(Math.random() * this.colors.length)];
-    },
   },
   created() {
     return this.$store.dispatch("request/allPending", "admin");
@@ -109,62 +95,54 @@ export default {
       >
         <v-simple-table>
           <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">
+                  Subject
+                </th>
+                <th class="text-left">
+                  Date
+                </th>
+                <th class="text-left"></th>
+                <th class="text-left"></th>
+              </tr>
+            </thead>
             <tbody>
               <tr v-for="pending in getAllPending" :key="pending.name">
-                <td class="pt-4 pb-4 text-left">
-                  <v-col cols="2">
-                    <v-avatar :color="getRandomColor()">
-                      <span class="white--text headline">{{
-                        getInitials(pending.user.profile[0].name)
-                      }}</span>
-                    </v-avatar>
-                  </v-col>
+                <td>
+                  {{ pending.subject }}
                 </td>
-                <td class="text-left mb-1">
-                  <v-list-item-title class="pa-0 text-caption font-weight-bold">
-                    {{ getFullname(pending.user.profile[0].name) }}
-                  </v-list-item-title>
-                  <v-spacer />
-                  <v-list-item-subtitle
-                    class="pa-0 text-caption2 secondary--text"
+                <td>
+                  <small>{{ getTimeOrDate(pending.date) }}</small>
+                </td>
+                <td>
+                  <v-btn
+                    elevation="0"
+                    fab
+                    dark
+                    small
+                    color="success"
+                    @click="showSignature(pending._id)"
                   >
-                    {{ pending.subject }}
-                  </v-list-item-subtitle>
+                    <v-icon dark>
+                      mdi-signature-freehand
+                    </v-icon>
+                  </v-btn>
                 </td>
-                <td class="text-center">
-                  <v-row>
-                    <v-col cols="12" class="pa-0">
-                      <v-card-subtitle
-                        class="pa-0 pb-n2 text-caption primary--text font-weight-bold"
-                      >
-                        {{ getTimeOrDate(pending.date) }}
-                      </v-card-subtitle>
-                    </v-col>
-                    <v-col cols="12" class="pa-0">
-                      <v-btn
-                        icon
-                        color="error"
-                        class="ml-2"
-                        large
-                        :disabled="getPDFLoading"
-                        @click="downloadPDF(pending._id)"
-                      >
-                        <v-icon dark>
-                          mdi-cloud-download
-                        </v-icon>
-                      </v-btn>
-                      <v-btn
-                        icon
-                        color="success"
-                        large
-                        @click="showSignature(pending._id)"
-                      >
-                        <v-icon dark>
-                          mdi-signature-freehand
-                        </v-icon>
-                      </v-btn>
-                    </v-col>
-                  </v-row>
+                <td>
+                  <v-btn
+                    elevation="0"
+                    fab
+                    dark
+                    small
+                    color="error"
+                    :disabled="getPDFLoading"
+                    @click="downloadPDF(pending._id)"
+                  >
+                    <v-icon dark>
+                      mdi-cloud-download
+                    </v-icon>
+                  </v-btn>
                 </td>
               </tr>
             </tbody>
