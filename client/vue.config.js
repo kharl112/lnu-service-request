@@ -15,7 +15,7 @@ module.exports = {
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black",
     manifestOptions: {
-      start_url: "/faculty/login",
+      start_url: "/faculty/home/drafts",
       display: "standalone",
       background_color: "#ffffff",
     },
