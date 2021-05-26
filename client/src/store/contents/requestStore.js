@@ -47,7 +47,7 @@ const request = {
       commit("setLoading", { loading: true, type: "compose" });
       try {
         await axios.post("/api/request/create", form, {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "compose" });
         dispatch("message/successMessage", "request letter created", {
@@ -64,7 +64,7 @@ const request = {
       commit("setLoading", { loading: true, type: "all_draft" });
       try {
         const { data } = await axios.get("/api/request/faculty/draft", {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_draft" });
         return commit("setAllDraft", data);
@@ -78,7 +78,7 @@ const request = {
       commit("setLoading", { loading: true, type: "all_send" });
       try {
         const { data } = await axios.get("/api/request/faculty/sent", {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_send" });
         return commit("setAllSend", data);
@@ -92,7 +92,7 @@ const request = {
       commit("setLoading", { loading: true, type: "all_pending" });
       try {
         const { data } = await axios.get(`/api/request/${type}/pending`, {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_pending" });
         return commit("setAllPending", data);
@@ -106,7 +106,7 @@ const request = {
       commit("setLoading", { loading: true, type: "all_signed" });
       try {
         const { data } = await axios.get(`/api/request/${type}/signed`, {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_signed" });
         return commit("setAllSigned", data);
@@ -124,7 +124,7 @@ const request = {
           "/api/request/faculty/draft/delete/selected",
           { selected: getters.getSelected },
           {
-            headers: { Authorization: sessionStorage.getItem("Authorization") },
+            headers: { Authorization: localStorage.getItem("Authorization") },
           }
         );
         commit("setLoading", { loading: false, type: "selected" });
@@ -149,7 +149,7 @@ const request = {
           `/api/request/faculty/update/letter=${id}`,
           { form },
           {
-            headers: { Authorization: sessionStorage.getItem("Authorization") },
+            headers: { Authorization: localStorage.getItem("Authorization") },
           }
         );
         dispatch("message/successMessage", "request letter updated", {
@@ -175,7 +175,7 @@ const request = {
           `/api/request/${type}/sign`,
           { request_id, signature },
           {
-            headers: { Authorization: sessionStorage.getItem("Authorization") },
+            headers: { Authorization: localStorage.getItem("Authorization") },
           }
         );
 

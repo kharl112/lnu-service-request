@@ -35,7 +35,7 @@ const faculty = {
       try {
         const { data } = await axios.post("/api/user/login", form);
         commit("setLoading", { loading: false, type: "login" });
-        sessionStorage.setItem("Authorization", data.token);
+        localStorage.setItem("Authorization", data.token);
         return router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
@@ -50,7 +50,7 @@ const faculty = {
       try {
         const { data } = await axios.post("/api/user/create", form);
         commit("setLoading", { loading: false, type: "register" });
-        sessionStorage.setItem("Authorization", data.token);
+        localStorage.setItem("Authorization", data.token);
         return router.replace("/faculty/register/step=4");
       } catch (error) {
         const { message } = error.response.data || error;
@@ -77,7 +77,7 @@ const faculty = {
       commit("setLoading", { loading: true, type: "profile" });
       try {
         const { data } = await axios.get("/api/user/profile", {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "profile" });
         return commit("setProfile", data);
@@ -95,7 +95,7 @@ const faculty = {
       commit("setLoading", { loading: true, type: "all_head" });
       try {
         const { data } = await axios.get("/api/user/head/all", {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_head" });
         return commit("setAllHead", data);

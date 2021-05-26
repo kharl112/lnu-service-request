@@ -19,7 +19,7 @@ const token = {
       commit("setLoading", true);
       try {
         const { data } = await axios.get(`/api/token/${filter}`, {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", false);
         return commit("setTokens", data);
@@ -37,7 +37,7 @@ const token = {
           "/api/token/create",
           {},
           {
-            headers: { Authorization: sessionStorage.getItem("Authorization") },
+            headers: { Authorization: localStorage.getItem("Authorization") },
           }
         );
         dispatch("message/successMessage", "new token generated", {
@@ -58,7 +58,7 @@ const token = {
           "/api/token/claim",
           { token },
           {
-            headers: { Authorization: sessionStorage.getItem("Authorization") },
+            headers: { Authorization: localStorage.getItem("Authorization") },
           }
         );
         commit("setLoading", false);

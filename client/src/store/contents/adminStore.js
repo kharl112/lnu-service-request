@@ -30,7 +30,7 @@ const admin = {
       try {
         const { data } = await axios.post("/api/admin/login", form);
         commit("setLoading", { loading: false, type: "login" });
-        sessionStorage.setItem("Authorization", data.token);
+        localStorage.setItem("Authorization", data.token);
         return router.replace("/admin/home/tokens");
       } catch (error) {
         const { message } = error.response.data || error;
@@ -41,7 +41,7 @@ const admin = {
     adminProfile: async ({ commit, dispatch }) => {
       try {
         const { data } = await axios.get("/api/admin/profile", {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         return commit("setProfile", data);
       } catch (error) {
@@ -55,7 +55,7 @@ const admin = {
       commit("setLoading", { loading: true, type: "all_admin" });
       try {
         const { data } = await axios.get("/api/admin/all", {
-          headers: { Authorization: sessionStorage.getItem("Authorization") },
+          headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_admin" });
         return commit("setAllAdmin", data);

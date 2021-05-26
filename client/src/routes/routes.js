@@ -70,7 +70,7 @@ export const routes = [
         path: "step=4",
         component: Step4,
         beforeEnter: (to, from, next) => {
-          return sessionStorage.getItem("Authorization")
+          return localStorage.getItem("Authorization")
             ? next()
             : next("/faculty/register/step=1");
         },
@@ -82,7 +82,7 @@ export const routes = [
     component: HomeUser,
     beforeEnter: async (to, from, next) => {
       store.dispatch("message/defaultState", null);
-      return sessionStorage.getItem("Authorization")
+      return localStorage.getItem("Authorization")
         ? next()
         : next("/faculty/login");
     },
@@ -126,7 +126,7 @@ export const routes = [
               `/api/request/faculty/letter=${id}`,
               {
                 headers: {
-                  Authorization: sessionStorage.getItem("Authorization"),
+                  Authorization: localStorage.getItem("Authorization"),
                 },
               }
             );
@@ -158,7 +158,7 @@ export const routes = [
     component: HomeAdmin,
     beforeEnter: async (to, from, next) => {
       store.dispatch("message/defaultState", null);
-      return sessionStorage.getItem("Authorization") ? next() : next(false);
+      return localStorage.getItem("Authorization") ? next() : next(false);
     },
     children: [
       { path: "tokens", component: Tokens },

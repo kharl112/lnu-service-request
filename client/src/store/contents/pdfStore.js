@@ -23,7 +23,7 @@ const pdf = {
           {
             responseType: "blob",
             headers: {
-              Authorization: sessionStorage.getItem("Authorization"),
+              Authorization: localStorage.getItem("Authorization"),
             },
           }
         );
