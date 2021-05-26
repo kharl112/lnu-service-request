@@ -79,8 +79,8 @@ export default {
     <v-divider />
 
     <v-list dense>
-      <v-subheader>Requests</v-subheader>
-      <v-list-item-group v-model="route" color="primary">
+      <v-subheader v-show="!mini">Requests</v-subheader>
+      <v-list-item-group v-model="route" color="warning">
         <v-list-item
           v-for="(child, i) in items"
           :key="i"
@@ -96,9 +96,11 @@ export default {
       </v-list-item-group>
     </v-list>
 
+    <v-divider />
+
     <v-list dense>
-      <v-subheader>Account</v-subheader>
-      <v-list-item-group v-model="route">
+      <v-subheader v-show="!mini">Account</v-subheader>
+      <v-list-item-group color="secondary" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
