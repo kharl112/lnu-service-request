@@ -38,16 +38,16 @@ export default {
 </script>
 <template>
   <v-overlay :value="signatureVisibility" :z-index="100">
-    <v-card id="card" light max-width="400" outlined>
+    <v-card class="pa-4" light outlined>
       <v-row dense no-gutters justify="start" justify-sm="center">
         <v-col cols="12">
           <v-row justify="end">
-            <v-btn @click="showSignature" icon color="error" id="close-button">
+            <v-btn @click="showSignature" icon color="error" class="mb-2">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-row>
         </v-col>
-        <v-col cols="12">
+        <v-col cols="12" class="ma-1">
           <svg-sketch
             ref="sketch"
             id="sketch"
@@ -56,27 +56,27 @@ export default {
             :color="signature.color"
           />
         </v-col>
-        <v-col cols="12">
-          <v-container fluid id="tools">
-            <v-row dense no-gutters justify="start" aling="center">
-              <v-col cols="3" sm="3" md="2">
-                <v-btn @click="revert" icon color="secondary">
+        <v-col cols="12" class="pa-0">
+          <v-container fluid class="pa-1">
+            <v-row dense justify="start" class="pl-1 pa-sm-0" align="center">
+              <v-col cols="4" sm="3" class="pa-0">
+                <v-btn @click="revert" small outlined color="secondary">
                   <v-icon>mdi-undo</v-icon>
                 </v-btn>
               </v-col>
-              <v-col cols="3" sm="3" md="2">
-                <v-btn @click="clean" icon color="secondary">
+              <v-col cols="4" sm="3" class="pa-0">
+                <v-btn @click="clean" small outlined color="primary">
                   <v-icon>mdi-eraser</v-icon>
                 </v-btn>
               </v-col>
-              <v-col cols="auto">
+              <v-col cols="12" sm="6" class="pt-3 pa-sm-0">
                 <v-btn
                   @click="handleSubmit('sketch')"
-                  small
+                  block
                   color="primary"
                   elevation="0"
                 >
-                  confirm
+                  Confirm
                 </v-btn>
               </v-col>
             </v-row>
@@ -86,4 +86,13 @@ export default {
     </v-card>
   </v-overlay>
 </template>
-
+<style lang="scss" scope>
+#sketch {
+  border: 1px solid gray;
+  svg {
+    border: none;
+    height: 175px;
+    width: 100%;
+  }
+}
+</style>
