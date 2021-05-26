@@ -27,7 +27,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid id="#tokens-container">
+  <v-container fluid class="pa-3">
     <v-row
       justify="start"
       justify-sm="start"

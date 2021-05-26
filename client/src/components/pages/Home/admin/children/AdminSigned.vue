@@ -75,13 +75,12 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-0">
+  <v-container fluid class="pa-3">
     <v-row dense justify="start">
       <v-col
         cols="12"
         sm="12"
         md="8"
-        class="pl-5 pl-sm-0 pl-md-4 pl-lg-0"
         v-if="getAllSigned[0] && !getLoading.all_signed"
       >
         <v-simple-table>
