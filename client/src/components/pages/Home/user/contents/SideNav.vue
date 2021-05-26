@@ -101,7 +101,7 @@ export default {
     <v-divider />
 
     <v-list dense>
-      <v-subheader>Requests</v-subheader>
+      <v-subheader v-show="!mini">Requests</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item
           v-for="(child, i) in request_items"
@@ -119,7 +119,7 @@ export default {
     </v-list>
 
     <v-list dense v-if="isHead">
-      <v-subheader>Received</v-subheader>
+      <v-subheader v-show="!mini">Received</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item
           v-for="(child, i) in received_items"
@@ -137,8 +137,8 @@ export default {
     </v-list>
 
     <v-list dense>
-      <v-subheader>Account</v-subheader>
-      <v-list-item-group v-model="route">
+      <v-subheader v-show="!mini">Account</v-subheader>
+      <v-list-item-group color="secondary" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
