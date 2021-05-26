@@ -3,6 +3,7 @@ export default {
   name: "AdminSigned",
   data: () => ({
     show: false,
+    colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
     getLoading() {
@@ -54,6 +55,19 @@ export default {
         id,
       });
     },
+    getInitials(name) {
+      const { firstname, lastname } = name;
+      return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
+    },
+    getFullname(name) {
+      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
+      return `${
+        prefix ? `${prefix}.` : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
+    getRandomColor() {
+      return this.colors[Math.floor(Math.random() * this.colors.length)];
+    },
   },
   created() {
     return this.$store.dispatch("request/allSigned", "admin");
@@ -72,39 +86,52 @@ export default {
       >
         <v-simple-table>
           <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">
-                  Subject
-                </th>
-                <th class="text-left">
-                  Date
-                </th>
-                <th class="text-left"></th>
-              </tr>
-            </thead>
             <tbody>
               <tr v-for="signed in getAllSigned" :key="signed.name">
-                <td>
-                  {{ signed.subject }}
+                <td class="pt-4 pb-4 text-left">
+                  <v-col cols="2">
+                    <v-avatar :color="getRandomColor()">
+                      <span class="white--text headline">{{
+                        getInitials(signed.user.profile[0].name)
+                      }}</span>
+                    </v-avatar>
+                  </v-col>
                 </td>
-                <td>
-                  <small>{{ getTimeOrDate(signed.date) }}</small>
-                </td>
-                <td>
-                  <v-btn
-                    elevation="0"
-                    fab
-                    dark
-                    small
-                    color="error"
-                    :disabled="getPDFLoading"
-                    @click="downloadPDF(signed._id)"
+                <td class="text-left mb-1">
+                  <v-list-item-title class="pa-0 text-caption font-weight-bold">
+                    {{ getFullname(signed.user.profile[0].name) }}
+                  </v-list-item-title>
+                  <v-spacer />
+                  <v-list-item-subtitle
+                    class="pa-0 text-caption2 secondary--text"
                   >
-                    <v-icon dark>
-                      mdi-cloud-download
-                    </v-icon>
-                  </v-btn>
+                    {{ signed.subject }}
+                  </v-list-item-subtitle>
+                </td>
+                <td class="text-center">
+                  <v-row justify="center" align="center">
+                    <v-col cols="12" class="pa-0">
+                      <v-card-subtitle
+                        class="pa-0 pb-n2 text-center text-caption"
+                      >
+                        {{ getTimeOrDate(signed.date) }}
+                      </v-card-subtitle>
+                    </v-col>
+                    <v-col cols="12" class="pa-0">
+                      <v-btn
+                        icon
+                        color="error"
+                        class="ml-2"
+                        large
+                        :disabled="getPDFLoading"
+                        @click="downloadPDF(signed._id)"
+                      >
+                        <v-icon dark>
+                          mdi-cloud-download
+                        </v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
                 </td>
               </tr>
             </tbody>
