@@ -142,20 +142,64 @@ route.post("/head/sign", userAuth, async (req, res) => {
 });
 
 route.get("/admin/pending", adminAuth, async (req, res) => {
-  const admin_pending = await Request.find({
-    "admin.staff_id": req.locals.staff_id,
-    "admin.signature": "",
-    save_as: 1,
-  });
+  const admin_pending = await Request.aggregate([
+    {
+      $match: {
+        "admin.staff_id": req.locals.staff_id,
+        "admin.signature": "",
+        save_as: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "user.staff_id",
+        foreignField: "staff_id",
+        as: "user.profile",
+      },
+    },
+    {
+      $project: {
+        save_as: 0,
+        "user.profile.password": 0,
+        "user.profile._id": 0,
+        "user.profile.email": 0,
+        "user.profile.permitted": 0,
+        "user.profile.__v": 0,
+      },
+    },
+  ]);
   return res.send(admin_pending);
 });
 
 route.get("/admin/signed", adminAuth, async (req, res) => {
-  const admin_signed = await Request.find({
-    "admin.staff_id": req.locals.staff_id,
-    "admin.signature": { $ne: "" },
-    save_as: 1,
-  });
+  const admin_signed = await Request.aggregate([
+    {
+      $match: {
+        "admin.staff_id": req.locals.staff_id,
+        "admin.signature": { $ne: "" },
+        save_as: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "user.staff_id",
+        foreignField: "staff_id",
+        as: "user.profile",
+      },
+    },
+    {
+      $project: {
+        save_as: 0,
+        "user.profile.password": 0,
+        "user.profile._id": 0,
+        "user.profile.email": 0,
+        "user.profile.permitted": 0,
+        "user.profile.__v": 0,
+      },
+    },
+  ]);
   return res.send(admin_signed);
 });
 
