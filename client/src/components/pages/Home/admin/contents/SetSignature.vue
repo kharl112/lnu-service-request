@@ -86,18 +86,4 @@ export default {
     </v-card>
   </v-overlay>
 </template>
-<style lang="scss" scope>
-#sketch {
-  svg {
-    border: 1px solid black;
-    height: 175px;
-    width: 100%;
-  }
-}
-#card {
-  padding: 10px 2px 10px 10px;
-}
-#close-button {
-  margin: 5px 10px 15px;
-}
-</style>
+
