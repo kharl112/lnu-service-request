@@ -107,9 +107,9 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-0">
+  <v-container fluid class="pa-3">
     <v-row justify="start" align="start">
-      <v-col cols="12" sm="12" md="8" class="pl-2 pa-sm-0 pa-md-0">
+      <v-col cols="12" sm="12" md="8">
         <v-form
           ref="form"
           @submit="handleSubmitForm"

@@ -63,13 +63,12 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-0">
+  <v-container fluid class="pa-3">
     <v-row dense justify="start" v-if="!getLoading.letter_info">
       <v-col
         cols="12"
         sm="12"
         md="8"
-        class="pl-5 pl-sm-0 pl-md-4 pl-lg-0"
         v-if="getAllDraft[0] && !getLoading.all_draft"
       >
         <v-simple-table>
@@ -174,7 +173,10 @@ export default {
                             mdi-google-maps
                           </v-icon>
                           <v-subheader>
-                            <a href="https://www.google.com/maps/place/Leyte+Normal+University/@11.2380362,124.9995256,17z/data=!4m9!1m2!2m1!1slnu!3m5!1s0x3308772c87c4c367:0xa5e5c080ec6a88ef!8m2!3d11.2381879!4d125.001328!15sCgNsbnWSARFwdWJsaWNfdW5pdmVyc2l0eQ" color="primary">
+                            <a
+                              href="https://www.google.com/maps/place/Leyte+Normal+University/@11.2380362,124.9995256,17z/data=!4m9!1m2!2m1!1slnu!3m5!1s0x3308772c87c4c367:0xa5e5c080ec6a88ef!8m2!3d11.2381879!4d125.001328!15sCgNsbnWSARFwdWJsaWNfdW5pdmVyc2l0eQ"
+                              color="primary"
+                            >
                               Paterno St, Downtown, Tacloban City, 6500 Leyte
                             </a>
                           </v-subheader>

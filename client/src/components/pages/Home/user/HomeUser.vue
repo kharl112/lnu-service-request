@@ -11,7 +11,7 @@ export default {
   },
   data: () => ({
     logout: false,
-    timeout: 2000
+    timeout: 2000,
   }),
   computed: {
     getUserProfile() {
@@ -45,9 +45,7 @@ export default {
 <template>
   <v-container fluid class="home-container">
     <v-row no-gutters dense class="home-row1" v-if="getUserProfile">
-      <v-col cols="1">
-        <SideNav :showLogout="showLogout" />
-      </v-col>
+      <SideNav :showLogout="showLogout" />
       <v-col class="home-col1">
         <v-container fluid class="home-container2">
           <v-row
@@ -60,7 +58,7 @@ export default {
             <v-col cols="12">
               <Header />
             </v-col>
-            <v-col cols="11" sm="10" md="12" lg="12">
+            <v-col cols="12" class="pa-3 pl-16">
               <transition name="slide-right" mode="out-in">
                 <router-view></router-view>
               </transition>

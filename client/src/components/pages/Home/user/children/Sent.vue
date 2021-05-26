@@ -62,9 +62,9 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-0">
+  <v-container fluid class="pa-3">
     <v-row dense justify="start">
-      <v-col cols="12" sm="12" md="8" class="pl-7 pl-sm-0 pl-md-12 pl-lg-0">
+      <v-col cols="12" sm="12" md="8">
         <v-container fluid class="pa-0">
           <v-col cols="12">
             <v-row class="pa-2 pt-0" justify="start" align="start">
