@@ -20,7 +20,7 @@ export default {
 </script>
 <template>
   <v-overlay :value="logout" :z-index="100">
-    <v-card class="mx-auto" max-width="344" outlined>
+    <v-card max-width="344" light>
       <v-list-item three-line>
         <v-list-item-content>
           <div class="overline mb-4">
@@ -33,10 +33,10 @@ export default {
       </v-list-item>
 
       <v-card-actions>
-        <v-btn @click="handleLogout" color="secondary">
+        <v-btn @click="handleLogout" color="primary">
           Confirm
         </v-btn>
-        <v-btn color="primary" @click="showLogout">
+        <v-btn outlined color="warning" @click="showLogout">
           Cancel
         </v-btn>
       </v-card-actions>
