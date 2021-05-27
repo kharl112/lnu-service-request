@@ -34,7 +34,7 @@ route.post("/create", async (req, res) => {
   try {
     const new_user = await user.save();
     const token = jwt.sign({ _id: new_user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: "5h",
     });
     return res.send({ token });
   } catch (error) {
@@ -57,7 +57,7 @@ route.post("/login", async (req, res) => {
 
   try {
     const token = jwt.sign({ _id: user_found._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
+      expiresIn: "1h",
     });
     return res.send({ token });
   } catch (error) {
