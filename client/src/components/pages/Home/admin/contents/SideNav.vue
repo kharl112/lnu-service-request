@@ -5,7 +5,6 @@ export default {
     showLogout: Function,
   },
   data: () => ({
-    drawer: true,
     mini: true,
     dialog: false,
     items: [
@@ -45,6 +44,14 @@ export default {
         return;
       },
     },
+    navigation: {
+      get() {
+        return this.$store.getters["navigation/getDrawer"];
+      },
+      set(drawer) {
+        return this.$store.commit("navigation/setDrawer", drawer);
+      },
+    },
   },
 };
 </script>
@@ -52,7 +59,7 @@ export default {
   <v-navigation-drawer
     fixed
     permanent
-    v-model="drawer"
+    v-model="navigation"
     :mini-variant.sync="mini"
   >
     <v-list>

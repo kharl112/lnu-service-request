@@ -31,6 +31,22 @@ export default {
         return this.$store.commit("message/setSnackbar", flag);
       },
     },
+    navigation: {
+      get() {
+        return this.$store.getters["navigation/getDrawer"];
+      },
+      set(drawer) {
+        return this.$store.commit("navigation/setDrawer", drawer);
+      },
+    },
+    slide_info: {
+      get() {
+        return this.$store.getters["navigation/getSlideInfo"];
+      },
+      set(slide_info) {
+        return this.$store.commit("navigation/setSlideInfo", slide_info);
+      },
+    },
   },
   methods: {
     showLogout() {
@@ -39,6 +55,12 @@ export default {
   },
   created() {
     return this.$store.dispatch("admin/adminProfile");
+  },
+  updated() {
+    if (!this.navigation && document.cookie !== "slide_info=false") {
+      document.cookie = "slide_info=false";
+      this.slide_info = true;
+    }
   },
 };
 </script>
@@ -57,7 +79,7 @@ export default {
             <v-col cols="12">
               <Header />
             </v-col>
-            <v-col cols="12" class="pa-3 pl-16">
+            <v-col cols="12" :class="navigation ? 'pa-3 pl-16' : 'pa-3'">
               <transition name="slide-right" mode="out-in">
                 <router-view></router-view>
               </transition>
@@ -98,6 +120,20 @@ export default {
       <template v-slot:action="{ attrs }">
         <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
           Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+    <v-snackbar
+      :timeout="10000"
+      v-show="slide_info"
+      color="primary"
+      v-model="slide_info"
+    >
+      You can bring back navigation by sliding right
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="slide_info = false">
+          Dismiss
         </v-btn>
       </template>
     </v-snackbar>
