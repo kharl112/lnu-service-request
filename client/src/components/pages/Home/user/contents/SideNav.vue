@@ -155,7 +155,11 @@ export default {
           </v-list-item-content>
         </v-list-item>
 
-        <v-list-item link @click="showLogout" :value="route">
+        <v-list-item
+          inactive
+          @click="showLogout"
+          :value="route"
+        >
           <v-list-item-icon>
             <v-icon>mdi-logout</v-icon>
           </v-list-item-icon>
