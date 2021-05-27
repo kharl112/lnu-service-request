@@ -59,25 +59,35 @@ export default {
         <v-col cols="12" class="pa-0">
           <v-container fluid class="pa-1">
             <v-row dense justify="start" class="pl-1 pa-sm-0" align="center">
-              <v-col cols="4" sm="3" class="pa-0">
-                <v-btn @click="revert" small outlined color="secondary">
-                  <v-icon>mdi-undo</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col cols="4" sm="3" class="pa-0">
-                <v-btn @click="clean" small outlined color="primary">
-                  <v-icon>mdi-eraser</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col cols="12" sm="6" class="pt-3 pa-sm-0">
-                <v-btn
-                  @click="handleSubmit('sketch')"
-                  block
-                  color="primary"
-                  elevation="0"
-                >
-                  Confirm
-                </v-btn>
+              <v-col cols="12" class="pa-0">
+                <v-btn-toggle>
+                  <v-btn
+                    @click="revert"
+                    small
+                    class="pl-4 pr-4"
+                    outlined
+                    color="secondary"
+                  >
+                    <v-icon>mdi-undo</v-icon>
+                  </v-btn>
+                  <v-btn
+                    @click="clean"
+                    small
+                    class="pl-4 pr-4"
+                    outlined
+                    color="primary"
+                  >
+                    <v-icon>mdi-eraser</v-icon>
+                  </v-btn>
+                  <v-btn
+                    small
+                    class="pl-4 pr-4"
+                    color="primary"
+                    @click="handleSubmit('sketch')"
+                  >
+                    Confirm
+                  </v-btn>
+                </v-btn-toggle>
               </v-col>
             </v-row>
           </v-container>
