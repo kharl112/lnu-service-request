@@ -68,13 +68,13 @@ export default {
   <v-container fluid class="home-container">
     <v-row no-gutters dense class="home-row1" v-if="getAdminProfile">
       <SideNav :showLogout="showLogout" />
-      <v-col class="home-col1">
-        <v-container fluid class="home-container2">
+      <v-col cols="12">
+        <v-container fluid>
           <v-row
             justify="end"
             justify-sm="center"
+            justify-md="center"
             align="start"
-            class="home-row2"
           >
             <v-col cols="12">
               <Header />
@@ -88,12 +88,10 @@ export default {
         </v-container>
       </v-col>
     </v-row>
-    <v-row id="spinner-container" justify="center" align="center" v-else>
-      <v-progress-circular
-        :size="50"
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
+    <v-row justify="center" v-else>
+      <v-col cols="12" align="center" class="pt-16">
+        <v-progress-circular :size="50" indeterminate color="primary" />
+      </v-col>
     </v-row>
     <ConfirmLogout :logout="logout" :showLogout="showLogout" />
     <v-snackbar

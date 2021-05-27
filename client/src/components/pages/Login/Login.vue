@@ -71,7 +71,7 @@ export default {
       align-md="start"
       class="pt-6 pa-sm-0"
     >
-      <v-col sm="3" md="3" class="d-none d-sm-flex" id="login-col1">
+      <v-col sm="2" md="3" class="d-none d-sm-flex pa-0 ma-0">
         <LeftBg1 v-if="getUserType === 'faculty'" />
         <LeftBg2 v-else />
       </v-col>
@@ -89,19 +89,41 @@ export default {
           <v-col cols="12">
             <v-row>
               <v-col cols="12">
-                <h3 class=" text-h5 text-sm-h4 text-md-h4">
+                <h3
+                  :class="
+                    `text-h5 text-sm-h4 text-md-h4 ${
+                      $vuetify.theme.dark ? 'primary--text' : ''
+                    }`
+                  "
+                >
                   <strong class="warning--text">LNU</strong>
                   Service Request System
                 </h3>
               </v-col>
               <v-col cols="12" class="pa-2"><v-divider /></v-col>
-              <v-col cols="12" class="pa-2 pb-5" v-if="getUserType === 'faculty'">
-                <h4 class="text-h6 text-sm-h5 text-md-h5">
+              <v-col
+                cols="12"
+                class="pa-2 pb-5"
+                v-if="getUserType === 'faculty'"
+              >
+                <h4
+                  :class="
+                    `text-h6 text-sm-h5 text-md-h5 ${
+                      $vuetify.theme.dark ? 'primary--text' : ''
+                    }`
+                  "
+                >
                   Head and staff Login
                 </h4>
               </v-col>
               <v-col cols="12" class="pa-2  pb-5" v-else>
-                <h4 class="text-h6 text-sm-h5 text-md-h5">
+                <h4
+                  :class="
+                    `text-h6 text-sm-h5 text-md-h5 ${
+                      $vuetify.theme.dark ? 'warning--text' : ''
+                    }`
+                  "
+                >
                   Administrator Login
                 </h4>
               </v-col>
@@ -116,7 +138,6 @@ export default {
                     :disabled="getLoading.login"
                     class="input"
                     label="E-mail"
-                    background-color="#E5E5E5"
                     v-model="form.email"
                     type="email"
                     autofocus
@@ -132,7 +153,6 @@ export default {
                     :disabled="getLoading.login"
                     class="input"
                     label="Password"
-                    background-color="#E5E5E5"
                     v-model="form.password"
                     @click:append="handleShowPassword"
                     outlined
@@ -142,18 +162,6 @@ export default {
                   <v-alert class="alert" v-if="getError" dense type="error">
                     {{ getError }}
                   </v-alert>
-                </v-col>
-                <v-col cols="12" md="11" sm="12">
-                  <v-container fluid class="pa-0 pb-4">
-                    <v-checkbox
-                      class="check-box"
-                      :rules="rules.checkBox"
-                      label="I need to login"
-                      color="#e78a00"
-                      value="1"
-                      hide-details
-                    />
-                  </v-container>
                 </v-col>
                 <v-col cols="12" md="11" sm="12">
                   <v-btn
@@ -207,17 +215,6 @@ export default {
                     >
                       Create Account
                     </v-btn>
-                  </v-col>
-                  <v-col cols="12" md="11" sm="12" class="pt-6">
-                    <router-link
-                      v-bind:to="
-                        `/${
-                          getUserType === 'faculty' ? 'admin' : 'faculty'
-                        }/login`
-                      "
-                      class="links"
-                      >I'm not an {{ getUserType }} member</router-link
-                    >
                   </v-col>
                 </v-row>
               </v-row>

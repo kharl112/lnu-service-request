@@ -20,7 +20,7 @@ export default {
 </script>
 <template>
   <v-overlay :value="logout" :z-index="100">
-    <v-card max-width="344" light>
+    <v-card :light="!$vuetify.theme.dark" max-width="344">
       <v-list-item three-line>
         <v-list-item-content>
           <div class="overline mb-4">

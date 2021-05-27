@@ -75,7 +75,6 @@ export default {
             justify-sm="center"
             justify-md="center"
             align="start"
-            class="home-row2"
           >
             <v-col cols="12">
               <Header />
@@ -89,12 +88,10 @@ export default {
         </v-container>
       </v-col>
     </v-row>
-    <v-row id="spinner-container" justify="center" align="center" v-else>
-      <v-progress-circular
-        :size="50"
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
+    <v-row justify="center" v-else>
+      <v-col cols="12" align="center" class="pt-16">
+        <v-progress-circular :size="50" indeterminate color="primary" />
+      </v-col>
     </v-row>
     <ConfirmLogout :logout="logout" :showLogout="showLogout" />
     <v-snackbar
@@ -130,7 +127,7 @@ export default {
       v-show="slide_info"
       color="primary"
       v-model="slide_info"
-    > 
+    >
       You can bring back navigation by sliding right
       <template v-slot:action="{ attrs }">
         <v-btn color="white" text v-bind="attrs" @click="slide_info = false">

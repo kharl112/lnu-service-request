@@ -1,34 +1,8 @@
 @import "../../_var";
 .home-container {
   font-family: $ubuntu-font;
-  width: 100vw;
-  height: 100vh;
   margin: 0px;
   padding: 0px;
-  #spinner-container {
-    width: 100vw;
-    height: 100vh;
-  }
-  .home-row1 {
-    width: 100%;
-    height: 100%;
-    .home-col1 {
-      width: auto;
-      height: 100%;
-      .home-container2 {
-        .home-row2 {
-          .home-container3 {
-            @include flex(row, flex-end, center);
-            padding: 7px;
-            border-bottom: 1px solid #e5e5e5e5;
-            button {
-              margin: 6px;
-            }
-          }
-        }
-      }
-    }
-  }
 }
 
 .slide-right-enter-active,

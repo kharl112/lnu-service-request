@@ -145,7 +145,7 @@ export default {
 
     <v-list dense>
       <v-subheader v-show="!mini">Account</v-subheader>
-      <v-list-item-group color="secondary" v-model="route">
+      <v-list-item-group color="primary" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
@@ -156,7 +156,7 @@ export default {
         </v-list-item>
 
         <v-list-item
-          inactive
+          link
           @click="showLogout"
           :value="route"
         >
