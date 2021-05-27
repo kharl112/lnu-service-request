@@ -5,7 +5,6 @@ export default {
     showLogout: Function,
   },
   data: () => ({
-    drawer: true,
     mini: true,
     dialog: false,
     request_items: [
@@ -53,6 +52,14 @@ export default {
         return;
       },
     },
+    navigation: {
+      get() {
+        return this.$store.getters["navigation/getDrawer"];
+      },
+      set(drawer) {
+        return this.$store.commit("navigation/setDrawer", drawer);
+      },
+    },
   },
 };
 </script>
@@ -61,7 +68,7 @@ export default {
     fixed
     permanent
     disable-route-watcher
-    v-model="drawer"
+    v-model="navigation"
     :mini-variant.sync="mini"
   >
     <v-list>
