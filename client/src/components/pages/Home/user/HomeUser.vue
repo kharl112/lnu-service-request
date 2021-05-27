@@ -130,10 +130,7 @@ export default {
       v-show="slide_info"
       color="primary"
       v-model="slide_info"
-    >
-      <v-icon>
-        mdi-information-outline
-      </v-icon>
+    > 
       You can bring back navigation by sliding right
       <template v-slot:action="{ attrs }">
         <v-btn color="white" text v-bind="attrs" @click="slide_info = false">
