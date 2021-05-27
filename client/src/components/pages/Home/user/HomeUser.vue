@@ -31,6 +31,14 @@ export default {
         return this.$store.commit("message/setSnackbar", flag);
       },
     },
+    navigation: {
+      get() {
+        return this.$store.getters["navigation/getDrawer"];
+      },
+      set(drawer) {
+        return this.$store.commit("navigation/setDrawer", drawer);
+      },
+    },
   },
   methods: {
     showLogout() {
@@ -58,7 +66,7 @@ export default {
             <v-col cols="12">
               <Header />
             </v-col>
-            <v-col cols="12" class="pa-3 pl-16">
+            <v-col cols="12" :class="navigation ? 'pa-3 pl-16' :'pa-3'">
               <transition name="slide-right" mode="out-in">
                 <router-view></router-view>
               </transition>
