@@ -25,9 +25,11 @@ export default {
         prefix,
         suffixes,
       } = this.getAdminProfile.name;
-      return `${prefix}. ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${JSON.stringify(
-        ...suffixes
-      )}`;
+      return `${
+        prefix ? prefix + "." : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
+        suffixes[0] ? JSON.stringify(...suffixes) : ""
+      }`;
     },
     getAdminInitials() {
       const { firstname, lastname } = this.getAdminProfile.name;
