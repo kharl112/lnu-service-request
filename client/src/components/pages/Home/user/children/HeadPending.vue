@@ -8,7 +8,7 @@ export default {
   data: () => ({
     signatureVisibility: false,
     selectedRequest: "",
-    show: false
+    show: false,
   }),
   computed: {
     getLoading() {
@@ -65,7 +65,7 @@ export default {
       const signature = document
         .getElementById(signatureId)
         .innerHTML.toString()
-        .replace('height="300"', 'height="150" viewBox="0 0 300 150"');
+        .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
 
       return this.$store.dispatch("request/signRequest", {
         request_id: this.selectedRequest,

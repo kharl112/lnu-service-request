@@ -66,7 +66,9 @@ export default {
     },
     handleSetSignature(signatureId) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
-      return (this.form.user.signature = signatureElement.toString());
+      return (this.form.user.signature = signatureElement
+        .toString()
+        .replace('height="300"', 'height="175" viewBox="0 0 300 175"'));
     },
     handleSubmitForm(e) {
       e.preventDefault();
