@@ -5,10 +5,16 @@ export default {
     getLoading() {
       return this.$store.getters["token/getLoading"];
     },
+    getDarkMode() {
+      return localStorage.getItem("darkmode") === "true";
+    },
   },
   methods: {
     handleSubmit() {
       return this.$store.dispatch("token/generateToken");
+    },
+    setDarkMode(value) {
+      return localStorage.setItem("darkmode", value);
     },
   },
 };
@@ -21,9 +27,31 @@ export default {
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
+                elevation="0"
+                color="warning"
+                class="mr-2"
+                @click="getDarkMode ? setDarkMode(false) : setDarkMode(true)"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon dark>
+                  {{
+                    !getDarkMode
+                      ? "mdi-moon-waning-crescent"
+                      : "mdi-weather-sunny"
+                  }}
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>Enable darkmode</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
                 @click="handleSubmit"
                 color="success"
                 :loading="getLoading"
+                class="mr-2"
                 elevation="0"
                 v-bind="attrs"
                 v-on="on"

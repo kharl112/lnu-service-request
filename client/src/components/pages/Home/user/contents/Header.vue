@@ -11,10 +11,16 @@ export default {
     getError() {
       return this.$store.getters["request/getError"];
     },
+    getDarkMode() {
+      return localStorage.getItem("darkmode") === "true";
+    },
   },
   methods: {
     handleDeleteSelected() {
       return this.$store.dispatch("request/deleteSelected");
+    },
+    setDarkMode(value) {
+      return localStorage.setItem("darkmode", value);
     },
   },
 };
@@ -23,7 +29,24 @@ export default {
   <v-container fluid class="pa-0">
     <v-row justify="end" align="center" class="pa-2">
       <v-col cols="12" align="end">
-        <v-btn icon color="secondary" size="30">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              icon
+              color="warning"
+              class="mr-2"
+              @click="getDarkMode ? setDarkMode(false) : setDarkMode(true)"
+              v-bind="attrs"
+              v-on="on"
+            >
+              <v-icon dark>
+                {{!getDarkMode ? "mdi-moon-waning-crescent" : "mdi-weather-sunny"}}
+              </v-icon>
+            </v-btn>
+          </template>
+          <span>Enable darkmode</span>
+        </v-tooltip>
+        <v-btn icon color="secondary" size="30" class="mr-2">
           <v-icon>mdi-cached</v-icon>
         </v-btn>
         <v-btn
@@ -31,6 +54,7 @@ export default {
           icon
           color="error"
           :disabled="!getSelected[0] && !getLoading.selected"
+          class="mr-2"
         >
           <v-badge
             color="error"
