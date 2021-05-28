@@ -5,7 +5,6 @@ import request from "./contents/requestStore";
 import pdf from "./contents/pdfStore";
 import message from "./contents/messageStore";
 import navigation from "./contents/navigationStore";
-import cookie from "./contents/cookieStore";
 import Vuex from "vuex";
 import Vue from "vue";
 
@@ -20,7 +19,6 @@ const store = new Vuex.Store({
     pdf,
     message,
     navigation,
-    cookie,
   },
 });
 
