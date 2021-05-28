@@ -5,16 +5,19 @@ export default {
     getLoading() {
       return this.$store.getters["token/getLoading"];
     },
-    getDarkMode() {
-      return localStorage.getItem("darkmode") === "true";
+    darkmode: {
+      get() {
+        return localStorage.getItem("darkmode") === "true";
+      },
+      set(value) {
+        localStorage.setItem("darkmode", value);
+        return location.reload();
+      },
     },
   },
   methods: {
     handleSubmit() {
       return this.$store.dispatch("token/generateToken");
-    },
-    setDarkMode(value) {
-      return localStorage.setItem("darkmode", value);
     },
   },
 };
@@ -30,15 +33,13 @@ export default {
                 elevation="0"
                 color="warning"
                 class="mr-2"
-                @click="getDarkMode ? setDarkMode(false) : setDarkMode(true)"
+                @click="darkmode ? (darkmode = false) : (darkmode = true)"
                 v-bind="attrs"
                 v-on="on"
               >
                 <v-icon dark>
                   {{
-                    !getDarkMode
-                      ? "mdi-moon-waning-crescent"
-                      : "mdi-weather-sunny"
+                    !darkmode ? "mdi-moon-waning-crescent" : "mdi-weather-sunny"
                   }}
                 </v-icon>
               </v-btn>
