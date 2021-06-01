@@ -46,7 +46,6 @@ export default {
         autofocus
         outlined
         hint="for example: johndoe123@yahoo.com"
-        background-color="#E5E5E5"
       />
       <v-alert class="alert" v-if="getError" dense type="error">
         {{ getError }}

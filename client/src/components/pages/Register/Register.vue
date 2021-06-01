@@ -28,6 +28,9 @@ export default {
     getStepIndex() {
       return this.$route.path[this.$route.path.length - 1];
     },
+    getDarkmode() {
+      return this.$vuetify.theme.dark;
+    },
   },
 };
 </script>
@@ -41,7 +44,14 @@ export default {
       class="register-row1"
     >
       <v-col sm="9" md="4">
-        <h3 id="heading" class=" text-h5 text-sm-h5 text-md-h4">
+        <h3
+          id="heading"
+          :class="
+            `text-h5 text-sm-h4 text-md-h4 ${
+              $vuetify.theme.dark ? 'primary--text' : ''
+            }`
+          "
+        >
           <em>LNU</em>
           Service Request System
         </h3>

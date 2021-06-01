@@ -6,14 +6,12 @@ export default {
   },
   data: () => {
     return {
-      departments: ["IT", "ED", "Tourism", "PE"],
       roles: [
-        { role: "Member", value: 1 },
-        { role: "Chair Person", value: 2 },
-        { role: "Head", value: 3 },
+        { role: "Unit Member/Personnel", value: 1 },
+        { role: "Unit Head", value: 2 },
       ],
       rules: {
-        id: [(v) => v.length === 11 || "id length must be 11 characters"],
+        id: [(v) => v.length === 7 || "ID number must be 7 digits"],
         notNull: [(v) => !!v || "This field is required"],
         letters: [
           (v) => !/\d/gi.test(v) || "Only letters allowed in this field",
@@ -48,23 +46,20 @@ export default {
       <v-text-field
         :disabled="getLoading.register"
         class="input"
-        label="ID"
-        background-color="#E5E5E5"
+        label="ID Number"
         type="number"
         :rules="[...rules.notNull, ...rules.numbers, ...rules.id]"
         v-model="form.staff_id"
         autofocus
         outlined
       />
-      <v-select
+      <v-text-field
         :disabled="getLoading.register"
         class="input"
         label="Department"
-        :items="departments"
         :rules="[...rules.notNull, ...rules.letters]"
         v-model="form.department.unit_name"
         outlined
-        background-color="#E5E5E5"
       />
       <v-select
         :disabled="getLoading.register"
@@ -76,7 +71,6 @@ export default {
         item-text="role"
         item-value="value"
         outlined
-        background-color="#E5E5E5"
       />
       <v-alert class="alert" v-if="getError" dense type="error">
         {{ getError }}

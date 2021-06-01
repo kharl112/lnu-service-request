@@ -48,7 +48,6 @@ export default {
         v-model="form.name.firstname"
         autofocus
         outlined
-        background-color="#E5E5E5"
       />
       <v-row dense>
         <v-col cols="8">
@@ -58,7 +57,6 @@ export default {
             :rules="[...rules.name, ...rules.letters]"
             v-model="form.name.lastname"
             outlined
-            background-color="#E5E5E5"
           />
         </v-col>
         <v-col cols="4">
@@ -68,7 +66,6 @@ export default {
             :rules="[...rules.middle_initial, ...rules.letters]"
             v-model="form.name.middle_initial"
             outlined
-            background-color="#E5E5E5"
           />
         </v-col>
       </v-row>
@@ -80,7 +77,6 @@ export default {
             v-model="form.name.prefix"
             :rules="rules.letters"
             outlined
-            background-color="#E5E5E5"
           />
         </v-col>
         <v-col cols="6">
@@ -91,7 +87,6 @@ export default {
             v-model="form.name.suffixes"
             hint="comma separated ex: engr, mit"
             outlined
-            background-color="#E5E5E5"
           />
         </v-col>
       </v-row>
@@ -99,7 +94,6 @@ export default {
         class="input"
         label="Password"
         hint="minimum of 8 characters"
-        background-color="#E5E5E5"
         v-model="form.password"
         :rules="rules.password"
         :type="show ? 'text' : 'password'"
