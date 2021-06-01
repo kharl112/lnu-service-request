@@ -40,7 +40,6 @@ export default {
         :disabled="getLoading"
         autofocus
         outlined
-        background-color="#E5E5E5"
         required
       />
       <v-alert class="alert" v-if="getError" dense type="error">
