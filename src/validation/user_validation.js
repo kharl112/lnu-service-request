@@ -3,7 +3,7 @@ const validString = Joi.string().required();
 
 const create = (body) => {
   const schema = Joi.object({
-    staff_id: validString.min(11).max(11),
+    staff_id: validString.min(7).max(7),
     name: Joi.object({
       firstname: validString.min(2).max(255),
       lastname: validString.min(2).max(255),
