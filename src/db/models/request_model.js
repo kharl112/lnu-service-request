@@ -7,10 +7,9 @@ const Request = new mongoose.Schema({
     min: 8,
     max: 100,
   },
-  greetings: {
+  service_type: {
     type: String,
     required: true,
-    min: 5,
     max: 100,
   },
   body: {

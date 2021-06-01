@@ -3,7 +3,7 @@ const Joi = require("joi");
 const create = (body) => {
   const schema = Joi.object({
     subject: Joi.string().min(10).max(100).required(),
-    greetings: Joi.string().min(10).max(100).required(),
+    service_type: Joi.string().max(100).required(),
     body: Joi.string().min(10).required(),
     options: Joi.object({
       format: Joi.string().allow(""),
