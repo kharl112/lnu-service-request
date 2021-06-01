@@ -164,7 +164,7 @@ export default {
               <v-icon slot="icon" color="warning" size="36">
                 mdi-exclamation-thick
               </v-icon>
-              You have'nt received service request yet
+              No pending request
             </v-banner>
           </v-col>
         </v-row>

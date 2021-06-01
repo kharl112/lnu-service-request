@@ -188,7 +188,7 @@ export default {
                 You have empty sent requests
                 <template v-slot:actions>
                   <v-btn color="primary" @click="gotoCreate" text>
-                    make one
+                    create
                   </v-btn>
                 </template>
               </v-banner>

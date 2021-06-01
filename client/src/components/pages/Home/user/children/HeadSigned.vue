@@ -125,7 +125,7 @@ export default {
               <v-icon slot="icon" color="warning" size="36">
                 mdi-exclamation-thick
               </v-icon>
-              You haven't signed request yet
+              No signed request
             </v-banner>
           </v-col>
         </v-row>

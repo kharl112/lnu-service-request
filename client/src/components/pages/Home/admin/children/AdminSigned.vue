@@ -102,7 +102,7 @@ export default {
                   </v-list-item-title>
                   <v-spacer />
                   <v-list-item-subtitle
-                    class="pa-0 text-caption2 secondary--text"
+                    class="pa-0 text-caption2 "
                   >
                     {{ signed.subject }}
                   </v-list-item-subtitle>
@@ -152,7 +152,7 @@ export default {
               <v-icon slot="icon" color="warning" size="36">
                 mdi-exclamation-thick
               </v-icon>
-              You haven't signed request yet
+              No signed service request
             </v-banner>
           </v-col>
         </v-row>

@@ -165,7 +165,7 @@ export default {
               <v-icon slot="icon" color="warning" size="36">
                 mdi-exclamation-thick
               </v-icon>
-              No unsigned request received yet
+              No pending request received yet
             </v-banner>
           </v-col>
         </v-row>

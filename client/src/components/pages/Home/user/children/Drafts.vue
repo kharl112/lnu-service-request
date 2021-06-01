@@ -115,10 +115,10 @@ export default {
               <v-icon slot="icon" color="warning" size="36">
                 mdi-exclamation-thick
               </v-icon>
-              You have empty unsent requests
+              You have empty drafts
               <template v-slot:actions>
                 <v-btn color="primary" @click="gotoCreate" text>
-                  make one
+                  create
                 </v-btn>
               </template>
             </v-banner>
