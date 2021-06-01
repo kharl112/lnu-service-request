@@ -9,10 +9,19 @@ export default {
     signatureVisibility: false,
     rules: [(v) => !!v || "This field is not allowed to be empty"],
     items: ["A4", "Letter"],
+    services: [
+      "Vehicle & Driver's Trip Ticket",
+      "Mailing",
+      "Pass Slip",
+      "Job Order for Risograph",
+      "Plumbing",
+      "Carpentry",
+      "Technician"
+    ],
     timeout: 3000,
     form: {
       subject: "",
-      greetings: "",
+      service_type: "",
       body: "",
       options: {
         format: "A4",
@@ -188,14 +197,12 @@ export default {
                     />
                   </v-col>
                   <v-col cols="12">
-                    <v-text-field
-                      v-model="form.greetings"
+                    <v-autocomplete
+                      v-model="form.service_type"
                       outlined
                       :rules="rules"
-                      label="Greetings"
-                      placeholder="Salutations"
-                      counter
-                      maxlength="20"
+                      label="Service Type"
+                      :items="services"
                       dense
                     />
                   </v-col>
