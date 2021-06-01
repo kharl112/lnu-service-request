@@ -118,16 +118,20 @@ export default {
             <v-list-item-title>Settings</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-
-        <v-list-item @click="showLogout" :value="route">
-          <v-list-item-icon>
-            <v-icon>mdi-logout</v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title>Logout</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
       </v-list-item-group>
     </v-list>
+    <v-btn
+      v-show="!mini"
+      block
+      color="primary"
+      class="rounded-0 mt-2"
+      elevation="0"
+      @click="showLogout"
+    >
+      Logout
+      <v-icon right>
+        mdi-logout
+      </v-icon>
+    </v-btn>
   </v-navigation-drawer>
 </template>
