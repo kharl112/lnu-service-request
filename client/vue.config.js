@@ -10,18 +10,13 @@ module.exports = {
   },
   pwa: {
     name: "LnuSR",
-    themeColor: "#e78a00",
+    themeColor: "#ffffff",
     msTileColor: "#ffffff",
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "black",
     manifestOptions: {
-      start_url: "/faculty/home/drafts",
+      start_url: "/",
       display: "standalone",
-      background_color: "#ffffff",
-    },
-    workboxOptions: {
-      skipWaiting: true,
-      clientsClaim: true,
     },
   },
 
