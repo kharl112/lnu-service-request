@@ -26,7 +26,7 @@ export default {
   <v-container fluid class="pa-0">
     <v-row justify="end" align="center" class="pa-2">
       <v-col cols="12" align="end" justify="end">
-        <v-col align-self="end">
+        <v-row justify="end" align="end">
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -62,9 +62,11 @@ export default {
             </template>
             <span>Generate Token</span>
           </v-tooltip>
-        </v-col>
+          <v-col cols="12">
+            <v-divider />
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
-    <v-divider />
   </v-container>
 </template>
