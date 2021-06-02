@@ -27,7 +27,21 @@ import store from "../store/store";
 import axios from "axios";
 
 export const routes = [
-  { path: "/", component: Landing },
+  {
+    path: "/",
+    component: Landing,
+    beforeEnter: (to, from, next) => {
+      if (
+        !!localStorage.getItem("Authorization") &&
+        !!localStorage.getItem("UserType")
+      ) {
+        return localStorage.getItem("UserType") === "admin"
+          ? next("/admin/home/pending")
+          : next("/faculty/home/drafts");
+      }
+      next();
+    },
+  },
   {
     path: "/:user_type/login",
     component: Login,
