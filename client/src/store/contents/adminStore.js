@@ -8,6 +8,7 @@ const admin = {
     admins: null,
     loading: {
       login: false,
+      update: false,
       all_admin: false,
     },
   }),
@@ -35,6 +36,24 @@ const admin = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    adminUpdate: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "update" });
+      try {
+        await axios.post("/api/admin/update", form, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "update" });
+        dispatch("message/successMessage", "updated successfully", {
+          root: true,
+        });
+        return dispatch("adminProfile");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "update" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
