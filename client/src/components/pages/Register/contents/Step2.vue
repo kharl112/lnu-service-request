@@ -83,7 +83,6 @@ export default {
           <v-text-field
             class="input"
             label="Suffixes"
-            :rules="rules.letters"
             v-model="form.name.suffixes"
             hint="comma separated ex: engr, mit"
             outlined
