@@ -14,7 +14,7 @@ route.post("/create", async (req, res) => {
     form.name.suffixes = form.name.suffixes.split(",");
 
   const { error } = create(form);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).send(error.details[0]);
 
   form.name.middle_initial = form.name.middle_initial.toUpperCase();
   form.name.firstname = getFixedName(form.name.firstname);
