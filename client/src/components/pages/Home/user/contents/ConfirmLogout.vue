@@ -12,7 +12,7 @@ export default {
   },
   methods: {
     handleLogout() {
-      sessionStorage.clear();
+      localStorage.clear();
       return this.$router.replace(`/${this.getUserType}/login`);
     },
   },
