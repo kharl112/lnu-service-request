@@ -32,6 +32,7 @@ const admin = {
         const { data } = await axios.post("/api/admin/login", form);
         commit("setLoading", { loading: false, type: "login" });
         localStorage.setItem("Authorization", data.token);
+        localStorage.setItem("UserType", "admin");
         return router.replace("/admin/home/tokens");
       } catch (error) {
         const { message } = error.response.data || error;

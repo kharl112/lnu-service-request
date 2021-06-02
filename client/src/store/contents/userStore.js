@@ -37,6 +37,7 @@ const faculty = {
         const { data } = await axios.post("/api/user/login", form);
         commit("setLoading", { loading: false, type: "login" });
         localStorage.setItem("Authorization", data.token);
+        localStorage.setItem("UserType", "user");
         return router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
@@ -52,6 +53,7 @@ const faculty = {
         const { data } = await axios.post("/api/user/create", form);
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
+        localStorage.setItem("UserType", "user");
         return router.replace("/faculty/register/step=4");
       } catch (error) {
         const { message } = error.response.data || error;
