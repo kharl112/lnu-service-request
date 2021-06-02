@@ -28,6 +28,7 @@ export default {
     },
     handleSubmit() {
       if (this.$refs.form.validate()) {
+        this.edit_mode = false;
         return this.$store.dispatch("admin/adminUpdate", this.form);
       }
     },
