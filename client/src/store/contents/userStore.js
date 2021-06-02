@@ -12,6 +12,7 @@ const faculty = {
       login: false,
       email: false,
       register: false,
+      update: false,
       all_head: false,
     },
   }),
@@ -55,6 +56,24 @@ const faculty = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    userUpdate: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "update" });
+      try {
+        await axios.post("/api/user/update", form, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "update" });
+        dispatch("message/successMessage", "updated successfully", {
+          root: true,
+        });
+        return dispatch("userProfile");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "update" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
