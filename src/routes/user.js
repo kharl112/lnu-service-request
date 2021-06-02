@@ -8,25 +8,31 @@ const userAuth = require("../authentication/userAuth");
 require("dotenv").config();
 
 route.post("/create", async (req, res) => {
-  req.body.name.middle_initial = req.body.name.middle_initial.toUpperCase();
-  req.body.name.suffixes = req.body.name.suffixes.split(",");
+  const form = { ...req.body };
 
-  const { error } = create(req.body);
+  if (typeof form.name.suffixes !== "object")
+    form.name.suffixes = form.name.suffixes.split(",");
+
+  const { error } = create(form);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const user_email_found = await User.findOne({ email: req.body.email });
+  form.name.middle_initial = form.name.middle_initial.toUpperCase();
+  form.name.firstname = getFixedName(form.name.firstname);
+  form.name.lastname = getFixedName(form.name.lastname);
+
+  const user_email_found = await User.findOne({ email: form.email });
   if (user_email_found)
     return res.status(400).send({ message: "this email already exists." });
 
-  const user_staff_id = await User.findOne({ staff_id: req.body.staff_id });
+  const user_staff_id = await User.findOne({ staff_id: form.staff_id });
   if (user_staff_id)
     return res.status(400).send({ message: "staff_id  already exists." });
 
   const salt = bcrypt.genSaltSync(10);
-  const hash = bcrypt.hashSync(req.body.password, salt);
+  const hash = bcrypt.hashSync(form.password, salt);
 
   const user = new User({
-    ...req.body,
+    ...form,
     password: hash,
     signature_url: {},
     permitted: false,
@@ -52,11 +58,12 @@ route.post("/update", userAuth, async (req, res) => {
     form[node] ? delete form[node] : null
   );
 
+  if (typeof form.name.suffixes !== "object")
+    form.name.suffixes = form.name.suffixes.split(",");
+
   const { error } = update(form);
   if (error) return res.status(400).send(error.details[0]);
 
-  if (typeof form.name.suffixes !== "object")
-    form.name.suffixes = form.name.suffixes.split(",");
   form.name.middle_initial = form.name.middle_initial.toUpperCase();
   form.name.firstname = getFixedName(form.name.firstname);
   form.name.lastname = getFixedName(form.name.lastname);
