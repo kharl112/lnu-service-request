@@ -51,7 +51,7 @@ route.post("/create", async (req, res) => {
   }
 });
 
-route.post("/update", async (req, res) => {
+route.post("/update", adminAuth, async (req, res) => {
   const form = { ...req.body };
 
   await ["email", "permitted", "password"].map((node) =>
@@ -68,19 +68,20 @@ route.post("/update", async (req, res) => {
   form.name.firstname = getFixedName(form.name.firstname);
   form.name.lastname = getFixedName(form.name.lastname);
 
-  const user_staff_id = await User.findOne({ staff_id: form.staff_id });
-  if (user_staff_id)
+  const admin_staff_id = await Admin.findOne({
+    staff_id: form.staff_id,
+    email: { $ne: req.locals.email },
+  });
+  if (admin_staff_id)
     return res.status(400).send({ message: "staff_id  already exists." });
 
   try {
     const updated_admin = await Admin.findOneAndUpdate(
       {
         staff_id: req.locals.staff_id,
-        email: { $ne: req.locals.email },
       },
       { ...form }
     );
-
     if (!updated_admin)
       return res
         .status(500)
@@ -88,6 +89,7 @@ route.post("/update", async (req, res) => {
 
     return res.send({ message: "account successfully updated" });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
