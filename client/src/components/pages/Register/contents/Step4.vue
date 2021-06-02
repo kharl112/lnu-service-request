@@ -34,7 +34,7 @@ export default {
     <v-form ref="form" @submit="handleSubmit">
       <v-text-field
         class="input"
-        label="Enter Administration Referal Code"
+        label="Enter Administration Access Code"
         v-model="token"
         :rules="rules.notNull"
         :disabled="getLoading"
