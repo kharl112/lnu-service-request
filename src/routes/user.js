@@ -67,7 +67,10 @@ route.post("/update", userAuth, async (req, res) => {
   form.name.firstname = getFixedName(form.name.firstname);
   form.name.lastname = getFixedName(form.name.lastname);
 
-  const user_staff_id = await User.findOne({ staff_id: form.staff_id });
+  const user_staff_id = await User.findOne({
+    staff_id: form.staff_id,
+    email: { $ne: req.locals.email },
+  });
   if (user_staff_id)
     return res.status(400).send({ message: "ID number already exists" });
 
