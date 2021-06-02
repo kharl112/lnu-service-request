@@ -21,6 +21,7 @@ import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
 import Tokens from "../components/pages/Home/admin/children/Tokens";
 import AdminSigned from "../components/pages/Home/admin/children/AdminSigned";
 import AdminPending from "../components/pages/Home/admin/children/AdminPending";
+import AdminSettings from "../components/pages/Home/admin/children/AdminSettings";
 
 import store from "../store/store";
 import axios from "axios";
@@ -162,6 +163,7 @@ export const routes = [
     },
     children: [
       { path: "tokens", component: Tokens },
+      { path: "settings", component: AdminSettings },
       {
         path: "pending",
         component: AdminPending,
