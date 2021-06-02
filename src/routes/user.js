@@ -34,7 +34,6 @@ route.post("/create", async (req, res) => {
   const user = new User({
     ...form,
     password: hash,
-    signature_url: {},
     permitted: false,
   });
 
