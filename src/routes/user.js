@@ -1,6 +1,7 @@
 const route = require("express").Router();
 const User = require("../db/models/user_model");
-const { create, login } = require("../validation/user_validation");
+const { create, login, update } = require("../validation/user_validation");
+const { getFixedName } = require("../functions/generateProfile");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const userAuth = require("../authentication/userAuth");
@@ -37,6 +38,47 @@ route.post("/create", async (req, res) => {
       expiresIn: "7d",
     });
     return res.send({ token });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "we can't process your request, please try again." });
+  }
+});
+
+route.post("/update", userAuth, async (req, res) => {
+  const form = { ...req.body };
+
+  await ["email", "permitted", "password"].map((node) =>
+    form[node] ? delete form[node] : null
+  );
+
+  const { error } = update(form);
+  if (error) return res.status(400).send(error.details[0]);
+
+  if (typeof form.name.suffixes !== "object")
+    form.name.suffixes = form.name.suffixes.split(",");
+  form.name.middle_initial = form.name.middle_initial.toUpperCase();
+  form.name.firstname = getFixedName(form.name.firstname);
+  form.name.lastname = getFixedName(form.name.lastname);
+
+  const user_staff_id = await User.findOne({ staff_id: form.staff_id });
+  if (user_staff_id)
+    return res.status(400).send({ message: "ID number already exists" });
+
+  try {
+    const updated_user = await User.findOneAndUpdate(
+      {
+        staff_id: req.locals.staff_id,
+      },
+      { ...form }
+    );
+
+    if (!updated_user)
+      return res
+        .status(500)
+        .send({ message: "we can't process your request, please try again." });
+
+    return res.send({ message: "account successfully updated" });
   } catch (error) {
     return res
       .status(500)
