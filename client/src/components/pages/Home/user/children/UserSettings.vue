@@ -7,7 +7,6 @@ export default {
     unit_roles: [
       { role: "Unit Member/Personnel", value: 1 },
       { role: "Unit Head", value: 2 },
-      { role: "Others", value: 3 },
     ],
     rules: {
       id: (v) => v.length === 7 || "ID number must be 7 digits",
