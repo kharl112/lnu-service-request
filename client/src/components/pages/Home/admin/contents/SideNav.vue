@@ -109,7 +109,7 @@ export default {
 
     <v-list dense>
       <v-subheader v-show="!mini">Account</v-subheader>
-      <v-list-item-group color="primary" v-model="route">
+      <v-list-item-group color="warning" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
@@ -119,19 +119,14 @@ export default {
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
+      <v-list-item @click="showLogout" link>
+        <v-list-item-icon>
+          <v-icon color="primary">mdi-logout</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title class="primary--text">Logout</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
-    <v-btn
-      v-show="!mini"
-      block
-      color="primary"
-      class="rounded-0 mt-2"
-      elevation="0"
-      @click="showLogout"
-    >
-      Logout
-      <v-icon right>
-        mdi-logout
-      </v-icon>
-    </v-btn>
   </v-navigation-drawer>
 </template>

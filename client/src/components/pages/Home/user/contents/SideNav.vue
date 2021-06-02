@@ -155,20 +155,15 @@ export default {
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
+      <v-list-item @click="showLogout" link>
+        <v-list-item-icon>
+          <v-icon color="warning">mdi-logout</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title class="warning--text">Logout</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
-    <v-btn
-      v-show="!mini"
-      block
-      color="warning"
-      class="rounded-0 mt-2"
-      elevation="0"
-      @click="showLogout"
-    >
-      Logout
-      <v-icon right>
-        mdi-logout
-      </v-icon>
-    </v-btn>
   </v-navigation-drawer>
 </template>
 
