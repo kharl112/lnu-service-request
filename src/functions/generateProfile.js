@@ -6,4 +6,7 @@ const getFullName = (name) =>
 const getDepartment = ({ unit_role, unit_name }) =>
   `${unit_name} ${unit_role === 1 ? "" : "Head"} Department`;
 
-module.exports = { getFullName, getDepartment };
+const getFixedName = (name) =>
+  name.toLowerCase().replace(/^[a-z]/gi, (first) => first.toUpperCase());
+
+module.exports = { getFullName, getDepartment, getFixedName };
