@@ -18,18 +18,23 @@ export default {
       numbers: (v) => /\d/gi.test(v) || "Only numbers allowed in this field",
     },
   }),
+  computed: {
+    getProfile() {
+      return this.$store.getters["faculty/getProfile"];
+    },
+    getLoading() {
+      return this.$store.getters["faculty/getLoading"];
+    },
+  },
   methods: {
     resetForm(edit_mode = false) {
       this.edit_mode = edit_mode;
-      return (this.form = JSON.parse(
-        JSON.stringify(this.$store.getters["faculty/getProfile"])
-      ));
+      return (this.form = JSON.parse(JSON.stringify(this.getProfile)));
     },
     handleSubmit() {
       if (this.$refs.form.validate()) {
-        return console.log("validated");
+        return this.$store.dispatch("faculty/userUpdate", this.form);
       }
-      return console.log("unvalidated");
     },
   },
   created() {
@@ -41,7 +46,7 @@ export default {
   <v-container fluid class="pa-3">
     <v-row justify="start" align="start">
       <v-col cols="12" sm="12" md="8">
-        <v-form ref="form">
+        <v-form ref="form" :disabled="getLoading.profile || getLoading.update">
           <v-row>
             <v-col cols="12" class="pb-0">
               <v-container fluid>
