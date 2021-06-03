@@ -3,6 +3,11 @@ export default {
   name: "UserSettings",
   data: () => ({
     form: null,
+    password: {
+      old: "",
+      new_1: "",
+      new_2: "",
+    },
     edit_mode: false,
     unit_roles: [
       { role: "Unit Member/Personnel", value: 1 },
@@ -106,7 +111,7 @@ export default {
             </v-col>
             <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
-                <v-subheader>Name</v-subheader>
+                <v-subheader class="pa-0 mr-0">Name</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
@@ -183,7 +188,7 @@ export default {
             </v-col>
             <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
-                <v-subheader>Department</v-subheader>
+                <v-subheader class="pa-0 mr-0">Department</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
@@ -218,7 +223,7 @@ export default {
             </v-col>
             <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
-                <v-subheader>Contact Information</v-subheader>
+                <v-subheader class="pa-0 mr-0">Contact Information</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
@@ -232,6 +237,74 @@ export default {
                       label="Email"
                       dense
                       disabled
+                    />
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-col>
+            <v-col cols="12" class="pt-0 pb-0">
+              <v-container fluid>
+                <v-row justify="start" align="center">
+                  <v-col cols="6">
+                    <v-container fluid class="pa-0">
+                      <v-subheader class="pa-0 mr-0 error--text">
+                        Change Password
+                      </v-subheader>
+                    </v-container>
+                  </v-col>
+                  <v-col cols="6" align="end">
+                    <v-container>
+                      <v-row justify="end">
+                        <v-tooltip bottom>
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              v-show="edit_mode"
+                              v-bind="attrs"
+                              v-on="on"
+                              icon
+                              class="mr-4"
+                              color="primary"
+                            >
+                              <v-icon size="30">mdi-content-save</v-icon>
+                            </v-btn>
+                          </template>
+                          <span> Save changes</span>
+                        </v-tooltip>
+                      </v-row>
+                    </v-container>
+                  </v-col>
+                </v-row>
+                <v-divider />
+              </v-container>
+            </v-col>
+            <v-col cols="12">
+              <v-container fluid class="pt-2 pb-0">
+                <v-row justify="start" align="start" dense>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="password.old"
+                      :disabled="!edit_mode"
+                      outlined
+                      label="Type your old password"
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="password.new_1"
+                      :disabled="!edit_mode"
+                      outlined
+                      label="New password"
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <v-text-field
+                      v-model="password.new_2"
+                      :disabled="!edit_mode"
+                      outlined
+                      label="Retype new password"
+                      dense
                     />
                   </v-col>
                 </v-row>
