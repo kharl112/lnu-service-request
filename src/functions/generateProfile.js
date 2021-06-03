@@ -9,4 +9,15 @@ const getDepartment = ({ unit_role, unit_name }) =>
 const getFixedName = (name) =>
   name.toLowerCase().replace(/^[a-z]/gi, (first) => first.toUpperCase());
 
-module.exports = { getFullName, getDepartment, getFixedName };
+const getFullDate = (date) => {
+  const new_date = new Date(date);
+  return `${
+    new_date.getMonth() + 1 < 10
+      ? `0${new_date.getMonth() + 1}`
+      : new_date.getMonth() + 1
+  }/${
+    new_date.getDate() < 10 ? `0${new_date.getDate()}` : new_date.getDate()
+  }/${new_date.getFullYear()}`;
+};
+
+module.exports = { getFullName, getDepartment, getFixedName, getFullDate };
