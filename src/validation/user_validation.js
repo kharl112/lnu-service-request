@@ -31,7 +31,6 @@ const login = (body) => {
 
 const update = (body) => {
   const schema = Joi.object({
-    staff_id: validString.min(7).max(7),
     name: Joi.object({
       firstname: validString.min(2).max(255),
       lastname: validString.min(2).max(255),
