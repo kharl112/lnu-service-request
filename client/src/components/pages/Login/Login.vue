@@ -218,7 +218,7 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-container fluid class="pa-0 pt-3">
-                      <router-link to="/forgot/password">
+                      <router-link :to="`forgot/password`">
                         I forgot my password
                       </router-link>
                     </v-container>
