@@ -103,9 +103,10 @@ const faculty = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "change_password" });
-        return dispatch("message/successMessage", "password changed", {
+        dispatch("message/successMessage", "password changed", {
           root: true,
         });
+        return router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "change_password" });
