@@ -126,6 +126,29 @@ route.post("/validate/email", async (req, res) => {
   return res.send({ email: req.body.email });
 });
 
+route.post("/change/password", userAuth, async (req, res) => {
+  const { old, new1 } = req.body;
+  const user_found = await User.findOne({ staff_id: req.locals.staff_id });
+  if (!user_found)
+    return res.status(400).send({ message: "account not found" });
+
+  const hash = bcrypt.compareSync(old, user_found.password);
+  if (!hash) return res.status(400).send({ message: "invalid password" });
+
+  const salt = bcrypt.genSaltSync(10);
+  const new_hash = bcrypt.hashSync(new1, salt);
+
+  try {
+    user_found.password = new_hash;
+    await user_found.save();
+    return res.send({ message: "password changed" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "we can't process your request, please try again." });
+  }
+});
+
 route.get("/profile", userAuth, async (req, res) => {
   return res.send(req.locals);
 });
