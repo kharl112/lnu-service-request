@@ -48,8 +48,7 @@ export default {
     },
     handleChangePassword() {
       if (this.$refs.change_password.validate()) {
-        this.$store.dispatch("faculty/changePassword", this.password);
-        return this.resetForm();
+        return this.$store.dispatch("faculty/changePassword", this.password);
       }
     },
   },
@@ -299,7 +298,7 @@ export default {
                         @click:append="show_pass = !show_pass"
                         :type="show_pass ? 'text' : 'password'"
                         v-model="password.old"
-                        :disabled="!edit_mode"
+                        :disabled="!edit_mode || getLoading.change_password"
                         :rules="[rules.password[1]]"
                         outlined
                         label="Type your old password"
@@ -309,11 +308,8 @@ export default {
                     <v-col cols="12" md="6">
                       <v-text-field
                         v-model="password.new_1"
-                        :disabled="!edit_mode"
-                        :rules="[
-                          rules.password[0](password.new_2),
-                          rules.password[1],
-                        ]"
+                        :disabled="!edit_mode || getLoading.change_password"
+                        :rules="[rules.password[1]]"
                         type="password"
                         outlined
                         label="New password"
@@ -323,7 +319,7 @@ export default {
                     <v-col cols="12" md="6">
                       <v-text-field
                         v-model="password.new_2"
-                        :disabled="!edit_mode"
+                        :disabled="!edit_mode || getLoading.change_password"
                         :rules="[
                           rules.password[0](password.new_1),
                           rules.password[1],
