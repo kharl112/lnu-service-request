@@ -3,6 +3,7 @@ export default {
   name: "UserSettings",
   data: () => ({
     form: null,
+    show_pass: false,
     password: {
       old: "",
       new_1: "",
@@ -14,6 +15,10 @@ export default {
       { role: "Unit Head", value: 2 },
     ],
     rules: {
+      password: [
+        (v) => (compare_with) => v === compare_with || "Not matched",
+        (v) => v.length > 7 || " Required atleast 8 characters",
+      ],
       id: (v) => v.length === 7 || "ID number must be 7 digits",
       single_letter: (v) =>
         v.length === 1 || "this field must have 1 character",
@@ -39,6 +44,12 @@ export default {
       if (this.$refs.form.validate()) {
         this.edit_mode = false;
         return this.$store.dispatch("faculty/userUpdate", this.form);
+      }
+    },
+    handleChangePassword() {
+      if (this.$refs.change_password.validate()) {
+        this.$store.dispatch("faculty/changePassword", this.password);
+        return this.resetForm();
       }
     },
   },
@@ -261,6 +272,7 @@ export default {
                               v-show="edit_mode"
                               v-bind="attrs"
                               v-on="on"
+                              @click="handleChangePassword"
                               icon
                               class="mr-4"
                               color="primary"
@@ -279,35 +291,51 @@ export default {
             </v-col>
             <v-col cols="12">
               <v-container fluid class="pt-2 pb-0">
-                <v-row justify="start" align="start" dense>
-                  <v-col cols="12">
-                    <v-text-field
-                      v-model="password.old"
-                      :disabled="!edit_mode"
-                      outlined
-                      label="Type your old password"
-                      dense
-                    />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="password.new_1"
-                      :disabled="!edit_mode"
-                      outlined
-                      label="New password"
-                      dense
-                    />
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="password.new_2"
-                      :disabled="!edit_mode"
-                      outlined
-                      label="Retype new password"
-                      dense
-                    />
-                  </v-col>
-                </v-row>
+                <v-form ref="change_password">
+                  <v-row justify="start" align="start" dense>
+                    <v-col cols="12">
+                      <v-text-field
+                        :append-icon="show_pass ? 'mdi-eye-off' : 'mdi-eye'"
+                        @click:append="show_pass = !show_pass"
+                        :type="show_pass ? 'text' : 'password'"
+                        v-model="password.old"
+                        :disabled="!edit_mode"
+                        :rules="[rules.password[1]]"
+                        outlined
+                        label="Type your old password"
+                        dense
+                      />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="password.new_1"
+                        :disabled="!edit_mode"
+                        :rules="[
+                          rules.password[0](password.new_2),
+                          rules.password[1],
+                        ]"
+                        type="password"
+                        outlined
+                        label="New password"
+                        dense
+                      />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <v-text-field
+                        v-model="password.new_2"
+                        :disabled="!edit_mode"
+                        :rules="[
+                          rules.password[0](password.new_1),
+                          rules.password[1],
+                        ]"
+                        type="password"
+                        outlined
+                        label="Retype new password"
+                        dense
+                      />
+                    </v-col>
+                  </v-row>
+                </v-form>
               </v-container>
             </v-col>
           </v-row>
