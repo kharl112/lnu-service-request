@@ -69,7 +69,7 @@ route.post("/update", adminAuth, async (req, res) => {
   form.name.lastname = getFixedName(form.name.lastname);
 
   const admin_staff_id = await Admin.findOne({
-    staff_id: form.staff_id,
+    staff_id: req.locals.staff_id,
     email: { $ne: req.locals.email },
   });
   if (admin_staff_id)

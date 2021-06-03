@@ -68,7 +68,7 @@ route.post("/update", userAuth, async (req, res) => {
   form.name.lastname = getFixedName(form.name.lastname);
 
   const user_staff_id = await User.findOne({
-    staff_id: form.staff_id,
+    staff_id: req.locals.staff_id,
     email: { $ne: req.locals.email },
   });
   if (user_staff_id)
