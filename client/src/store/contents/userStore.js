@@ -13,6 +13,7 @@ const faculty = {
       email: false,
       register: false,
       update: false,
+      change_password: false,
       all_head: false,
     },
   }),
@@ -91,6 +92,23 @@ const faculty = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", null);
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    changePassword: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "change_password" });
+      try {
+        await axios.post("/api/user/change/password", form, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "change_password" });
+        return dispatch("message/successMessage", "password changed", {
+          root: true,
+        });
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "change_password" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
