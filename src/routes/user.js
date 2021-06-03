@@ -127,16 +127,23 @@ route.post("/validate/email", async (req, res) => {
 });
 
 route.post("/change/password", userAuth, async (req, res) => {
-  const { old, new1 } = req.body;
+  const { old, new_1 } = req.body;
+
   const user_found = await User.findOne({ staff_id: req.locals.staff_id });
   if (!user_found)
     return res.status(400).send({ message: "account not found" });
+
+  const same_password = bcrypt.compareSync(new_1, user_found.password);
+  if (same_password)
+    return res
+      .status(400)
+      .send({ message: "new password can't be the same as old password" });
 
   const hash = bcrypt.compareSync(old, user_found.password);
   if (!hash) return res.status(400).send({ message: "invalid password" });
 
   const salt = bcrypt.genSaltSync(10);
-  const new_hash = bcrypt.hashSync(new1, salt);
+  const new_hash = bcrypt.hashSync(new_1, salt);
 
   try {
     user_found.password = new_hash;
