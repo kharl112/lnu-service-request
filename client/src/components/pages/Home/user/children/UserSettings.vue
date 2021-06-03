@@ -171,7 +171,7 @@ export default {
                   <v-col cols="12" sm="4">
                     <v-text-field
                       v-model="form.staff_id"
-                      :disabled="!edit_mode"
+                      disabled
                       :rules="[rules.notNull, rules.numbers, rules.id]"
                       outlined
                       label="ID Number"
