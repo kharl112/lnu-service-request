@@ -119,6 +119,36 @@ route.post("/login", async (req, res) => {
   }
 });
 
+route.post("/change/password", adminAuth, async (req, res) => {
+  const { old, new_1 } = req.body;
+
+  const admin_found = await Admin.findOne({ staff_id: req.locals.staff_id });
+  if (!admin_found)
+    return res.status(400).send({ message: "account not found" });
+
+  const same_password = bcrypt.compareSync(new_1, admin_found.password);
+  if (same_password)
+    return res
+      .status(400)
+      .send({ message: "new password can't be the same as old password" });
+
+  const hash = bcrypt.compareSync(old, admin_found.password);
+  if (!hash) return res.status(400).send({ message: "invalid password" });
+
+  const salt = bcrypt.genSaltSync(10);
+  const new_hash = bcrypt.hashSync(new_1, salt);
+
+  try {
+    admin_found.password = new_hash;
+    await admin_found.save();
+    return res.send({ message: "password changed" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "we can't process your request, please try again." });
+  }
+});
+
 route.get("/profile", adminAuth, async (req, res) => {
   return res.send(req.locals);
 });
