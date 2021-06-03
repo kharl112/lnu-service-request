@@ -9,7 +9,6 @@ const request = require("./src/routes/request");
 const dbconnection = require("./src/db/connection");
 require("dotenv").config();
 
-dbconnection();
 app.use(express.json());
 app.set("views", __dirname + "/public/views");
 app.set("view engine", "pug");
@@ -27,4 +26,6 @@ app.get("/*", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`running on port ${PORT}`));
+dbconnection().then(() =>
+  app.listen(PORT, () => console.log(`running on port ${PORT}`))
+);

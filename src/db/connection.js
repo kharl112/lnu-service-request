@@ -6,12 +6,8 @@ module.exports = () => {
     useNewUrlParser: true,
     useFindAndModify: false,
   });
-  mongoose.connection.once("open", () => {
+
+  return mongoose.connection.once("open", () => {
     console.log("connected to the database");
   });
-
-  mongoose.connection.on(
-    "error",
-    console.error.bind(console, "connection error:")
-  );
 };
