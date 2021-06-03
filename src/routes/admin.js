@@ -54,7 +54,7 @@ route.post("/create", async (req, res) => {
 route.post("/update", adminAuth, async (req, res) => {
   const form = { ...req.body };
 
-  await ["email", "permitted", "password"].map((node) =>
+  await ["email", "permitted", "password", "staff_id"].map((node) =>
     form[node] ? delete form[node] : null
   );
 
