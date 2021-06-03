@@ -216,6 +216,13 @@ export default {
                       Create Account
                     </v-btn>
                   </v-col>
+                  <v-col cols="12">
+                    <v-container fluid class="pa-0 pt-3">
+                      <router-link to="/forgot/password">
+                        I forgot my password
+                      </router-link>
+                    </v-container>
+                  </v-col>
                 </v-row>
               </v-row>
             </v-form>
