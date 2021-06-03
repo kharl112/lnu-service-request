@@ -63,8 +63,12 @@ p {
   width: 100%;
   grid-row-start: 1;
 }
-.greetings {
+.service-type {
   margin-top: 25px;
+  font-weight: bold;
+}
+.date {
+  font-weight: bold;
 }
 .dept-head {
   font-size: 11px;
@@ -114,5 +118,5 @@ svg {
   height: 50px;
   width: 40%;
   position: absolute;
-  margin: -65px 0px 0px -40px;
+  margin: -65px 0px 0px -30px;
 }

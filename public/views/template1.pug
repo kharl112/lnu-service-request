@@ -12,7 +12,8 @@ body
       p(class="header-info-p3") P. Paterno St., Tacloban City 
   div(class="main")
     h3(class="subject")=form.subject
-    p(class="greetings")="Service Type: "+form.service_type
+    p(class="service-type")="Service type: " + form.service_type
+    p(class="date")="Date sent: " + form.date
     div(class="body")
     | !{form.body}
   div(class="recipients")
