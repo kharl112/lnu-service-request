@@ -8,6 +8,9 @@ import Login from "../components/pages/Login/Login";
 
 import Landing from "../components/pages/Landing/Landing";
 
+import ForgotPassword from "../components/pages/ForgotPassword/ForgotPassword";
+import Pass1 from "../components/pages/ForgotPassword/contents/Pass1";
+
 import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
@@ -52,6 +55,18 @@ export const routes = [
         ? next()
         : next(false);
     },
+  },
+  {
+    path: "/:user_type/forgot/password",
+    component: ForgotPassword,
+    beforeEnter: (to, from, next) => {
+      store.dispatch("message/defaultState", null);
+      const { user_type } = to.params;
+      return user_type === "faculty" || user_type === "admin"
+        ? next()
+        : next(false);
+    },
+    children: [{ path: "step=1", component: Pass1 }],
   },
   {
     path: "/:user_type/register",
