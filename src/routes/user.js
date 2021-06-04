@@ -162,6 +162,33 @@ route.post("/send/email/link", async (req, res) => {
   }
 });
 
+route.post("/reset/password/:_id_token", async (req, res) => {
+  const { new_password } = req.body;
+  const { _id_token } = req.params;
+
+  const { _id } = jwt.verify(_id_token, process.env.PASSWORD_RESET);
+
+  const user_found = await User.findById(_id);
+  if (!user_found)
+    return res.status(400).send({ message: "account not found" });
+
+  const salt = bcrypt.genSaltSync(10);
+  const new_hash = bcrypt.hashSync(new_password, salt);
+
+  try {
+    user_found.password = new_hash;
+    await user_found.save();
+    const token = jwt.sign({ _id: user_found._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+    return res.send({ token });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "we can't process your request, please try again." });
+  }
+});
+
 route.post("/change/password", userAuth, async (req, res) => {
   const { old, new_1 } = req.body;
 
