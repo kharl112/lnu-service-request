@@ -65,7 +65,7 @@ export default {
               Cancel
             </v-btn>
             <v-btn color="warning" type="submit" medium elevation="0">
-              Search
+              Submit
             </v-btn>
           </v-card-actions>
         </v-col>
