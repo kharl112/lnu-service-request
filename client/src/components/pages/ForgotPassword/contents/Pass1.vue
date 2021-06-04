@@ -12,16 +12,32 @@ export default {
       },
     };
   },
+  methods: {
+    handleSubmit(e) {
+      e.preventDefault();
+      if (this.$refs.form.validate()) {
+        return this.$store.dispatch(`${this.getUserType}/sendEmailLink`, {
+          email: this.email,
+        });
+      }
+    },
+  },
   computed: {
     getUserType() {
       return this.$route.params.user_type;
+    },
+    getLoading() {
+      return this.$store.getters[`${this.getUserType}/getLoading`];
+    },
+    getError() {
+      return this.$store.getters["message/getError"];
     },
   },
 };
 </script>
 <template>
   <v-card class="pa-5 ma-2" elevation="5" min-width="250" max-width="500px">
-    <v-form ref="form">
+    <v-form ref="form" @submit="handleSubmit">
       <v-row>
         <v-col cols="12">
           <v-card-title class="pa-0 text-left">
@@ -29,7 +45,13 @@ export default {
           </v-card-title>
         </v-col>
         <v-col cols="12" class="pt-0 pb-0 ">
-          <v-divider />
+          <v-divider v-if="!getLoading.send_email_link" />
+          <v-progress-linear
+            v-else
+            class="mt-5"
+            indeterminate
+            color="primary"
+          />
         </v-col>
         <v-col cols="12">
           <v-subheader class="pa-0 text-left">
@@ -40,14 +62,15 @@ export default {
             type="email"
             :rules="rules.email"
             v-model="email"
+            :disabled="getLoading.send_email_link"
             autofocus
             outlined
             hint="Example: johndoe123@yahoo.com"
           />
         </v-col>
-        <v-col cols="12" v-if="false" class="pa-0 pl-3">
-          <v-alert class="alert" dense type="error">
-            error
+        <v-col cols="12" v-if="getError" class="pa-0 pr-4 pl-4">
+          <v-alert class="text-left alert pa-2" dense type="error">
+            {{ getError }}
           </v-alert>
         </v-col>
         <v-col cols="12">
@@ -60,11 +83,18 @@ export default {
               medium
               type="reset"
               elevation="0"
+              :disabled="getLoading.send_email_link"
               @click="$router.back()"
             >
               Cancel
             </v-btn>
-            <v-btn color="warning" type="submit" medium elevation="0">
+            <v-btn
+              color="warning"
+              :disabled="getLoading.send_email_link"
+              type="submit"
+              medium
+              elevation="0"
+            >
               Submit
             </v-btn>
           </v-card-actions>
