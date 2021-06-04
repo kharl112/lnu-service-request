@@ -127,7 +127,7 @@ route.post("/validate/email", async (req, res) => {
   return res.send({ email: req.body.email });
 });
 
-route.post("/password/reset", async (req, res) => {
+route.post("/send/email/link", async (req, res) => {
   const email_found = await User.findOne({ email: req.body.email });
   if (!email_found) return res.status(400).send({ message: "email not found" });
 
