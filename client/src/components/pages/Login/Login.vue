@@ -89,16 +89,18 @@ export default {
           <v-col cols="12">
             <v-row>
               <v-col cols="12">
-                <h3
-                  :class="
-                    `text-h5 text-sm-h4 text-md-h4 ${
-                      $vuetify.theme.dark ? 'primary--text' : ''
-                    }`
-                  "
-                >
-                  <strong class="warning--text">LNU</strong>
-                  Service Request System
-                </h3>
+                <router-link to="/" class="text-decoration-none">
+                  <h3
+                    :class="
+                      `text-h5 text-sm-h4 text-md-h4 ${
+                        $vuetify.theme.dark ? 'primary--text' : ''
+                      }`
+                    "
+                  >
+                    <strong class="warning--text">LNU</strong>
+                    Service Request System
+                  </h3>
+                </router-link>
               </v-col>
               <v-col cols="12" class="pa-2"><v-divider /></v-col>
               <v-col
