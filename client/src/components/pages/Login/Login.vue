@@ -170,9 +170,10 @@ export default {
                     type="submit"
                     bottom
                     color="primary"
+                    elevation="0"
                     :disabled="getLoading.login"
                     block
-                    large
+                    medium
                   >
                     Login
                   </v-btn>
@@ -211,6 +212,7 @@ export default {
                       type="none"
                       bottom
                       color="warning"
+                      elevation="0"
                       @click="gotoRegister"
                       block
                       medium
