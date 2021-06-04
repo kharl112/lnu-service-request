@@ -10,7 +10,9 @@ import Landing from "../components/pages/Landing/Landing";
 
 import ForgotPassword from "../components/pages/ForgotPassword/ForgotPassword";
 import Pass1 from "../components/pages/ForgotPassword/contents/Pass1";
+import Pass2 from "../components/pages/ForgotPassword/contents/Pass2";
 import Pass3 from "../components/pages/ForgotPassword/contents/Pass3";
+
 
 import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
@@ -69,6 +71,7 @@ export const routes = [
     },
     children: [
       { path: "step=1", component: Pass1 },
+      { path: "step=2", component: Pass2 },
       { path: "reset/:encrypted_id", component: Pass3 },
     ],
   },
