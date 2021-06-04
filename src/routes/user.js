@@ -1,4 +1,5 @@
 const route = require("express").Router();
+const nodemailer = require("nodemailer");
 const User = require("../db/models/user_model");
 const { create, login, update } = require("../validation/user_validation");
 const { getFixedName } = require("../functions/generateProfile");
@@ -124,6 +125,41 @@ route.post("/validate/email", async (req, res) => {
     return res.status(400).send({ message: "this email already exists" });
 
   return res.send({ email: req.body.email });
+});
+
+route.post("/password/reset", async (req, res) => {
+  const email_found = await User.findOne({ email: req.body.email });
+  if (!email_found) return res.status(400).send({ message: "email not found" });
+
+  const token = jwt.sign({ _id: email_found._id }, process.env.PASSWORD_RESET, {
+    expiresIn: "1h",
+  });
+
+  const mail = nodemailer.createTransport({
+    service: "gmail",
+    secure: false,
+    auth: {
+      user: process.env.SR_EMAIL,
+      pass: process.env.SR_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: process.env.SR_EMAIL,
+    to: email_found.email,
+    subject: "LnuSR Account Retrieval",
+    text: token,
+  };
+
+  try {
+    await mail.sendMail(mailOptions);
+    return res.send({ message: "email sent" });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .send({ message: "we can't process your request, please try again." });
+  }
 });
 
 route.post("/change/password", userAuth, async (req, res) => {
