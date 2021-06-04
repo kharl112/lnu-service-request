@@ -15,6 +15,7 @@ const faculty = {
       update: false,
       change_password: false,
       all_head: false,
+      send_email_link: false,
     },
   }),
   getters: {
@@ -110,6 +111,22 @@ const faculty = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "change_password" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    sendEmailLink: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "send_email_link" });
+      try {
+        await axios.post("/api/user/send/email/link", form);
+        commit("setLoading", { loading: false, type: "send_email_link" });
+        dispatch("message/successMessage", "E-mail sent", {
+          root: true,
+        });
+        return router.replace("/faculty/forgot/password/step=2");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "send_email_link" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
