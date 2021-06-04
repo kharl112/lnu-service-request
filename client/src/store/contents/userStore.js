@@ -16,6 +16,7 @@ const faculty = {
       change_password: false,
       all_head: false,
       send_email_link: false,
+      reset_password: false,
     },
   }),
   getters: {
@@ -111,6 +112,25 @@ const faculty = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "change_password" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    resetPassword: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "reset_password" });
+      try {
+        const { encrypted_id } = router.history.current.params;
+        const { token } = await axios.post(
+          `/api/user/reset/password/${encrypted_id}`,
+          form
+        );
+        commit("setLoading", { loading: false, type: "reset_password" });
+        localStorage.setItem("Authorization", token);
+        localStorage.setItem("UserType", "user");
+        return router.replace("/faculty/home/drafts");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "reset_password" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
