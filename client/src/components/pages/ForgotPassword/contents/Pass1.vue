@@ -60,6 +60,7 @@ export default {
           <v-text-field
             label="Type your E-mail"
             type="email"
+            class="mt-2"
             :rules="rules.email"
             v-model="email"
             :disabled="getLoading.send_email_link"

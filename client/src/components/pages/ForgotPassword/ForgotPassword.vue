@@ -7,7 +7,7 @@ export default {
   <v-container id="container" fluid>
     <v-row id="row" justify="center" align="center">
       <v-col cols="12" align-self="center" align="center">
-        <transition name="slide" mode="out-in">
+        <transition name="slide-right" mode="out-in">
           <router-view></router-view>
         </transition>
       </v-col>
