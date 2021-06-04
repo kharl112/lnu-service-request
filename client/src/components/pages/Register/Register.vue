@@ -44,17 +44,19 @@ export default {
       class="register-row1"
     >
       <v-col sm="9" md="4">
-        <h3
-          id="heading"
-          :class="
-            `text-h5 text-sm-h4 text-md-h4 ${
-              $vuetify.theme.dark ? 'primary--text' : ''
-            }`
-          "
-        >
-          <em>LNU</em>
-          Service Request System
-        </h3>
+        <router-link to="/" class="text-decoration-none">
+          <h3
+            id="heading"
+            :class="
+              `text-h5 text-sm-h4 text-md-h4 ${
+                $vuetify.theme.dark ? 'primary--text' : ''
+              }`
+            "
+          >
+            <em>LNU</em>
+            Service Request System
+          </h3>
+        </router-link>
         <transition name="slide-right" mode="out-in">
           <router-view :form="form"></router-view>
         </transition>
