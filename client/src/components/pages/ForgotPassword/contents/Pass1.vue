@@ -12,13 +12,29 @@ export default {
       },
     };
   },
+  computed: {
+    getUserType() {
+      return this.$route.params.user_type;
+    },
+  },
 };
 </script>
 <template>
-  <v-card class="pa-5 ma-2" outlined min-width="250" max-width="500px">
+  <v-card class="pa-5 ma-2" elevation="5" min-width="250" max-width="500px">
     <v-form ref="form">
       <v-row>
         <v-col cols="12">
+          <v-card-title class="pa-0 text-left">
+            Find Your Account
+          </v-card-title>
+        </v-col>
+        <v-col cols="12" class="pt-0 pb-0 ">
+          <v-divider />
+        </v-col>
+        <v-col cols="12">
+          <v-subheader class="pa-0 text-left">
+            Please enter your email to search for your account.
+          </v-subheader>
           <v-text-field
             label="Type your E-mail"
             type="email"
@@ -34,10 +50,24 @@ export default {
             error
           </v-alert>
         </v-col>
-        <v-col cols="7" sm="5" md="3" class="pa-0 pl-3">
-          <v-btn type="submit" block bottom color="warning" medium>
-            Next
-          </v-btn>
+        <v-col cols="12">
+          <v-divider />
+        </v-col>
+        <v-col cols="12">
+          <v-card-actions class="pa-0">
+            <v-btn
+              color="grey"
+              medium
+              type="reset"
+              elevation="0"
+              @click="$router.back()"
+            >
+              Cancel
+            </v-btn>
+            <v-btn color="warning" type="submit" medium elevation="0">
+              Search
+            </v-btn>
+          </v-card-actions>
         </v-col>
       </v-row>
     </v-form>
