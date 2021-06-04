@@ -117,15 +117,16 @@ const faculty = {
     },
     resetPassword: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
+      commit("setProfile", null);
       commit("setLoading", { loading: true, type: "reset_password" });
       try {
         const { encrypted_id } = router.history.current.params;
-        const { token } = await axios.post(
+        const { data } = await axios.post(
           `/api/user/reset/password/${encrypted_id}`,
           form
         );
         commit("setLoading", { loading: false, type: "reset_password" });
-        localStorage.setItem("Authorization", token);
+        localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
         return router.replace("/faculty/home/drafts");
       } catch (error) {
