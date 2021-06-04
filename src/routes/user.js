@@ -165,6 +165,7 @@ route.post("/send/email/link", async (req, res) => {
 route.post("/reset/password/:_id_token", async (req, res) => {
   const { new_password } = req.body;
   const { _id_token } = req.params;
+  if (!_id_token) return res.status(500).send({ message: "empty parameter" });
 
   const { _id } = jwt.verify(_id_token, process.env.PASSWORD_RESET);
 
