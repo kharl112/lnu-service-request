@@ -23,17 +23,31 @@ route.post("/create", async (req, res) => {
   form.name.firstname = getFixedName(form.name.firstname);
   form.name.lastname = getFixedName(form.name.lastname);
 
-  const user_found = await User.findOne({
-    email: form.email,
-    staff_id: form.staff_id,
-  });
+  const user_found = await User.aggregate([
+    {
+      $match: {
+        email: { $in: [form.email] },
+        staff_id: { $in: [form.staff_id] },
+      },
+      $match: {
+        staff_id: { $in: [form.staff_id] },
+      },
+    },
+  ]);
 
-  const admin_found = await Admin.findOne({
-    email: form.email,
-    staff_id: form.staff_id,
-  });
+  const admin_found = await Admin.aggregate([
+    {
+      $match: {
+        email: { $in: [form.email] },
+        staff_id: { $in: [form.staff_id] },
+      },
+      $match: {
+        staff_id: { $in: [form.staff_id] },
+      },
+    },
+  ]);
 
-  if (user_found || admin_found)
+  if (user_found[0] || admin_found[0])
     return res
       .status(400)
       .send({ message: "the email or ID number you provided already exists" });
