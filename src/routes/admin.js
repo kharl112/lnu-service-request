@@ -1,5 +1,7 @@
 const route = require("express").Router();
 const nodemailer = require("nodemailer");
+const pug = require("pug");
+const path = require("path");
 const Admin = require("../db/models/admin_model");
 const User = require("../db/models/user_model");
 const generateEmail = require("../functions/generateEmail");
@@ -154,8 +156,21 @@ route.post("/send/email/link", async (req, res) => {
   const mail = nodemailer.createTransport(generateEmail.transport);
 
   try {
+    const html = pug.renderFile(
+      path.join(__dirname + "/../../public/views/reset_password.pug"),
+      {
+        form: {
+          link: `http://localhost:8080/faculty/forgot/password/reset/${token}`,
+          firstname: email_found.name.firstname,
+        },
+      }
+    );
     await mail.sendMail(
-      generateEmail.options(email_found.email, "LnuSR account retrieval", token)
+      generateEmail.options(
+        email_found.email,
+        "LnuSR account retrieval",
+        html.toString()
+      )
     );
     return res.send({ message: "email sent" });
   } catch (error) {

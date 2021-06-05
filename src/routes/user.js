@@ -176,7 +176,11 @@ route.post("/send/email/link", async (req, res) => {
     );
 
     await mail.sendMail(
-      generateEmail.options(email_found.email, "LnuSR account retrieval", html.toString())
+      generateEmail.options(
+        email_found.email,
+        "LnuSR account retrieval",
+        html.toString()
+      )
     );
     return res.send({ message: "email sent" });
   } catch (error) {
