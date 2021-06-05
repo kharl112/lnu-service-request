@@ -12,7 +12,7 @@ const admin = {
       change_password: false,
       all_admin: false,
       reset_password: false,
-      sendEmailLink: false,
+      send_email_link: false,
     },
   }),
   getters: {
