@@ -175,6 +175,12 @@ route.post("/reset/password/:_id_token", async (req, res) => {
     if (!user_found)
       return res.status(400).send({ message: "account not found" });
 
+    const same_password = bcrypt.compareSync(new_password, user_found.password);
+    if (same_password)
+      return res
+        .status(400)
+        .send({ message: "new password can't be the same as old password" });
+
     const salt = bcrypt.genSaltSync(10);
     const new_hash = bcrypt.hashSync(new_password, salt);
 
@@ -182,7 +188,7 @@ route.post("/reset/password/:_id_token", async (req, res) => {
     await user_found.save();
 
     const token = jwt.sign({ _id: user_found._id }, process.env.JWT_SECRET, {
-      expiresIn: 120000,
+      expiresIn: 300000,
     });
 
     return res.send({ token });
