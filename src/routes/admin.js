@@ -1,5 +1,6 @@
 const route = require("express").Router();
 const Admin = require("../db/models/admin_model");
+const generateEmail = require("../functions/generateEmail");
 const adminAuth = require("../authentication/adminAuth");
 const { create, login, update } = require("../validation/admin_validation");
 const { getFixedName } = require("../functions/generateProfile");
@@ -111,6 +112,68 @@ route.post("/login", async (req, res) => {
     const token = jwt.sign({ _id: admin_found._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
+    return res.send({ token });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "we can't process your request, please try again." });
+  }
+});
+
+route.post("/send/email/link", async (req, res) => {
+  const email_found = await Admin.findOne({ email: req.body.email });
+  if (!email_found) return res.status(400).send({ message: "email not found" });
+
+  const token = jwt.sign({ _id: email_found._id }, process.env.PASSWORD_RESET, {
+    expiresIn: 300000,
+  });
+
+  const mail = nodemailer.createTransport(generateEmail.transport);
+
+  try {
+    await mail.sendMail(
+      generateEmail.options(email_found.email, "LnuSR account retrieval", token)
+    );
+    return res.send({ message: "email sent" });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "we can't process your request, please try again." });
+  }
+});
+
+route.post("/reset/password/:_id_token", async (req, res) => {
+  const { new_password } = req.body;
+  const { _id_token } = req.params;
+
+  if (!_id_token) return res.status(500).send({ message: "empty parameter" });
+
+  try {
+    const { _id } = jwt.verify(_id_token, process.env.PASSWORD_RESET);
+
+    const admin_found = await Admin.findById(_id);
+    if (!admin_found)
+      return res.status(400).send({ message: "account not found" });
+
+    const same_password = bcrypt.compareSync(
+      new_password,
+      admin_found.password
+    );
+    if (same_password)
+      return res
+        .status(400)
+        .send({ message: "new password can't be the same as old password" });
+
+    const salt = bcrypt.genSaltSync(10);
+    const new_hash = bcrypt.hashSync(new_password, salt);
+
+    admin_found.password = new_hash;
+    await admin_found.save();
+
+    const token = jwt.sign({ _id: admin_found._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
     return res.send({ token });
   } catch (error) {
     return res
