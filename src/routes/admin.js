@@ -160,7 +160,7 @@ route.post("/send/email/link", async (req, res) => {
       path.join(__dirname + "/../../public/views/reset_password.pug"),
       {
         form: {
-          link: `http://localhost:8080/admin/forgot/password/reset/${token}`,
+          link: `https://lnusr.herokuapp.com/admin/forgot/password/reset/${token}`,
           firstname: email_found.name.firstname,
         },
       }
