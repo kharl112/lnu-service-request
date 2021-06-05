@@ -1,5 +1,6 @@
 const route = require("express").Router();
 const Admin = require("../db/models/admin_model");
+const User = require("../db/models/user_model");
 const generateEmail = require("../functions/generateEmail");
 const adminAuth = require("../authentication/adminAuth");
 const { create, login, update } = require("../validation/admin_validation");
@@ -22,13 +23,20 @@ route.post("/create", async (req, res) => {
   form.name.firstname = getFixedName(form.name.firstname);
   form.name.lastname = getFixedName(form.name.lastname);
 
-  const email_found = await User.findOne({ email: form.email });
-  if (email_found)
-    return res.status(400).send({ message: "this email already exists." });
+  const user_found = await User.findOne({
+    email: form.email,
+    staff_id: form.staff_id,
+  });
 
-  const user_staff_id = await User.findOne({ staff_id: form.staff_id });
-  if (user_staff_id)
-    return res.status(400).send({ message: "staff_id  already exists." });
+  const admin_found = await Admin.findOne({
+    email: form.email,
+    staff_id: form.staff_id,
+  });
+
+  if (user_found && admin_found)
+    return res
+      .status(400)
+      .send({ message: "the email or ID number you provided already exists" });
 
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(form.password, salt);
