@@ -89,6 +89,16 @@ export default {
           <v-card-actions class="pa-0">
             <v-btn
               :disabled="getLoading.reset_password"
+              @click="$router.replace(`/${getUserType}/login`)"
+              color="grey"
+              type="reset"
+              medium
+              elevation="0"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              :disabled="getLoading.reset_password"
               color="warning"
               type="submit"
               medium

@@ -44,7 +44,7 @@ export default {
             Find Your Account
           </v-card-title>
         </v-col>
-        <v-col cols="12" class="pt-0 pb-0 ">
+        <v-col cols="12" class="pt-0 pb-0">
           <v-divider v-if="!getLoading.send_email_link" />
           <v-progress-linear
             v-else
@@ -53,7 +53,7 @@ export default {
             color="primary"
           />
         </v-col>
-        <v-col cols="12">
+        <v-col cols="12" class="pb-0">
           <v-subheader class="pa-0 text-left">
             Please enter your email to search for your account.
           </v-subheader>
@@ -77,7 +77,7 @@ export default {
         <v-col cols="12">
           <v-divider />
         </v-col>
-        <v-col cols="12">
+        <v-col cols="12" class="pt-0">
           <v-card-actions class="pa-0">
             <v-btn
               color="grey"
