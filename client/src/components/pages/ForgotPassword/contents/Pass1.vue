@@ -85,7 +85,7 @@ export default {
               type="reset"
               elevation="0"
               :disabled="getLoading.send_email_link"
-              @click="$router.back()"
+              @click="$router.replace(`/${getUserType}/login`)"
             >
               Cancel
             </v-btn>
