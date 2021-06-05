@@ -36,7 +36,7 @@ const admin = {
         commit("setLoading", { loading: false, type: "login" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        return router.replace("/admin/home/tokens");
+        return router.replace("/admin/home/pending");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });
