@@ -92,7 +92,7 @@ const admin = {
         commit("setLoading", { loading: false, type: "reset_password" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        return router.replace("/faculty/home/pending");
+        return router.replace("/admin/home/pending");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "reset_password" });
