@@ -1,4 +1,5 @@
 const route = require("express").Router();
+const nodemailer = require("nodemailer");
 const Admin = require("../db/models/admin_model");
 const User = require("../db/models/user_model");
 const generateEmail = require("../functions/generateEmail");
