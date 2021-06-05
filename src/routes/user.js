@@ -1,6 +1,7 @@
 const route = require("express").Router();
 const nodemailer = require("nodemailer");
 const User = require("../db/models/user_model");
+const generateEmail = require("../functions/generateEmail");
 const { create, login, update } = require("../validation/user_validation");
 const { getFixedName } = require("../functions/generateProfile");
 const bcrypt = require("bcryptjs");
@@ -135,24 +136,12 @@ route.post("/send/email/link", async (req, res) => {
     expiresIn: "1h",
   });
 
-  const mail = nodemailer.createTransport({
-    service: "gmail",
-    secure: false,
-    auth: {
-      user: process.env.SR_EMAIL,
-      pass: process.env.SR_PASSWORD,
-    },
-  });
-
-  const mailOptions = {
-    from: process.env.SR_EMAIL,
-    to: email_found.email,
-    subject: "LnuSR Account Retrieval",
-    text: token,
-  };
+  const mail = nodemailer.createTransport(generateEmail.transport);
 
   try {
-    await mail.sendMail(mailOptions);
+    await mail.sendMail(
+      generateEmail.options(email_found.email, "LnuSR account retrieval", token)
+    );
     return res.send({ message: "email sent" });
   } catch (error) {
     console.log(error);
