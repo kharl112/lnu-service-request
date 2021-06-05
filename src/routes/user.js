@@ -33,7 +33,7 @@ route.post("/create", async (req, res) => {
     staff_id: form.staff_id,
   });
 
-  if (user_found && admin_found)
+  if (user_found || admin_found)
     return res
       .status(400)
       .send({ message: "the email or ID number you provided already exists" });
