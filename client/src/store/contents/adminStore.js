@@ -11,6 +11,8 @@ const admin = {
       update: false,
       change_password: false,
       all_admin: false,
+      reset_password: false,
+      sendEmailLink: false,
     },
   }),
   getters: {
@@ -74,6 +76,42 @@ const admin = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "change_password" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    resetPassword: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setProfile", null);
+      commit("setLoading", { loading: true, type: "reset_password" });
+      try {
+        const { encrypted_id } = router.history.current.params;
+        const { data } = await axios.post(
+          `/api/admin/reset/password/${encrypted_id}`,
+          form
+        );
+        commit("setLoading", { loading: false, type: "reset_password" });
+        localStorage.setItem("Authorization", data.token);
+        localStorage.setItem("UserType", "admin");
+        return router.replace("/faculty/home/pending");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "reset_password" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    sendEmailLink: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "send_email_link" });
+      try {
+        await axios.post("/api/admin/send/email/link", form);
+        commit("setLoading", { loading: false, type: "send_email_link" });
+        dispatch("message/successMessage", "E-mail sent", {
+          root: true,
+        });
+        return router.replace("/admin/forgot/password/step=2");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "send_email_link" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
