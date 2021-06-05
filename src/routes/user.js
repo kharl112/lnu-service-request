@@ -177,7 +177,7 @@ route.post("/reset/password/:_id_token", async (req, res) => {
     await user_found.save();
 
     const token = jwt.sign({ _id: user_found._id }, process.env.JWT_SECRET, {
-      expiresIn: 300000,
+      expiresIn: "7d",
     });
 
     return res.send({ token });
