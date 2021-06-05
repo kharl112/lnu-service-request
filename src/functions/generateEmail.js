@@ -10,11 +10,11 @@ const generateEmail = (() => {
     },
   };
 
-  const options = (email, subject, text) => ({
+  const options = (email, subject, html) => ({
     from: process.env.SR_EMAIL,
     to: email,
     subject: subject,
-    text: text,
+    html: html,
   });
   return { transport, options };
 })();
