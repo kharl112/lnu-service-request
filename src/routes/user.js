@@ -129,8 +129,10 @@ route.post("/login", async (req, res) => {
 });
 
 route.post("/validate/email", async (req, res) => {
-  const email_found = await User.findOne({ email: req.body.email });
-  if (email_found)
+  const user_email_found = await User.findOne({ email: req.body.email });
+  const admin_email_found = await Admin.findOne({ email: req.body.email });
+
+  if (user_email_found && admin_email_found)
     return res.status(400).send({ message: "this email already exists" });
 
   return res.send({ email: req.body.email });
