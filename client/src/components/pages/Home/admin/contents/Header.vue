@@ -2,9 +2,6 @@
 export default {
   name: "Header",
   computed: {
-    getLoading() {
-      return this.$store.getters["token/getLoading"];
-    },
     darkmode: {
       get() {
         return localStorage.getItem("darkmode") === "true";
@@ -13,11 +10,6 @@ export default {
         localStorage.setItem("darkmode", value);
         return location.reload();
       },
-    },
-  },
-  methods: {
-    handleSubmit() {
-      return this.$store.dispatch("token/generateToken");
     },
   },
 };
@@ -49,9 +41,7 @@ export default {
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                @click="handleSubmit"
                 color="success"
-                :loading="getLoading"
                 class="mr-2"
                 elevation="0"
                 v-bind="attrs"
@@ -60,7 +50,7 @@ export default {
                 <v-icon>mdi-cached</v-icon>
               </v-btn>
             </template>
-            <span>Generate Token</span>
+            <span>Refresh</span>
           </v-tooltip>
           <v-col cols="12">
             <v-divider />
