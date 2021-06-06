@@ -13,6 +13,7 @@ const admin = {
       all_admin: false,
       reset_password: false,
       send_email_link: false,
+      email_permission: false,
     },
   }),
   getters: {
@@ -112,6 +113,24 @@ const admin = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "send_email_link" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    emailPermission: async ({ commit, dispatch }, { staff_id }) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "email_permission" });
+      try {
+        await axios.post(`/email/permission/code/${staff_id}`, null, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "email_permission" });
+        dispatch("message/successMessage", "account permitted", {
+          root: true,
+        });
+        return dispatch("faculty/allUsers", { type: "pending" });
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "email_permission" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
