@@ -6,7 +6,7 @@ const User = require("../db/models/user_model");
 const Admin = require("../db/models/admin_model");
 const generateEmail = require("../functions/generateEmail");
 const { create, login, update } = require("../validation/user_validation");
-const { getFixedName } = require("../functions/generateProfile");
+const { getFixedName, getFullName } = require("../functions/generateProfile");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const userAuth = require("../authentication/userAuth");
@@ -298,7 +298,7 @@ route.get("/head/all", userAuth, async (req, res) => {
   });
   return res.send(
     all_head.map((node, index) => ({
-      name: `${node.name.prefix}. ${node.name.firstname} ${node.name.middle_initial}. ${node.name.lastname}`,
+      name: getFullName(node.name),
       staff_id: node.staff_id,
     }))
   );

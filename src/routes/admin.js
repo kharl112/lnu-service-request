@@ -10,7 +10,7 @@ const User = require("../db/models/user_model");
 const Token = require("../db/models/token_model");
 
 const generateEmail = require("../functions/generateEmail");
-const { getFixedName } = require("../functions/generateProfile");
+const { getFixedName, getFullName } = require("../functions/generateProfile");
 
 const adminAuth = require("../authentication/adminAuth");
 const userAuth = require("../authentication/userAuth");
@@ -302,7 +302,7 @@ route.get("/all", userAuth, async (req, res) => {
   });
   return res.send(
     all_admin.map((node, index) => ({
-      name: `${node.name.prefix}. ${node.name.firstname} ${node.name.middle_initial}. ${node.name.lastname}`,
+      name: getFullName(node.name),
       staff_id: node.staff_id,
     }))
   );
