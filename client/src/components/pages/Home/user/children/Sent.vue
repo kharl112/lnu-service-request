@@ -62,33 +62,33 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-3">
+  <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
-      <v-col cols="12" sm="12" md="8">
-        <v-container fluid class="pa-0">
+      <v-col cols="12" sm="12" md="8" class="pa-0">
+        <v-container fluid class="pa-2">
           <v-col cols="12">
-            <v-row class="pa-2 pt-0" justify="start" align="start">
-              <v-col cols="3" sm="3" md="2" class="pa-0">
-                <v-subheader class="pa-0">Flags:</v-subheader>
-              </v-col>
-              <v-col cols="3" sm="3" md="2">
-                <v-chip small color="error">
-                  <small class="hidden-sm-and-down"> unsigned </small>
-                </v-chip>
-              </v-col>
-              <v-col cols="3" sm="3" md="2">
-                <v-chip small color="primary">
-                  <small class="hidden-sm-and-down"> signed </small>
-                </v-chip>
-              </v-col>
-              <v-col cols="3" sm="3" md="2">
-                <v-chip small color="success">
-                  <small class="hidden-sm-and-down"> fully signed </small>
-                </v-chip>
-              </v-col>
+            <v-row>
+              <v-chip
+                color="error"
+                class="text-caption text-uppercase font-weight-bold ma-2"
+              >
+                unsigned
+              </v-chip>
+              <v-chip
+                color="primary"
+                class="text-caption  text-uppercase font-weight-bold ma-2"
+              >
+                signed
+              </v-chip>
+              <v-chip
+                color="success"
+                class="text-caption  text-uppercase font-weight-bold ma-2"
+              >
+                fully-signed
+              </v-chip>
             </v-row>
-            <v-divider />
           </v-col>
+          <v-divider />
         </v-container>
         <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
           <v-row justify="start" justify-sm="start" align="start">
@@ -106,35 +106,58 @@ export default {
                       {{ getTimeOrDate(send.date) }}
                       <v-badge
                         class="pl-2"
+                        offset-y="-5"
+                        offset-x="5"
                         v-if="send.head.signature && send.admin.signature"
-                        small
+                        dot
                         color="success"
                       />
                       <v-badge
                         class="pl-2"
+                        offset-y="-5"
+                        offset-x="5"
                         v-else-if="send.head.signature"
-                        small
+                        dot
                         color="primary"
                       />
                       <v-badge
                         class="pl-2"
+                        offset-y="-5"
+                        offset-x="5"
                         v-else-if="send.admin.signature"
-                        small
+                        dot
                         color="primary"
                       />
-                      <v-badge class="pl-2" v-else small color="error" />
+                      <v-badge
+                        class="pl-2"
+                        offset-y="-5"
+                        offset-x="5"
+                        v-else
+                        dot
+                        color="error"
+                      />
                     </div>
-                    <v-list-item-title class="headline mb-1">
+                    <v-list-item-title class="subtitle mb-1">
                       {{ send.subject }}
                     </v-list-item-title>
-                    <v-list-item-subtitle>{{ send.body }}</v-list-item-subtitle>
+                    <v-list-item-subtitle class="subtitle-2 mb-2">{{
+                      send.body
+                    }}</v-list-item-subtitle>
+                    <v-divider class="pb-2" />
+                    <v-list-item-subtitle
+                      class="caption primary--text font-weight-bold"
+                      >{{ send.service_type }}</v-list-item-subtitle
+                    >
                   </v-list-item-content>
                 </v-list-item>
 
                 <v-card-actions>
                   <v-btn
                     color="error"
-                    class="ma-2 white--text hidden-md-and-down"
+                    rounded
+                    outlined
+                    small
+                    class="ma-2 hidden-md-and-down"
                     :disabled="getPDFLoading"
                     @click="downloadPDF(send._id)"
                   >
