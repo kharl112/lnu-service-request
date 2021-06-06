@@ -275,7 +275,7 @@ route.post("/email/permission/code/:staff_id", adminAuth, async (req, res) => {
 
     await mail.sendMail(
       generateEmail.options(
-        email_found.email,
+        user_found.email,
         "LnuSR send you a account permission code",
         `<h3>${user_token.token}</h3>`
       )
