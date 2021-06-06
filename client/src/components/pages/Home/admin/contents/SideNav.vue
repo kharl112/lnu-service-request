@@ -11,6 +11,7 @@ export default {
       { title: "Signed", icon: "mdi-email-edit" },
       { title: "Pending", icon: "mdi-email-alert" },
       { title: "Tokens", icon: "mdi-checkbox-multiple-blank-circle" },
+      { title: "Faculty", icon: "mdi-account-alert" },
     ],
   }),
   computed: {
