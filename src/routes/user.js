@@ -10,6 +10,7 @@ const { getFixedName } = require("../functions/generateProfile");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const userAuth = require("../authentication/userAuth");
+const adminAuth = require("../authentication/adminAuth");
 require("dotenv").config();
 
 route.post("/create", async (req, res) => {
@@ -260,6 +261,29 @@ route.post("/change/password", userAuth, async (req, res) => {
 
 route.get("/profile", userAuth, async (req, res) => {
   return res.send(req.locals);
+});
+
+route.get("/all", adminAuth, async (req, res) => {
+  const all_users = await User.find({}).select({ _id: 0, password: 0, __v: 0 });
+  return res.send(all_users);
+});
+
+route.get("/permitted", adminAuth, async (req, res) => {
+  const permitted_users = await User.find({ permitted: true }).select({
+    _id: 0,
+    password: 0,
+    __v: 0,
+  });
+  return res.send(permitted_users);
+});
+
+route.get("/pending", adminAuth, async (req, res) => {
+  const pending_users = await User.find({ permitted: false }).select({
+    _id: 0,
+    password: 0,
+    __v: 0,
+  });
+  return res.send(pending_users);
 });
 
 route.get("/head/all", userAuth, async (req, res) => {
