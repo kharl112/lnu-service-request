@@ -1,12 +1,158 @@
 <script>
 export default {
   name: "FacultyPermission",
+  data: () => ({
+    colors: ["primary", "warning", "error", "success"],
+    selected: "pending",
+    items: [
+      { text: "All", value: "all" },
+      { text: "Permitted", value: "permitted" },
+      { text: "Pending", value: "pending" },
+    ],
+  }),
+  computed: {
+    getLoading() {
+      return this.$store.getters["faculty/getLoading"];
+    },
+    getAllUsers() {
+      return this.$store.getters["faculty/getAllUsers"];
+    },
+    filter: {
+      get() {
+        return this.selected;
+      },
+      set(type) {
+        return this.$store.dispatch("faculty/allUsers", { type });
+      },
+    },
+  },
+  methods: {
+    getInitials(name) {
+      const { firstname, lastname } = name;
+      return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
+    },
+    getFullname(name) {
+      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
+      return `${
+        prefix ? `${prefix}.` : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
+    getRandomColor() {
+      return this.colors[Math.floor(Math.random() * this.colors.length)];
+    },
+  },
+  created() {
+    this.filter = "pending";
+  },
 };
 </script>
 <template>
   <v-container fluid class="pa-3">
     <v-row dense justify="start">
-      <v-col cols="12" sm="12" md="8"> </v-col>
+      <v-col cols="12" sm="12" md="8">
+        <v-col cols="12">
+          <v-container fluid>
+            <v-row justify-md="end" align-md="start">
+              <v-select
+                v-model="filter"
+                prepend-inner-icon="mdi-filter"
+                default="3"
+                :items="items"
+                item-value="value"
+                item-text="text"
+                label="Filter"
+                outlined
+              />
+            </v-row>
+          </v-container>
+        </v-col>
+        <v-col
+          cols="12"
+          class="pa-0"
+          v-if="getAllUsers[0] && !getLoading.all_users"
+        >
+          <v-container fluid>
+            <v-simple-table>
+              <template v-slot:default>
+                <tbody>
+                  <tr v-for="user in getAllUsers" :key="user.staff_id">
+                    <td class="text-left">
+                      <v-col cols="2">
+                        <v-avatar size="30" :color="getRandomColor()">
+                          <span class="white--text text-subtitle-1 text-bold">
+                            {{ getInitials(user.name) }}
+                          </span>
+                        </v-avatar>
+                      </v-col>
+                    </td>
+                    <td class="text-left mb-1">
+                      <v-list-item-title
+                        class="pa-0 text-caption font-weight-bold"
+                      >
+                        {{ getFullname(user.name) }}
+                        <v-icon
+                          class="ml-2"
+                          small
+                          :color="!user.permitted ? 'error' : 'success'"
+                        >
+                          {{ !user.permitted ? "mdi-close" : "mdi-check" }}
+                        </v-icon>
+                      </v-list-item-title>
+                      <v-spacer />
+                      <v-list-item-subtitle class="pa-0 text-caption2 ">
+                        {{
+                          `${
+                            user.department.unit_role === 1 ? "Member" : "Head"
+                          } in ${user.department.unit_name}`
+                        }}
+                      </v-list-item-subtitle>
+                    </td>
+                    <td class="text-center">
+                      <v-row justify="center" align="center">
+                        <v-col cols="12" class="pa-0">
+                          <v-tooltip bottom>
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                icon
+                                color="success"
+                                class="ml-2"
+                                :disabled="user.permitted"
+                                large
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                <v-icon>
+                                  mdi-lock-check
+                                </v-icon>
+                              </v-btn>
+                            </template>
+                            <span>Give permission to this account</span>
+                          </v-tooltip>
+                        </v-col>
+                      </v-row>
+                    </td>
+                  </tr>
+                </tbody>
+              </template>
+            </v-simple-table>
+          </v-container>
+        </v-col>
+        <v-col cols="12" v-else-if="getLoading.all_users">
+          <v-skeleton-loader type="table" />
+        </v-col>
+        <v-col cols="12" v-else-if="!getAllUsers[0] && !getLoading.all_users">
+          <v-row justify="start">
+            <v-col cols="12">
+              <v-banner single-line>
+                <v-icon slot="icon" color="warning" size="36">
+                  mdi-exclamation-thick
+                </v-icon>
+                No pending request for permissions
+              </v-banner>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
       <v-col md="4" class="hidden-sm-and-down">
         <v-row>

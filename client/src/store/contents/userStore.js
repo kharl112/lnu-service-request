@@ -7,7 +7,7 @@ const faculty = {
     profile: null,
     email: null,
     heads: null,
-    all_users: null,
+    all_users: [],
     loading: {
       profile: false,
       login: false,
