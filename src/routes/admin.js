@@ -2,15 +2,21 @@ const route = require("express").Router();
 const nodemailer = require("nodemailer");
 const pug = require("pug");
 const path = require("path");
-const Admin = require("../db/models/admin_model");
-const User = require("../db/models/user_model");
-const generateEmail = require("../functions/generateEmail");
-const adminAuth = require("../authentication/adminAuth");
-const { create, login, update } = require("../validation/admin_validation");
-const { getFixedName } = require("../functions/generateProfile");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
+const Admin = require("../db/models/admin_model");
+const User = require("../db/models/user_model");
+const Token = require("../db/models/token_model");
+
+const generateEmail = require("../functions/generateEmail");
+const { getFixedName } = require("../functions/generateProfile");
+
+const adminAuth = require("../authentication/adminAuth");
 const userAuth = require("../authentication/userAuth");
+
+const { create, login, update } = require("../validation/admin_validation");
+
 require("dotenv").config();
 
 route.post("/create", async (req, res) => {
@@ -247,6 +253,38 @@ route.post("/change/password", adminAuth, async (req, res) => {
     return res
       .status(500)
       .send({ message: "we can't process your request, please try again." });
+  }
+});
+
+route.post("/email/permission/code/:staff_id", adminAuth, async (req, res) => {
+  const { staff_id } = req.params;
+
+  const user_found = await User.findOne({ staff_id: staff_id });
+  if (!user_found) return res.status(400).send({ message: "user not found" });
+
+  const user_token = new Token({
+    creatorID: staff_id,
+    claimerID: "",
+    claimed: false,
+    token: Math.random().toString(36).substring(4),
+  });
+
+  try {
+    await user_token.save();
+    const mail = nodemailer.createTransport(generateEmail.transport);
+
+    await mail.sendMail(
+      generateEmail.options(
+        email_found.email,
+        "LnuSR send you a account permission code",
+        `<h3>${user_token.token}</h3>`
+      )
+    );
+    return res.send({ message: `the code was sent to ${user_found.staff_id}` });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
   }
 });
 
