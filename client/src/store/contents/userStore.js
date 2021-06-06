@@ -7,6 +7,7 @@ const faculty = {
     profile: null,
     email: null,
     heads: null,
+    all_users: null,
     loading: {
       profile: false,
       login: false,
@@ -15,6 +16,7 @@ const faculty = {
       update: false,
       change_password: false,
       all_head: false,
+      all_users: false,
       send_email_link: false,
       reset_password: false,
     },
@@ -24,12 +26,14 @@ const faculty = {
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
     getAllHead: (state) => state.heads,
+    getAllUsers: (state) => state.all_users,
   },
   mutations: {
     setEmail: (state, email) => (state.email = email),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
     setProfile: (state, user_profile) => (state.profile = user_profile),
     setAllHead: (state, heads) => (state.heads = [...heads]),
+    setAllUsers: (state, all_users) => (state.all_users = [...all_users]),
   },
   actions: {
     userLogin: async ({ commit, dispatch }, form) => {
@@ -167,6 +171,20 @@ const faculty = {
         return message === "account not permitted"
           ? router.replace("/faculty/register/step=4")
           : router.replace("/faculty/login");
+      }
+    },
+    allUsers: async ({ commit, dispatch }, { type }) => {
+      commit("setLoading", { loading: true, type: "all_users" });
+      try {
+        const { data } = await axios.get(`/api/user/${type}`, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "all_users" });
+        return commit("setAllUsers", data);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "all_users" });
+        return dispatch("message/errorMessage", message, { root: true });
       }
     },
     allHead: async ({ commit, dispatch }) => {
