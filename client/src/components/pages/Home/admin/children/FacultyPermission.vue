@@ -47,7 +47,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-3">
+  <v-container fluid class="pa-0">
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8">
         <v-col cols="12">
@@ -78,7 +78,7 @@ export default {
                   <tr v-for="user in getAllUsers" :key="user.staff_id">
                     <td class="text-left">
                       <v-col cols="2">
-                        <v-avatar size="30" :color="getRandomColor()">
+                        <v-avatar size="35" :color="getRandomColor()">
                           <span class="white--text text-subtitle-1 text-bold">
                             {{ getInitials(user.name) }}
                           </span>
@@ -99,12 +99,17 @@ export default {
                         </v-icon>
                       </v-list-item-title>
                       <v-spacer />
-                      <v-list-item-subtitle class="pa-0 text-caption2 ">
+                      <v-list-item-subtitle class="pa-0 text-caption">
                         {{
                           `${
                             user.department.unit_role === 1 ? "Member" : "Head"
                           } in ${user.department.unit_name}`
                         }}
+                      </v-list-item-subtitle>
+                    </td>
+                    <td class="text-left">
+                      <v-list-item-subtitle class="pa-0 text-caption">
+                        {{ user.email }}
                       </v-list-item-subtitle>
                     </td>
                     <td class="text-center">

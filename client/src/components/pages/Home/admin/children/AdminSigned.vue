@@ -75,7 +75,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-3">
+  <v-container fluid>
     <v-row dense justify="start">
       <v-col
         cols="12"
@@ -87,7 +87,7 @@ export default {
           <template v-slot:default>
             <tbody>
               <tr v-for="signed in getAllSigned" :key="signed.name">
-                <td class="pt-4 pb-4 text-left">
+                <td class="pt-2 pb-2 text-left">
                   <v-col cols="2">
                     <v-avatar :color="getRandomColor()">
                       <span class="white--text headline">{{
@@ -97,15 +97,13 @@ export default {
                   </v-col>
                 </td>
                 <td class="text-left mb-1">
+                  <v-spacer />
+                  <v-list-item-subtitle class="pa-0 text-caption2 ">
+                    {{ signed.subject }}
+                  </v-list-item-subtitle>
                   <v-list-item-title class="pa-0 text-caption font-weight-bold">
                     {{ getFullname(signed.user.profile[0].name) }}
                   </v-list-item-title>
-                  <v-spacer />
-                  <v-list-item-subtitle
-                    class="pa-0 text-caption2 "
-                  >
-                    {{ signed.subject }}
-                  </v-list-item-subtitle>
                 </td>
                 <td class="text-center">
                   <v-row justify="center" align="center">
