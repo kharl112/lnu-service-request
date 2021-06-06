@@ -14,6 +14,9 @@ export default {
     getLoading() {
       return this.$store.getters["faculty/getLoading"];
     },
+    getEmailPermissionLoading() {
+      return this.$store.getters["admin/getLoading"].email_permission;
+    },
     getAllUsers() {
       return this.$store.getters["faculty/getAllUsers"];
     },
@@ -39,6 +42,9 @@ export default {
     },
     getRandomColor() {
       return this.colors[Math.floor(Math.random() * this.colors.length)];
+    },
+    handlePermitAccount(staff_id) {
+      return this.$store.dispatch("admin/emailPermission", { staff_id });
     },
   },
   created() {
@@ -121,7 +127,9 @@ export default {
                                 icon
                                 color="success"
                                 class="ml-2"
+                                :loading="getEmailPermissionLoading"
                                 :disabled="user.permitted"
+                                @click="handlePermitAccount(user.staff_id)"
                                 large
                                 v-bind="attrs"
                                 v-on="on"

@@ -120,14 +120,13 @@ const admin = {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "email_permission" });
       try {
-        await axios.post(`/email/permission/code/${staff_id}`, null, {
+        await axios.post(`/api/admin/email/permission/code/${staff_id}`, null, {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "email_permission" });
-        dispatch("message/successMessage", "account permitted", {
+        return dispatch("message/successMessage", "permission code sent", {
           root: true,
         });
-        return dispatch("faculty/allUsers", { type: "pending" });
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "email_permission" });
