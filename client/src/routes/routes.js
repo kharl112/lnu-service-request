@@ -13,7 +13,6 @@ import Pass1 from "../components/pages/ForgotPassword/contents/Pass1";
 import Pass2 from "../components/pages/ForgotPassword/contents/Pass2";
 import Pass3 from "../components/pages/ForgotPassword/contents/Pass3";
 
-
 import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
@@ -25,6 +24,7 @@ import Edit from "../components/pages/Home/user/children/Edit";
 
 import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
 import Tokens from "../components/pages/Home/admin/children/Tokens";
+import FacultyPermission from "../components/pages/Home/admin/children/FacultyPermission";
 import AdminSigned from "../components/pages/Home/admin/children/AdminSigned";
 import AdminPending from "../components/pages/Home/admin/children/AdminPending";
 import AdminSettings from "../components/pages/Home/admin/children/AdminSettings";
@@ -207,6 +207,10 @@ export const routes = [
       {
         path: "signed",
         component: AdminSigned,
+      },
+      {
+        path: "faculties",
+        component: FacultyPermission,
       },
     ],
   },
