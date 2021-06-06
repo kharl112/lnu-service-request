@@ -15,41 +15,6 @@ const token = {
     setTokens: (state, tokens) => (state.tokens = tokens),
   },
   actions: {
-    showTokens: async ({ commit, dispatch }, filter) => {
-      commit("setLoading", true);
-      try {
-        const { data } = await axios.get(`/api/token/${filter}`, {
-          headers: { Authorization: localStorage.getItem("Authorization") },
-        });
-        commit("setLoading", false);
-        return commit("setTokens", data);
-      } catch (error) {
-        const { message } = error.response.data || error;
-        commit("setLoading", false);
-        return dispatch("message/errorMessage", message, { root: true });
-      }
-    },
-    generateToken: async ({ commit, dispatch }) => {
-      dispatch("message/defaultState", null, { root: true });
-      commit("setLoading", true);
-      try {
-        await axios.post(
-          "/api/token/create",
-          {},
-          {
-            headers: { Authorization: localStorage.getItem("Authorization") },
-          }
-        );
-        dispatch("message/successMessage", "new token generated", {
-          root: true,
-        });
-        return dispatch("showTokens", "all");
-      } catch (error) {
-        const { message } = error.response.data || error;
-        commit("setLoading", false);
-        return dispatch("message/errorMessage", message, { root: true });
-      }
-    },
     claimToken: async ({ commit, dispatch }, token) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", true);
