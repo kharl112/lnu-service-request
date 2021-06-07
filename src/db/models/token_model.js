@@ -10,11 +10,12 @@ const Token = new mongoose.Schema({
   },
   claimerID: {
     type: String,
-    minLength: 7,
+    default: "",
     maxLength: 7,
   },
   claimed: {
     type: Boolean,
+    default: false,
     required: true,
   },
   token: {
