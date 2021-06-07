@@ -219,8 +219,7 @@ export default {
                     <v-select
                       v-model="form.department.unit_role"
                       :items="unit_roles"
-                      :disabled="!edit_mode"
-                      :rules="[rules.notNull, rules.numbers]"
+                      disabled
                       item-text="role"
                       item-value="value"
                       outlined
