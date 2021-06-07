@@ -27,7 +27,7 @@ const Department = (() => {
   return { getDepartment };
 })();
 
-const Date = (() => {
+const _Date = (() => {
   const getFullDate = (date) => {
     const new_date = new Date(date);
     return `${
@@ -41,4 +41,4 @@ const Date = (() => {
   return { getFullDate };
 })();
 
-module.exports = { Name, Date, Department };
+module.exports = { Name, _Date, Department };
