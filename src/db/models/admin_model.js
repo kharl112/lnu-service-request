@@ -4,34 +4,33 @@ const Admin = new mongoose.Schema({
   staff_id: {
     type: String,
     required: true,
-    min: 11,
-    max: 11,
+    immutable: true,
+    minLength: 2,
+    maxLength: 255,
   },
   name: {
-    type: Object,
-    required: true,
     firstname: {
       type: String,
       required: true,
-      min: 2,
-      max: 255,
+      minLength: 2,
+      maxLength: 255,
     },
     lastname: {
       type: String,
       required: true,
-      min: 2,
-      max: 255,
+      minLength: 2,
+      maxLength: 255,
     },
     middle_initial: {
       type: String,
       required: true,
-      min: 1,
-      max: 1,
+      minLength: 1,
+      maxLength: 1,
     },
     prefix: {
       type: String,
-      min: 1,
-      max: 255,
+      minLength: 1,
+      maxLength: 255,
     },
     suffixes: {
       type: Array,
@@ -40,17 +39,14 @@ const Admin = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    max: 255,
+    immutable: true,
+    maxLength: 255,
   },
   password: {
     type: String,
     required: true,
-    min: 8,
-    max: 255,
-  },
-  signature: {
-    type: Object,
-    required: false,
+    minLength: 2,
+    maxLength: 255,
   },
   permitted: {
     type: Boolean,

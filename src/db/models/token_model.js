@@ -3,14 +3,15 @@ const mongoose = require("mongoose");
 const Token = new mongoose.Schema({
   creatorID: {
     type: String,
-    min: 24,
-    max: 24,
+    immutable: true,
+    minLength: 7,
+    maxLength: 7,
     required: true,
   },
   claimerID: {
     type: String,
-    min: 24,
-    max: 24,
+    minLength: 7,
+    maxLength: 7,
   },
   claimed: {
     type: Boolean,
@@ -18,9 +19,10 @@ const Token = new mongoose.Schema({
   },
   token: {
     type: String,
-    min: 9,
-    max: 9,
     required: true,
+    immutable: true,
+    minLength: 9,
+    maxLength: 9,
   },
 });
 
