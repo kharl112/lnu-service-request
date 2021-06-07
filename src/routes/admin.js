@@ -242,13 +242,25 @@ route.post("/email/permission/code/:staff_id", adminAuth, async (req, res) => {
 
   try {
     await user_token.save();
+    const html = pug.renderFile(
+      path.join(__dirname + "/../../public/views/request_permission.pug"),
+      {
+        form: {
+          link: `https://lnusr.herokuapp.com/faculty/login`,
+          admin: req.locals.name,
+          user: user_found.name,
+          token: user_token.token,
+        },
+      }
+    );
+
     const mail = nodemailer.createTransport(generateEmail.transport);
 
     await mail.sendMail(
       generateEmail.options(
         user_found.email,
-        "LnuSR send you a account permission code",
-        `<h3>${user_token.token}</h3>`
+        "LnuSR sent you a account permission code",
+        html
       )
     );
     return res.send({ message: `the code was sent to ${user_found.staff_id}` });
