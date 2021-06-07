@@ -1,7 +1,9 @@
 const route = require("express").Router();
 const { create, deleteSelected } = require("../validation/request_validation");
+
 const userAuth = require("../authentication/userAuth");
 const adminAuth = require("../authentication/adminAuth");
+
 const User = require("../db/models/user_model");
 const Admin = require("../db/models/admin_model");
 const Request = require("../db/models/request_model");
@@ -53,7 +55,6 @@ route.post("/faculty/draft/delete/selected", userAuth, async (req, res) => {
 
     return res.send({ message: "selected requests deleted" });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });

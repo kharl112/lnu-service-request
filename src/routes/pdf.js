@@ -11,7 +11,7 @@ const adminAuth = require("../authentication/adminAuth");
 const Request = require("../db/models/request_model");
 
 const pdfQuery = require("../functions/pdfQuery");
-const { Name, Department, Date } = require("../functions/generateProfile");
+const { Name, Department, _Date } = require("../functions/generateProfile");
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
@@ -37,14 +37,14 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form[0].user.profile = Name.getFullName(req.locals.name);
     form[0].admin.profile = Name.getFullName(form[0].admin.profile[0].name);
     form[0].body = md.render(form[0].body).toString();
-    form[0].date = Date.getFullDate(form[0].date);
+    form[0].date = _Date.getFullDate(form[0].date);
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
       { form: form[0] }
     );
 
-    return await pdf.create(html, form[0].options).toBuffer((e, buffer) => {
+    return pdf.create(html, form[0].options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
   } catch (e) {
@@ -81,14 +81,14 @@ route.post("/head/create/id=:id", userAuth, async (req, res) => {
     form[0].user.profile = Name.getFullName(form[0].user.profile[0].name);
     form[0].admin.profile = Name.getFullName(form[0].admin.profile[0].name);
     form[0].body = md.render(form[0].body).toString();
-    form[0].date = Date.getFullDate(form[0].date);
+    form[0].date = _Date.getFullDate(form[0].date);
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
       { form: form[0] }
     );
 
-    return await pdf.create(html, form[0].options).toBuffer((e, buffer) => {
+    return pdf.create(html, form[0].options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
   } catch (e) {
@@ -125,14 +125,14 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form[0].user.profile = Name.getFullName(form[0].user.profile[0].name);
     form[0].admin.profile = Name.getFullName(form[0].admin.profile[0].name);
     form[0].body = md.render(form[0].body).toString();
-    form[0].date = Date.getFullDate(form[0].date);
+    form[0].date = _Date.getFullDate(form[0].date);
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
       { form: form[0] }
     );
 
-    return await pdf.create(html, form[0].options).toBuffer((e, buffer) => {
+    return pdf.create(html, form[0].options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
   } catch (e) {
