@@ -4,33 +4,26 @@ const pug = require("pug");
 const path = require("path");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const Admin = require("../db/models/admin_model");
 const User = require("../db/models/user_model");
 const Token = require("../db/models/token_model");
 
 const generateEmail = require("../functions/generateEmail");
-const { getFixedName, getFullName } = require("../functions/generateProfile");
+const { Name } = require("../functions/generateProfile");
 
 const adminAuth = require("../authentication/adminAuth");
 const userAuth = require("../authentication/userAuth");
 
 const { create, login, update } = require("../validation/admin_validation");
 
-require("dotenv").config();
-
 route.post("/create", async (req, res) => {
   const form = { ...req.body };
-
-  if (typeof form.name.suffixes !== "object")
-    form.name.suffixes = form.name.suffixes.split(",");
+  form.name = Name.getFixedFullName(form.name);
 
   const { error } = create(form);
   if (error) return res.status(400).send(error.details[0]);
-
-  form.name.middle_initial = form.name.middle_initial.toUpperCase();
-  form.name.firstname = getFixedName(form.name.firstname);
-  form.name.lastname = getFixedName(form.name.lastname);
 
   const user_found = await User.aggregate([
     {
@@ -85,47 +78,27 @@ route.post("/create", async (req, res) => {
 
 route.post("/update", adminAuth, async (req, res) => {
   const form = { ...req.body };
+  form.name = Name.getFixedFullName(form.name);
 
   await ["email", "permitted", "password", "staff_id"].map((node) =>
     form[node] ? delete form[node] : null
   );
 
-  if (typeof form.name.suffixes !== "object")
-    form.name.suffixes = form.name.suffixes.split(",");
-
   const { error } = update(form);
   if (error) return res.status(400).send(error.details[0]);
 
-  form.name.middle_initial = form.name.middle_initial.toUpperCase();
-  form.name.firstname = getFixedName(form.name.firstname);
-  form.name.lastname = getFixedName(form.name.lastname);
-
-  const admin_staff_id = await Admin.findOne({
-    staff_id: req.locals.staff_id,
-    email: { $ne: req.locals.email },
-  });
-  if (admin_staff_id)
-    return res.status(400).send({ message: "staff_id  already exists." });
-
-  try {
-    const updated_admin = await Admin.findOneAndUpdate(
-      {
-        staff_id: req.locals.staff_id,
-      },
-      { ...form }
-    );
-    if (!updated_admin)
-      return res
+  const { name } = form;
+  await Admin.findOneAndUpdate(
+    { staff_id: req.locals.staff_id },
+    { name: name },
+    { strict: "throw" }
+  )
+    .then(() => res.send({ message: "account successfully updated" }))
+    .catch(() => {
+      res
         .status(500)
         .send({ message: "we can't process your request, please try again." });
-
-    return res.send({ message: "account successfully updated" });
-  } catch (error) {
-    console.log(error);
-    return res
-      .status(500)
-      .send({ message: "something went wrong, please try again." });
-  }
+    });
 });
 
 route.post("/login", async (req, res) => {
@@ -263,9 +236,7 @@ route.post("/email/permission/code/:staff_id", adminAuth, async (req, res) => {
   if (!user_found) return res.status(400).send({ message: "user not found" });
 
   const user_token = new Token({
-    creatorID: staff_id,
-    claimerID: "",
-    claimed: false,
+    creatorID: req.locals.staff_id,
     token: Math.random().toString(36).substring(4),
   });
 
@@ -302,7 +273,7 @@ route.get("/all", userAuth, async (req, res) => {
   });
   return res.send(
     all_admin.map((node, index) => ({
-      name: getFullName(node.name),
+      name: Name.getFullName(node.name),
       staff_id: node.staff_id,
     }))
   );
