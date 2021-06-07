@@ -1,30 +1,27 @@
 const route = require("express").Router();
 const nodemailer = require("nodemailer");
-const pug = require("pug");
-const path = require("path");
-const User = require("../db/models/user_model");
-const Admin = require("../db/models/admin_model");
-const generateEmail = require("../functions/generateEmail");
-const { create, login, update } = require("../validation/user_validation");
-const { getFixedName, getFullName } = require("../functions/generateProfile");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const pug = require("pug");
+const path = require("path");
+require("dotenv").config();
+
+const User = require("../db/models/user_model");
+const Admin = require("../db/models/admin_model");
+
+const generateEmail = require("../functions/generateEmail");
+const { create, login, update } = require("../validation/user_validation");
+const { Name } = require("../functions/generateProfile");
+
 const userAuth = require("../authentication/userAuth");
 const adminAuth = require("../authentication/adminAuth");
-require("dotenv").config();
 
 route.post("/create", async (req, res) => {
   const form = { ...req.body };
-
-  if (typeof form.name.suffixes !== "object")
-    form.name.suffixes = form.name.suffixes.split(",");
+  form.name = Name.getFixedFullName(form.name);
 
   const { error } = create(form);
   if (error) return res.status(400).send(error.details[0]);
-
-  form.name.middle_initial = form.name.middle_initial.toUpperCase();
-  form.name.firstname = getFixedName(form.name.firstname);
-  form.name.lastname = getFixedName(form.name.lastname);
 
   const user_found = await User.aggregate([
     {
@@ -79,47 +76,28 @@ route.post("/create", async (req, res) => {
 
 route.post("/update", userAuth, async (req, res) => {
   const form = { ...req.body };
+  form.name = Name.getFixedFullName(form.name);
 
   await ["email", "permitted", "password", "staff_id"].map((node) =>
     form[node] ? delete form[node] : null
   );
-
-  if (typeof form.name.suffixes !== "object")
-    form.name.suffixes = form.name.suffixes.split(",");
+  delete form.department.unit_role;
 
   const { error } = update(form);
   if (error) return res.status(400).send(error.details[0]);
 
-  form.name.middle_initial = form.name.middle_initial.toUpperCase();
-  form.name.firstname = getFixedName(form.name.firstname);
-  form.name.lastname = getFixedName(form.name.lastname);
-
-  const user_staff_id = await User.findOne({
-    staff_id: req.locals.staff_id,
-    email: { $ne: req.locals.email },
-  });
-  if (user_staff_id)
-    return res.status(400).send({ message: "ID number already exists" });
-
-  try {
-    const updated_user = await User.findOneAndUpdate(
-      {
-        staff_id: req.locals.staff_id,
-      },
-      { ...form }
-    );
-
-    if (!updated_user)
-      return res
+  const { name } = form;
+  await User.findOneAndUpdate(
+    { staff_id: req.locals.staff_id },
+    { name: name, "department.unit_name": form.department.unit_name },
+    { strict: "throw" }
+  )
+    .then(() => res.send({ message: "account successfully updated" }))
+    .catch(() => {
+      res
         .status(500)
         .send({ message: "we can't process your request, please try again." });
-
-    return res.send({ message: "account successfully updated" });
-  } catch (error) {
-    return res
-      .status(500)
-      .send({ message: "we can't process your request, please try again." });
-  }
+    });
 });
 
 route.post("/login", async (req, res) => {
@@ -297,8 +275,8 @@ route.get("/head/all", userAuth, async (req, res) => {
     __v: 0,
   });
   return res.send(
-    all_head.map((node, index) => ({
-      name: getFullName(node.name),
+    all_head.map((node) => ({
+      name: Name.getFullName(node.name),
       staff_id: node.staff_id,
     }))
   );
