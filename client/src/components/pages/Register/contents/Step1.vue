@@ -36,6 +36,9 @@ export default {
 <template>
   <v-card class="card-container" elevation="5">
     <v-form ref="form" @submit="handleSubmit">
+      <v-subheader class="pa-0 ma-0 mb-3 mb-sm-0 caption font-weight-bold">
+        NOTE: Please use your active email to validate your account
+      </v-subheader>
       <v-text-field
         class="input"
         label="Type your email first"

@@ -62,20 +62,29 @@ export default {
         </transition>
         <v-row justify="space-between" class="footer-row">
           <router-link
+            class="subtitle-2"
             v-show="getStepIndex !== '1' && getStepIndex !== '4'"
             :to="`/faculty/register/step=${getStepIndex - 1}`"
-            >Go back</router-link
           >
-          <router-link v-show="getStepIndex === '1'" to="/faculty/login/"
-            >I have an account</router-link
+            Go back
+          </router-link>
+          <router-link
+            class="subtitle-2"
+            v-show="getStepIndex === '1'"
+            to="/faculty/login/"
           >
+            I have an account
+          </router-link>
           <v-tooltip bottom v-if="getStepIndex === '4'">
             <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on" class="tooltip-text"
-                >What is this?</span
-              >
+              <span v-bind="attrs" v-on="on" class="tooltip-text">
+                What is this?
+              </span>
             </template>
-            <span>Please approach the admin department and ask for code</span>
+            <span>
+              Wait for the Administration department to send a code to your
+              email
+            </span>
           </v-tooltip>
           <small>
             <strong> Step {{ getStepIndex }} of 4</strong> of creating an
