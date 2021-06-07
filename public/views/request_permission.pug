@@ -1,0 +1,24 @@
+doctype html 
+html 
+  head 
+    style
+        include ./styles/request_permission.css
+body
+  table
+    tbody 
+      tr 
+        td 
+          header
+            p(class="header-info") LNU Service Request System
+          div(class="info")
+            p(class="greeting")=`Hi ${form.user.firstname},`
+            p(class="info-1")=`${form.admin.prefix}. ${form.admin.firstname} sent you a code for your account`
+            p(class="info-2") you can copy the code below and proceed logging in your account
+            p(class="code")=`${form.token}`
+            a(class="link" href=form.link) Redirect to Login Page
+          footer
+            small(class="footer-1") LnuSR 2021
+  
+
+    
+
