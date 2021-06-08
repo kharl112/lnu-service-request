@@ -42,20 +42,31 @@ export default {
             <v-col cols="12" align="center">
               <v-row justify="center">
                 <v-subheader class="text-center">
-                  Leyte Normal University service requesting app.
+                  Leyte Normal University Service Requesting Application
                 </v-subheader>
               </v-row>
             </v-col>
             <v-col cols="12">
-              <v-btn
-                elevation="0"
-                block
-                color="warning"
-                :disabled="!deferredPrompt"
-                @click="install"
-              >
-                Get this app
-              </v-btn>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    elevation="0"
+                    block
+                    color="warning"
+                    :disabled="!deferredPrompt"
+                    @click="install"
+                    v-bind="attrs"
+                    v-on="on"
+                  >
+                    Get this app
+                  </v-btn>
+                </template>
+                <span>{{
+                  deferredPrompt
+                    ? "This app is compatible in your device"
+                    : "This app is not compatible in your device"
+                }}</span>
+              </v-tooltip>
             </v-col>
             <v-col cols="12">
               <v-row justify="center">
@@ -70,7 +81,7 @@ export default {
                   <router-link
                     to="/faculty/login"
                     class="pl-1 pr-1 text-decoration-none font-weight-bold"
-                    >User</router-link
+                    >Faculty/Personel</router-link
                   >
                 </v-subheader>
               </v-row>
