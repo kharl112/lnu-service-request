@@ -31,14 +31,30 @@ export default {
       <v-col cols="12" pa="4" justify="center" align="center">
         <v-card
           max-width="400"
+          min-width="250"
           outlined
           class="pa-8 pa-sm-10 pa-md-12 ma-5 mb-2"
         >
           <v-row justify="center" align="center">
-            <h3 class=" text-body1 text-sm-h6 text-md-h5 mb-4">
-              <strong class="warning--text">LNU</strong>
-              Service Request System
-            </h3>
+            <v-col cols="12">
+              <v-row justify="center" align="center">
+                <v-col>
+                  <v-img
+                    max-width="75"
+                    min-width="70"
+                    src="../../../assets/images/logo-512x512.png"
+                  />
+                </v-col>
+                <v-col cols="12" md="8">
+                  <h3
+                    class=" text-body1 text-sm-h6 text-md-h5 mb-4 text-center text-md-left"
+                  >
+                    <strong class="warning--text">LNU</strong>
+                    Service Request System
+                  </h3>
+                </v-col>
+              </v-row>
+            </v-col>
             <v-col cols="12" align="center">
               <v-row justify="center">
                 <v-subheader class="text-center">
@@ -70,7 +86,7 @@ export default {
             </v-col>
             <v-col cols="12">
               <v-row justify="center">
-                <v-subheader>
+                <v-subheader class="caption">
                   Login as
                   <router-link
                     to="/admin/login"
