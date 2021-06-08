@@ -103,11 +103,33 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
 });
 
 route.get("/head/pending", userAuth, async (req, res) => {
-  const head_pending = await Request.find({
-    "head.staff_id": req.locals.staff_id,
-    "head.signature": "",
-    save_as: 1,
-  });
+  const head_pending = await Request.aggregate([
+    {
+      $match: {
+        "head.staff_id": req.locals.staff_id,
+        "head.signature": "",
+        save_as: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: "users",
+        localField: "user.staff_id",
+        foreignField: "staff_id",
+        as: "user.profile",
+      },
+    },
+    {
+      $project: {
+        save_as: 0,
+        "user.profile.password": 0,
+        "user.profile._id": 0,
+        "user.profile.email": 0,
+        "user.profile.permitted": 0,
+        "user.profile.__v": 0,
+      },
+    },
+  ]);
   return res.send(head_pending);
 });
 
