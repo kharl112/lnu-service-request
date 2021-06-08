@@ -79,6 +79,12 @@ export default {
         id,
       });
     },
+    getFullname(name) {
+      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
+      return `${
+        prefix ? `${prefix}.` : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
   },
   created() {
     return this.$store.dispatch("request/allPending", "head");
@@ -99,44 +105,55 @@ export default {
             <thead>
               <tr>
                 <th class="text-left">
-                  Subject
+                  Subject & Requester
                 </th>
-                <th class="text-left">
+                <th class="text-center">
                   Date
                 </th>
-                <th class="text-left"></th>
-                <th class="text-left"></th>
+                <th class="text-center" />
               </tr>
             </thead>
             <tbody>
               <tr v-for="pending in getAllPending" :key="pending.name">
-                <td>
-                  {{ pending.subject }}
+                <td class="subtitle">
+                  <v-list-item class="pa-0">
+                    <v-list-item-content class="pa-0 ma-0">
+                      <v-list-item-subtitle class="pa-0 ma-0 text-caption-2 ">
+                        {{ pending.subject }}
+                        <v-spacer />
+                        <v-list-item-subtitle
+                          class="pa-0 ma-0 mt-2 text-caption font-weight-bold"
+                        >
+                          {{ getFullname(pending.user.profile[0].name) }}
+                        </v-list-item-subtitle>
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
                 </td>
-                <td>
-                  <small>{{ getTimeOrDate(pending.date) }}</small>
+                <td class="text-center">
+                  <v-list-item-subtitle class="caption text-center font-weight-bold">{{
+                    getTimeOrDate(pending.date)
+                  }}</v-list-item-subtitle>
                 </td>
-                <td>
+                <td class="text-center">
                   <v-btn
-                    elevation="0"
                     fab
                     dark
-                    small
+                    icon
                     color="success"
+                    class="mr-md-2"
                     @click="showSignature(pending._id)"
                   >
                     <v-icon dark>
                       mdi-signature-freehand
                     </v-icon>
                   </v-btn>
-                </td>
-                <td>
                   <v-btn
-                    elevation="0"
                     fab
                     dark
-                    small
+                    icon
                     color="error"
+                    class="ml-md-2"
                     :disabled="getPDFLoading"
                     @click="downloadPDF(pending._id)"
                   >
