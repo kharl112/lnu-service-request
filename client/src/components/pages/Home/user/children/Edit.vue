@@ -19,32 +19,7 @@ export default {
       "Technician",
     ],
     timeout: 3000,
-    form: {
-      subject: "",
-      service_type: "",
-      body: "",
-      options: {
-        format: "A4",
-        border: {
-          top: 0.5,
-          right: 0.5,
-          bottom: 0.5,
-          left: 0.5,
-        },
-      },
-      user: {
-        signature: "",
-      },
-      admin: {
-        staff_id: "",
-        signature: "",
-      },
-      head: {
-        staff_id: "",
-        signature: "",
-      },
-      save_as: 0,
-    },
+    form: null,
   }),
   computed: {
     getFacultyProfile() {
