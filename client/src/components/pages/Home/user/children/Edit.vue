@@ -54,26 +54,11 @@ export default {
         .toString()
         .replace('height="300"', 'height="175" viewBox="0 0 300 175"'));
     },
-    handleSubmitForm(e) {
-      e.preventDefault();
-      return;
-    },
-    handleSubmitDraft(e) {
-      e.preventDefault();
-      this.form.save_as = 0;
-      if (this.$refs.form.validate()) {
-        if (!this.form.user.signature)
-          return this.$store.dispatch(
-            "message/errorMessage",
-            "You must sign this document to proceed"
-          );
-        return this.$store.dispatch("request/editRequest", this.form);
-      }
-      return console.log("unvalidated");
-    },
-    handleSubmitSend(e) {
-      e.preventDefault();
-      this.form.save_as = 1;
+    handleSubmit(save_as) {
+      (e) => {
+        e.preventDefault();
+      };
+      this.form.save_as = save_as;
       if (this.$refs.form.validate()) {
         if (!this.form.user.signature)
           return this.$store.dispatch(
@@ -96,12 +81,7 @@ export default {
   <v-container fluid class="pa-3">
     <v-row justify="start" align="start">
       <v-col cols="12" sm="12" md="8">
-        <v-form
-          ref="form"
-          @submit="handleSubmitForm"
-          :disabled="getEditLoading"
-          v-if="!getLoading"
-        >
+        <v-form ref="form" :disabled="getEditLoading" v-if="!getLoading">
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid>
@@ -220,8 +200,8 @@ export default {
                         <v-btn
                           :disabled="getEditLoading"
                           color="primary"
-                          type="none"
-                          @click="handleSubmitSend"
+                          type="button"
+                          @click="handleSubmit(1)"
                           rounded
                           outlined
                           block
@@ -237,8 +217,8 @@ export default {
                         <v-btn
                           :disabled="getEditLoading"
                           color="warning"
-                          type="none"
-                          @click="handleSubmitDraft"
+                          type="button"
+                          @click="handleSubmit(0)"
                           rounded
                           outlined
                           block
