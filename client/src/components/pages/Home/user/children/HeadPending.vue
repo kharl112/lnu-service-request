@@ -92,7 +92,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-3">
+  <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start" v-if="!getProfileLoading">
       <v-col
         cols="12"
@@ -131,7 +131,7 @@ export default {
                   </v-list-item>
                 </td>
                 <td class="text-center">
-                  <v-list-item-subtitle class="caption text-center font-weight-bold">{{
+                  <v-list-item-subtitle class="caption text-center primary--text font-weight-bold">{{
                     getTimeOrDate(pending.date)
                   }}</v-list-item-subtitle>
                 </td>
