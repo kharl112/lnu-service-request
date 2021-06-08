@@ -16,7 +16,7 @@ export default {
       "Job Order for Risograph",
       "Plumbing",
       "Carpentry",
-      "Technician"
+      "Technician",
     ],
     timeout: 3000,
     form: {
@@ -79,26 +79,11 @@ export default {
         .toString()
         .replace('height="300"', 'height="175" viewBox="0 0 300 175"'));
     },
-    handleSubmitForm(e) {
-      e.preventDefault();
-      return;
-    },
-    handleSubmitDraft(e) {
-      e.preventDefault();
-      this.form.save_as = 0;
-      if (this.$refs.form.validate()) {
-        if (!this.form.user.signature)
-          return this.$store.dispatch(
-            "message/errorMessage",
-            "You must sign this document to proceed"
-          );
-        return this.$store.dispatch("request/createRequest", this.form);
-      }
-      return console.log("unvalidated");
-    },
-    handleSubmitSend(e) {
-      e.preventDefault();
-      this.form.save_as = 1;
+    handleSubmit(save_as) {
+      (e) => {
+        e.preventDefault();
+      };
+      this.form.save_as = save_as;
       if (this.$refs.form.validate()) {
         if (!this.form.user.signature)
           return this.$store.dispatch(
@@ -122,7 +107,7 @@ export default {
       <v-col cols="12" sm="12" md="8">
         <v-form
           ref="form"
-          @submit="handleSubmitForm"
+          @submit="(e) => e.preventDefault()"
           :disabled="getComposeLoading"
           v-if="!getLoading"
         >
@@ -220,8 +205,8 @@ export default {
                     <v-btn
                       :disabled="getComposeLoading"
                       color="success"
+                      type="button"
                       @click="showSignature"
-                      type="none"
                       block
                       rounded
                       elevation="0"
@@ -234,7 +219,13 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-container fluid>
-                      <v-subheader>Save As</v-subheader>
+                      <v-subheader
+                        >Save As
+                        <v-subheader
+                          class="caption font-weight-bold mt-0 hidden-sm-and-down"
+                          >(This will set to draft as a default)</v-subheader
+                        >
+                      </v-subheader>
                       <v-divider />
                     </v-container>
                   </v-col>
@@ -244,8 +235,8 @@ export default {
                         <v-btn
                           :disabled="getComposeLoading"
                           color="primary"
-                          type="none"
-                          @click="handleSubmitSend"
+                          type="button"
+                          @click="handleSubmit(0)"
                           rounded
                           outlined
                           block
@@ -261,8 +252,8 @@ export default {
                         <v-btn
                           :disabled="getComposeLoading"
                           color="warning"
-                          type="none"
-                          @click="handleSubmitDraft"
+                          type="submit"
+                          @click="handleSubmit(1)"
                           rounded
                           outlined
                           block
@@ -316,7 +307,7 @@ export default {
             <v-card outlined class="mx-auto" max-width="344">
               <v-list-item>
                 <v-list-item-content>
-                  <v-card-title> Border</v-card-title>
+                  <v-card-title>Border</v-card-title>
                   <v-text-field
                     label="top"
                     :rules="rules"
