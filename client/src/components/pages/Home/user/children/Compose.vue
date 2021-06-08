@@ -234,23 +234,6 @@ export default {
                       <v-col cols="12" sm="5" md="3">
                         <v-btn
                           :disabled="getComposeLoading"
-                          color="primary"
-                          type="button"
-                          @click="handleSubmit(0)"
-                          rounded
-                          outlined
-                          block
-                          elevation="0"
-                        >
-                          send
-                          <v-icon right>
-                            mdi-send
-                          </v-icon>
-                        </v-btn>
-                      </v-col>
-                      <v-col cols="12" sm="5" md="3">
-                        <v-btn
-                          :disabled="getComposeLoading"
                           color="warning"
                           type="submit"
                           @click="handleSubmit(1)"
@@ -265,6 +248,23 @@ export default {
                           </v-icon>
                         </v-btn>
                       </v-col>
+                      <v-col cols="12" sm="5" md="3">
+                        <v-btn
+                          :disabled="getComposeLoading"
+                          color="primary"
+                          type="button"
+                          @click="handleSubmit(0)"
+                          rounded
+                          outlined
+                          block
+                          elevation="0"
+                        >
+                          send
+                          <v-icon right>
+                            mdi-send
+                          </v-icon>
+                        </v-btn> </v-col
+                      >
                     </v-row>
                   </v-col>
                 </v-row>

@@ -81,7 +81,12 @@ export default {
   <v-container fluid class="pa-3">
     <v-row justify="start" align="start">
       <v-col cols="12" sm="12" md="8">
-        <v-form ref="form" :disabled="getEditLoading" v-if="!getLoading">
+        <v-form
+          ref="form"
+          @submit="(e) => e.preventDefault()"
+          :disabled="getEditLoading"
+          v-if="!getLoading"
+        >
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid>
@@ -177,7 +182,7 @@ export default {
                       :disabled="getEditLoading"
                       color="success"
                       @click="showSignature"
-                      type="none"
+                      type="button"
                       block
                       rounded
                       elevation="0"
@@ -199,6 +204,23 @@ export default {
                       <v-col cols="12" sm="5" md="3">
                         <v-btn
                           :disabled="getEditLoading"
+                          color="warning"
+                          type="submit"
+                          @click="handleSubmit(0)"
+                          rounded
+                          outlined
+                          block
+                          elevation="0"
+                        >
+                          draft
+                          <v-icon right>
+                            mdi-paperclip
+                          </v-icon>
+                        </v-btn>
+                      </v-col>
+                      <v-col cols="12" sm="5" md="3">
+                        <v-btn
+                          :disabled="getEditLoading"
                           color="primary"
                           type="button"
                           @click="handleSubmit(1)"
@@ -210,23 +232,6 @@ export default {
                           send
                           <v-icon right>
                             mdi-send
-                          </v-icon>
-                        </v-btn>
-                      </v-col>
-                      <v-col cols="12" sm="5" md="3">
-                        <v-btn
-                          :disabled="getEditLoading"
-                          color="warning"
-                          type="button"
-                          @click="handleSubmit(0)"
-                          rounded
-                          outlined
-                          block
-                          elevation="0"
-                        >
-                          draft
-                          <v-icon right>
-                            mdi-paperclip
                           </v-icon>
                         </v-btn>
                       </v-col>
