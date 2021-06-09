@@ -1,9 +1,11 @@
 const route = require("express").Router();
 const jwt = require("jsonwebtoken");
 const adminAuth = require("../authentication/adminAuth");
-const userAuth = require("../authentication/userAuth");
+
 const User = require("../db/models/user_model");
 const Token = require("../db/models/token_model");
+const Admin = require("../db/models/admin_model");
+
 require("dotenv").config();
 
 route.post("/create", adminAuth, async (req, res) => {
@@ -24,7 +26,7 @@ route.post("/create", adminAuth, async (req, res) => {
   }
 });
 
-route.post("/claim", async (req, res) => {
+route.post("/faculty/claim", async (req, res) => {
   const token = req.header("Authorization");
   const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -48,7 +50,36 @@ route.post("/claim", async (req, res) => {
 
     return res.send({ message: "token claimed" });
   } catch (error) {
-    console.log(error)
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+  }
+});
+
+route.post("/admin/claim", async (req, res) => {
+  const token = req.header("Authorization");
+  const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+
+  try {
+    const claimer = await Admin.findOne({ _id: _id, permitted: false });
+    if (!claimer) return res.status(400).send({ message: "user not found" });
+
+    const admin_token = await Token.findOne({
+      token: req.body.token,
+      claimed: false,
+    });
+    if (!admin_token)
+      return res.status(400).send({ message: "token not found" });
+
+    claimer.permitted = true;
+    admin_token.claimed = true;
+    admin_token.claimerID = claimer.staff_id;
+
+    await admin_token.save();
+    await claimer.save();
+
+    return res.send({ message: "token claimed" });
+  } catch (error) {
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
