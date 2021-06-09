@@ -29,6 +29,9 @@ export default {
     getLoading() {
       return this.$store.getters["faculty/getLoading"];
     },
+    getUserType() {
+      return this.$route.params.user_type;
+    },
   },
   methods: {
     handleSubmit(e) {
@@ -54,6 +57,7 @@ export default {
         outlined
       />
       <v-text-field
+        v-if="getUserType === 'faculty'"
         :disabled="getLoading.register"
         class="input"
         label="Department"
@@ -62,6 +66,7 @@ export default {
         outlined
       />
       <v-select
+        v-if="getUserType === 'faculty'"
         :disabled="getLoading.register"
         class="input"
         label="Role/Position"
