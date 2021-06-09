@@ -41,7 +41,7 @@ export default {
     },
     gotoRegister(e) {
       e.preventDefault();
-      return this.$router.push("/faculty/register/step=1");
+      return this.$router.push(`/${this.getUserType}/register/step=1`);
     },
   },
   computed: {
@@ -178,13 +178,7 @@ export default {
                     Login
                   </v-btn>
                 </v-col>
-                <v-col
-                  cols="12"
-                  md="11"
-                  sm="12"
-                  class="pa-6"
-                  v-show="getUserType === 'faculty'"
-                >
+                <v-col cols="12" md="11" sm="12" class="pa-6">
                   <v-row justify="center" align="center">
                     <v-col cols="5">
                       <v-divider />
@@ -201,13 +195,7 @@ export default {
                 </v-col>
 
                 <v-row dense>
-                  <v-col
-                    cols="12"
-                    md="11"
-                    sm="12"
-                    class="links-container"
-                    v-show="getUserType === 'faculty'"
-                  >
+                  <v-col cols="12" md="11" sm="12" class="links-container">
                     <v-btn
                       type="none"
                       bottom
