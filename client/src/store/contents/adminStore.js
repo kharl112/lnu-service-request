@@ -6,8 +6,11 @@ const admin = {
   state: () => ({
     profile: null,
     admins: null,
+    email: null,
     loading: {
       login: false,
+      email: false,
+      regiser: false,
       update: false,
       change_password: false,
       all_admin: false,
@@ -17,12 +20,14 @@ const admin = {
     },
   }),
   getters: {
+    getEmail: (state) => state.email,
     getProfile: (state) => state.profile,
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
     getAllAdmin: (state) => state.admins,
   },
   mutations: {
+    setEmail: (state, email) => (state.email = email),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
     setProfile: (state, admin_profile) => (state.profile = admin_profile),
     setAllAdmin: (state, admins) => (state.admins = [...admins]),
@@ -59,6 +64,21 @@ const admin = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "update" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    validateEmail: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "email" });
+      try {
+        const { data } = await axios.post("/api/admin/validate/email", form);
+        commit("setLoading", { loading: false, type: "email" });
+        commit("setEmail", data.email);
+        return router.replace("/admin/register/step=2");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "email" });
+        commit("setEmail", null);
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
