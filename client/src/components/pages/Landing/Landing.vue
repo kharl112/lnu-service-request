@@ -19,8 +19,8 @@ export default {
     async install() {
       this.deferredPrompt.prompt();
     },
-    gotoRegister() {
-      return this.$router.push("/faculty/register/step=1");
+    gotoLogin(userType) {
+      return this.$router.push(`/${userType}/login`);
     },
   },
 };
@@ -74,6 +74,9 @@ export default {
                     v-bind="attrs"
                     v-on="on"
                   >
+                    <v-icon left>
+                      mdi-download
+                    </v-icon>
                     Get this app
                   </v-btn>
                 </template>
@@ -84,23 +87,23 @@ export default {
                 }}</span>
               </v-tooltip>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="12" align="center" class="pa-2">
               <v-row justify="center">
-                <v-subheader class="caption">
-                  Login as
-                  <router-link
-                    to="/admin/login"
-                    class="pl-1 pr-1 text-decoration-none font-weight-bold"
-                    >CAO</router-link
-                  >
-                  or
-                  <router-link
-                    to="/faculty/login"
-                    class="pl-1 pr-1 text-decoration-none font-weight-bold"
-                    >Faculty/Personnel</router-link
-                  >
+                <v-subheader class="text-center">
+                  Login As
                 </v-subheader>
               </v-row>
+            </v-col>
+            <v-col cols="12">
+              <v-btn
+                elevation="0"
+                block
+                small
+                color="primary"
+                @click="gotoLogin('admin')"
+              >
+                CAO Personnel
+              </v-btn>
             </v-col>
             <v-col cols="12">
               <v-row justify="center" align="center">
@@ -118,8 +121,14 @@ export default {
               </v-row>
             </v-col>
             <v-col cols="12">
-              <v-btn elevation="0" block color="primary" @click="gotoRegister">
-                Signup
+              <v-btn
+                elevation="0"
+                block
+                small
+                color="warning"
+                @click="gotoLogin('faculty')"
+              >
+                University Personnel
               </v-btn>
             </v-col>
           </v-row>
