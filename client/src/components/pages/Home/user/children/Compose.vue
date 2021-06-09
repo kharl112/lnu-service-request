@@ -236,7 +236,7 @@ export default {
                           :disabled="getComposeLoading"
                           color="warning"
                           type="submit"
-                          @click="handleSubmit(1)"
+                          @click="handleSubmit(0)"
                           rounded
                           outlined
                           block
@@ -253,7 +253,7 @@ export default {
                           :disabled="getComposeLoading"
                           color="primary"
                           type="button"
-                          @click="handleSubmit(0)"
+                          @click="handleSubmit(1)"
                           rounded
                           outlined
                           block
