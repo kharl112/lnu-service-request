@@ -54,6 +54,12 @@ export default {
         id,
       });
     },
+    getFullname(name) {
+      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
+      return `${
+        prefix ? `${prefix}.` : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
   },
   created() {
     return this.$store.dispatch("request/allSigned", "head");
@@ -61,7 +67,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-3">
+  <v-container fluid class="pa-3 pa-sm-0">
     <v-row dense justify="start" v-if="!getProfileLoading">
       <v-col
         cols="12"
@@ -76,31 +82,45 @@ export default {
                 <th class="text-left">
                   Subject
                 </th>
-                <th class="text-left">
+                <th class="text-center">
                   Date
                 </th>
-                <th class="text-left"></th>
+                <th class="text-center"></th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="signed in getAllSigned" :key="signed.name">
-                <td>
-                  {{ signed.subject }}
+                <td class="subtitle">
+                  <v-list-item class="pa-0">
+                    <v-list-item-content class="pa-0 ma-0">
+                      <v-list-item-subtitle class="pa-0 ma-0 text-caption-2 ">
+                        {{ signed.subject }}
+                        <v-spacer />
+                        <v-list-item-subtitle
+                          class="pa-0 ma-0 mt-2 text-caption font-weight-bold"
+                        >
+                          {{ getFullname(signed.user.profile[0].name) }}
+                        </v-list-item-subtitle>
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
                 </td>
-                <td>
-                  <small>{{ getTimeOrDate(signed.date) }}</small>
+                <td class="text-center">
+                  <v-list-item-subtitle
+                    class="caption text-center primary--text font-weight-bold"
+                    >{{ getTimeOrDate(signed.date) }}</v-list-item-subtitle
+                  >
                 </td>
-                <td>
+                <td class="text-center">
                   <v-btn
-                    elevation="0"
                     fab
                     dark
-                    small
+                    icon
                     color="error"
                     :disabled="getPDFLoading"
                     @click="downloadPDF(signed._id)"
                   >
-                    <v-icon dark>
+                    <v-icon size="35" dark>
                       mdi-cloud-download
                     </v-icon>
                   </v-btn>
