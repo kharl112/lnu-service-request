@@ -91,18 +91,20 @@ export const routes = [
         path: "step=2",
         component: Step2,
         beforeEnter: (to, from, next) => {
-          return store.getters["faculty/getEmail"]
+          return store.getters["faculty/getEmail"] ||
+            store.getters["admin/getEmail"]
             ? next()
-            : next("/faculty/register/step=1");
+            : next(`/${to.params.user_type}/register/step=1`);
         },
       },
       {
         path: "step=3",
         component: Step3,
         beforeEnter: (to, from, next) => {
-          return store.getters["faculty/getEmail"]
+          return store.getters["faculty/getEmail"] ||
+            store.getters["admin/getEmail"]
             ? next()
-            : next("/faculty/register/step=1");
+            : next(`/${to.params.user_type}/register/step=1`);
         },
       },
       {
@@ -111,7 +113,7 @@ export const routes = [
         beforeEnter: (to, from, next) => {
           return localStorage.getItem("Authorization")
             ? next()
-            : next("/faculty/register/step=1");
+            : next(`/${to.params.user_type}/register/step=1`);
         },
       },
     ],
