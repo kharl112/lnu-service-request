@@ -91,13 +91,13 @@ export default {
                   <router-link
                     to="/admin/login"
                     class="pl-1 pr-1 text-decoration-none font-weight-bold"
-                    >Admin</router-link
+                    >CAO</router-link
                   >
                   or
                   <router-link
                     to="/faculty/login"
                     class="pl-1 pr-1 text-decoration-none font-weight-bold"
-                    >Faculty/Personel</router-link
+                    >Faculty/Personnel</router-link
                   >
                 </v-subheader>
               </v-row>

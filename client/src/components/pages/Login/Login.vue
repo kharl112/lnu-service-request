@@ -126,7 +126,7 @@ export default {
                     }`
                   "
                 >
-                  Administrator Login
+                  CAO Personnel Login
                 </h4>
               </v-col>
             </v-row>
