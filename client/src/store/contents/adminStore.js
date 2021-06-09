@@ -20,7 +20,6 @@ const admin = {
     },
   }),
   getters: {
-    getEmail: (state) => state.email,
     getProfile: (state) => state.profile,
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
