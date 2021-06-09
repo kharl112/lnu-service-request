@@ -24,7 +24,10 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate())
-        return this.$store.dispatch("token/claimToken", this.token);
+        return this.$store.dispatch("token/claimToken", {
+          token: this.token,
+          userType: this.getUserType,
+        });
     },
     handleGoBack() {
       return this.$router.replace(`/${this.getUserType}/login`);
@@ -37,7 +40,7 @@ export default {
     <v-form ref="form" @submit="handleSubmit">
       <v-text-field
         class="input"
-        label="Enter Administration Access Code"
+        label="Enter Access Code"
         v-model="token"
         :rules="rules.notNull"
         :disabled="getLoading"

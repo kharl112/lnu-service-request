@@ -15,19 +15,22 @@ const token = {
     setTokens: (state, tokens) => (state.tokens = tokens),
   },
   actions: {
-    claimToken: async ({ commit, dispatch }, token) => {
+    claimToken: async ({ commit, dispatch }, { token, userType }) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", true);
       try {
+        const { user_type } = router.history.current.params;
         await axios.post(
-          "/api/token/claim",
+          `/api/token/${userType}/claim`,
           { token },
           {
             headers: { Authorization: localStorage.getItem("Authorization") },
           }
         );
         commit("setLoading", false);
-        return router.replace("/faculty/home/drafts");
+        return router.replace(
+          `/${user_type}/home/${user_type === "faculty" ? "drafts" : "pending"}`
+        );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
