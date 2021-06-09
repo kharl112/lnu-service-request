@@ -10,7 +10,7 @@ const admin = {
     loading: {
       login: false,
       email: false,
-      regiser: false,
+      register: false,
       update: false,
       change_password: false,
       all_admin: false,
