@@ -85,14 +85,14 @@ export default {
           <router-link
             class="subtitle-2"
             v-show="getStepIndex !== '1' && getStepIndex !== '4'"
-            :to="`/faculty/register/step=${getStepIndex - 1}`"
+            :to="`/${this.getUserType}/register/step=${getStepIndex - 1}`"
           >
             Go back
           </router-link>
           <router-link
             class="subtitle-2"
             v-show="getStepIndex === '1'"
-            to="/faculty/login/"
+            :to="`/${getUserType}/login`"
           >
             I have an account
           </router-link>

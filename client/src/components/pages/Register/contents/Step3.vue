@@ -23,14 +23,14 @@ export default {
     };
   },
   computed: {
+    getUserType() {
+      return this.$route.params.user_type;
+    },
     getError() {
       return this.$store.getters["message/getError"];
     },
     getLoading() {
-      return this.$store.getters["faculty/getLoading"];
-    },
-    getUserType() {
-      return this.$route.params.user_type;
+      return this.$store.getters[`${this.getUserType}/getLoading`];
     },
   },
   methods: {

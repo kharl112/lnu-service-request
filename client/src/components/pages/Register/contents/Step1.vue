@@ -31,7 +31,7 @@ export default {
       return this.$store.getters["message/getError"];
     },
     getLoading() {
-      return this.$store.getters["faculty/getLoading"];
+      return this.$store.getters[`${this.getUserType}/getLoading`];
     },
   },
 };
