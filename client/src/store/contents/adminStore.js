@@ -49,6 +49,23 @@ const admin = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
+    adminRegister: async ({ commit, dispatch }, form) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setProfile", null);
+      commit("setLoading", { loading: true, type: "register" });
+      try {
+        delete form.department;
+        const { data } = await axios.post("/api/admin/create", form);
+        commit("setLoading", { loading: false, type: "register" });
+        localStorage.setItem("Authorization", data.token);
+        localStorage.setItem("UserType", "admin");
+        return router.replace("/admin/register/step=4");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "register" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
     adminUpdate: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "update" });
