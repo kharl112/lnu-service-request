@@ -29,7 +29,6 @@ const User = new mongoose.Schema({
     },
     prefix: {
       type: String,
-      minLength: 1,
       maxLength: 255,
     },
     suffixes: {
