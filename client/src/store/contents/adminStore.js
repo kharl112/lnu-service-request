@@ -178,7 +178,9 @@ const admin = {
       } catch (error) {
         const { message } = error.response.data || error;
         dispatch("message/errorMessage", message, { root: true });
-        return router.replace("/admin/login");
+        return message === "account is not permitted"
+          ? router.replace("/admin/register/step=4")
+          : router.replace("/admin/login");
       }
     },
     allAdmin: async ({ commit, dispatch }) => {
