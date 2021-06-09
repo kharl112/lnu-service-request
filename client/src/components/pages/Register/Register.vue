@@ -52,12 +52,12 @@ export default {
               src="../../../assets/images/logo-512x512.png"
             />
           </v-col>
-          <v-col cols="12" md="8">
+          <v-col cols="12" md="8" class="pb-2">
             <router-link to="/" class="text-decoration-none">
               <h3
                 id="heading"
                 :class="
-                  `text-h5 text-sm-h4 text-md-h4 text-center text-md-left${
+                  `text-h5 text-sm-h4 text-md-h4 text-left${
                     $vuetify.theme.dark ? 'primary--text' : ''
                   }`
                 "
@@ -66,6 +66,15 @@ export default {
                 Service Request System
               </h3>
             </router-link>
+            <h5
+              class="caption pa-0 pt-2 font-weight-bold text-left primary--text"
+            >
+              {{
+                getUserType === "faculty"
+                  ? "faculty/personnel registration"
+                  : "CAO personnel registration"
+              }}
+            </h5>
           </v-col>
         </v-row>
 
@@ -94,8 +103,7 @@ export default {
               </span>
             </template>
             <span>
-              Wait for the Administration department to send a code to your
-              email
+              Wait for the System Administrator to send a code to your E-mail
             </span>
           </v-tooltip>
           <small>
