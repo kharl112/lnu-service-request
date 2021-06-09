@@ -26,6 +26,11 @@ export default {
       },
     };
   },
+  computed: {
+    getUserType() {
+      return this.$route.params.user_type;
+    },
+  },
   methods: {
     handleShowPassword() {
       return (this.show = !this.show);
@@ -33,7 +38,7 @@ export default {
     handleNext(e) {
       e.preventDefault();
       if (this.$refs.form.validate())
-        return this.$router.replace("/faculty/register/step=3");
+        return this.$router.replace(`/${this.getUserType}/register/step=3`);
     },
   },
 };

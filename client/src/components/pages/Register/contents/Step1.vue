@@ -18,12 +18,15 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate())
-        return this.$store.dispatch("faculty/validateEmail", {
+        return this.$store.dispatch(`${this.getUserType}/validateEmail`, {
           email: this.form.email,
         });
     },
   },
   computed: {
+    getUserType() {
+      return this.$route.params.user_type;
+    },
     getError() {
       return this.$store.getters["message/getError"];
     },

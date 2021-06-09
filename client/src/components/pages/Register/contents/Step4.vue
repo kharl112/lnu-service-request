@@ -16,6 +16,9 @@ export default {
     getLoading() {
       return this.$store.getters["token/getLoading"];
     },
+    getUserType() {
+      return this.$route.params.user_type;
+    },
   },
   methods: {
     handleSubmit(e) {
@@ -24,7 +27,7 @@ export default {
         return this.$store.dispatch("token/claimToken", this.token);
     },
     handleGoBack() {
-      return this.$router.replace("/faculty/login");
+      return this.$router.replace(`/${this.getUserType}/login`);
     },
   },
 };

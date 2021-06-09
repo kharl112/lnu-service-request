@@ -37,7 +37,9 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate()) {
-        return this.$store.dispatch("faculty/userRegister", this.form);
+        return this.getUserType === "faculty"
+          ? this.$store.dispatch(`faculty/userRegister`, this.form)
+          : this.$store.dispatch(`admin/adminRegister`, this.form);
       }
     },
   },
