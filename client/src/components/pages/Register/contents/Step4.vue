@@ -30,6 +30,7 @@ export default {
         });
     },
     handleGoBack() {
+      localStorage.removeItem("Authorization");
       return this.$router.replace(`/${this.getUserType}/login`);
     },
   },
