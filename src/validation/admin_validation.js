@@ -9,8 +9,8 @@ const create = (body) => {
       lastname: validString.min(2).max(255),
       middle_initial: validString.min(1).max(1),
       prefix: Joi.string().allow(""),
-      suffixes: Joi.array(),
-    }),
+      suffixes: Joi.string().allow(""),
+    }).required(),
     email: validString.email().max(255),
     password: validString.min(8).max(255),
   });
@@ -32,8 +32,8 @@ const update = (body) => {
       lastname: validString.min(2).max(255),
       middle_initial: validString.min(1).max(1),
       prefix: Joi.string().allow(""),
-      suffixes: Joi.array(),
-    }),
+      suffixes: Joi.string().allow(""),
+    }).required(),
   });
   return schema.validate(body);
 };

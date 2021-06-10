@@ -18,7 +18,6 @@ const adminAuth = require("../authentication/adminAuth");
 
 route.post("/create", async (req, res) => {
   const form = { ...req.body };
-  form.name = Name.getFixedFullName(form.name);
 
   const { error } = create(form);
   if (error) return res.status(400).send(error.details[0]);
@@ -52,6 +51,7 @@ route.post("/create", async (req, res) => {
       .status(400)
       .send({ message: "the email or ID number you provided already exists" });
 
+  form.name = Name.getFixedFullName(form.name);
   const salt = bcrypt.genSaltSync(10);
   const hash = bcrypt.hashSync(form.password, salt);
 
@@ -76,9 +76,8 @@ route.post("/create", async (req, res) => {
 
 route.post("/update", userAuth, async (req, res) => {
   const form = { ...req.body };
-  form.name = Name.getFixedFullName(form.name);
 
-  await ["email", "permitted", "password", "staff_id"].map((node) =>
+  ["email", "permitted", "password", "staff_id"].map((node) =>
     form[node] ? delete form[node] : null
   );
   delete form.department.unit_role;
@@ -86,6 +85,7 @@ route.post("/update", userAuth, async (req, res) => {
   const { error } = update(form);
   if (error) return res.status(400).send(error.details[0]);
 
+  form.name = Name.getFixedFullName(form.name);
   const { name } = form;
   await User.findOneAndUpdate(
     { staff_id: req.locals.staff_id },
