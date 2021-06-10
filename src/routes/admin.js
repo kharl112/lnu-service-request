@@ -24,29 +24,13 @@ route.post("/create", async (req, res) => {
   const { error } = create(form);
   if (error) return res.status(400).send(error.details[0]);
 
-  const user_found = await User.aggregate([
-    {
-      $match: {
-        email: { $in: [form.email] },
-        staff_id: { $in: [form.staff_id] },
-      },
-      $match: {
-        staff_id: { $in: [form.staff_id] },
-      },
-    },
-  ]);
+  const user_found = await User.find({
+    $or: [{ email: form.email }, { staff_id: form.staff_id }],
+  });
 
-  const admin_found = await Admin.aggregate([
-    {
-      $match: {
-        email: { $in: [form.email] },
-        staff_id: { $in: [form.staff_id] },
-      },
-      $match: {
-        staff_id: { $in: [form.staff_id] },
-      },
-    },
-  ]);
+  const admin_found = await Admin.find({
+    $or: [{ email: form.email }, { staff_id: form.staff_id }],
+  });
 
   if (user_found[0] || admin_found[0])
     return res
