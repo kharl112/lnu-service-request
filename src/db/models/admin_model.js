@@ -5,8 +5,8 @@ const Admin = new mongoose.Schema({
     type: String,
     required: true,
     immutable: true,
-    minLength: 2,
-    maxLength: 255,
+    minLength: 7,
+    maxLength: 7,
   },
   name: {
     firstname: {
