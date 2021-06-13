@@ -32,6 +32,10 @@ export default {
     getLoading() {
       return this.$store.getters[`${this.getUserType}/getLoading`];
     },
+    isUnitandRoleLoading() {
+      const { getters } = this.$store;
+      return getters["unit/getLoading"] && getters["role/getLoading"];
+    },
   },
   methods: {
     handleSubmit(e) {
@@ -43,10 +47,16 @@ export default {
       }
     },
   },
+  created() {
+    if (this.getUserType === "faculty") {
+      this.$store.dispatch("unit/allUnits");
+      this.$store.dispatch("role/allRoles");
+    }
+  },
 };
 </script>
 <template>
-  <v-card class="card-container" elevation="5">
+  <v-card class="card-container" elevation="5" v-if="!isUnitandRoleLoading">
     <v-form ref="form" @submit="handleSubmit">
       <v-text-field
         :disabled="getLoading.register"
@@ -92,5 +102,9 @@ export default {
         Next
       </v-btn>
     </v-form>
+  </v-card>
+  <v-card class="card-container" v-else>
+    <v-skeleton-loader width="100%" type="article" />
+    <v-skeleton-loader width="100%" type="article" />
   </v-card>
 </template>
