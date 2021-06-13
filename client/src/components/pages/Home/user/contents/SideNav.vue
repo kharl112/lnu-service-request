@@ -21,7 +21,7 @@ export default {
       return this.$store.getters["faculty/getProfile"];
     },
     isHead() {
-      return this.getFacultyProfile.department.unit_role !== 1;
+      return this.getFacultyProfile.department.role.level === 2;
     },
     getFacultyFullName() {
       const {
