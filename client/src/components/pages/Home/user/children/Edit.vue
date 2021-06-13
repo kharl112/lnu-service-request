@@ -9,15 +9,6 @@ export default {
     signatureVisibility: false,
     rules: [(v) => !!v || "This field is not allowed to be empty"],
     items: ["A4", "Letter"],
-    services: [
-      "Vehicle & Driver's Trip Ticket",
-      "Mailing",
-      "Pass Slip",
-      "Job Order for Risograph",
-      "Plumbing",
-      "Carpentry",
-      "Technician",
-    ],
     timeout: 3000,
     form: null,
   }),
@@ -31,17 +22,19 @@ export default {
     getAllAdmin() {
       return this.$store.getters["admin/getAllAdmin"];
     },
-    getLoading() {
-      const { getters } = this.$store;
-      if (
-        !getters["faculty/getLoading"].all_head &&
-        !getters["admin/getLoading"].all_admin
-      )
-        return false;
-      return true;
+    getAllServices() {
+      return this.$store.getters["service/getAllServices"];
     },
     getEditLoading() {
       return this.$store.getters["request/getLoading"].edit;
+    },
+    isLoading() {
+      const { getters } = this.$store;
+      return (
+        getters["faculty/getLoading"].all_head ||
+        getters["admin/getLoading"].all_admin ||
+        getters["service/getAllServices"].all_admin
+      );
     },
   },
   methods: {
@@ -73,6 +66,7 @@ export default {
   created() {
     this.$store.dispatch("faculty/allHead");
     this.$store.dispatch("admin/allAdmin");
+    this.$store.dispatch("service/allServices");
     this.form = this.$store.getters["request/getLetterInfo"];
   },
 };
@@ -85,7 +79,7 @@ export default {
           ref="form"
           @submit="(e) => e.preventDefault()"
           :disabled="getEditLoading"
-          v-if="!getLoading"
+          v-if="!isLoading"
         >
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
@@ -159,10 +153,12 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-autocomplete
-                      v-model="form.service_type"
+                      v-model="form.service_id"
                       outlined
                       :rules="rules"
-                      :items="services"
+                      :items="getAllServices"
+                      item-text="type"
+                      item-value="_id"
                       label="Service Type"
                       dense
                     />
