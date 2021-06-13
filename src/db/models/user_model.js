@@ -48,18 +48,17 @@ const User = new mongoose.Schema({
     maxLength: 255,
   },
   department: {
-    unit_name: {
+    unit_id: {
       type: String,
       required: true,
-      minLength: 2,
-      maxLength: 255,
+      minLength: 24,
+      maxLength: 24,
     },
-    unit_role: {
-      type: Number,
+    role_id: {
+      type: String,
       required: true,
-      immutable: true,
-      min: 1,
-      max: 2,
+      minLength: 24,
+      maxLength: 24,
     },
   },
   permitted: {
