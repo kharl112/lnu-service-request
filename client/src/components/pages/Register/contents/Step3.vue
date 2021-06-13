@@ -32,6 +32,12 @@ export default {
     getLoading() {
       return this.$store.getters[`${this.getUserType}/getLoading`];
     },
+    getAllUnits() {
+      return this.$store.getters["unit/getAllUnits"];
+    },
+    getAllRoles() {
+      return this.$store.getters["role/getAllRoles"];
+    },
     isUnitandRoleLoading() {
       const { getters } = this.$store;
       return getters["unit/getLoading"] && getters["role/getLoading"];
@@ -68,13 +74,16 @@ export default {
         autofocus
         outlined
       />
-      <v-text-field
+      <v-select
         v-if="getUserType === 'faculty'"
         :disabled="getLoading.register"
         class="input"
-        label="Department"
-        :rules="[...rules.notNull, ...rules.letters]"
-        v-model="form.department.unit_name"
+        label="Unit/Department"
+        :items="getAllUnits"
+        :rules="rules.notNull"
+        v-model="form.department.unit_id"
+        item-text="name"
+        item-value="_id"
         outlined
       />
       <v-select
@@ -82,11 +91,11 @@ export default {
         :disabled="getLoading.register"
         class="input"
         label="Role/Position"
-        :items="roles"
+        :items="getAllRoles"
         :rules="rules.notNull"
-        v-model="form.department.unit_role"
-        item-text="role"
-        item-value="value"
+        v-model="form.department.role_id"
+        item-text="name"
+        item-value="_id"
         outlined
       />
       <v-alert class="alert" v-if="getError" dense type="error">
