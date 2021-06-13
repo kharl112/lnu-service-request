@@ -14,8 +14,8 @@ const create = (body) => {
     email: validString.email().max(255),
     password: validString.min(8).max(255),
     department: Joi.object({
-      unit_name: validString.min(2).max(255),
-      unit_role: Joi.number().min(1).max(5),
+      unit_id: validString.min(24).max(24),
+      unit_role: validString.min(24).max(24),
     }).required(),
   });
   return schema.validate(body);
@@ -39,7 +39,8 @@ const update = (body) => {
       suffixes: Joi.string().allow(""),
     }).required(),
     department: Joi.object({
-      unit_name: validString.min(2).max(255),
+      unit_id: validString.min(24).max(24),
+      unit_role: validString.min(24).max(24),
     }).required(),
   });
   return schema.validate(body);
