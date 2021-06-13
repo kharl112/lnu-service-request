@@ -5,6 +5,8 @@ import request from "./contents/requestStore";
 import pdf from "./contents/pdfStore";
 import message from "./contents/messageStore";
 import navigation from "./contents/navigationStore";
+import unit from "./contents/unitStore";
+import role from "./contents/roleStore";
 import Vuex from "vuex";
 import Vue from "vue";
 
@@ -19,6 +21,8 @@ const store = new Vuex.Store({
     pdf,
     message,
     navigation,
+    unit,
+    role,
   },
 });
 
