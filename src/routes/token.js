@@ -8,24 +8,6 @@ const Admin = require("../db/models/admin_model");
 
 require("dotenv").config();
 
-route.post("/create", adminAuth, async (req, res) => {
-  const user_token = new Token({
-    creatorID: req.locals.staff_id,
-    claimerID: "",
-    claimed: false,
-    token: Math.random().toString(36).substring(4),
-  });
-
-  try {
-    await user_token.save();
-    return res.send({ message: "token created" });
-  } catch (error) {
-    return res
-      .status(500)
-      .send({ message: "something went wrong, please try again." });
-  }
-});
-
 route.post("/faculty/claim", async (req, res) => {
   const token = req.header("Authorization");
   const { _id } = jwt.verify(token, process.env.JWT_SECRET);
