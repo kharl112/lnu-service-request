@@ -6,6 +6,8 @@ const admin = require("./src/routes/admin");
 const user = require("./src/routes/user");
 const token = require("./src/routes/token");
 const request = require("./src/routes/request");
+const unit = require("./src/routes/unit");
+const role = require("./src/routes/role");
 const dbconnection = require("./src/db/connection");
 require("dotenv").config();
 
@@ -18,7 +20,9 @@ app.use("/api/pdf", pdf);
 app.use("/api/admin", admin);
 app.use("/api/user", user);
 app.use("/api/token", token);
-app.use("/api/request/", request);
+app.use("/api/request", request);
+app.use("/api/unit", unit);
+app.use("/api/role", role);
 
 app.use(express.static("client/dist"));
 app.get("/*", (req, res) => {
