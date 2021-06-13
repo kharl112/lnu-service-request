@@ -6,10 +6,6 @@ export default {
   },
   data: () => {
     return {
-      roles: [
-        { role: "Unit Member/Personnel", value: 1 },
-        { role: "Unit Head", value: 2 },
-      ],
       rules: {
         id: [(v) => v.length === 7 || "ID number must be 7 digits"],
         notNull: [(v) => !!v || "This field is required"],
