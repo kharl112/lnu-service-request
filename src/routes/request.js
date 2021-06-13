@@ -14,16 +14,17 @@ route.post("/create", userAuth, async (req, res) => {
 
   const admin_found = await Admin.findOne({
     staff_id: req.body.admin.staff_id,
+    permitted: true,
   });
   if (!admin_found) return res.status(400).send({ message: "admin not found" });
 
   if (req.body.head.staff_id) {
     const head_found = await User.findOne({
       staff_id: req.body.head.staff_id,
-      "department.unit_role": { $in: [2, 3] },
+      permitted: true,
     });
     if (!head_found)
-      return res.status(400).send({ message: "head dept. not found" });
+      return res.status(400).send({ message: "head person not found" });
   }
 
   const request = new Request({
@@ -32,7 +33,7 @@ route.post("/create", userAuth, async (req, res) => {
   });
 
   try {
-    const new_request = await request.save();
+    await request.save();
     return res.send({
       message: `request ${req.body.save_as === 0 ? "saved as draft" : "sent"}`,
     });
@@ -47,18 +48,16 @@ route.post("/faculty/draft/delete/selected", userAuth, async (req, res) => {
   const { error } = deleteSelected(req.body);
   if (error) return res.status(400).send(error.details[0]);
 
-  try {
-    await Request.find({
-      "user.staff_id": req.locals.staff_id,
-      _id: { $in: req.body.selected },
-    }).deleteMany();
-
+  await Request.find({
+    "user.staff_id": req.locals.staff_id,
+    _id: { $in: req.body.selected },
+  }).deleteMany({}, (error) => {
+    if (error)
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again." });
     return res.send({ message: "selected requests deleted" });
-  } catch (error) {
-    return res
-      .status(500)
-      .send({ message: "something went wrong, please try again." });
-  }
+  });
 });
 
 route.get("/faculty/draft", userAuth, async (req, res) => {
@@ -165,25 +164,23 @@ route.get("/head/signed", userAuth, async (req, res) => {
 });
 
 route.post("/head/sign", userAuth, async (req, res) => {
-  if (req.locals.department.unit_role === 1)
+  if (req.locals.department.role_id === 1)
     return res.status(401).send({ message: "invalid user type" });
 
-  try {
-    const head_sign = await Request.findByIdAndUpdate(req.body.request_id, {
+  await Request.findByIdAndUpdate(
+    req.body.request_id,
+    {
       "head.signature": req.body.signature,
-    });
-    if (!head_sign)
-      return res
-        .status(500)
-        .send({ message: "something went wrong, please try again." });
-
-    return res.send({ message: "signing complete" });
-  } catch (error) {
-    return res
-      .status(500)
-      .send({ message: "something went wrong, please try again." });
-    I;
-  }
+    },
+    {},
+    (error) => {
+      if (error)
+        return res
+          .status(500)
+          .send({ message: "something went wrong, please try again." });
+      return res.send({ message: "signing complete" });
+    }
+  );
 });
 
 route.get("/admin/pending", adminAuth, async (req, res) => {
@@ -249,40 +246,36 @@ route.get("/admin/signed", adminAuth, async (req, res) => {
 });
 
 route.post("/admin/sign", adminAuth, async (req, res) => {
-  try {
-    const admin_sign = await Request.findByIdAndUpdate(req.body.request_id, {
+  await Request.findByIdAndUpdate(
+    req.body.request_id,
+    {
       "admin.signature": req.body.signature,
-    });
-    if (!admin_sign)
-      return res
-        .status(500)
-        .send({ message: "something went wrong, please try again." });
-
-    return res.send({ message: "signing complete" });
-  } catch (error) {
-    return res
-      .status(500)
-      .send({ message: "something went wrong, please try again." });
-    I;
-  }
+    },
+    {},
+    (error) => {
+      if (error)
+        return res
+          .status(500)
+          .send({ message: "something went wrong, please try again." });
+      return res.send({ message: "signing complete" });
+    }
+  );
 });
 
 route.post("/faculty/update/letter=:id", userAuth, async (req, res) => {
   const { id } = req.params;
   const { error } = create(req.body.form);
+
   if (error) return res.status(400).send(error.details[0]);
   req.body.form.user.staff_id = req.locals.staff_id;
 
-  try {
-    const updated_request = await Request.findByIdAndUpdate(id, req.body.form);
-    if (!updated_request)
-      return res.status(404).send({ message: "request letter not found." });
+  await Request.findByIdAndUpdate(id, req.body.form, {}, (error) => {
+    if (error)
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again." });
     return res.send({ message: "request letter updated" });
-  } catch (error) {
-    return res
-      .status(500)
-      .send({ message: "something went wrong, please try again." });
-  }
+  });
 });
 
 module.exports = route;
