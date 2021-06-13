@@ -243,14 +243,6 @@ route.get("/profile", userAuth, async (req, res) => {
       { $match: { staff_id: req.locals.staff_id } },
       {
         $lookup: {
-          from: "units",
-          localField: "department.unit_id",
-          foreignField: "_id",
-          as: "unit",
-        },
-      },
-      {
-        $lookup: {
           from: "roles",
           localField: "department.role_id",
           foreignField: "_id",
@@ -262,18 +254,14 @@ route.get("/profile", userAuth, async (req, res) => {
           _id: 0,
           password: 0,
           __v: 0,
-          department: 0,
           "unit.__v": 0,
           "role.__v": 0,
         },
       },
     ]);
 
-    const department = { unit: profile[0].unit[0], role: profile[0].role[0] };
-    delete profile[0].unit;
-    delete profile[0].role;
-
-    return res.send({ ...profile[0], department });
+    const role = profile[0].role[0];
+    return res.send({ ...profile[0], role });
   } catch (error) {}
 });
 
