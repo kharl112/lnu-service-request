@@ -101,7 +101,7 @@ export default {
                     cols="12"
                     sm="4"
                     md="5"
-                    v-if="getFacultyProfile.department.unit_role === 1"
+                    v-if="getFacultyProfile.role.level === 1"
                   >
                     <v-autocomplete
                       v-model="form.head.staff_id"
