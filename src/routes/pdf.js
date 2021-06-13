@@ -16,38 +16,39 @@ const { Name, Department, _Date } = require("../functions/generateProfile");
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
-    const form = await Request.aggregate(
+    const [form] = await Request.aggregate(
       pdfQuery(id, "user.staff_id", req.locals.staff_id)
     );
 
-    const { options } = form[0];
+    const { options } = form;
     Object.keys(options.border).map(
       (node) => (options.border[node] = `${options.border[node]}in`)
     );
 
-    form[0].head.department = !form[0].head.staff_id
+    form.head.department = !form.head.staff_id
       ? ""
-      : Department.getDepartment(form[0].head.profile[0].department);
+      : Department.getDepartment(form.head.profile[0].department);
 
-    form[0].head.profile = !form[0].head.staff_id
+    form.head.profile = !form.head.staff_id
       ? ""
-      : Name.getFullName(form[0].head.profile[0].name);
+      : Name.getFullName(form.head.profile[0].name);
 
-    form[0].user.department = Department.getDepartment(req.locals.department);
-    form[0].user.profile = Name.getFullName(req.locals.name);
-    form[0].admin.profile = Name.getFullName(form[0].admin.profile[0].name);
-    form[0].body = md.render(form[0].body).toString();
-    form[0].date = _Date.getFullDate(form[0].date);
+    form.user.department = Department.getDepartment(req.locals.department);
+    form.user.profile = Name.getFullName(req.locals.name);
+    form.admin.profile = Name.getFullName(form.admin.profile[0].name);
+    form.body = md.render(form.body).toString();
+    form.date = _Date.getFullDate(form.date);
+    form.service_type = form.service[0].type;
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
-      { form: form[0] }
+      { form }
     );
 
-    return pdf.create(html, form[0].options).toBuffer((e, buffer) => {
+    return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
-  } catch (e) {
+  } catch (error) {
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
@@ -57,41 +58,42 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
 route.post("/head/create/id=:id", userAuth, async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
-    const form = await Request.aggregate(
+    const [form] = await Request.aggregate(
       pdfQuery(id, "head.staff_id", req.locals.staff_id)
     );
 
-    const { options } = form[0];
+    const { options } = form;
     Object.keys(options.border).map(
       (node) => (options.border[node] = `${options.border[node]}in`)
     );
 
-    form[0].head.department = !form[0].head.staff_id
+    form.head.department = !form.head.staff_id
       ? ""
-      : Department.getDepartment(form[0].head.profile[0].department);
+      : Department.getDepartment(form.head.profile[0].department);
 
-    form[0].head.profile = !form[0].head.staff_id
+    form.head.profile = !form.head.staff_id
       ? ""
-      : Name.getFullName(form[0].head.profile[0].name);
+      : Name.getFullName(form.head.profile[0].name);
 
-    form[0].user.department = Department.getDepartment(
-      form[0].user.profile[0].department
+    form.user.department = Department.getDepartment(
+      form.user.profile[0].department
     );
 
-    form[0].user.profile = Name.getFullName(form[0].user.profile[0].name);
-    form[0].admin.profile = Name.getFullName(form[0].admin.profile[0].name);
-    form[0].body = md.render(form[0].body).toString();
-    form[0].date = _Date.getFullDate(form[0].date);
+    form.user.profile = Name.getFullName(form.user.profile[0].name);
+    form.admin.profile = Name.getFullName(form.admin.profile[0].name);
+    form.body = md.render(form.body).toString();
+    form.date = _Date.getFullDate(form.date);
+    form.service_type = form.service[0].type;
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
-      { form: form[0] }
+      { form }
     );
 
-    return pdf.create(html, form[0].options).toBuffer((e, buffer) => {
+    return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
-  } catch (e) {
+  } catch (error) {
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
@@ -101,41 +103,42 @@ route.post("/head/create/id=:id", userAuth, async (req, res) => {
 route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
-    const form = await Request.aggregate(
+    const [form] = await Request.aggregate(
       pdfQuery(id, "admin.staff_id", req.locals.staff_id)
     );
 
-    const { options } = form[0];
+    const { options } = form;
     Object.keys(options.border).map(
       (node) => (options.border[node] = `${options.border[node]}in`)
     );
 
-    form[0].head.department = !form[0].head.staff_id
+    form.head.department = !form.head.staff_id
       ? ""
-      : Department.getDepartment(form[0].head.profile[0].department);
+      : Department.getDepartment(form.head.profile[0].department);
 
-    form[0].head.profile = !form[0].head.staff_id
+    form.head.profile = !form.head.staff_id
       ? ""
-      : Name.getFullName(form[0].head.profile[0].name);
+      : Name.getFullName(form.head.profile[0].name);
 
-    form[0].user.department = Department.getDepartment(
-      form[0].user.profile[0].department
+    form.user.department = Department.getDepartment(
+      form.user.profile[0].department
     );
 
-    form[0].user.profile = Name.getFullName(form[0].user.profile[0].name);
-    form[0].admin.profile = Name.getFullName(form[0].admin.profile[0].name);
-    form[0].body = md.render(form[0].body).toString();
-    form[0].date = _Date.getFullDate(form[0].date);
+    form.user.profile = Name.getFullName(form.user.profile[0].name);
+    form.admin.profile = Name.getFullName(form.admin.profile[0].name);
+    form.body = md.render(form.body).toString();
+    form.date = _Date.getFullDate(form.date);
+    form.service_type = form.service[0].type;
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/template1.pug"),
-      { form: form[0] }
+      { form }
     );
 
-    return pdf.create(html, form[0].options).toBuffer((e, buffer) => {
+    return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
-  } catch (e) {
+  } catch (error) {
     return res
       .status(500)
       .send({ message: "something went wrong, please try again." });
