@@ -7,10 +7,9 @@ const Request = new mongoose.Schema({
     min: 8,
     max: 100,
   },
-  service_type: {
-    type: String,
+  service_id: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
-    max: 100,
   },
   body: {
     type: String,

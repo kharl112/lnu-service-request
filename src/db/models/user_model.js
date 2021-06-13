@@ -51,14 +51,10 @@ const User = new mongoose.Schema({
     unit_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      minLength: 24,
-      maxLength: 24,
     },
     role_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      minLength: 24,
-      maxLength: 24,
     },
   },
   permitted: {
