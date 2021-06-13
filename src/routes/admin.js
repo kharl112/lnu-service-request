@@ -8,7 +8,6 @@ require("dotenv").config();
 
 const Admin = require("../db/models/admin_model");
 const User = require("../db/models/user_model");
-const Token = require("../db/models/token_model");
 
 const generateEmail = require("../functions/generateEmail");
 const { Name } = require("../functions/generateProfile");
