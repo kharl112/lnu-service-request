@@ -10,10 +10,6 @@ export default {
       new_2: "",
     },
     edit_mode: false,
-    unit_roles: [
-      { role: "Unit Member/Personnel", value: 1 },
-      { role: "Unit Head", value: 2 },
-    ],
     rules: {
       password: [
         (v) => (compare_with) => v === compare_with || "Not matched",
@@ -33,6 +29,16 @@ export default {
     },
     getLoading() {
       return this.$store.getters["faculty/getLoading"];
+    },
+    getAllUnits() {
+      return this.$store.getters["unit/getAllUnits"];
+    },
+    getAllRoles() {
+      return this.$store.getters["role/getAllRoles"];
+    },
+    isUnitandRoleLoading() {
+      const { getters } = this.$store;
+      return getters["unit/getLoading"] && getters["role/getLoading"];
     },
   },
   methods: {
@@ -54,6 +60,8 @@ export default {
   },
   created() {
     this.resetForm();
+    this.$store.dispatch("unit/allUnits");
+    this.$store.dispatch("role/allRoles");
   },
 };
 </script>
@@ -206,10 +214,13 @@ export default {
               <v-container fluid class="pt-2 pb-0">
                 <v-row justify="start" align="start" dense>
                   <v-col cols="12" sm="4" md="5">
-                    <v-text-field
-                      v-model="form.department.unit_name"
+                    <v-select
+                      v-model="form.department.unit_id"
                       :disabled="!edit_mode"
-                      :rules="[rules.notNull, rules.letters]"
+                      :items="getAllUnits"
+                      item-text="name"
+                      item-value="_id"
+                      :rules="[rules.notNull]"
                       outlined
                       label="Unit Name"
                       dense
@@ -217,11 +228,12 @@ export default {
                   </v-col>
                   <v-col cols="12" sm="4" md="5">
                     <v-select
-                      v-model="form.department.unit_role"
-                      :items="unit_roles"
-                      disabled
-                      item-text="role"
-                      item-value="value"
+                      v-model="form.department.role_id"
+                      :disabled="!edit_mode"
+                      :items="getAllRoles"
+                      item-text="name"
+                      item-value="_id"
+                      :rules="[rules.notNull]"
                       outlined
                       label="Role/Position"
                       dense
