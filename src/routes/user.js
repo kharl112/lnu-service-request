@@ -70,9 +70,11 @@ route.post("/create", async (req, res) => {
 route.post("/update", userAuth, async (req, res) => {
   const form = { ...req.body };
 
-  ["email", "permitted", "password", "staff_id"].map((node) =>
+  ["email", "permitted", "password", "staff_id", "role"].map((node) =>
     form[node] ? delete form[node] : null
   );
+
+  form.name.suffixes = form.name.suffixes.toString();
 
   const { error } = update(form);
   if (error) return res.status(400).send(error.details[0]);
