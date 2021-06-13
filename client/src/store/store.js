@@ -7,6 +7,7 @@ import message from "./contents/messageStore";
 import navigation from "./contents/navigationStore";
 import unit from "./contents/unitStore";
 import role from "./contents/roleStore";
+import service from "./contents/serviceStore";
 import Vuex from "vuex";
 import Vue from "vue";
 
@@ -23,6 +24,7 @@ const store = new Vuex.Store({
     navigation,
     unit,
     role,
+    service,
   },
 });
 
