@@ -10,7 +10,6 @@ export default {
     items: [
       { title: "Signed", icon: "mdi-email-edit" },
       { title: "Pending", icon: "mdi-email-alert" },
-      { title: "Faculties", icon: "mdi-account-alert" },
     ],
   }),
   computed: {
