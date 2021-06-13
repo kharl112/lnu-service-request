@@ -7,6 +7,14 @@ const pdfQuery = (request_id, recipient_prop, recipient_id) => [
   },
   {
     $lookup: {
+      from: "services",
+      localField: "service_id",
+      foreignField: "_id",
+      as: "service",
+    },
+  },
+  {
+    $lookup: {
       from: "users",
       localField: "user.staff_id",
       foreignField: "staff_id",
