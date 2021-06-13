@@ -28,9 +28,7 @@ const token = {
           }
         );
         commit("setLoading", false);
-        return router.replace(
-          `/${user_type}/home/${user_type === "faculty" ? "drafts" : "pending"}`
-        );
+        return router.replace(`/${user_type}/login`);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
