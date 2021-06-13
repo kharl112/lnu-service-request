@@ -49,13 +49,13 @@ const User = new mongoose.Schema({
   },
   department: {
     unit_id: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       minLength: 24,
       maxLength: 24,
     },
     role_id: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       minLength: 24,
       maxLength: 24,
