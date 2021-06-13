@@ -67,7 +67,7 @@ export default {
 </script>
 <template>
   <v-container fluid class="pa-3">
-    <v-row justify="start" align="start">
+    <v-row justify="start" align="start" v-if="!isUnitandRoleLoading">
       <v-col cols="12" sm="12" md="8">
         <v-form ref="form" :disabled="getLoading.profile || getLoading.update">
           <v-row>
@@ -350,6 +350,17 @@ export default {
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
       <v-col sm="2" md="4" class="hidden-sm-and-down"> </v-col>
+    </v-row>
+    <v-row justify="start" align="start" v-else>
+      <v-col cols="12" sm="12" md="8">
+        <v-card class="ma-3 pa-2" width="95%">
+          <v-skeleton-loader width="100%" type="article" />
+          <v-skeleton-loader width="100%" type="article" />
+          <v-skeleton-loader width="100%" type="article" />
+          <v-skeleton-loader width="100%" type="article" />
+        </v-card>
+      </v-col>
+      <v-divider class="hidden-sm-and-down" vertical />
     </v-row>
   </v-container>
 </template>
