@@ -225,51 +225,6 @@ route.post("/change/password", adminAuth, async (req, res) => {
   }
 });
 
-route.post("/email/permission/code/:staff_id", adminAuth, async (req, res) => {
-  const { staff_id } = req.params;
-
-  const user_found = await User.findOne({
-    staff_id: staff_id,
-    permitted: false,
-  });
-  if (!user_found) return res.status(400).send({ message: "user not found" });
-
-  const user_token = new Token({
-    creatorID: req.locals.staff_id,
-    token: Math.random().toString(36).substring(4),
-  });
-
-  try {
-    await user_token.save();
-    const html = pug.renderFile(
-      path.join(__dirname + "/../../public/views/request_permission.pug"),
-      {
-        form: {
-          link: `https://lnusr.herokuapp.com/faculty/login`,
-          admin: req.locals.name,
-          user: user_found.name,
-          token: user_token.token,
-        },
-      }
-    );
-
-    const mail = nodemailer.createTransport(generateEmail.transport);
-
-    await mail.sendMail(
-      generateEmail.options(
-        user_found.email,
-        "LnuSR sent you a account permission code",
-        html
-      )
-    );
-    return res.send({ message: `the code was sent to ${user_found.staff_id}` });
-  } catch (error) {
-    return res
-      .status(500)
-      .send({ message: "something went wrong, please try again." });
-  }
-});
-
 route.get("/profile", adminAuth, async (req, res) => {
   return res.send(req.locals);
 });
