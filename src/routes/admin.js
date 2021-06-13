@@ -67,6 +67,8 @@ route.post("/update", adminAuth, async (req, res) => {
     form[node] ? delete form[node] : null
   );
 
+  form.name.suffixes = form.name.suffixes.toString();
+
   const { error } = update(form);
   if (error) return res.status(400).send(error.details[0]);
 
