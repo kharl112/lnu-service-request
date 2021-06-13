@@ -8,6 +8,8 @@ require("dotenv").config();
 
 const User = require("../db/models/user_model");
 const Admin = require("../db/models/admin_model");
+const Unit = require("../db/models/unit_model");
+const Role = require("../db/models/role_model");
 
 const generateEmail = require("../functions/generateEmail");
 const { create, login, update } = require("../validation/user_validation");
@@ -34,6 +36,15 @@ route.post("/create", async (req, res) => {
     return res
       .status(400)
       .send({ message: "the email or ID number you provided already exists" });
+
+  const unit_found = await Unit.findById(form.department.unit_id);
+
+  const role_found = await Role.findById(form.department.role_id);
+
+  if (!unit_found || !role_found)
+    return res
+      .status(400)
+      .send({ message: "we cant find either of the unit or role field" });
 
   form.name = Name.getFixedFullName(form.name);
   const salt = bcrypt.genSaltSync(10);
