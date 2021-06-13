@@ -270,9 +270,9 @@ route.get("/profile", userAuth, async (req, res) => {
     ]);
 
     const department = { unit: profile[0].unit[0], role: profile[0].role[0] };
-    delete profile[0].unit
-    delete profile[0].role
-    
+    delete profile[0].unit;
+    delete profile[0].role;
+
     return res.send({ ...profile[0], department });
   } catch (error) {}
 });
@@ -301,20 +301,34 @@ route.get("/pending", adminAuth, async (req, res) => {
 });
 
 route.get("/head/all", userAuth, async (req, res) => {
-  const all_head = await User.find({
-    "department.unit_role": { $in: [2, 3] },
-  }).select({
-    _id: 0,
-    email: 0,
-    password: 0,
-    signature_url: 0,
-    __v: 0,
-  });
+  const all_head = await User.aggregate([
+    { $match: {} },
+    {
+      $lookup: {
+        from: "roles",
+        localField: "department.role_id",
+        foreignField: "_id",
+        as: "role",
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        password: 0,
+        __v: 0,
+        department: 0,
+        "unit.__v": 0,
+        "role.__v": 0,
+      },
+    },
+  ]);
   return res.send(
-    all_head.map((node) => ({
-      name: Name.getFullName(node.name),
-      staff_id: node.staff_id,
-    }))
+    all_head
+      .filter((node) => node.role[0].level === 2)
+      .map((node) => ({
+        name: Name.getFullName(node.name),
+        staff_id: node.staff_id,
+      }))
   );
 });
 
