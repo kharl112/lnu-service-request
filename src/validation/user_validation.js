@@ -15,7 +15,7 @@ const create = (body) => {
     password: validString.min(8).max(255),
     department: Joi.object({
       unit_id: validString.min(24).max(24),
-      unit_role: validString.min(24).max(24),
+      role_id: validString.min(24).max(24),
     }).required(),
   });
   return schema.validate(body);
@@ -40,7 +40,7 @@ const update = (body) => {
     }).required(),
     department: Joi.object({
       unit_id: validString.min(24).max(24),
-      unit_role: validString.min(24).max(24),
+      role_id: validString.min(24).max(24),
     }).required(),
   });
   return schema.validate(body);
