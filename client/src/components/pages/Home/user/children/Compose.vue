@@ -9,19 +9,10 @@ export default {
     signatureVisibility: false,
     rules: [(v) => !!v || "This field is not allowed to be empty"],
     items: ["A4", "Letter"],
-    services: [
-      "Vehicle & Driver's Trip Ticket",
-      "Mailing",
-      "Pass Slip",
-      "Job Order for Risograph",
-      "Plumbing",
-      "Carpentry",
-      "Technician",
-    ],
     timeout: 3000,
     form: {
       subject: "",
-      service_type: "",
+      service_id: "",
       body: "",
       options: {
         format: "A4",
@@ -56,17 +47,19 @@ export default {
     getAllAdmin() {
       return this.$store.getters["admin/getAllAdmin"];
     },
+    getAllServices() {
+      return this.$store.getters["service/getAllServices"];
+    },
     getComposeLoading() {
       return this.$store.getters["request/getLoading"].compose;
     },
-    getLoading() {
+    isLoading() {
       const { getters } = this.$store;
-      if (
-        !getters["faculty/getLoading"].all_head &&
-        !getters["admin/getLoading"].all_admin
-      )
-        return false;
-      return true;
+      return (
+        getters["faculty/getLoading"].all_head ||
+        getters["admin/getLoading"].all_admin ||
+        getters["service/getAllServices"].all_admin
+      );
     },
   },
   methods: {
@@ -98,6 +91,7 @@ export default {
   created() {
     this.$store.dispatch("faculty/allHead");
     this.$store.dispatch("admin/allAdmin");
+    this.$store.dispatch("service/allServices");
   },
 };
 </script>
@@ -109,7 +103,7 @@ export default {
           ref="form"
           @submit="(e) => e.preventDefault()"
           :disabled="getComposeLoading"
-          v-if="!getLoading"
+          v-if="!isLoading"
         >
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
@@ -183,11 +177,13 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-autocomplete
-                      v-model="form.service_type"
+                      v-model="form.service_id"
                       outlined
+                      label="Services Type"
                       :rules="rules"
-                      label="Service Type"
-                      :items="services"
+                      :items="getAllServices"
+                      item-text="type"
+                      item-value="_id"
                       dense
                     />
                   </v-col>
@@ -263,8 +259,8 @@ export default {
                           <v-icon right>
                             mdi-send
                           </v-icon>
-                        </v-btn> </v-col
-                      >
+                        </v-btn>
+                      </v-col>
                     </v-row>
                   </v-col>
                 </v-row>
@@ -272,11 +268,7 @@ export default {
             </v-col>
           </v-row>
         </v-form>
-        <v-skeleton-loader
-          v-else
-          class="mx-auto"
-          type="card, card, card"
-        ></v-skeleton-loader>
+        <v-skeleton-loader v-else class="mx-auto" type="card, card, card" />
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
       <v-col sm="2" md="4" class="hidden-sm-and-down">
