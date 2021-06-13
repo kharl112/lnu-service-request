@@ -74,7 +74,7 @@ route.post("/update", adminAuth, async (req, res) => {
   const { name } = form;
   await Admin.findOneAndUpdate(
     { staff_id: req.locals.staff_id },
-    { name: name },
+    { name },
     { strict: "throw" }
   )
     .then(() => res.send({ message: "account successfully updated" }))
@@ -226,7 +226,10 @@ route.post("/change/password", adminAuth, async (req, res) => {
 route.post("/email/permission/code/:staff_id", adminAuth, async (req, res) => {
   const { staff_id } = req.params;
 
-  const user_found = await User.findOne({ staff_id: staff_id });
+  const user_found = await User.findOne({
+    staff_id: staff_id,
+    permitted: false,
+  });
   if (!user_found) return res.status(400).send({ message: "user not found" });
 
   const user_token = new Token({
