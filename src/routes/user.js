@@ -27,7 +27,6 @@ route.post("/create", async (req, res) => {
   const user_found = await User.find({
     $or: [{ email: form.email }, { staff_id: form.staff_id }],
   });
-
   const admin_found = await Admin.find({
     $or: [{ email: form.email }, { staff_id: form.staff_id }],
   });
@@ -38,7 +37,6 @@ route.post("/create", async (req, res) => {
       .send({ message: "the email or ID number you provided already exists" });
 
   const unit_found = await Unit.findById(form.department.unit_id);
-
   const role_found = await Role.findById(form.department.role_id);
 
   if (!unit_found || !role_found)
@@ -75,24 +73,31 @@ route.post("/update", userAuth, async (req, res) => {
   ["email", "permitted", "password", "staff_id"].map((node) =>
     form[node] ? delete form[node] : null
   );
-  delete form.department.unit_role;
 
   const { error } = update(form);
   if (error) return res.status(400).send(error.details[0]);
 
+  const unit_found = await Unit.findById(form.department.unit_id);
+  const role_found = await Role.findById(form.department.role_id);
+
+  if (!unit_found || !role_found)
+    return res
+      .status(400)
+      .send({ message: "we cant find either of the unit or role field" });
+
   form.name = Name.getFixedFullName(form.name);
-  const { name } = form;
   await User.findOneAndUpdate(
     { staff_id: req.locals.staff_id },
-    { name: name, "department.unit_name": form.department.unit_name },
-    { strict: "throw" }
-  )
-    .then(() => res.send({ message: "account successfully updated" }))
-    .catch(() => {
-      res
-        .status(500)
-        .send({ message: "we can't process your request, please try again." });
-    });
+    { ...form },
+    { strict: "throw" },
+    (error) => {
+      if (error)
+        return res.status(500).send({
+          message: "we can't process your request, please try again.",
+        });
+      return res.send({ message: "account successfully updated" });
+    }
+  );
 });
 
 route.post("/login", async (req, res) => {
