@@ -27,13 +27,14 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
 
     form.head.department = !form.head.staff_id
       ? ""
-      : Department.getDepartment(form.head.profile[0].department);
+      : `${form.head.department.role[0].name} of ${form.head.department.unit[0].name}`;
 
     form.head.profile = !form.head.staff_id
       ? ""
       : Name.getFullName(form.head.profile[0].name);
 
-    form.user.department = Department.getDepartment(req.locals.department);
+    const { unit, role } = form.user.department;
+    form.user.department = `${role[0].name} of ${unit[0].name}`;
     form.user.profile = Name.getFullName(req.locals.name);
     form.admin.profile = Name.getFullName(form.admin.profile[0].name);
     form.body = md.render(form.body).toString();
@@ -69,16 +70,14 @@ route.post("/head/create/id=:id", userAuth, async (req, res) => {
 
     form.head.department = !form.head.staff_id
       ? ""
-      : Department.getDepartment(form.head.profile[0].department);
+      : `${form.head.department.role[0].name} of ${form.head.department.unit[0].name}`;
 
     form.head.profile = !form.head.staff_id
       ? ""
       : Name.getFullName(form.head.profile[0].name);
 
-    form.user.department = Department.getDepartment(
-      form.user.profile[0].department
-    );
-
+    const { unit, role } = form.user.department;
+    form.user.department = `${role[0].name} of ${unit[0].name}`;
     form.user.profile = Name.getFullName(form.user.profile[0].name);
     form.admin.profile = Name.getFullName(form.admin.profile[0].name);
     form.body = md.render(form.body).toString();
@@ -114,16 +113,14 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
 
     form.head.department = !form.head.staff_id
       ? ""
-      : Department.getDepartment(form.head.profile[0].department);
+      : `${form.head.department.role[0].name} of ${form.head.department.unit[0].name}`;
 
     form.head.profile = !form.head.staff_id
       ? ""
       : Name.getFullName(form.head.profile[0].name);
 
-    form.user.department = Department.getDepartment(
-      form.user.profile[0].department
-    );
-
+    const { unit, role } = form.user.department;
+    form.user.department = `${role[0].name} of ${unit[0].name}`;
     form.user.profile = Name.getFullName(form.user.profile[0].name);
     form.admin.profile = Name.getFullName(form.admin.profile[0].name);
     form.body = md.render(form.body).toString();
