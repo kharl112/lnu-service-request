@@ -56,11 +56,7 @@ export default {
             <router-link to="/" class="text-decoration-none">
               <h3
                 id="heading"
-                :class="
-                  `text-h5 text-sm-h4 text-md-h4 text-left${
-                    $vuetify.theme.dark ? 'primary--text' : ''
-                  }`
-                "
+                class="text-h5 text-sm-h4 text-md-h4 text-left primary--text"
               >
                 <em>LNU</em>
                 Service Request System
@@ -90,7 +86,7 @@ export default {
             Go back
           </router-link>
           <router-link
-            class="subtitle-2"
+            class="subtitle-2 primary--text"
             v-show="getStepIndex === '1'"
             :to="`/${getUserType}/login`"
           >
@@ -98,12 +94,12 @@ export default {
           </router-link>
           <v-tooltip bottom v-if="getStepIndex === '4'">
             <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on" class="tooltip-text">
+              <span v-bind="attrs" v-on="on" class="tooltip-text primary--text">
                 What is this?
               </span>
             </template>
             <span>
-              Wait for the System Administrator to send a code to your E-mail
+              Wait for the MIS send a code to your E-mail
             </span>
           </v-tooltip>
           <small>

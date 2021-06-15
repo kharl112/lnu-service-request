@@ -70,7 +70,7 @@ export default {
         autofocus
         outlined
       />
-      <v-select
+      <v-autocomplete
         v-if="getUserType === 'faculty'"
         :disabled="getLoading.register"
         class="input"
@@ -82,7 +82,7 @@ export default {
         item-value="_id"
         outlined
       />
-      <v-select
+      <v-autocomplete
         v-if="getUserType === 'faculty'"
         :disabled="getLoading.register"
         class="input"
