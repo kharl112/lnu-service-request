@@ -70,10 +70,12 @@ route.get("/faculty/draft", userAuth, async (req, res) => {
 });
 
 route.get("/faculty/sent", userAuth, async (req, res) => {
-  const faculty_sent = await Request.find({
-    "user.staff_id": req.locals.staff_id,
-    save_as: 1,
-  });
+  const faculty_sent = await Request.aggregate(
+    requestQuery({
+      "user.staff_id": req.locals.staff_id,
+      save_as: 1,
+    })
+  );
   return res.send(faculty_sent);
 });
 
