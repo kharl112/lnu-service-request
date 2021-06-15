@@ -28,7 +28,6 @@ export default {
   methods: {
     getTimeOrDate(date) {
       return formatDistanceToNow(new Date(date), {
-        addSuffix: true,
         includeSeconds: true,
       });
     },
@@ -89,22 +88,72 @@ export default {
             :key="pending.name"
           >
             <v-expansion-panel-header>
+              <div align="left" class="hidden-sm-and-down pr-3">
+                <v-avatar size="40" :color="getRandomColor()">
+                  <span class="white--text text-subtitle-1">{{
+                    getInitials(pending.user.profile[0].name)
+                  }}</span>
+                </v-avatar>
+              </div>
               <v-list-item-subtitle
-                class="pa-0 mr-4 text-caption text-sm-subtitle-2 font-weight-bold"
+                align="left"
+                class="pa-0 mr-4 text-caption text-left text-sm-body-2 "
               >
                 {{ pending.subject }}
               </v-list-item-subtitle>
-              <v-card-subtitle
-                class="pa-0 mr-4 text-caption text-no-wrap text-right primary--text"
-              >
-                {{ getTimeOrDate(pending.date) }}
-              </v-card-subtitle>
+              <div align="right" class="hidden-sm-and-down">
+                <v-chip
+                  small
+                  max-width="70px"
+                  class="ma-2 text-center caption"
+                  color="primary"
+                >
+                  {{ getTimeOrDate(pending.date) }}
+                </v-chip>
+              </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
+              <v-divider />
+              <v-container>
+                <v-row>
+                  <v-col cols="12" class="pa-1 pl-0">
+                    <v-card-subtitle class="pa-0 text-caption ">
+                      {{ getFullname(pending.user.profile[0].name) }}
+                      <span class="hidden-sm-and-down font-italic">
+                        -
+                        {{
+                          `${pending.user.department.role[0].name} of ${pending.user.department.unit[0].name}`
+                        }}
+                      </span>
+                    </v-card-subtitle>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    class="pa-1 pl-0"
+                    v-if="pending.head.profile[0]"
+                  >
+                    <v-card-subtitle class="pa-0 text-caption ">
+                      {{ getFullname(pending.head.profile[0].name) }}
+                      <span class="hidden-sm-and-down font-italic">
+                        -
+                        {{
+                          `${pending.head.department.role[0].name} of ${pending.head.department.unit[0].name}`
+                        }}
+                      </span>
+                    </v-card-subtitle>
+                  </v-col>
+                </v-row>
+              </v-container>
+              <v-divider />
               <v-card-subtitle
-                class="pa-0 pb-2 text-caption text-no-wrap font-weight-bold primary--text"
+                class="pa-0 pb-2 pt-2 text-caption text-no-wrap font-weight-bold primary--text"
               >
                 {{ pending.service[0].type }}
+                <span class="font-weight-normal secondary--text hidden-md-and-up">
+                  &#40;
+                  {{ getTimeOrDate(pending.date) }}
+                  &#41;
+                </span>
               </v-card-subtitle>
               <v-card-subtitle
                 class="pa-0 pb-2 text-caption text-justify text-sm-body-2"
@@ -112,12 +161,6 @@ export default {
                 {{ pending.body }}
               </v-card-subtitle>
               <v-spacer />
-              <v-card-subtitle
-                class="pa-0 pb-2 pt-2 text-caption font-weight-bold"
-              >
-                From:
-                {{ getFullname(pending.user.profile[0].name) }}
-              </v-card-subtitle>
               <v-divider />
               <v-card-actions class="pa-3 pt-3 pb-3">
                 <v-row justify="start" align="center">
