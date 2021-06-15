@@ -7,6 +7,7 @@ const adminAuth = require("../authentication/adminAuth");
 const User = require("../db/models/user_model");
 const Admin = require("../db/models/admin_model");
 const Request = require("../db/models/request_model");
+const requestQuery = require("../functions/requestQuery");
 
 route.post("/create", userAuth, async (req, res) => {
   const { error } = create(req.body);
@@ -102,64 +103,24 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
 });
 
 route.get("/head/pending", userAuth, async (req, res) => {
-  const head_pending = await Request.aggregate([
-    {
-      $match: {
-        "head.staff_id": req.locals.staff_id,
-        "head.signature": "",
-        save_as: 1,
-      },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "user.staff_id",
-        foreignField: "staff_id",
-        as: "user.profile",
-      },
-    },
-    {
-      $project: {
-        save_as: 0,
-        "user.profile.password": 0,
-        "user.profile._id": 0,
-        "user.profile.email": 0,
-        "user.profile.permitted": 0,
-        "user.profile.__v": 0,
-      },
-    },
-  ]);
+  const head_pending = await Request.aggregate(
+    requestQuery({
+      "head.staff_id": req.locals.staff_id,
+      "head.signature": "",
+      save_as: 1,
+    })
+  );
   return res.send(head_pending);
 });
 
 route.get("/head/signed", userAuth, async (req, res) => {
-  const head_signed = await Request.aggregate([
-    {
-      $match: {
-        "head.staff_id": req.locals.staff_id,
-        "head.signature": { $ne: "" },
-        save_as: 1,
-      },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "user.staff_id",
-        foreignField: "staff_id",
-        as: "user.profile",
-      },
-    },
-    {
-      $project: {
-        save_as: 0,
-        "user.profile.password": 0,
-        "user.profile._id": 0,
-        "user.profile.email": 0,
-        "user.profile.permitted": 0,
-        "user.profile.__v": 0,
-      },
-    },
-  ]);
+  const head_signed = await Request.aggregate(
+    requestQuery({
+      "head.staff_id": req.locals.staff_id,
+      "head.signature": { $ne: "" },
+      save_as: 1,
+    })
+  );
   return res.send(head_signed);
 });
 
@@ -184,64 +145,24 @@ route.post("/head/sign", userAuth, async (req, res) => {
 });
 
 route.get("/admin/pending", adminAuth, async (req, res) => {
-  const admin_pending = await Request.aggregate([
-    {
-      $match: {
-        "admin.staff_id": req.locals.staff_id,
-        "admin.signature": "",
-        save_as: 1,
-      },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "user.staff_id",
-        foreignField: "staff_id",
-        as: "user.profile",
-      },
-    },
-    {
-      $project: {
-        save_as: 0,
-        "user.profile.password": 0,
-        "user.profile._id": 0,
-        "user.profile.email": 0,
-        "user.profile.permitted": 0,
-        "user.profile.__v": 0,
-      },
-    },
-  ]);
+  const admin_pending = await Request.aggregate(
+    requestQuery({
+      "admin.staff_id": req.locals.staff_id,
+      "admin.signature": "",
+      save_as: 1,
+    })
+  );
   return res.send(admin_pending);
 });
 
 route.get("/admin/signed", adminAuth, async (req, res) => {
-  const admin_signed = await Request.aggregate([
-    {
-      $match: {
-        "admin.staff_id": req.locals.staff_id,
-        "admin.signature": { $ne: "" },
-        save_as: 1,
-      },
-    },
-    {
-      $lookup: {
-        from: "users",
-        localField: "user.staff_id",
-        foreignField: "staff_id",
-        as: "user.profile",
-      },
-    },
-    {
-      $project: {
-        save_as: 0,
-        "user.profile.password": 0,
-        "user.profile._id": 0,
-        "user.profile.email": 0,
-        "user.profile.permitted": 0,
-        "user.profile.__v": 0,
-      },
-    },
-  ]);
+  const admin_signed = await Request.aggregate(
+    requestQuery({
+      "admin.staff_id": req.locals.staff_id,
+      "admin.signature": { $ne: "" },
+      save_as: 1,
+    })
+  );
   return res.send(admin_signed);
 });
 
