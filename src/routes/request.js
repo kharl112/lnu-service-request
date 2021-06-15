@@ -62,10 +62,12 @@ route.post("/faculty/draft/delete/selected", userAuth, async (req, res) => {
 });
 
 route.get("/faculty/draft", userAuth, async (req, res) => {
-  const faculty_drafts = await Request.find({
-    "user.staff_id": req.locals.staff_id,
-    save_as: 0,
-  });
+  const faculty_drafts = await Request.aggregate(
+    requestQuery({
+      "user.staff_id": req.locals.staff_id,
+      save_as: 0,
+    })
+  );
   return res.send(faculty_drafts);
 });
 
