@@ -50,60 +50,93 @@ export default {
         md="8"
         v-if="getAllSigned[0] && !getLoading.all_signed"
       >
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">
-                  Subject
-                </th>
-                <th class="text-center">
-                  Date
-                </th>
-                <th class="text-center"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="signed in getAllSigned" :key="signed.name">
-                <td class="subtitle">
-                  <v-list-item class="pa-0">
-                    <v-list-item-content class="pa-0 ma-0">
-                      <v-list-item-subtitle class="pa-0 ma-0 text-caption-2 ">
-                        {{ signed.subject }}
-                        <v-spacer />
-                        <v-list-item-subtitle
-                          class="pa-0 ma-0 mt-2 text-caption font-weight-bold"
-                        >
-                          {{ getFullname(signed.user.profile[0].name) }}
-                        </v-list-item-subtitle>
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </td>
-                <td class="text-center">
-                  <v-list-item-subtitle
-                    class="caption text-center primary--text font-weight-bold"
-                    >{{ getTimeOrDate(signed.date) }}</v-list-item-subtitle
+        <v-expansion-panels outlined hover>
+          <v-expansion-panel v-for="signed in getAllSigned" :key="signed.name">
+            <v-expansion-panel-header>
+              <v-list-item-subtitle
+                class="pa-0 mr-4 text-caption text-sm-subtitle-1"
+              >
+                {{ signed.service[0].type }} &#8211;
+                <span class="font-italic caption">
+                  {{
+                    `${signed.user.profile[0].name.firstname} ${signed.user.profile[0].name.lastname}`
+                  }}
+                </span>
+              </v-list-item-subtitle>
+              <div align="right" class="hidden-sm-and-down">
+                <v-chip
+                  small
+                  max-width="70px"
+                  class="ma-2 text-center caption"
+                  color="primary"
+                >
+                  {{ getTimeOrDate(signed.date) }}
+                </v-chip>
+              </div>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-divider class="mb-1 mt-1" />
+              <v-container>
+                <v-row justify="space-between" align="start" align-sm="center">
+                  <v-card-subtitle class="pa-0 pt-sm-2 pb-sm-2 text-body-2">
+                    SUBJECT:
+                    {{ signed.subject }}
+                  </v-card-subtitle>
+                  <v-card-subtitle
+                    max-width="70px"
+                    class="pa-0 pb-sm-2 pt-sm-2 primary--text font-weight-bold text-center text-capitalize caption hidden-md-and-up"
+                    color="primary"
                   >
-                </td>
-                <td class="text-center">
-                  <v-btn
-                    fab
-                    dark
-                    icon
-                    color="error"
-                    :disabled="getPDFLoading"
-                    @click="downloadPDF(signed._id)"
+                    {{ getTimeOrDate(signed.date) }}
+                  </v-card-subtitle>
+                </v-row>
+              </v-container>
+              <v-divider class="mb-1 mt-1" />
+              <v-card-subtitle class="pa-0 pt-2 text-caption">
+                From:
+                {{ getFullname(signed.user.profile[0].name) }}
+              </v-card-subtitle>
+              <v-card-subtitle class="pa-0 pb-2 text-caption capitalized">
+                {{
+                  `${signed.user.department.role[0].name} of ${signed.user.department.unit[0].name}`
+                }}
+              </v-card-subtitle>
+              <v-card-subtitle class="pa-0 pt-2 text-caption">
+                To:
+                {{ getFullname(signed.admin.profile[0].name) }}
+              </v-card-subtitle>
+              <v-card-subtitle class="pa-0 pb-2 text-caption capitalized">
+                {{ `Chief Administration Office` }}
+              </v-card-subtitle>
+              <v-card-actions class="pa-2">
+                <v-row justify="start" align="center">
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="3"
+                    align="start"
+                    class="pa-2 pl-0"
                   >
-                    <v-icon size="35" dark>
-                      mdi-cloud-download
-                    </v-icon>
-                  </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+                    <v-btn
+                      small
+                      block
+                      min-width="50px"
+                      elevation="0"
+                      color="error"
+                      :disabled="getPDFLoading"
+                      @click="downloadPDF(signed._id)"
+                    >
+                      Download
+                      <v-icon right>
+                        mdi-cloud-download
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-actions>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
       <v-col cols="12" sm="12" md="8" v-else-if="getLoading.all_signed">
         <v-skeleton-loader type="table" />
