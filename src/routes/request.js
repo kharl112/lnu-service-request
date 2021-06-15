@@ -178,18 +178,33 @@ route.post("/admin/sign", adminAuth, async (req, res) => {
 });
 
 route.post("/faculty/update/letter=:id", userAuth, async (req, res) => {
-  const { id } = req.params;
+  const { _id } = req.params;
+  if (!_id) return res.status(400).send({ message: "empty parameter" });
+
   const { error } = create(req.body.form);
 
   if (error) return res.status(400).send(error.details[0]);
   req.body.form.user.staff_id = req.locals.staff_id;
 
-  await Request.findByIdAndUpdate(id, req.body.form, {}, (error) => {
+  await Request.findByIdAndUpdate(_id, req.body.form, {}, (error) => {
     if (error)
       return res
         .status(500)
-        .send({ message: "something went wrong, please try again." });
+        .send({ message: "something went wrong, please try again" });
     return res.send({ message: "request letter updated" });
+  });
+});
+
+route.post("/faculty/send/letter=:_id", userAuth, async (req, res) => {
+  const { _id } = req.params;
+  if (!_id) return res.status(400).send({ message: "empty parameter" });
+
+  await Request.findByIdAndUpdate(_id, { save_as: 1 }, {}, (error) => {
+    if (error)
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again" });
+    return res.send({ message: "request letter sent" });
   });
 });
 
