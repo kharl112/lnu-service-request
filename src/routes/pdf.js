@@ -10,14 +10,14 @@ const adminAuth = require("../authentication/adminAuth");
 
 const Request = require("../db/models/request_model");
 
-const pdfQuery = require("../functions/pdfQuery");
+const requestQuery = require("../functions/requestQuery");
 const { Name, Department, _Date } = require("../functions/generateProfile");
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
     const [form] = await Request.aggregate(
-      pdfQuery(id, "user.staff_id", req.locals.staff_id)
+      requestQuery({ _id: id, "user.staff_id": req.locals.staff_id })
     );
 
     const { options } = form;
@@ -60,7 +60,7 @@ route.post("/head/create/id=:id", userAuth, async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
     const [form] = await Request.aggregate(
-      pdfQuery(id, "head.staff_id", req.locals.staff_id)
+      requestQuery({ _id: id, "head.staff_id": req.locals.staff_id })
     );
 
     const { options } = form;
@@ -103,7 +103,7 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
   try {
     const id = mongoose.Types.ObjectId(req.params.id);
     const [form] = await Request.aggregate(
-      pdfQuery(id, "admin.staff_id", req.locals.staff_id)
+      requestQuery({ _id: id, "admin.staff_id": req.locals.staff_id })
     );
 
     const { options } = form;
