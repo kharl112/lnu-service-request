@@ -27,7 +27,7 @@ export default {
       return `${
         prefix ? prefix + "." : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
-        suffixes[0] ? JSON.stringify(...suffixes) : ""
+        suffixes[0] ? suffixes.toString() : ""
       }`;
     },
     getAdminInitials() {
