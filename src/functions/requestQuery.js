@@ -68,8 +68,6 @@ const requestQuery = (match) => [
   },
   {
     $project: {
-      _id: 0,
-      save_as: 0,
       "user.profile.password": 0,
       "admin.profile.password": 0,
       "head.profile.password": 0,
