@@ -77,14 +77,6 @@ route.get("/faculty/sent", userAuth, async (req, res) => {
   return res.send(faculty_sent);
 });
 
-route.get("/admin/sent", adminAuth, async (req, res) => {
-  const admin_sent = await Request.find({
-    "user.staff_id": req.locals.staff_id,
-    save_as: 1,
-  });
-  return res.send(admin_sent);
-});
-
 route.get("/faculty/letter=:id", userAuth, async (req, res) => {
   const { id } = req.params;
   try {
