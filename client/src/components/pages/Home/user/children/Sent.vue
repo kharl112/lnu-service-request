@@ -30,6 +30,14 @@ export default {
         id,
       });
     },
+    getFlag(service_request) {
+      const { admin, head } = service_request;
+      return head.signature && admin.signature
+        ? "success"
+        : head.signature || admin.signature
+        ? "primary"
+        : "error";
+    },
   },
   created() {
     return this.$store.dispatch("request/allSend");
@@ -44,18 +52,21 @@ export default {
           <v-col cols="12">
             <v-row>
               <v-chip
+                small
                 color="error"
                 class="text-caption text-uppercase font-weight-bold ma-2"
               >
                 unsigned
               </v-chip>
               <v-chip
+                small
                 color="primary"
                 class="text-caption  text-uppercase font-weight-bold ma-2"
               >
                 signed
               </v-chip>
               <v-chip
+                small
                 color="success"
                 class="text-caption  text-uppercase font-weight-bold ma-2"
               >
@@ -74,87 +85,53 @@ export default {
               v-for="send in getAllSend"
               :key="send._id"
             >
-              <v-card class="mx-auto">
+              <v-card class="mx-auto pb-2">
                 <v-list-item three-line>
-                  <v-list-item-content>
-                    <div class="caption text-uppercase font-weight-bold mb-4">
+                  <v-list-item-content class="pb-0">
+                    <div class="caption text-uppercase mb-4">
                       {{ getTimeOrDate(send.date) }}
                       <v-badge
                         class="pl-2"
                         offset-y="-5"
                         offset-x="5"
-                        v-if="send.head.signature && send.admin.signature"
                         dot
-                        color="success"
-                      />
-                      <v-badge
-                        class="pl-2"
-                        offset-y="-5"
-                        offset-x="5"
-                        v-else-if="send.head.signature"
-                        dot
-                        color="primary"
-                      />
-                      <v-badge
-                        class="pl-2"
-                        offset-y="-5"
-                        offset-x="5"
-                        v-else-if="send.admin.signature"
-                        dot
-                        color="primary"
-                      />
-                      <v-badge
-                        class="pl-2"
-                        offset-y="-5"
-                        offset-x="5"
-                        v-else
-                        dot
-                        color="error"
+                        :color="getFlag(send)"
                       />
                     </div>
                     <v-list-item-title class="subtitle mb-1">
                       {{ send.subject }}
                     </v-list-item-title>
-                    <v-list-item-subtitle class="subtitle-2 mb-2">{{
-                      send.body
-                    }}</v-list-item-subtitle>
-                    <v-divider class="pb-2" />
-                    <v-list-item-subtitle
-                      class="caption primary--text font-weight-bold"
-                      >{{ send.service_type }}</v-list-item-subtitle
-                    >
+                    <v-list-item-subtitle class="subtitle-2 mb-2">
+                      {{ send.body }}
+                    </v-list-item-subtitle>
+                    <v-divider class="mb-2 mt-2" />
+                    <div>
+                      <v-chip outlined :color="getFlag(send)" small>
+                        <span class="caption font-weight-bold">
+                          {{ send.service[0].type }}
+                        </span>
+                      </v-chip>
+                    </div>
+                    <v-divider class="mb-2 mt-2" />
                   </v-list-item-content>
                 </v-list-item>
 
-                <v-card-actions>
-                  <v-btn
-                    color="error"
-                    rounded
-                    outlined
-                    small
-                    class="ma-2 hidden-md-and-down"
-                    :disabled="getPDFLoading"
-                    @click="downloadPDF(send._id)"
-                  >
-                    Download PDF
-                    <v-icon right dark>
-                      mdi-cloud-download
-                    </v-icon>
-                  </v-btn>
-                  <v-btn
-                    class="mx-2 hidden-lg-and-up"
-                    elevation="0"
-                    fab
-                    dark
-                    small
-                    color="error"
-                    :disabled="getPDFLoading"
-                    @click="downloadPDF(send._id)"
-                  >
-                    <v-icon dark>
-                      mdi-cloud-download
-                    </v-icon>
-                  </v-btn>
+                <v-card-actions class="pa-2">
+                  <v-container class="pa-0">
+                    <v-btn
+                      block
+                      rounded
+                      small
+                      :color="getFlag(send)"
+                      :disabled="getPDFLoading"
+                      @click="downloadPDF(send._id)"
+                    >
+                      Download PDF
+                      <v-icon right dark>
+                        mdi-cloud-download
+                      </v-icon>
+                    </v-btn>
+                  </v-container>
                 </v-card-actions>
               </v-card>
             </v-col>
