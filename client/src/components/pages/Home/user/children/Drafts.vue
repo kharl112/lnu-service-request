@@ -2,6 +2,7 @@
 import { formatDistanceToNow } from "date-fns";
 export default {
   name: "Drafts",
+  data: () => ({ selected_id: "" }),
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];
@@ -31,6 +32,10 @@ export default {
     gotoCreate() {
       return this.$router.push(`/faculty/home/compose`);
     },
+    sendRequest(_id) {
+      this.selected_id = _id;
+      return this.$store.dispatch("request/sendRequest", { _id });
+    },
   },
   created() {
     return this.$store.dispatch("request/allDraft");
@@ -50,13 +55,14 @@ export default {
           <template v-slot:default>
             <thead>
               <tr>
-                <th class="text-left"></th>
+                <th class="text-left" />
                 <th class="text-left">
-                  Subject
+                  Type
                 </th>
-                <th class="text-left">
-                  Date
+                <th class="text-center">
+                  Created
                 </th>
+                <th />
               </tr>
             </thead>
             <tbody>
@@ -65,10 +71,41 @@ export default {
                   <v-checkbox v-model="selected" :value="draft._id" />
                 </td>
                 <td @click="gotoEdit(draft._id)">
-                  {{ draft.subject }}
+                  <v-list-item threeline>
+                    <v-list-item-content>
+                      <v-list-item-subtitle
+                        class="pa-0 mr-4 text-caption text-left text-no-wrap text-sm-body-2 "
+                      >
+                        {{ draft.subject }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
                 </td>
-                <td @click="gotoEdit(draft._id)">
-                  <small>{{ getTimeOrDate(draft.date) }}</small>
+                <td @click="gotoEdit(draft._id)" class="text-center">
+                  <v-list-item-content>
+                    <v-list-item-subtitle class="pa-0 text-caption">
+                      <small>{{ getTimeOrDate(draft.date) }}</small>
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </td>
+                <td>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        icon
+                        color="success"
+                        :disabled="getLoading.send && selected_id === draft._id"
+                        @click="sendRequest(draft._id)"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon>
+                          mdi-send
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Send Instantly</span>
+                  </v-tooltip>
                 </td>
               </tr>
             </tbody>
