@@ -1,9 +1,6 @@
-const pdfQuery = (request_id, recipient_prop, recipient_id) => [
+const requestQuery = (match) => [
   {
-    $match: {
-      _id: request_id,
-      [recipient_prop]: recipient_id,
-    },
+    $match: match,
   },
   {
     $lookup: {
@@ -94,4 +91,4 @@ const pdfQuery = (request_id, recipient_prop, recipient_id) => [
   },
 ];
 
-module.exports = pdfQuery;
+module.exports = requestQuery;
