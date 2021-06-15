@@ -1,5 +1,6 @@
 <script>
 import SetSignature from "../contents/SetSignature";
+import { formatDistanceToNow } from "date-fns";
 export default {
   name: "HeadPending",
   components: {
@@ -25,38 +26,6 @@ export default {
     },
   },
   methods: {
-    getTimeOrDate(date) {
-      const now = new Date();
-      const created = new Date(date);
-      const months = [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEPT",
-        "OCT",
-        "NOV",
-        "DEC",
-      ];
-      const day = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
-      return now.getFullYear() >= created.getFullYear()
-        ? now.getMonth() <= created.getMonth()
-          ? now.getDate() <= created.getDate()
-            ? now.getHours() <= created.getHours()
-              ? now.getMinutes() <= created.getMinutes()
-                ? now.getSeconds() <= created.getSeconds()
-                  ? ""
-                  : `${now.Seconds() - created.Seconds()} sec ago`
-                : `${now.getMinutes() - created.getMinutes()} min ago`
-              : `${now.getHours() - created.getHours()} hr ago`
-            : `Last ${day[created.getDay()]}`
-          : `Last ${months[created.getMonth()]}`
-        : `Last year${created.getFullYear()}`;
-    },
     showSignature(request_id = "") {
       this.selectedRequest = request_id;
       this.signatureVisibility = !this.signatureVisibility;
@@ -71,6 +40,12 @@ export default {
         request_id: this.selectedRequest,
         signature,
         type: "head",
+      });
+    },
+    getTimeOrDate(date) {
+      return formatDistanceToNow(new Date(date), {
+        addSuffix: true,
+        includeSeconds: true,
       });
     },
     downloadPDF(id) {
@@ -131,9 +106,11 @@ export default {
                   </v-list-item>
                 </td>
                 <td class="text-center">
-                  <v-list-item-subtitle class="caption text-center primary--text font-weight-bold">{{
-                    getTimeOrDate(pending.date)
-                  }}</v-list-item-subtitle>
+                  <v-list-item-subtitle
+                    class="caption text-center primary--text font-weight-bold"
+                  >
+                    {{ getTimeOrDate(pending.date) }}
+                  </v-list-item-subtitle>
                 </td>
                 <td class="text-center">
                   <v-btn

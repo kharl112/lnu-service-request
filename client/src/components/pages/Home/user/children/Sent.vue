@@ -1,4 +1,5 @@
 <script>
+import { formatDistanceToNow } from "date-fns";
 export default {
   name: "Drafts",
   data: () => ({ show: false }),
@@ -15,36 +16,10 @@ export default {
   },
   methods: {
     getTimeOrDate(date) {
-      const now = new Date();
-      const created = new Date(date);
-      const months = [
-        "JAN",
-        "FEB",
-        "MAR",
-        "APR",
-        "MAY",
-        "JUN",
-        "JUL",
-        "AUG",
-        "SEPT",
-        "OCT",
-        "NOV",
-        "DEC",
-      ];
-      const day = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
-      return now.getFullYear() >= created.getFullYear()
-        ? now.getMonth() <= created.getMonth()
-          ? now.getDate() <= created.getDate()
-            ? now.getHours() <= created.getHours()
-              ? now.getMinutes() <= created.getMinutes()
-                ? now.getSeconds() <= created.getSeconds()
-                  ? ""
-                  : `${now.Seconds() - created.Seconds()} sec ago`
-                : `${now.getMinutes() - created.getMinutes()} min ago`
-              : `${now.getHours() - created.getHours()} hr ago`
-            : `Last ${day[created.getDay()]}`
-          : `Last ${months[created.getMonth()]}`
-        : `Last year${created.getFullYear()}`;
+      return formatDistanceToNow(new Date(date), {
+        addSuffix: true,
+        includeSeconds: true,
+      });
     },
     gotoCreate() {
       return this.$router.push(`/faculty/home/compose`);
@@ -102,7 +77,7 @@ export default {
               <v-card class="mx-auto">
                 <v-list-item three-line>
                   <v-list-item-content>
-                    <div class="overline mb-4">
+                    <div class="caption text-uppercase font-weight-bold mb-4">
                       {{ getTimeOrDate(send.date) }}
                       <v-badge
                         class="pl-2"
