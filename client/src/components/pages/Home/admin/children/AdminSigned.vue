@@ -72,6 +72,7 @@ export default {
               </v-list-item-subtitle>
               <div align="right" class="hidden-sm-and-down">
                 <v-chip
+                  small
                   max-width="70px"
                   class="ma-2 text-center caption"
                   color="primary"
