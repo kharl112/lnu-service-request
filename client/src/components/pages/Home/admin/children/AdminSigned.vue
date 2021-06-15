@@ -20,8 +20,8 @@ export default {
   methods: {
     getTimeOrDate(date) {
       return formatDistanceToNow(new Date(date), {
-        addSuffix: true,
         includeSeconds: true,
+        addSuffix: true
       });
     },
     downloadPDF(id) {
@@ -70,24 +70,39 @@ export default {
               >
                 {{ signed.subject }}
               </v-list-item-subtitle>
-              <v-card-subtitle
-                class="pa-0 mr-4 text-caption text-no-wrap text-right primary--text text-capitalize"
-              >
-                {{ getTimeOrDate(signed.date) }}
-              </v-card-subtitle>
+              <div align="right" class="hidden-sm-and-down">
+                <v-chip
+                  max-width="70px"
+                  class="ma-2 text-center caption"
+                  color="primary"
+                >
+                  {{ getTimeOrDate(signed.date) }}
+                </v-chip>
+              </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
-              <v-divider />
-              <v-card-subtitle
-                class="pa-0 pt-2 pb-2 text-caption text-no-wrap font-weight-bold"
-              >
-                Type:
-                {{ signed.service[0].type }}
-                <v-icon color="success" right>
-                  mdi-check-circle
-                </v-icon>
-              </v-card-subtitle>
-              <v-divider />
+              <v-divider class="mb-1 mt-1" />
+              <v-container >
+                <v-row justify="space-between" align="start" align-sm="center">
+                  <v-card-subtitle
+                    class="pa-0 pt-sm-2 pb-sm-2 text-caption text-no-wrap font-weight-bold"
+                  >
+                    Type:
+                    {{ signed.service[0].type }}
+                    <v-icon color="success" right>
+                      mdi-check-circle
+                    </v-icon>
+                  </v-card-subtitle>
+                  <v-card-subtitle
+                    max-width="70px"
+                    class="pa-0 pb-sm-2 pt-sm-2 primary--text font-weight-bold text-center text-capitalize caption hidden-md-and-up"
+                    color="primary"
+                  >
+                    {{ getTimeOrDate(signed.date) }}
+                  </v-card-subtitle>
+                </v-row>
+              </v-container>
+              <v-divider class="mb-1 mt-1" />
               <v-card-subtitle class="pa-0 pt-2 text-caption">
                 From:
                 {{ getFullname(signed.user.profile[0].name) }}
