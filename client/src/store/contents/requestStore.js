@@ -18,6 +18,7 @@ const request = {
       all_signed: false,
       selected: false,
       letter_info: false,
+      send: false,
       edit: false,
       sign: false,
     },
@@ -160,7 +161,28 @@ const request = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "edit" });
-        commit("setSnackbar", { snackbar: true, type: "edit" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    sendRequest: async ({ commit, dispatch }, { _id }) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "send" });
+      try {
+        await axios.post(
+          `/api/request/faculty/send/letter=${_id}`,
+          {},
+          {
+            headers: { Authorization: localStorage.getItem("Authorization") },
+          }
+        );
+        dispatch("message/successMessage", "request letter sent", {
+          root: true,
+        });
+        commit("setLoading", { loading: false, type: "send" });
+        return router.push("/faculty/home/sent");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "send" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
@@ -182,7 +204,7 @@ const request = {
         dispatch("message/successMessage", "request letter signed", {
           root: true,
         });
-        
+
         await dispatch("allPending", type);
         commit("setLoading", { loading: false, type: "sign" });
         return router.push(
@@ -191,7 +213,6 @@ const request = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "sign" });
-        commit("setSnackbar", { snackbar: true, type: "sign" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
