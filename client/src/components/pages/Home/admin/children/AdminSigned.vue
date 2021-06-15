@@ -58,57 +58,74 @@ export default {
         md="8"
         v-if="getAllSigned[0] && !getLoading.all_signed"
       >
-        <v-simple-table>
-          <template v-slot:default>
-            <tbody>
-              <tr v-for="signed in getAllSigned" :key="signed.name">
-                <td class="pt-2 pb-2 text-left">
-                  <v-col cols="2">
-                    <v-avatar :color="getRandomColor()">
-                      <span class="white--text headline">{{
-                        getInitials(signed.user.profile[0].name)
-                      }}</span>
-                    </v-avatar>
+        <v-expansion-panels accordion hover>
+          <v-expansion-panel
+            outlined
+            v-for="signed in getAllSigned"
+            :key="signed.name"
+          >
+            <v-expansion-panel-header>
+              <v-list-item-subtitle
+                class="pa-0 mr-4 text-caption text-sm-subtitle-1"
+              >
+                {{ signed.subject }}
+              </v-list-item-subtitle>
+              <v-card-subtitle
+                class="pa-0 mr-4 text-caption text-no-wrap text-right primary--text text-capitalize"
+              >
+                {{ getTimeOrDate(signed.date) }}
+              </v-card-subtitle>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-divider />
+              <v-card-subtitle
+                class="pa-0 pt-2 pb-2 text-caption text-no-wrap font-weight-bold"
+              >
+                Type:
+                {{ signed.service[0].type }}
+                <v-icon color="success" right>
+                  mdi-check-circle
+                </v-icon>
+              </v-card-subtitle>
+              <v-divider />
+              <v-card-subtitle class="pa-0 pt-2 text-caption">
+                From:
+                {{ getFullname(signed.user.profile[0].name) }}
+              </v-card-subtitle>
+              <v-card-subtitle class="pa-0 pb-2 text-caption capitalized">
+                {{
+                  `${signed.user.department.role[0].name} of ${signed.user.department.unit[0].name}`
+                }}
+              </v-card-subtitle>
+              <v-card-actions class="pa-2">
+                <v-row justify="start" align="center">
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="3"
+                    align="start"
+                    class="pa-2 pl-0"
+                  >
+                    <v-btn
+                      small
+                      block
+                      min-width="50px"
+                      elevation="0"
+                      color="error"
+                      :disabled="getPDFLoading"
+                      @click="downloadPDF(signed._id)"
+                    >
+                      Download
+                      <v-icon right>
+                        mdi-cloud-download
+                      </v-icon>
+                    </v-btn>
                   </v-col>
-                </td>
-                <td class="text-left mb-1">
-                  <v-spacer />
-                  <v-list-item-subtitle class="pa-0 text-caption2 ">
-                    {{ signed.subject }}
-                  </v-list-item-subtitle>
-                  <v-list-item-title class="pa-0 text-caption font-weight-bold">
-                    {{ getFullname(signed.user.profile[0].name) }}
-                  </v-list-item-title>
-                </td>
-                <td class="text-center">
-                  <v-row justify="center" align="center">
-                    <v-col cols="12" class="pa-0">
-                      <v-card-subtitle
-                        class="pa-0 pb-n2 text-center text-caption"
-                      >
-                        {{ getTimeOrDate(signed.date) }}
-                      </v-card-subtitle>
-                    </v-col>
-                    <v-col cols="12" class="pa-0">
-                      <v-btn
-                        icon
-                        color="error"
-                        class="ml-2"
-                        large
-                        :disabled="getPDFLoading"
-                        @click="downloadPDF(signed._id)"
-                      >
-                        <v-icon dark>
-                          mdi-cloud-download
-                        </v-icon>
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+                </v-row>
+              </v-card-actions>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
       <v-col cols="12" sm="12" md="8" v-else-if="getLoading.all_signed">
         <v-skeleton-loader type="table" />
