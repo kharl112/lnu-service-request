@@ -8,6 +8,7 @@ export default {
   data: () => ({
     signatureVisibility: false,
     selectedRequest: "",
+    colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
     getLoading() {
@@ -51,7 +52,9 @@ export default {
                   ? ""
                   : `${now.Seconds() - created.Seconds()} sec ago`
                 : `${now.getMinutes() - created.getMinutes()} min ago`
-              : `${now.getHours() - created.getHours()} hr ago`
+              : `${now.getHours() -
+                  created.getHours()} hr and ${created.getMinutes() -
+                  now.getMinutes()}  min ago`
             : `Last ${day[created.getDay()]}`
           : `Last ${months[created.getMonth()]}`
         : `Last year${created.getFullYear()}`;
@@ -78,6 +81,19 @@ export default {
         id,
       });
     },
+    getFullname(name) {
+      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
+      return `${
+        prefix ? `${prefix}.` : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
+    getInitials(name) {
+      const { firstname, lastname } = name;
+      return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
+    },
+    getRandomColor() {
+      return this.colors[Math.floor(Math.random() * this.colors.length)];
+    },
   },
   created() {
     return this.$store.dispatch("request/allPending", "admin");
@@ -93,61 +109,93 @@ export default {
         md="8"
         v-if="getAllPending[0] && !getLoading.all_pending"
       >
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">
-                  Subject
-                </th>
-                <th class="text-left">
-                  Date
-                </th>
-                <th class="text-left"></th>
-                <th class="text-left"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="pending in getAllPending" :key="pending.name">
-                <td>
-                  {{ pending.subject }}
-                </td>
-                <td>
-                  <small>{{ getTimeOrDate(pending.date) }}</small>
-                </td>
-                <td>
-                  <v-btn
-                    elevation="0"
-                    fab
-                    dark
-                    small
-                    color="success"
-                    @click="showSignature(pending._id)"
+        <v-expansion-panels accordion hover>
+          <v-expansion-panel
+            outlined
+            v-for="pending in getAllPending"
+            :key="pending.name"
+          >
+            <v-expansion-panel-header>
+              <v-list-item-subtitle
+                class="pa-0 mr-4 text-caption text-sm-subtitle-2 font-weight-bold"
+              >
+                {{ pending.subject }}
+              </v-list-item-subtitle>
+              <v-card-subtitle
+                class="pa-0 mr-4 text-caption text-no-wrap text-right primary--text"
+              >
+                {{ getTimeOrDate(pending.date) }}
+              </v-card-subtitle>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-card-subtitle
+                class="pa-0 pb-2 text-caption text-no-wrap font-weight-bold primary--text"
+              >
+                {{ pending.service[0].type }}
+              </v-card-subtitle>
+              <v-card-subtitle
+                class="pa-0 pb-2 text-caption text-justify text-sm-body-2"
+              >
+                {{ pending.body }}
+              </v-card-subtitle>
+              <v-spacer />
+              <v-card-subtitle
+                class="pa-0 pb-2 pt-2 text-caption font-weight-bold"
+              >
+                From:
+                {{ getFullname(pending.user.profile[0].name) }}
+              </v-card-subtitle>
+              <v-divider />
+              <v-card-actions class="pa-3 pt-3 pb-3">
+                <v-row justify="start" align="center">
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="3"
+                    align="start"
+                    class="pa-2 pl-0"
                   >
-                    <v-icon dark>
-                      mdi-signature-freehand
-                    </v-icon>
-                  </v-btn>
-                </td>
-                <td>
-                  <v-btn
-                    elevation="0"
-                    fab
-                    dark
-                    small
-                    color="error"
-                    :disabled="getPDFLoading"
-                    @click="downloadPDF(pending._id)"
+                    <v-btn
+                      small
+                      block
+                      min-width="50px"
+                      elevation="0"
+                      color="success"
+                      @click="showSignature(pending._id)"
+                    >
+                      Sign
+                      <v-icon right>
+                        mdi-signature-freehand
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="6"
+                    md="3"
+                    align="start"
+                    class="pa-2 pl-0"
                   >
-                    <v-icon dark>
-                      mdi-cloud-download
-                    </v-icon>
-                  </v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
+                    <v-btn
+                      small
+                      block
+                      min-width="50px"
+                      elevation="0"
+                      color="error"
+                      :disabled="getPDFLoading"
+                      @click="downloadPDF(pending._id)"
+                    >
+                      Download
+                      <v-icon right>
+                        mdi-cloud-download
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-card-actions>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </v-col>
       <v-col cols="12" sm="12" md="8" v-else-if="getLoading.all_pending">
         <v-skeleton-loader type="table" />
