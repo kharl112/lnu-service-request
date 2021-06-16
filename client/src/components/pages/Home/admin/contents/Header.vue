@@ -27,14 +27,14 @@ export default {
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn
-                elevation="0"
                 color="warning"
                 class="mr-2"
+                icon
                 @click="darkmode ? (darkmode = false) : (darkmode = true)"
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon dark>
+                <v-icon size="30">
                   {{
                     !darkmode ? "mdi-moon-waning-crescent" : "mdi-weather-sunny"
                   }}
@@ -48,12 +48,12 @@ export default {
               <v-btn
                 color="success"
                 class="mr-2"
-                elevation="0"
+                icon
                 @click="handleRefresh"
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon>mdi-cached</v-icon>
+                <v-icon size="30">mdi-cached</v-icon>
               </v-btn>
             </template>
             <span>Refresh</span>

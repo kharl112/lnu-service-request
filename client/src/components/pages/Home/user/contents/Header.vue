@@ -25,6 +25,9 @@ export default {
     handleDeleteSelected() {
       return this.$store.dispatch("request/deleteSelected");
     },
+    handleRefresh() {
+      return location.reload();
+    },
   },
 };
 </script>
@@ -52,7 +55,7 @@ export default {
             </template>
             <span>Enable darkmode</span>
           </v-tooltip>
-          <v-btn icon color="success" class="mr-3">
+          <v-btn icon color="success" class="mr-3" @click="handleRefresh">
             <v-icon size="30">mdi-cached</v-icon>
           </v-btn>
           <v-btn
