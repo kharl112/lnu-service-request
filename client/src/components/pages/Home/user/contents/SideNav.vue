@@ -117,12 +117,21 @@ export default {
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
+            <v-badge
+              v-if="
+                $store.getters[`request/getAll${child.getter}`].length && mini
+              "
+              color="primary"
+              dot
+            />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
-            v-if="$store.getters[`request/getAll${child.getter}`].length"
+            v-if="
+              $store.getters[`request/getAll${child.getter}`].length && !mini
+            "
             color="primary"
             :content="$store.getters[`request/getAll${child.getter}`].length"
             offset-x="10"
@@ -142,12 +151,21 @@ export default {
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
+            <v-badge
+              v-if="
+                $store.getters[`request/getAll${child.getter}`].length && mini
+              "
+              color="primary"
+              dot
+            />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
-            v-if="$store.getters[`request/getAll${child.getter}`].length"
+            v-if="
+              $store.getters[`request/getAll${child.getter}`].length && !mini
+            "
             color="primary"
             :content="$store.getters[`request/getAll${child.getter}`].length"
             offset-x="10"
