@@ -8,12 +8,12 @@ export default {
     mini: true,
     dialog: false,
     request_items: [
-      { title: "Sent", icon: "mdi-send-check" },
-      { title: "Drafts", icon: "mdi-email-edit" },
+      { title: "Sent", icon: "mdi-send-check", getter: "Send" },
+      { title: "Drafts", icon: "mdi-email-edit", getter: "Draft" },
     ],
     received_items: [
-      { title: "Pending", icon: "mdi-email-receive" },
-      { title: "Signed", icon: "mdi-signature-freehand" },
+      { title: "Pending", icon: "mdi-email-receive", getter: "Pending" },
+      { title: "Signed", icon: "mdi-signature-freehand", getter: "Signed" },
     ],
   }),
   computed: {
@@ -121,6 +121,13 @@ export default {
           <v-list-item-content>
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
+          <v-badge
+            v-if="$store.getters[`request/getAll${child.getter}`].length"
+            color="primary"
+            :content="$store.getters[`request/getAll${child.getter}`].length"
+            offset-x="10"
+            offset-y="7"
+          />
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -139,6 +146,13 @@ export default {
           <v-list-item-content>
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
+          <v-badge
+            v-if="$store.getters[`request/getAll${child.getter}`].length"
+            color="primary"
+            :content="$store.getters[`request/getAll${child.getter}`].length"
+            offset-x="10"
+            offset-y="7"
+          />
         </v-list-item>
       </v-list-item-group>
     </v-list>
