@@ -12,6 +12,11 @@ export default {
       },
     },
   },
+  methods: {
+    handleRefresh() {
+      return location.reload();
+    },
+  },
 };
 </script>
 <template>
@@ -44,6 +49,7 @@ export default {
                 color="success"
                 class="mr-2"
                 elevation="0"
+                @click="handleRefresh"
                 v-bind="attrs"
                 v-on="on"
               >
