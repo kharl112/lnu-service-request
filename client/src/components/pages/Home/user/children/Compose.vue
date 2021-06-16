@@ -114,7 +114,7 @@ export default {
             </v-col>
             <v-col cols="12">
               <v-container fluid>
-                <v-subheader>Recipients</v-subheader>
+                <v-subheader>Receivers</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
@@ -125,7 +125,6 @@ export default {
                     cols="12"
                     sm="4"
                     md="5"
-                    v-if="getFacultyProfile.role.level === 1"
                   >
                     <v-autocomplete
                       v-model="form.head.staff_id"
@@ -134,7 +133,7 @@ export default {
                       item-text="name"
                       item-value="staff_id"
                       outlined
-                      label="Department Head"
+                      label="Service Provider"
                       dense
                     />
                   </v-col>
@@ -146,7 +145,7 @@ export default {
                       item-text="name"
                       item-value="staff_id"
                       outlined
-                      label="Administration"
+                      label="Chief Admin Office"
                       dense
                     />
                   </v-col>
@@ -155,7 +154,7 @@ export default {
             </v-col>
             <v-col cols="12">
               <v-container fluid class="pt-0 pb-0">
-                <v-subheader>Request Letter</v-subheader>
+                <v-subheader>Purpose</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
