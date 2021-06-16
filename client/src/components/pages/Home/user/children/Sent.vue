@@ -112,7 +112,6 @@ export default {
                   <v-btn
                     block
                     rounded
-                    small
                     :color="getFlag(send)"
                     :disabled="getPDFLoading"
                     @click="downloadPDF(send._id)"
