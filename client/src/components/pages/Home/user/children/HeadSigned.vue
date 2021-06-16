@@ -42,7 +42,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-3 pa-sm-0">
+  <v-container fluid class="pa-1 pa-sm-3">
     <v-row dense justify="start" v-if="!getProfileLoading">
       <v-col
         cols="12"
