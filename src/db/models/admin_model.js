@@ -13,13 +13,13 @@ const Admin = new mongoose.Schema({
       type: String,
       required: true,
       minLength: 2,
-      maxLength: 255,
+      maxLength: 50,
     },
     lastname: {
       type: String,
       required: true,
       minLength: 2,
-      maxLength: 255,
+      maxLength: 50,
     },
     middle_initial: {
       type: String,
@@ -29,7 +29,7 @@ const Admin = new mongoose.Schema({
     },
     prefix: {
       type: String,
-      maxLength: 255,
+      maxLength: 25,
     },
     suffixes: {
       type: Array,
@@ -39,7 +39,7 @@ const Admin = new mongoose.Schema({
     type: String,
     required: true,
     immutable: true,
-    maxLength: 255,
+    maxLength: 30,
   },
   password: {
     type: String,
