@@ -19,7 +19,7 @@ export default {
       return formatDistanceToNow(new Date(date), {
         addSuffix: true,
         includeSeconds: true,
-      });
+      }).replace("about ", "");
     },
     gotoCreate() {
       return this.$router.push(`/faculty/home/compose`);
@@ -40,7 +40,7 @@ export default {
     },
   },
   created() {
-    return this.$store.dispatch("request/allSend");
+    this.$store.dispatch("request/allSend");
   },
 };
 </script>
@@ -50,25 +50,26 @@ export default {
       <v-col cols="12" sm="12" md="8" class="pa-0">
         <v-container fluid class="pa-2">
           <v-col cols="12">
-            <v-row>
+            <v-row align="center" justify="center" justify-sm="start">
+              <span class="text-subtitle-1 ma-2">Coordinators</span>
               <v-chip
-                small
+                x-small
                 color="error"
-                class="text-caption text-uppercase font-weight-bold ma-2"
+                class="text-caption text-uppercase ma-2"
               >
                 unsigned
               </v-chip>
               <v-chip
-                small
+                x-small
                 color="primary"
-                class="text-caption  text-uppercase font-weight-bold ma-2"
+                class="text-caption  text-uppercase  ma-2"
               >
                 signed
               </v-chip>
               <v-chip
-                small
+                x-small
                 color="success"
-                class="text-caption  text-uppercase font-weight-bold ma-2"
+                class="text-caption  text-uppercase ma-2"
               >
                 fully-signed
               </v-chip>
@@ -85,10 +86,10 @@ export default {
               v-for="send in getAllSend"
               :key="send._id"
             >
-              <v-card class="mx-auto pb-2">
+              <v-card class="mx-auto">
                 <v-list-item three-line>
                   <v-list-item-content class="pb-0">
-                    <div class="caption text-uppercase mb-4">
+                    <div class="caption text-capitalize font-weight-bold mb-4">
                       {{ getTimeOrDate(send.date) }}
                       <v-badge
                         class="pl-2"
@@ -98,40 +99,29 @@ export default {
                         :color="getFlag(send)"
                       />
                     </div>
-                    <v-list-item-title class="subtitle mb-1">
+                    <v-list-item-title class="text-subtitle-1 mb-1">
                       {{ send.subject }}
                     </v-list-item-title>
-                    <v-list-item-subtitle class="subtitle-2 mb-2">
+                    <v-list-item-subtitle class="text-subtitle-2 mb-2">
                       {{ send.body }}
                     </v-list-item-subtitle>
-                    <v-divider class="mb-2 mt-2" />
-                    <div>
-                      <v-chip outlined :color="getFlag(send)" small>
-                        <span class="caption font-weight-bold">
-                          {{ send.service[0].type }}
-                        </span>
-                      </v-chip>
-                    </div>
-                    <v-divider class="mb-2 mt-2" />
                   </v-list-item-content>
                 </v-list-item>
 
-                <v-card-actions class="pa-2">
-                  <v-container class="pa-0">
-                    <v-btn
-                      block
-                      rounded
-                      small
-                      :color="getFlag(send)"
-                      :disabled="getPDFLoading"
-                      @click="downloadPDF(send._id)"
-                    >
-                      Download PDF
-                      <v-icon right dark>
-                        mdi-cloud-download
-                      </v-icon>
-                    </v-btn>
-                  </v-container>
+                <v-card-actions class="pa-3">
+                  <v-btn
+                    block
+                    rounded
+                    small
+                    :color="getFlag(send)"
+                    :disabled="getPDFLoading"
+                    @click="downloadPDF(send._id)"
+                  >
+                    Download PDF
+                    <v-icon right dark>
+                      mdi-cloud-download
+                    </v-icon>
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-col>
