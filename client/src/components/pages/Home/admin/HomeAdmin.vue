@@ -79,7 +79,10 @@ export default {
             <v-col cols="12">
               <Header />
             </v-col>
-            <v-col cols="12" :class="navigation ? 'pa-3 pl-16' : 'pa-3'">
+            <v-col
+              cols="12"
+              :class="navigation ? 'pa-1 pa-sm-3 pl-15 pl-sm-15' : 'pa-1'"
+            >
               <transition name="slide-right" mode="out-in">
                 <router-view></router-view>
               </transition>
