@@ -11,7 +11,17 @@ export default {
         letters: [
           (v) => !/\d/gi.test(v) || "Only letters allowed in this field",
         ],
-        name: [(v) => !!v || "This field is required"],
+        name: [
+          (v) => !!v || "This field is required",
+          (v) =>
+            v.length < 50 ||
+            "This field only accepts length less than 50 characters",
+        ],
+        prefix: [
+          (v) =>
+            v.length < 10 ||
+            "This field only accepts length less than 10 characters",
+        ],
         middle_initial: [
           (v) =>
             (v && v.length < 2) ||
@@ -80,7 +90,7 @@ export default {
             class="input"
             label="Prefix"
             v-model="form.name.prefix"
-            :rules="rules.letters"
+            :rules="[...rules.letters, ...rules.prefix]"
             outlined
           />
         </v-col>
