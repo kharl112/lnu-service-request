@@ -73,7 +73,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-3">
+  <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start" v-if="!getProfileLoading">
       <v-col
         cols="12"
@@ -95,17 +95,31 @@ export default {
                   }}</span>
                 </v-avatar>
               </div>
-              <v-list-item-subtitle
-                align="left"
-                class="pa-0 mr-4 text-caption text-left text-sm-body-2 "
-              >
-                {{ pending.subject }}
-              </v-list-item-subtitle>
+              <v-container fluid>
+                <v-row>
+                  <v-list-item-subtitle
+                    align="left"
+                    class="pa-0 text-left text-body-1 "
+                  >
+                    {{ pending.subject }}
+                  </v-list-item-subtitle>
+                  <v-card-subtitle
+                    class="pa-0 text-subtitle-2 text-no-wrap primary--text hidden-md-and-up"
+                  >
+                    {{ pending.service[0].type }}
+                    <span class="text-caption ">
+                      &#40;
+                      {{ getTimeOrDate(pending.date) }}
+                      &#41;
+                    </span>
+                  </v-card-subtitle>
+                </v-row>
+              </v-container>
               <div align="right" class="hidden-sm-and-down">
                 <v-chip
                   small
                   max-width="70px"
-                  class="ma-2 text-center caption"
+                  class="ma-2 text-center pr-2 pl-2 caption"
                   color="primary"
                 >
                   {{ getTimeOrDate(pending.date) }}
@@ -113,11 +127,18 @@ export default {
               </div>
             </v-expansion-panel-header>
             <v-expansion-panel-content>
+              <v-divider class="mb-2" />
+              <v-card-subtitle
+                class="pa-0 pb-2 text-caption text-justify text-sm-body-2"
+              >
+                {{ pending.body }}
+              </v-card-subtitle>
               <v-divider />
               <v-container>
                 <v-row>
                   <v-col cols="12" class="pa-1 pl-0">
                     <v-card-subtitle class="pa-0 text-caption ">
+                      <span class="font-weight-bold">FROM: </span>
                       {{ getFullname(pending.user.profile[0].name) }}
                       <span class="hidden-sm-and-down font-italic">
                         -
@@ -133,9 +154,9 @@ export default {
                     v-if="pending.head.profile[0]"
                   >
                     <v-card-subtitle class="pa-0 text-caption ">
+                      <span class="font-weight-bold">UNIT HEAD: </span>
                       {{ getFullname(pending.head.profile[0].name) }}
                       <span class="hidden-sm-and-down font-italic">
-                        -
                         {{
                           `${pending.head.department.role[0].name} of ${pending.head.department.unit[0].name}`
                         }}
@@ -144,23 +165,6 @@ export default {
                   </v-col>
                 </v-row>
               </v-container>
-              <v-divider />
-              <v-card-subtitle
-                class="pa-0 pb-2 pt-2 text-caption text-no-wrap font-weight-bold primary--text"
-              >
-                {{ pending.service[0].type }}
-                <span class="font-weight-normal secondary--text hidden-md-and-up">
-                  &#40;
-                  {{ getTimeOrDate(pending.date) }}
-                  &#41;
-                </span>
-              </v-card-subtitle>
-              <v-card-subtitle
-                class="pa-0 pb-2 text-caption text-justify text-sm-body-2"
-              >
-                {{ pending.body }}
-              </v-card-subtitle>
-              <v-spacer />
               <v-divider />
               <v-card-actions class="pa-3 pt-3 pb-3">
                 <v-row justify="start" align="center">
@@ -172,10 +176,8 @@ export default {
                     class="pa-2 pl-0"
                   >
                     <v-btn
-                      small
                       block
                       min-width="50px"
-                      elevation="0"
                       color="success"
                       @click="showSignature(pending._id)"
                     >
@@ -193,10 +195,8 @@ export default {
                     class="pa-2 pl-0"
                   >
                     <v-btn
-                      small
                       block
                       min-width="50px"
-                      elevation="0"
                       color="error"
                       :disabled="getPDFLoading"
                       @click="downloadPDF(pending._id)"
