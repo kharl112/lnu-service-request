@@ -24,7 +24,7 @@ export default {
       return formatDistanceToNow(new Date(date), {
         addSuffix: true,
         includeSeconds: true,
-      });
+      }).replace("about ", "");
     },
     gotoEdit(id) {
       return this.$router.push(`/faculty/home/edit/letter=${id}`);
@@ -36,6 +36,13 @@ export default {
       this.selected_id = _id;
       return this.$store.dispatch("request/sendRequest", { _id });
     },
+    limitText(text) {
+      return text
+        .split("")
+        .slice(0, 30)
+        .concat("...")
+        .join("");
+    },
   },
   created() {
     return this.$store.dispatch("request/allDraft");
@@ -43,7 +50,7 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-3">
+  <v-container fluid class="pa-1 pa-sm-3">
     <v-row dense justify="start" v-if="!getLoading.letter_info">
       <v-col
         cols="12"
@@ -57,7 +64,7 @@ export default {
               <tr>
                 <th class="text-left" />
                 <th class="text-left">
-                  Type
+                  Subject
                 </th>
                 <th class="text-center">
                   Created
@@ -71,22 +78,20 @@ export default {
                   <v-checkbox v-model="selected" :value="draft._id" />
                 </td>
                 <td @click="gotoEdit(draft._id)">
-                  <v-list-item threeline>
-                    <v-list-item-content>
-                      <v-list-item-subtitle
-                        class="pa-0 mr-4 text-caption text-left text-no-wrap text-sm-body-2 "
-                      >
-                        {{ draft.subject }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
+                  <v-list-item-subtitle
+                    class="pa-0 text-caption text-left text-wrap text-sm-body-2 "
+                  >
+                    {{ limitText(draft.subject) }}
+                  </v-list-item-subtitle>
                 </td>
                 <td @click="gotoEdit(draft._id)" class="text-center">
-                  <v-list-item-content>
-                    <v-list-item-subtitle class="pa-0 text-caption">
-                      <small>{{ getTimeOrDate(draft.date) }}</small>
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
+                  <v-chip
+                    small
+                    color="primary"
+                    class="pa-0 pr-2 pl-2 text-center text-caption"
+                  >
+                    {{ getTimeOrDate(draft.date) }}
+                  </v-chip>
                 </td>
                 <td>
                   <v-tooltip bottom>
