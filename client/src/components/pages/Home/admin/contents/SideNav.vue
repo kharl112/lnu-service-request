@@ -8,8 +8,8 @@ export default {
     mini: true,
     dialog: false,
     items: [
-      { title: "Signed", icon: "mdi-email-edit" },
-      { title: "Pending", icon: "mdi-email-alert" },
+      { title: "Signed", icon: "mdi-email-edit", getter: "Signed" },
+      { title: "Pending", icon: "mdi-email-alert", getter: "Pending" },
     ],
   }),
   computed: {
@@ -100,6 +100,13 @@ export default {
           <v-list-item-content>
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
+          <v-badge
+            v-if="$store.getters[`request/getAll${child.getter}`].length"
+            color="warning"
+            :content="$store.getters[`request/getAll${child.getter}`].length"
+            offset-x="10"
+            offset-y="7"
+          />
         </v-list-item>
       </v-list-item-group>
     </v-list>
