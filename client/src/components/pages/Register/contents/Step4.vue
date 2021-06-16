@@ -38,6 +38,13 @@ export default {
 </script>
 <template>
   <v-card class="card-container" elevation="5">
+    <div class="ma-0 mb-3 caption">
+      The
+      <span class="font-weight-bold"> MIS Team </span>
+      will send you a code in your 
+      <span class="font-weight-bold"> E-MAIL </span> 
+      after they recieved your account info.
+    </div>
     <v-form ref="form" @submit="handleSubmit">
       <v-text-field
         class="input"
