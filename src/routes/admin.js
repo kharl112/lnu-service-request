@@ -9,6 +9,7 @@ require("dotenv").config();
 const Admin = require("../db/models/admin_model");
 const User = require("../db/models/user_model");
 
+const generateToken = require("../functions/generateToken");
 const generateEmail = require("../functions/generateEmail");
 const { Name } = require("../functions/generateProfile");
 
@@ -48,6 +49,27 @@ route.post("/create", async (req, res) => {
 
   try {
     const new_admin = await admin.save();
+    const new_token = await generateToken(null, new_admin.staff_id);
+
+    const html = pug.renderFile(
+      path.join(__dirname + "/../../public/views/request_permission.pug"),
+      {
+        form: {
+          link: `https://lnusr.herokuapp.com/admin/login`,
+          user: new_admin.name,
+          token: new_token,
+        },
+      }
+    );
+
+    const mail = nodemailer.createTransport(generateEmail.transport);
+    await mail.sendMail(
+      generateEmail.options(
+        new_admin.email,
+        "LnuSR sent you a account permission code",
+        html
+      )
+    );
     const token = jwt.sign({ _id: new_admin._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
