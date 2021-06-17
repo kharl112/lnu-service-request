@@ -94,7 +94,7 @@ route.post("/admin/send", adminAuth, async (req, res) => {
   }
 });
 
-route.post("/faculty/claim", userAuth, async (req, res) => {
+route.post("/faculty/claim", async (req, res) => {
   const token = req.header("Authorization");
   const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -104,7 +104,7 @@ route.post("/faculty/claim", userAuth, async (req, res) => {
 
     const user_token = await Token.findOne({
       token: req.body.token,
-      claimer_staff_id: req.locals.staff_id,
+      claimer_staff_id: claimer.staff_id,
       claimed: false,
     });
     if (!user_token)
@@ -124,7 +124,7 @@ route.post("/faculty/claim", userAuth, async (req, res) => {
   }
 });
 
-route.post("/admin/claim", adminAuth, async (req, res) => {
+route.post("/admin/claim", async (req, res) => {
   const token = req.header("Authorization");
   const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -134,7 +134,7 @@ route.post("/admin/claim", adminAuth, async (req, res) => {
 
     const admin_token = await Token.findOne({
       token: req.body.token,
-      claimer_staff_id: req.locals.staff_id,
+      claimer_staff_id: claimer.staff_id,
       claimed: false,
     });
     if (!admin_token)
