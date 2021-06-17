@@ -99,7 +99,7 @@ export default {
               </span>
             </template>
             <span>
-              Wait for the MIS send a code to your E-mail
+              Check your E-mail account to proceed
             </span>
           </v-tooltip>
           <small>
