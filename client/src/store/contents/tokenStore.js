@@ -23,18 +23,36 @@ const token = {
         await axios.post(
           `/api/token/${userType}/claim`,
           { token },
-          {
-            headers: { Authorization: localStorage.getItem("Authorization") },
-          }
+          { headers: { Authorization: localStorage.getItem("Authorization") } }
         );
         commit("setLoading", false);
-        return router.replace(`/${user_type}/login`);
+        return router.replace(
+          user_type === "faculty"
+            ? "/faculty/home/drafts"
+            : "/admin/home/pending"
+        );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
+  },
+  resendToken: async ({ commit, dispatch }, { userType }) => {
+    dispatch("message/defaultState", null, { root: true });
+    commit("setLoading", true);
+    try {
+      await axios.post(
+        `/api/token/${userType}/send`,
+        {},
+        { headers: { Authorization: localStorage.getItem("Authorization") } }
+      );
+      return commit("setLoading", false);
+    } catch (error) {
+      const { message } = error.response.data || error;
+      commit("setLoading", false);
+      return dispatch("message/errorMessage", message, { root: true });
+    }
   },
 };
 
