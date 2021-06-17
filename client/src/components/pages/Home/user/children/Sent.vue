@@ -51,7 +51,7 @@ export default {
         <v-container fluid class="pa-2">
           <v-col cols="12">
             <v-row align="center" justify="center" justify-sm="start">
-              <span class="text-subtitle-1 ma-2">Coordinators</span>
+              <span class="text-subtitle-1 ma-2">Indicators</span>
               <v-chip
                 x-small
                 color="error"
