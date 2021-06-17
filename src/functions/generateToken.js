@@ -6,13 +6,13 @@ module.exports = async (token_found, staff_id) => {
     token_found.claimer_staff_id = staff_id;
 
     await token_found.save();
-    return token_found;
+    return token_found.token;
   } else {
     const user_token = new Token({
       claimer_staff_id: staff_id,
       token: Math.random().toString(36).substring(1, 10),
     });
     await user_token.save();
-    return user_token;
+    return user_token.token;
   }
 };
