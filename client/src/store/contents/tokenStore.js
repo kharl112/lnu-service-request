@@ -37,25 +37,25 @@ const token = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-  },
-  resendToken: async ({ commit, dispatch }, { userType }) => {
-    dispatch("message/defaultState", null, { root: true });
-    commit("setLoading", true);
-    try {
-      await axios.post(
-        `/api/token/${userType}/send`,
-        {},
-        { headers: { Authorization: localStorage.getItem("Authorization") } }
-      );
-      commit("setLoading", false);
-      return dispatch("message/successMessage", "code resent to your email", {
-        root: true,
-      });
-    } catch (error) {
-      const { message } = error.response.data || error;
-      commit("setLoading", false);
-      return dispatch("message/errorMessage", message, { root: true });
-    }
+    resendToken: async ({ commit, dispatch }, { userType }) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", true);
+      try {
+        await axios.post(
+          `/api/token/${userType}/send`,
+          {},
+          { headers: { Authorization: localStorage.getItem("Authorization") } }
+        );
+        commit("setLoading", false);
+        return dispatch("message/successMessage", "code resent to your email", {
+          root: true,
+        });
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", false);
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
   },
 };
 
