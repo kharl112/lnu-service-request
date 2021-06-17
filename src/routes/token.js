@@ -1,9 +1,8 @@
 const route = require("express").Router();
 const path = require("path");
 const pug = require("pug");
-const nodemailder = require("nodemailer");
+const nodemailer = require("nodemailer");
 const jwt = require("jsonwebtoken");
-const adminAuth = require("../authentication/adminAuth");
 
 const User = require("../db/models/user_model");
 const Token = require("../db/models/token_model");
