@@ -49,6 +49,7 @@ export default {
         :rules="rules.email"
         v-model="form.email"
         :disabled="getLoading.email"
+        :loading="getLoading.email"
         autofocus
         outlined
         hint="for example: johndoe123@yahoo.com"
@@ -58,6 +59,7 @@ export default {
       </v-alert>
       <v-btn
         :disabled="getLoading.email"
+        :loading="getLoading.email"
         type="submit"
         bottom
         color="warning"

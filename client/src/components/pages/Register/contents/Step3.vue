@@ -99,6 +99,7 @@ export default {
       </v-alert>
       <v-btn
         :disabled="getLoading.register"
+        :loading="getLoading.register"
         type="submit"
         bottom
         color="warning"
