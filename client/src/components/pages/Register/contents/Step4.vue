@@ -13,6 +13,9 @@ export default {
     getError() {
       return this.$store.getters["message/getError"];
     },
+    getSuccess() {
+      return this.$store.getters["message/getSuccess"];
+    },
     getLoading() {
       return this.$store.getters["token/getLoading"];
     },
@@ -28,6 +31,11 @@ export default {
           token: this.token,
           userType: this.getUserType,
         });
+    },
+    handleResendCode() {
+      return this.$store.dispatch("token/resendToken", {
+        userType: this.getUserType,
+      });
     },
     handleGoBack() {
       localStorage.removeItem("Authorization");
@@ -51,12 +59,16 @@ export default {
         :rules="rules.notNull"
         :loading="getLoading"
         :disabled="getLoading"
+        @click:append="handleResendCode"
         autofocus
         outlined
         required
       />
-      <v-alert class="alert" v-if="getError" dense type="error">
+      <v-alert class="alert pa-1 pl-2" v-if="getError" type="error">
         {{ getError }}
+      </v-alert>
+      <v-alert class="alert pa-1 pl-2" v-else-if="getSuccess" type="success">
+        {{ getSuccess }}
       </v-alert>
       <v-row dense>
         <v-col cols="4">
