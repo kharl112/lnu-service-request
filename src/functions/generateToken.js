@@ -1,6 +1,6 @@
 const Token = require("../db/models/token_model");
 
-module.exports = (token_found, staff_id) => {
+module.exports = async (token_found, staff_id) => {
   if (token_found) {
     token_found.token = Math.random().toString(36).substring(1, 10);
     token_found.claimer_staff_id = staff_id;
