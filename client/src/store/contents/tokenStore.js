@@ -47,7 +47,10 @@ const token = {
         {},
         { headers: { Authorization: localStorage.getItem("Authorization") } }
       );
-      return commit("setLoading", false);
+      commit("setLoading", false);
+      return dispatch("message/successMessage", "code resent to your email", {
+        root: true,
+      });
     } catch (error) {
       const { message } = error.response.data || error;
       commit("setLoading", false);
