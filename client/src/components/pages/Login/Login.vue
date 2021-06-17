@@ -132,7 +132,7 @@ export default {
             </v-row>
           </v-col>
           <v-col cols="12">
-            <v-form ref="form" @submit="handleSubmit">
+            <v-form ref="form" @submit="handleSubmit" >
               <v-row no-gutters>
                 <v-col cols="12" md="11" sm="12">
                   <v-text-field
@@ -172,6 +172,7 @@ export default {
                     color="primary"
                     elevation="0"
                     :disabled="getLoading.login"
+                    :loading="getLoading.login"
                     block
                     medium
                   >
