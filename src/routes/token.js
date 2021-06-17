@@ -4,7 +4,6 @@ const pug = require("pug");
 const nodemailder = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const adminAuth = require("../authentication/adminAuth");
-const userAuth = require("../authentication/userAuth");
 
 const User = require("../db/models/user_model");
 const Token = require("../db/models/token_model");
@@ -15,34 +14,36 @@ const generateToken = require("../functions/generateToken");
 
 require("dotenv").config();
 
-route.post("/faculty/send", userAuth, async (req, res) => {
+route.post("/faculty/send", async (req, res) => {
   try {
-    const token = req.body.token;
+    const token = req.header("Authorization");
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!token) return res.status(400).send({ message: "token not found" });
+    const claimer = await User.findOne({ _id: _id, permitted: false });
+    if (!claimer) return res.status(400).send({ message: "user not found" });
+
     const token_found = await Token.findOne({
-      token,
-      claimer_staff_id: req.locals.staff_id,
+      claimer_staff_id: claimer.staff_id,
       claimed: false,
     });
 
-    const new_token = generateToken(token_found, req.locals.staff_id);
+    const new_token = await generateToken(token_found, claimer.staff_id);
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/request_permission.pug"),
       {
         form: {
           link: `https://lnusr.herokuapp.com/faculty/login`,
-          user: req.locals.name,
+          user: claimer.name,
           token: new_token,
         },
       }
     );
 
-    const mail = nodemailer.createTransport(generateEmail.transport);
+    const mail = await nodemailer.createTransport(generateEmail.transport);
     await mail.sendMail(
       generateEmail.options(
-        req.locals.email,
+        claimer.email,
         "LnuSR sent you a account permission code",
         html
       )
@@ -55,33 +56,36 @@ route.post("/faculty/send", userAuth, async (req, res) => {
   }
 });
 
-route.post("/admin/send", adminAuth, async (req, res) => {
+route.post("/admin/send", async (req, res) => {
   try {
-    const token = req.body.token;
+    const token = req.header("Authorization");
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
-    if (!token) return res.status(400).send({ message: "token not found" });
+    const claimer = await Admin.findOne({ _id: _id, permitted: false });
+    if (!claimer) return res.status(400).send({ message: "user not found" });
+
     const token_found = await Token.findOne({
-      token,
-      claimer_staff_id: req.locals.staff_id,
+      claimer_staff_id: claimer.staff_id,
+      claimed: false,
     });
 
-    const new_token = generateToken(token_found, req.locals.staff_id);
+    const new_token = await generateToken(token_found, claimer.staff_id);
 
     const html = pug.renderFile(
       path.join(__dirname + "/../../public/views/request_permission.pug"),
       {
         form: {
           link: `https://lnusr.herokuapp.com/admin/login`,
-          user: req.locals.name,
+          user: claimer.name,
           token: new_token,
         },
       }
     );
 
-    const mail = nodemailer.createTransport(generateEmail.transport);
+    const mail = await nodemailer.createTransport(generateEmail.transport);
     await mail.sendMail(
       generateEmail.options(
-        req.locals.email,
+        claimer.email,
         "LnuSR sent you a account permission code",
         html
       )
@@ -95,10 +99,10 @@ route.post("/admin/send", adminAuth, async (req, res) => {
 });
 
 route.post("/faculty/claim", async (req, res) => {
-  const token = req.header("Authorization");
-  const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-
   try {
+    const token = req.header("Authorization");
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+
     const claimer = await User.findOne({ _id: _id, permitted: false });
     if (!claimer) return res.status(400).send({ message: "user not found" });
 
@@ -125,10 +129,10 @@ route.post("/faculty/claim", async (req, res) => {
 });
 
 route.post("/admin/claim", async (req, res) => {
-  const token = req.header("Authorization");
-  const { _id } = jwt.verify(token, process.env.JWT_SECRET);
-
   try {
+    const token = req.header("Authorization");
+    const { _id } = jwt.verify(token, process.env.JWT_SECRET);
+
     const claimer = await Admin.findOne({ _id: _id, permitted: false });
     if (!claimer) return res.status(400).send({ message: "user not found" });
 
