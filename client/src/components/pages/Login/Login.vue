@@ -115,7 +115,7 @@ export default {
                     }`
                   "
                 >
-                  Head and staff Login
+                  Faculty Personnel Login
                 </h4>
               </v-col>
               <v-col cols="12" class="pa-2  pb-5" v-else>
@@ -126,7 +126,7 @@ export default {
                     }`
                   "
                 >
-                  CAO Personnel Login
+                  Chief Admin Office Login
                 </h4>
               </v-col>
             </v-row>
