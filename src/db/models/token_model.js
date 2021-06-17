@@ -1,22 +1,12 @@
 const mongoose = require("mongoose");
 
 const Token = new mongoose.Schema({
-  creatorID: {
+  claimer_staff_id: {
     type: String,
+    required: true,
     immutable: true,
     minLength: 7,
     maxLength: 7,
-    required: true,
-  },
-  claimerID: {
-    type: String,
-    default: "",
-    maxLength: 7,
-  },
-  claimed: {
-    type: Boolean,
-    default: false,
-    required: true,
   },
   token: {
     type: String,
