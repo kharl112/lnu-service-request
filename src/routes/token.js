@@ -1,12 +1,95 @@
 const route = require("express").Router();
+const path = require("path");
+const pug = require("pug");
+const nodemailder = require("nodemailer");
 const jwt = require("jsonwebtoken");
 const adminAuth = require("../authentication/adminAuth");
+const userAuth = require("../authentication/userAuth");
 
 const User = require("../db/models/user_model");
 const Token = require("../db/models/token_model");
 const Admin = require("../db/models/admin_model");
 
+const generateEmail = require("../functions/generateEmail");
+const generateToken = require("../functions/generateToken");
+
 require("dotenv").config();
+
+route.post("/faculty/send", userAuth, async (req, res) => {
+  try {
+    const token = req.body.token;
+
+    if (!token) return res.status(400).send({ message: "token not found" });
+    const token_found = await Token.findOne({
+      token,
+      claimer_staff_id: req.locals.staff_id,
+    });
+
+    const new_token = generateToken(token_found, req.locals.staff_id);
+
+    const html = pug.renderFile(
+      path.join(__dirname + "/../../public/views/request_permission.pug"),
+      {
+        form: {
+          link: `https://lnusr.herokuapp.com/faculty/login`,
+          user: req.locals.name,
+          token: new_token,
+        },
+      }
+    );
+
+    const mail = nodemailer.createTransport(generateEmail.transport);
+    await mail.sendMail(
+      generateEmail.options(
+        req.locals.email,
+        "LnuSR sent you a account permission code",
+        html
+      )
+    );
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+  }
+});
+
+route.post("/admin/send", adminAuth, async (req, res) => {
+  try {
+    const token = req.body.token;
+
+    if (!token) return res.status(400).send({ message: "token not found" });
+    const token_found = await Token.findOne({
+      token,
+      claimer_staff_id: req.locals.staff_id,
+    });
+
+    const new_token = generateToken(token_found, req.locals.staff_id);
+
+    const html = pug.renderFile(
+      path.join(__dirname + "/../../public/views/request_permission.pug"),
+      {
+        form: {
+          link: `https://lnusr.herokuapp.com/admin/login`,
+          user: req.locals.name,
+          token: new_token,
+        },
+      }
+    );
+
+    const mail = nodemailer.createTransport(generateEmail.transport);
+    await mail.sendMail(
+      generateEmail.options(
+        req.locals.email,
+        "LnuSR sent you a account permission code",
+        html
+      )
+    );
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+  }
+});
 
 route.post("/faculty/claim", async (req, res) => {
   const token = req.header("Authorization");
