@@ -23,6 +23,7 @@ route.post("/faculty/send", userAuth, async (req, res) => {
     const token_found = await Token.findOne({
       token,
       claimer_staff_id: req.locals.staff_id,
+      claimed: false,
     });
 
     const new_token = generateToken(token_found, req.locals.staff_id);
@@ -91,7 +92,7 @@ route.post("/admin/send", adminAuth, async (req, res) => {
   }
 });
 
-route.post("/faculty/claim", async (req, res) => {
+route.post("/faculty/claim", userAuth, async (req, res) => {
   const token = req.header("Authorization");
   const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -101,6 +102,7 @@ route.post("/faculty/claim", async (req, res) => {
 
     const user_token = await Token.findOne({
       token: req.body.token,
+      claimer_staff_id: req.locals.staff_id,
       claimed: false,
     });
     if (!user_token)
@@ -108,7 +110,6 @@ route.post("/faculty/claim", async (req, res) => {
 
     claimer.permitted = true;
     user_token.claimed = true;
-    user_token.claimerID = claimer.staff_id;
 
     await user_token.save();
     await claimer.save();
@@ -121,7 +122,7 @@ route.post("/faculty/claim", async (req, res) => {
   }
 });
 
-route.post("/admin/claim", async (req, res) => {
+route.post("/admin/claim", adminAuth, async (req, res) => {
   const token = req.header("Authorization");
   const { _id } = jwt.verify(token, process.env.JWT_SECRET);
 
@@ -131,6 +132,7 @@ route.post("/admin/claim", async (req, res) => {
 
     const admin_token = await Token.findOne({
       token: req.body.token,
+      claimer_staff_id: req.locals.staff_id,
       claimed: false,
     });
     if (!admin_token)
@@ -138,7 +140,6 @@ route.post("/admin/claim", async (req, res) => {
 
     claimer.permitted = true;
     admin_token.claimed = true;
-    admin_token.claimerID = claimer.staff_id;
 
     await admin_token.save();
     await claimer.save();
@@ -149,25 +150,6 @@ route.post("/admin/claim", async (req, res) => {
       .status(500)
       .send({ message: "something went wrong, please try again." });
   }
-});
-
-route.get("/all", adminAuth, async (req, res) => {
-  const users_token = await Token.find({}).select({ creatorID: 0 });
-  return res.send(users_token);
-});
-
-route.get("/claimed", adminAuth, async (req, res) => {
-  const users_token = await Token.find({ claimed: true }).select({
-    creatorID: 0,
-  });
-  return res.send(users_token);
-});
-
-route.get("/unclaimed", adminAuth, async (req, res) => {
-  const users_token = await Token.find({ claimed: false }).select({
-    creatorID: 0,
-  });
-  return res.send(users_token);
 });
 
 module.exports = route;
