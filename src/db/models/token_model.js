@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const Token = new mongoose.Schema({
+  claimed: {
+    type: Boolean,
+    default: false,
+    required: true,
+  },
   claimer_staff_id: {
     type: String,
     required: true,
