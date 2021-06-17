@@ -19,9 +19,6 @@ export default {
     async install() {
       this.deferredPrompt.prompt();
     },
-    gotoLogin(userType) {
-      return this.$router.push(`/${userType}/login`);
-    },
   },
 };
 </script>
@@ -33,34 +30,35 @@ export default {
           max-width="400"
           min-width="250"
           outlined
-          class="pa-8 pa-sm-10 pa-md-12 ma-5 mb-2"
+          class="pa-6 pa-sm-8 pa-md-8 ma-5 mb-2"
         >
           <v-row justify="center" align="center">
             <v-col cols="12">
               <v-row justify="center" align="center">
-                <v-col>
+                <v-col md="4" align="center">
                   <v-img
-                    max-width="75"
+                    max-width="85"
                     min-width="70"
                     src="../../../assets/images/logo-512x512.png"
                   />
                 </v-col>
-                <v-col cols="12" md="8">
-                  <h3
-                    class=" text-body1 text-sm-h6 text-md-h5 mb-4 text-center text-md-left"
+                <v-col cols="12" md="8" class="pb-2">
+                  <div
+                    class="text-subtitle-1 text-sm-h6 text-center text-md-left primary--text pa-0"
                   >
-                    <strong class="warning--text">LNU</strong>
+                    <span class="warning--text font-weight-bold">LNU </span>
                     Service Request System
-                  </h3>
+                  </div>
+                  <v-card-subtitle
+                    class="caption pa-0 pt-1 text-center text-md-left"
+                  >
+                    Service Requesting Application
+                  </v-card-subtitle>
                 </v-col>
               </v-row>
             </v-col>
-            <v-col cols="12" align="center">
-              <v-row justify="center">
-                <v-subheader class="text-center">
-                  Leyte Normal University Service Requesting Application
-                </v-subheader>
-              </v-row>
+            <v-col cols="12" class="pt-0">
+              <v-divider />
             </v-col>
             <v-col cols="12">
               <v-tooltip bottom>
@@ -87,49 +85,40 @@ export default {
                 }}</span>
               </v-tooltip>
             </v-col>
-            <v-col cols="12" align="center" class="pa-2">
-              <v-row justify="center">
-                <v-subheader class="text-center">
-                  Login As
-                </v-subheader>
-              </v-row>
+            <v-col cols="12">
+              <v-divider />
             </v-col>
             <v-col cols="12">
-              <v-btn
-                elevation="0"
-                block
-                small
-                color="primary"
-                @click="gotoLogin('admin')"
-              >
-                CAO Personnel
-              </v-btn>
+              <v-card-subtitle class="pa-0 font-weight-bold">
+                Quick Links
+              </v-card-subtitle>
             </v-col>
-            <v-col cols="12">
-              <v-row justify="center" align="center">
-                <v-col cols="5">
-                  <v-divider />
-                </v-col>
-                <v-col cols="2">
-                  <v-row justify="center" align="center">
-                    <small class="text-center">OR</small>
-                  </v-row>
-                </v-col>
-                <v-col cols="5">
-                  <v-divider />
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="12">
-              <v-btn
-                elevation="0"
-                block
-                small
-                color="warning"
-                @click="gotoLogin('faculty')"
-              >
-                University Personnel
-              </v-btn>
+            <v-col cols="12" class="pa-0">
+              <v-card-actions>
+                <v-row justify="start" justify-sm="start" justify-md="center">
+                  <v-col cols="12" sm="4" class="pa-1">
+                    <router-link to="/" class="caption primary--text mr-2">
+                      Track Request
+                    </router-link>
+                  </v-col>
+                  <v-col cols="12" sm="4" class="pa-1">
+                    <router-link
+                      to="/admin/login"
+                      class="caption primary--text mr-2"
+                    >
+                      Chief Admin Office
+                    </router-link>
+                  </v-col>
+                  <v-col cols="12" sm="4" class="pa-1">
+                    <router-link
+                      to="/faculty/login"
+                      class="caption primary--text mr-2 text-center"
+                    >
+                      Faculty & Personnel
+                    </router-link>
+                  </v-col>
+                </v-row>
+              </v-card-actions>
             </v-col>
           </v-row>
         </v-card>
