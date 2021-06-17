@@ -12,6 +12,7 @@ const Unit = require("../db/models/unit_model");
 const Role = require("../db/models/role_model");
 
 const generateEmail = require("../functions/generateEmail");
+const generateToken = require("../functions/generateToken");
 const { create, login, update } = require("../validation/user_validation");
 const { Name } = require("../functions/generateProfile");
 
@@ -56,6 +57,28 @@ route.post("/create", async (req, res) => {
 
   try {
     const new_user = await user.save();
+    const new_token = await generateToken(null, new_user.staff_id);
+
+    const html = pug.renderFile(
+      path.join(__dirname + "/../../public/views/request_permission.pug"),
+      {
+        form: {
+          link: `https://lnusr.herokuapp.com/user/login`,
+          user: new_user.name,
+          token: new_token,
+        },
+      }
+    );
+
+    const mail = nodemailer.createTransport(generateEmail.transport);
+    await mail.sendMail(
+      generateEmail.options(
+        new_user.email,
+        "LnuSR sent you a account permission code",
+        html
+      )
+    );
+
     const token = jwt.sign({ _id: new_user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
