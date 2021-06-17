@@ -47,6 +47,7 @@ route.post("/faculty/send", userAuth, async (req, res) => {
         html
       )
     );
+    return res.send({ message: "new token was sent to your email" });
   } catch (error) {
     return res
       .status(500)
@@ -85,6 +86,7 @@ route.post("/admin/send", adminAuth, async (req, res) => {
         html
       )
     );
+    return res.send({ message: "new token was sent to your email" });
   } catch (error) {
     return res
       .status(500)
