@@ -56,19 +56,19 @@ export default {
             <router-link to="/" class="text-decoration-none">
               <h3
                 id="heading"
-                class="text-h5 text-sm-h4 text-md-h4 text-left primary--text"
+                class="text-h5 text-sm-h4 text-md-h5 text-center text-md-left primary--text"
               >
                 <em>LNU</em>
                 Service Request System
               </h3>
             </router-link>
             <h5
-              class="caption pa-0 pt-2 font-weight-bold text-left primary--text"
+              class="caption pa-0 pt-2 font-weight-bold text-center text-md-left primary--text"
             >
               {{
                 getUserType === "faculty"
-                  ? "faculty/personnel registration"
-                  : "CAO personnel registration"
+                  ? "Faculty & Personnel Registration"
+                  : "Chief Admin Office Registration"
               }}
             </h5>
           </v-col>
