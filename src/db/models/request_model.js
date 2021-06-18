@@ -20,7 +20,7 @@ const Request = new mongoose.Schema({
     type: Object,
     required: true,
   },
-  head: {
+  service_provider: {
     type: Object,
     required: true,
     staff_id: {
