@@ -151,14 +151,14 @@ export default {
                   <v-col
                     cols="12"
                     class="pa-1 pl-0"
-                    v-if="pending.head.profile[0]"
+                    v-if="pending.service_provider.profile[0]"
                   >
                     <v-card-subtitle class="pa-0 text-caption ">
-                      <span class="font-weight-bold">UNIT HEAD: </span>
-                      {{ getFullname(pending.head.profile[0].name) }}
+                      <span class="font-weight-bold">TO: </span>
+                      {{ getFullname(pending.service_provider.profile[0].name) }}
                       <span class="hidden-sm-and-down font-italic">
                         {{
-                          `${pending.head.department.role[0].name} of ${pending.head.department.unit[0].name}`
+                          `${pending.service_provider.department.role[0].name} of ${pending.service_provider.department.unit[0].name}`
                         }}
                       </span>
                     </v-card-subtitle>
