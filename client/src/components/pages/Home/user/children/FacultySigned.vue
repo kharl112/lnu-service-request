@@ -25,7 +25,7 @@ export default {
     },
     downloadPDF(id) {
       return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "head",
+        user_type: "provider",
         id,
       });
     },
@@ -37,7 +37,7 @@ export default {
     },
   },
   created() {
-    return this.$store.dispatch("request/allSigned", "head");
+    return this.$store.dispatch("request/allSigned", "provider");
   },
 };
 </script>
