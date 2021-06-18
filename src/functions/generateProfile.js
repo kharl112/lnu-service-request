@@ -21,6 +21,13 @@ const Name = (() => {
   return { getFullName, getFixedName, getFixedFullName };
 })();
 
+const Department = (() => {
+  getFullDepartment = ({ role, unit }) => {
+    return `${role[0].name} of ${unit[0].name}`;
+  };
+  return { getFullDepartment };
+})();
+
 const _Date = (() => {
   const getFullDate = (date) => {
     const new_date = new Date(date);
