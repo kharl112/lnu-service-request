@@ -41,8 +41,8 @@ export default {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
     },
-    getAllServiceProvider() {
-      return this.$store.getters["faculty/getAllServiceProvider"];
+    getAllServiceProviders() {
+      return this.$store.getters["faculty/getAllServiceProviders"];
     },
     getAllAdmin() {
       return this.$store.getters["admin/getAllAdmin"];
@@ -85,11 +85,11 @@ export default {
           );
         return this.$store.dispatch("request/createRequest", this.form);
       }
-      return console.log("unvalidated");
+      return;
     },
   },
   created() {
-    this.$store.dispatch("faculty/allServiceProvider");
+    this.$store.dispatch("faculty/allServiceProviders");
     this.$store.dispatch("admin/allAdmin");
     this.$store.dispatch("service/allServices");
   },
@@ -124,7 +124,7 @@ export default {
                   <v-col cols="12" sm="4" md="5">
                     <v-autocomplete
                       v-model="form.service_provider.staff_id"
-                      :items="getAllServiceProvider"
+                      :items="getAllServiceProviders"
                       :rules="rules"
                       item-text="name"
                       item-value="staff_id"
@@ -164,7 +164,6 @@ export default {
                       outlined
                       :rules="rules"
                       label="Subject"
-                      placeholder="Technician for the modification of our faculty"
                       dense
                       counter
                       maxlength="50"
