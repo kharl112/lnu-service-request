@@ -31,10 +31,10 @@ export default {
       });
     },
     getFlag(service_request) {
-      const { admin, head } = service_request;
-      return head.signature && admin.signature
+      const { admin, service_provider } = service_request;
+      return service_provider.signature && admin.signature
         ? "success"
-        : head.signature || admin.signature
+        : service_provider.signature || admin.signature
         ? "primary"
         : "error";
     },
