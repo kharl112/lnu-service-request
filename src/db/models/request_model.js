@@ -67,6 +67,12 @@ const Request = new mongoose.Schema({
     min: 0,
     max: 1,
   },
+  status: {
+    type: Number,
+    required: true,
+    min: 0,
+    max: 2,
+  },
 });
 
 module.exports = mongoose.model("Request", Request);
