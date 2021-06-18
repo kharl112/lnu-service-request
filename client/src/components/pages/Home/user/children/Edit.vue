@@ -16,8 +16,8 @@ export default {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
     },
-    getAllServiceProvider() {
-      return this.$store.getters["faculty/getAllServiceProvider"];
+    getAllServiceProviders() {
+      return this.$store.getters["faculty/getAllServiceProviders"];
     },
     getAllAdmin() {
       return this.$store.getters["admin/getAllAdmin"];
@@ -31,7 +31,7 @@ export default {
     isLoading() {
       const { getters } = this.$store;
       return (
-        getters["faculty/getLoading"].all_service_provider ||
+        getters["faculty/getLoading"].all_service_providers ||
         getters["admin/getLoading"].all_admin ||
         getters["service/getAllServices"].all_admin
       );
@@ -64,7 +64,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("faculty/allServiceProvider");
+    this.$store.dispatch("faculty/allServiceProviders");
     this.$store.dispatch("admin/allAdmin");
     this.$store.dispatch("service/allServices");
     this.form = this.$store.getters["request/getLetterInfo"];
@@ -100,7 +100,7 @@ export default {
                   <v-col cols="12" sm="4" md="5">
                     <v-autocomplete
                       v-model="form.service_provider.staff_id"
-                      :items="getAllServiceProvider"
+                      :items="getAllServiceProviders"
                       :rules="rules"
                       item-text="name"
                       item-value="staff_id"
