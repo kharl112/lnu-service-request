@@ -120,17 +120,17 @@ export default {
               </v-card-subtitle>
               <v-card-subtitle
                 class="pa-0 pt-2 text-caption"
-                v-if="signed.head.department.role[0]"
+                v-if="signed.service_provider.department.role[0]"
               >
-                Unit Head:
-                {{ getFullname(signed.head.profile[0].name) }}
+                TO:
+                {{ getFullname(signed.service_provider.profile[0].name) }}
               </v-card-subtitle>
               <v-card-subtitle
                 class="pa-0 pb-2 text-caption text-decoration-underline"
-                v-if="signed.head.department.role[0]"
+                v-if="signed.service_provider.department.role[0]"
               >
                 {{
-                  `${signed.head.department.role[0].name} of ${signed.head.department.unit[0].name}`
+                  `${signed.service_provider.department.role[0].name} of ${signed.service_provider.department.unit[0].name}`
                 }}
               </v-card-subtitle>
               <v-card-actions class="pa-2">
