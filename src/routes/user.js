@@ -14,7 +14,7 @@ const Role = require("../db/models/role_model");
 const generateEmail = require("../functions/generateEmail");
 const generateToken = require("../functions/generateToken");
 const { create, login, update } = require("../validation/user_validation");
-const { Name } = require("../functions/generateProfile");
+const { Name, Department } = require("../functions/generateProfile");
 
 const userAuth = require("../authentication/userAuth");
 const adminAuth = require("../authentication/adminAuth");
@@ -263,31 +263,29 @@ route.post("/change/password", userAuth, async (req, res) => {
 });
 
 route.get("/profile", userAuth, async (req, res) => {
-  try {
-    const profile = await User.aggregate([
-      { $match: { staff_id: req.locals.staff_id } },
-      {
-        $lookup: {
-          from: "roles",
-          localField: "department.role_id",
-          foreignField: "_id",
-          as: "role",
-        },
+  const profile = await User.aggregate([
+    { $match: { staff_id: req.locals.staff_id } },
+    {
+      $lookup: {
+        from: "roles",
+        localField: "department.role_id",
+        foreignField: "_id",
+        as: "role",
       },
-      {
-        $project: {
-          _id: 0,
-          password: 0,
-          __v: 0,
-          "unit.__v": 0,
-          "role.__v": 0,
-        },
+    },
+    {
+      $project: {
+        _id: 0,
+        password: 0,
+        __v: 0,
+        "unit.__v": 0,
+        "role.__v": 0,
       },
-    ]);
+    },
+  ]);
 
-    const role = profile[0].role[0];
-    return res.send({ ...profile[0], role });
-  } catch (error) {}
+  const role = profile[0].role[0];
+  return res.send({ ...profile[0], role });
 });
 
 route.get("/all", adminAuth, async (req, res) => {
@@ -313,8 +311,8 @@ route.get("/pending", adminAuth, async (req, res) => {
   return res.send(pending_users);
 });
 
-route.get("/head/all", userAuth, async (req, res) => {
-  const all_head = await User.aggregate([
+route.get("/provider/all", userAuth, async (req, res) => {
+  const all_service_provider = await User.aggregate([
     { $match: {} },
     {
       $lookup: {
@@ -322,6 +320,14 @@ route.get("/head/all", userAuth, async (req, res) => {
         localField: "department.role_id",
         foreignField: "_id",
         as: "role",
+      },
+    },
+    {
+      $lookup: {
+        from: "units",
+        localField: "department.unit_id",
+        foreignField: "_id",
+        as: "unit",
       },
     },
     {
@@ -336,10 +342,14 @@ route.get("/head/all", userAuth, async (req, res) => {
     },
   ]);
   return res.send(
-    all_head
+    all_service_provider
       .filter((node) => node.role[0].level === 2)
       .map((node) => ({
         name: Name.getFullName(node.name),
+        department: Department.getFullDepartment({
+          unit: node.unit,
+          role: node.role,
+        }),
         staff_id: node.staff_id,
       }))
   );
