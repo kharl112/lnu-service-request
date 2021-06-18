@@ -12,25 +12,23 @@ body
       p(class="header-info-p3") P. Paterno St., Tacloban City 
   div(class="main")
     h3(class="subject")=form.subject
-    p(class="service-type")="Service type: " + form.service_type
-    p(class="date")="Date sent: " + form.date
+    p(class="service-type")=`Service type: ${form.service_type}`
+    p(class="date")=`Date created: ${form.date}`
     div(class="body")
     | !{form.body}
   div(class="recipients")
-  if form.head.staff_id != ""
     div(class="signature")
-      p(class="dept-head")=form.head.profile
-      p(class="dept-head-title")=form.head.department
+      p(class="user-name")=`FROM: ${form.user.profile}`
+      p(class="admin-dept-title")=form.user.department
+    | !{form.user.signature}
+    div(class="signature")
+      p(class="dept-head")=`TO: ${form.service_provider.profile}`
+      p(class="dept-head-title")=form.service_provider.department
     | !{form.head.signature}
-  if form.head.staff_id == "" || form.head.staff_id != ""
     div(class="signature")
       p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Chief Administration Office
     | !{form.admin.signature}
-    div(class="signature")
-      p(class="user-name")=form.user.profile
-      p(class="admin-dept-title")=form.user.department
-    | !{form.user.signature}
 
     
 
