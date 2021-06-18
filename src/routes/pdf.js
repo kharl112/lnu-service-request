@@ -37,7 +37,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form.service_type = form.service[0].type;
 
     const html = pug.renderFile(
-      path.join(__dirname + "/../../public/views/template1.pug"),
+      path.join(__dirname + "/../../public/views/pdf/original.pug"),
       { form }
     );
 
@@ -79,7 +79,7 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     form.service_type = form.service[0].type;
 
     const html = pug.renderFile(
-      path.join(__dirname + "/../../public/views/template1.pug"),
+      path.join(__dirname + "/../../public/views/pdf/original.pug"),
       { form }
     );
 
@@ -118,7 +118,7 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form.service_type = form.service[0].type;
 
     const html = pug.renderFile(
-      path.join(__dirname + "/../../public/views/template1.pug"),
+      path.join(__dirname + "/../../public/views/pdf/original.pug"),
       { form }
     );
 
