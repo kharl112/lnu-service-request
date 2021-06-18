@@ -179,7 +179,7 @@ route.post("/admin/sign", adminAuth, async (req, res) => {
   );
 });
 
-route.post("/faculty/update/letter=:id", userAuth, async (req, res) => {
+route.post("/faculty/update/letter=:_id", userAuth, async (req, res) => {
   const { _id } = req.params;
   if (!_id) return res.status(400).send({ message: "empty parameter" });
 
