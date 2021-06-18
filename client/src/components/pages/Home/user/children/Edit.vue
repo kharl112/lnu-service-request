@@ -102,7 +102,7 @@ export default {
                       v-model="form.service_provider.staff_id"
                       :items="getAllServiceProviders"
                       :rules="rules"
-                      item-text="name"
+                      item-text="text"
                       item-value="staff_id"
                       outlined
                       label="Service Provider"
