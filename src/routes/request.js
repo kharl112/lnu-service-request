@@ -11,6 +11,7 @@ const requestQuery = require("../functions/requestQuery");
 
 route.post("/create", userAuth, async (req, res) => {
   const { error } = create(req.body);
+  req.body.status = 0;
   if (error) return res.status(400).send(error.details[0]);
 
   const admin_found = await Admin.findOne({
