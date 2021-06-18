@@ -30,6 +30,7 @@ const create = (body) => {
       signature: Joi.string().allow(""),
     }).required(),
     save_as: Joi.number().min(0).max(1).required(),
+    status: Joi.number().min(0).max(2).required(),
   });
   return schema.validate(body);
 };
