@@ -6,7 +6,7 @@ const faculty = {
   state: () => ({
     profile: null,
     email: null,
-    heads: null,
+    all_service_providers: [],
     all_users: [],
     loading: {
       profile: false,
@@ -15,7 +15,7 @@ const faculty = {
       register: false,
       update: false,
       change_password: false,
-      all_head: false,
+      all_service_providers: false,
       all_users: false,
       send_email_link: false,
       reset_password: false,
@@ -25,14 +25,15 @@ const faculty = {
     getProfile: (state) => state.profile,
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
-    getAllHead: (state) => state.heads,
+    getAllServiceProviders: (state) => state.all_service_providers,
     getAllUsers: (state) => state.all_users,
   },
   mutations: {
     setEmail: (state, email) => (state.email = email),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
     setProfile: (state, user_profile) => (state.profile = user_profile),
-    setAllHead: (state, heads) => (state.heads = [...heads]),
+    setAllServiceProviders: (state, service_providers) =>
+      (state.all_service_providers = [...service_providers]),
     setAllUsers: (state, all_users) => (state.all_users = [...all_users]),
   },
   actions: {
@@ -187,17 +188,17 @@ const faculty = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    allHead: async ({ commit, dispatch }) => {
-      commit("setLoading", { loading: true, type: "all_head" });
+    allServiceProviders: async ({ commit, dispatch }) => {
+      commit("setLoading", { loading: true, type: "all_service_providers" });
       try {
-        const { data } = await axios.get("/api/user/head/all", {
+        const { data } = await axios.get("/api/user/provider/all", {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
-        commit("setLoading", { loading: false, type: "all_head" });
-        return commit("setAllHead", data);
+        commit("setLoading", { loading: false, type: "all_service_providers" });
+        return commit("setAllServiceProviders", data);
       } catch (error) {
         const { message } = error.response.data || error;
-        commit("setLoading", { loading: false, type: "all_head" });
+        commit("setLoading", { loading: false, type: "all_service_providers" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
