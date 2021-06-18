@@ -345,11 +345,10 @@ route.get("/provider/all", userAuth, async (req, res) => {
     all_service_provider
       .filter((node) => node.role[0].level === 2)
       .map((node) => ({
-        name: Name.getFullName(node.name),
-        department: Department.getFullDepartment({
+        text: `${Name.getFullName(node.name)} (${Department.getFullDepartment({
           unit: node.unit,
           role: node.role,
-        }),
+        })})`,
         staff_id: node.staff_id,
       }))
   );
