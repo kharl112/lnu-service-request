@@ -1,7 +1,7 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
 export default {
-  name: "HeadSigned",
+  name: "FacultySigned",
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];
@@ -103,7 +103,9 @@ export default {
                 From:
                 {{ getFullname(signed.user.profile[0].name) }}
               </v-card-subtitle>
-              <v-card-subtitle class="pa-0 pb-2 text-caption text-decoration-underline">
+              <v-card-subtitle
+                class="pa-0 pb-2 text-caption text-decoration-underline"
+              >
                 {{
                   `${signed.user.department.role[0].name} of ${signed.user.department.unit[0].name}`
                 }}
@@ -112,7 +114,9 @@ export default {
                 To:
                 {{ getFullname(signed.admin.profile[0].name) }}
               </v-card-subtitle>
-              <v-card-subtitle class="pa-0 pb-2 text-caption text-decoration-underline">
+              <v-card-subtitle
+                class="pa-0 pb-2 text-caption text-decoration-underline"
+              >
                 {{ `Chief Administration Office` }}
               </v-card-subtitle>
               <v-card-actions class="pa-2">

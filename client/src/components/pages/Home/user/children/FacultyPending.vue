@@ -2,7 +2,7 @@
 import SetSignature from "../contents/SetSignature";
 import { formatDistanceToNow } from "date-fns";
 export default {
-  name: "HeadPending",
+  name: "FacultyPending",
   components: {
     SetSignature,
   },

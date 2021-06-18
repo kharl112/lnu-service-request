@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "UserSettings",
+  name: "FacultySettings",
   data: () => ({
     form: null,
     show_pass: false,

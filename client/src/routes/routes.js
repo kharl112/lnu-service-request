@@ -16,9 +16,9 @@ import Pass3 from "../components/pages/ForgotPassword/contents/Pass3";
 import HomeUser from "../components/pages/Home/user/HomeUser";
 import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
-import HeadPending from "../components/pages/Home/user/children/HeadPending";
-import HeadSigned from "../components/pages/Home/user/children/HeadSigned";
-import UserSettings from "../components/pages/Home/user/children/UserSettings";
+import FacultyPending from "../components/pages/Home/user/children/FacultyPending";
+import FacultySigned from "../components/pages/Home/user/children/FacultySigned";
+import FacultySettings from "../components/pages/Home/user/children/FacultySettings";
 import Compose from "../components/pages/Home/user/children/Compose";
 import Edit from "../components/pages/Home/user/children/Edit";
 
@@ -131,8 +131,8 @@ export const routes = [
       { path: "sent", component: Sent },
       { path: "compose", component: Compose },
       { path: "settings", component: UserSettings },
-      { path: "pending", component: HeadPending },
-      { path: "signed", component: HeadSigned },
+      { path: "pending", component: FacultyPending },
+      { path: "signed", component: FacultySigned },
       {
         path: "edit/letter=:id",
         component: Edit,
