@@ -20,9 +20,6 @@ export default {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
     },
-    isHead() {
-      return this.getFacultyProfile.role.level === 2;
-    },
     getFacultyFullName() {
       const {
         firstname,
@@ -141,7 +138,7 @@ export default {
       </v-list-item-group>
     </v-list>
 
-    <v-list dense v-if="isHead">
+    <v-list dense >
       <v-subheader v-show="!mini">Received</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item
