@@ -313,7 +313,7 @@ route.get("/pending", adminAuth, async (req, res) => {
 
 route.get("/provider/all", userAuth, async (req, res) => {
   const all_service_provider = await User.aggregate([
-    { $match: { $ne: { staff_id: req.locals.staff_id } } },
+    { $match: { staff_id: { $ne: req.locals.staff_id } } },
     {
       $lookup: {
         from: "roles",
