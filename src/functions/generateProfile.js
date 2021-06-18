@@ -21,12 +21,6 @@ const Name = (() => {
   return { getFullName, getFixedName, getFixedFullName };
 })();
 
-const Department = (() => {
-  const getDepartment = ({ unit_role, unit_name }) =>
-    `${unit_name} ${unit_role === 1 ? "" : "Head"} Department`;
-  return { getDepartment };
-})();
-
 const _Date = (() => {
   const getFullDate = (date) => {
     const new_date = new Date(date);
