@@ -42,6 +42,10 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     );
 
     const { options } = form;
+    Object.keys(options.border).map(
+      (node) => (options.border[node] = `${options.border[node]}in`)
+    );
+
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
@@ -84,6 +88,10 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     );
 
     const { options } = form;
+    Object.keys(options.border).map(
+      (node) => (options.border[node] = `${options.border[node]}in`)
+    );
+
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
@@ -123,6 +131,10 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     );
 
     const { options } = form;
+    Object.keys(options.border).map(
+      (node) => (options.border[node] = `${options.border[node]}in`)
+    );
+
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
