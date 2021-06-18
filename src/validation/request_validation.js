@@ -25,7 +25,7 @@ const create = (body) => {
       staff_id: Joi.string().required(),
       signature: Joi.string().allow(""),
     }).required(),
-    head: Joi.object({
+    service_provider: Joi.object({
       staff_id: Joi.string().required().allow(""),
       signature: Joi.string().allow(""),
     }).required(),
