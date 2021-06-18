@@ -2,7 +2,7 @@ doctype html
 html 
   head 
     style
-        include ./styles/template1.css
+        include ../styles/template1.css
 body
   header
     img(class="university-logo" src="https://upload.wikimedia.org/wikipedia/en/1/17/LNUTaclobanLogo.jpg")
@@ -24,7 +24,7 @@ body
     div(class="signature")
       p(class="dept-head")=`TO: ${form.service_provider.profile}`
       p(class="dept-head-title")=form.service_provider.department
-    | !{form.head.signature}
+    | !{form.service_provider.signature}
     div(class="signature")
       p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Chief Administration Office
