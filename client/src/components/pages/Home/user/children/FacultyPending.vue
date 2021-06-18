@@ -40,7 +40,7 @@ export default {
       return this.$store.dispatch("request/signRequest", {
         request_id: this.selectedRequest,
         signature,
-        type: "head",
+        type: "provider",
       });
     },
     getTimeOrDate(date) {
@@ -51,7 +51,7 @@ export default {
     },
     downloadPDF(id) {
       return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "head",
+        user_type: "provider",
         id,
       });
     },
@@ -70,7 +70,7 @@ export default {
     },
   },
   created() {
-    return this.$store.dispatch("request/allPending", "head");
+    return this.$store.dispatch("request/allPending", "provider");
   },
 };
 </script>
@@ -153,7 +153,7 @@ export default {
                   <v-col
                     cols="12"
                     class="pa-1 pl-0"
-                    v-if="pending.head.profile[0]"
+                    v-if="pending.service_provider.profile[0]"
                   >
                     <v-card-subtitle class="pa-0 text-caption ">
                       <span class="font-weight-bold">TO: </span>
