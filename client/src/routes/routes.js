@@ -130,7 +130,7 @@ export const routes = [
       { path: "drafts", component: Drafts },
       { path: "sent", component: Sent },
       { path: "compose", component: Compose },
-      { path: "settings", component: UserSettings },
+      { path: "settings", component: FacultySettings },
       { path: "pending", component: FacultyPending },
       { path: "signed", component: FacultySigned },
       {
