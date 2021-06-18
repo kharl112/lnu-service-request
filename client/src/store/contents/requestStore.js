@@ -208,7 +208,7 @@ const request = {
         await dispatch("allPending", type);
         commit("setLoading", { loading: false, type: "sign" });
         return router.push(
-          `/${type === "service_provider" ? "faculty" : "admin"}/home/signed`
+          `/${type === "provider" ? "faculty" : "admin"}/home/signed`
         );
       } catch (error) {
         const { message } = error.response.data || error;
