@@ -23,7 +23,6 @@ import Compose from "../components/pages/Home/user/children/Compose";
 import Edit from "../components/pages/Home/user/children/Edit";
 
 import HomeAdmin from "../components/pages/Home/admin/HomeAdmin";
-import Tokens from "../components/pages/Home/admin/children/Tokens";
 import AdminSigned from "../components/pages/Home/admin/children/AdminSigned";
 import AdminPending from "../components/pages/Home/admin/children/AdminPending";
 import AdminSettings from "../components/pages/Home/admin/children/AdminSettings";
@@ -183,7 +182,6 @@ export const routes = [
       return localStorage.getItem("Authorization") ? next() : next(false);
     },
     children: [
-      { path: "tokens", component: Tokens },
       { path: "settings", component: AdminSettings },
       { path: "pending", component: AdminPending },
       { path: "signed", component: AdminSigned },
