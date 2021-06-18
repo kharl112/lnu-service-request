@@ -19,13 +19,13 @@ route.post("/create", userAuth, async (req, res) => {
   });
   if (!admin_found) return res.status(400).send({ message: "admin not found" });
 
-  if (req.body.head.staff_id) {
-    const head_found = await User.findOne({
-      staff_id: req.body.head.staff_id,
+  if (req.body.service_provider.staff_id) {
+    const service_provider_found = await User.findOne({
+      staff_id: req.body.service_provider.staff_id,
       permitted: true,
     });
-    if (!head_found)
-      return res.status(400).send({ message: "head person not found" });
+    if (!service_provider_found)
+      return res.status(400).send({ message: "service provider not found" });
   }
 
   const request = new Request({
@@ -98,36 +98,36 @@ route.get("/faculty/letter=:id", userAuth, async (req, res) => {
   }
 });
 
-route.get("/head/pending", userAuth, async (req, res) => {
-  const head_pending = await Request.aggregate(
+route.get("/provider/pending", userAuth, async (req, res) => {
+  const service_provider_pending = await Request.aggregate(
     requestQuery({
-      "head.staff_id": req.locals.staff_id,
-      "head.signature": "",
+      "service_provider.staff_id": req.locals.staff_id,
+      "service_provider.signature": "",
       save_as: 1,
     })
   );
-  return res.send(head_pending);
+  return res.send(service_provider_pending);
 });
 
-route.get("/head/signed", userAuth, async (req, res) => {
-  const head_signed = await Request.aggregate(
+route.get("/provider/signed", userAuth, async (req, res) => {
+  const service_provider_signed = await Request.aggregate(
     requestQuery({
-      "head.staff_id": req.locals.staff_id,
-      "head.signature": { $ne: "" },
+      "service_provider.staff_id": req.locals.staff_id,
+      "service_provider.signature": { $ne: "" },
       save_as: 1,
     })
   );
-  return res.send(head_signed);
+  return res.send(service_provider_signed);
 });
 
-route.post("/head/sign", userAuth, async (req, res) => {
+route.post("/provider/sign", userAuth, async (req, res) => {
   if (req.locals.department.role_id === 1)
     return res.status(401).send({ message: "invalid user type" });
 
   await Request.findByIdAndUpdate(
     req.body.request_id,
     {
-      "head.signature": req.body.signature,
+      "service_provider.signature": req.body.signature,
     },
     {},
     (error) => {
