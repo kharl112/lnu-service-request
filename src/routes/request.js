@@ -11,7 +11,7 @@ const requestQuery = require("../functions/requestQuery");
 
 route.post("/create", userAuth, async (req, res) => {
   req.body.status = 0;
-  
+
   const { error } = create(req.body);
   if (error) return res.status(400).send(error.details[0]);
 
@@ -50,6 +50,8 @@ route.post("/create", userAuth, async (req, res) => {
 route.post("/faculty/draft/delete/selected", userAuth, async (req, res) => {
   const { error } = deleteSelected(req.body);
   if (error) return res.status(400).send(error.details[0]);
+
+  delete req.body.status;
 
   await Request.find({
     "user.staff_id": req.locals.staff_id,
