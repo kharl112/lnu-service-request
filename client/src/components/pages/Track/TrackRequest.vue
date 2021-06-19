@@ -1,41 +1,75 @@
 <script>
 export default {
   name: "TrackRequest",
+  computed: {
+    track_id: {
+      get() {
+        return this.$route.params._id;
+      },
+      set(track_id) {
+        return track_id
+          ? track_id !== this.$route.params._id
+            ? this.$router.replace({
+                name: "track",
+                params: { _id: track_id },
+              })
+            : null
+          : null;
+      },
+    },
+  },
+  created() {
+    console.log(this.$route);
+  },
 };
 </script>
 <template>
-  <v-container fluid class="register-main-container">
-    <v-row no-gutters dense justify="center" align="center">
-      <v-col sm="9" md="4">
-        <v-row justify="center" align="center">
-          <v-col md="4" class="hidden-sm-and-down" align="center">
-            <v-img
-              max-width="100"
-              min-width="70"
-              src="../../../assets/images/logo-512x512.png"
-            />
-          </v-col>
-          <v-col cols="12" md="8" class="pb-2">
-            <router-link to="/" class="text-decoration-none">
-              <h3
-                class="text-h5 text-sm-h4 text-md-h5 text-center text-md-left primary--text"
-              >
-                <em>LNU</em>
-                Service Request System
-              </h3>
-            </router-link>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-container> </v-container>
-        </v-row>
-        <v-row justify="space-between" class="footer-row">
-          <router-link class="subtitle-2" to="/">
-            Home
-          </router-link>
-        </v-row>
+  <div class="container">
+    <v-row justify="center" align="center">
+      <v-col cols="12" sm="8" md="6" align="center">
+        <v-card class="pa-5 pt-7 pb-7 ma-1" max-width="400" min-width="200">
+          <v-row justify="center" align="center">
+            <v-col cols="12" class="pa-1" align="center">
+              <v-row justify="center" align="center">
+                <v-icon x-large color="primary" classs="ma-4">
+                  mdi-map-marker-distance
+                </v-icon>
+                <div
+                  class="text-caption text-sm-body-1 text-md-h6 primary--text text-center text-sm-left text-md-left pa-5"
+                >
+                  <span class="font-weight-bold warning--text mr-1">LNU</span>
+                  Service Request System
+                  <v-card-subtitle class="caption text-sm-body-1 pa-0 pb-1">
+                    Track Request
+                  </v-card-subtitle>
+                  <v-divider />
+                </div>
+              </v-row>
+            </v-col>
+            <v-col cols="11">
+              <v-form>
+                <v-text-field
+                  append-icon="mdi-arrow-right-bold-box"
+                  dense
+                  outlined
+                  label="track id"
+                  v-model="track_id"
+                />
+              </v-form>
+            </v-col>
+          </v-row>
+        </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
+<style scoped>
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+</style>
