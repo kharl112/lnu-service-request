@@ -1,7 +1,7 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
 export default {
-  name: "Drafts",
+  name: "Sent",
   data: () => ({
     show: false,
     filter: [
