@@ -54,7 +54,9 @@ const request = {
         dispatch("message/successMessage", "request letter created", {
           root: true,
         });
-        return router.push("/faculty/home/drafts");
+        return router.push(
+          form.save_as === 0 ? "/faculty/home/drafts" : "/faculty/home/sent"
+        );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "compose" });
@@ -157,7 +159,9 @@ const request = {
           root: true,
         });
         commit("setLoading", { loading: false, type: "edit" });
-        return router.push("/faculty/home/drafts");
+        return router.push(
+          form.save_as === 0 ? "/faculty/home/drafts" : "/faculty/home/sent"
+        );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "edit" });
@@ -179,7 +183,7 @@ const request = {
           root: true,
         });
         commit("setLoading", { loading: false, type: "send" });
-        return router.push("/faculty/home/sent");
+        return dispatch("allDraft");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "send" });
@@ -205,11 +209,8 @@ const request = {
           root: true,
         });
 
-        await dispatch("allPending", type);
         commit("setLoading", { loading: false, type: "sign" });
-        return router.push(
-          `/${type === "provider" ? "faculty" : "admin"}/home/signed`
-        );
+        dispatch("allPending", type);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "sign" });
