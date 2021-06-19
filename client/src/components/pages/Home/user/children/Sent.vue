@@ -30,13 +30,15 @@ export default {
         id,
       });
     },
-    getFlag(service_request) {
-      const { admin, service_provider } = service_request;
-      return service_provider.signature && admin.signature
-        ? "success"
-        : service_provider.signature || admin.signature
-        ? "primary"
-        : "error";
+    getFullname(name) {
+      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
+      return `${
+        prefix ? `${prefix}.` : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
+    getSignatures(service_request) {
+      const { admin, service_provider, user } = service_request;
+      return [user, admin, service_provider];
     },
   },
   created() {
@@ -48,32 +50,16 @@ export default {
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8" class="pa-0">
-        <v-container fluid class="pa-2">
-          <v-col cols="12">
-            <v-row align="center" justify="center" justify-sm="start">
-              <span class="text-subtitle-1 ma-2">Indicators</span>
-              <v-chip
-                x-small
-                color="error"
-                class="text-caption text-uppercase ma-2"
-              >
-                unsigned
-              </v-chip>
-              <v-chip
-                x-small
-                color="primary"
-                class="text-caption  text-uppercase  ma-2"
-              >
-                signed
-              </v-chip>
-              <v-chip
-                x-small
-                color="success"
-                class="text-caption  text-uppercase ma-2"
-              >
-                fully-signed
-              </v-chip>
-            </v-row>
+        <v-container fluid class="pa-0">
+          <v-col cols="12" sm="5" md="4" class="pt-0 pb-0">
+            <v-select
+              outlined
+              class="mb-n5"
+              label="Filter"
+              value="All"
+              prepend-inner-icon="mdi-filter"
+              :items="['All', 'Pending', 'Completed', 'Archived']"
+            />
           </v-col>
           <v-divider />
         </v-container>
@@ -82,7 +68,7 @@ export default {
             <v-col
               cols="12"
               sm="6"
-              md="4"
+              md="6"
               v-for="send in getAllSend"
               :key="send._id"
             >
@@ -91,13 +77,6 @@ export default {
                   <v-list-item-content class="pb-0">
                     <div class="caption text-capitalize font-weight-bold mb-4">
                       {{ getTimeOrDate(send.date) }}
-                      <v-badge
-                        class="pl-2"
-                        offset-y="-5"
-                        offset-x="5"
-                        dot
-                        :color="getFlag(send)"
-                      />
                     </div>
                     <v-list-item-title class="text-subtitle-1 mb-1">
                       {{ send.subject }}
@@ -107,21 +86,106 @@ export default {
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-
-                <v-card-actions class="pa-3">
-                  <v-btn
-                    block
-                    rounded
-                    :color="getFlag(send)"
-                    :disabled="getPDFLoading"
-                    @click="downloadPDF(send._id)"
-                  >
-                    Download PDF
-                    <v-icon right dark>
-                      mdi-cloud-download
-                    </v-icon>
-                  </v-btn>
+                <v-card-actions class="pa-4 pt-2 pb-0">
+                  <v-container class="pa-0">
+                    <v-chip
+                      small
+                      :color="send.status === 0 ? 'primary' : 'success'"
+                    >
+                      {{
+                        send.status === 0
+                          ? "pending"
+                          : send.status === 1
+                          ? "finished"
+                          : "archived"
+                      }}
+                    </v-chip>
+                  </v-container>
                 </v-card-actions>
+
+                <v-expansion-panels accordion flat>
+                  <v-expansion-panel>
+                    <v-expansion-panel-header class="pa-4">
+                      <div>
+                        <v-btn
+                          class="pa-0"
+                          small
+                          :color="send.status === 0 ? 'primary' : 'success'"
+                          text
+                        >
+                          See more
+                        </v-btn>
+                      </div>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="pa-0">
+                      <v-card-text class="pa-0">
+                        <div class="font-weight-bold mb-2">
+                          Request Status
+                          <v-chip
+                            :color="send.status === 0 ? 'primary' : 'success'"
+                            class="ml-2 pl-1 pr-2"
+                            x-small
+                          >
+                            {{
+                              send.status === 0
+                                ? "pending"
+                                : send.status === 1
+                                ? "finished"
+                                : "archived"
+                            }}
+                          </v-chip>
+                        </div>
+                        <div class="pb-3 pt-1">
+                          <v-divider />
+                        </div>
+                        <v-timeline align-top reverse dense class="pa-0">
+                          <v-timeline-item
+                            v-for="signee in getSignatures(send)"
+                            :key="signee.profile[0].staff_id"
+                            :icon="
+                              signee.signature
+                                ? 'mdi-check'
+                                : 'mdi-dots-horizontal'
+                            "
+                            :color="signee.signature ? 'success' : 'primary'"
+                            small
+                          >
+                            <v-container fluid class="pa-0">
+                              <span
+                                class="pa-0 caption font-weight-bold text-center"
+                              >
+                                {{ getFullname(signee.profile[0].name) }}
+                              </span>
+                              <v-spacer />
+                              <small class="pa-0 caption text-center">
+                                {{
+                                  signee.department
+                                    ? signee.department.unit[0].name
+                                    : "Chief Admin Office"
+                                }}
+                              </small>
+                            </v-container>
+                          </v-timeline-item>
+                        </v-timeline>
+                        <v-divider />
+                        <v-card-actions class="pa-3">
+                          <v-btn
+                            block
+                            rounded
+                            :color="send.status === 0 ? 'primary' : 'success'"
+                            :disabled="getPDFLoading"
+                            @click="downloadPDF(send._id)"
+                          >
+                            Download PDF
+                            <v-icon right dark>
+                              mdi-cloud-download
+                            </v-icon>
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card-text>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
               </v-card>
             </v-col>
           </v-row>
@@ -210,6 +274,9 @@ export default {
   </v-container>
 </template>
 <style scoped lang="scss">
+.expansion-panel {
+  padding: 0;
+}
 #main-container {
   padding: 0px;
   margin: 0px;
