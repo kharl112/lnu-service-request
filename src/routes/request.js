@@ -1,5 +1,6 @@
 const route = require("express").Router();
 const { create, deleteSelected } = require("../validation/request_validation");
+const mongoose = require("mongoose");
 
 const userAuth = require("../authentication/userAuth");
 const adminAuth = require("../authentication/adminAuth");
@@ -8,6 +9,7 @@ const User = require("../db/models/user_model");
 const Admin = require("../db/models/admin_model");
 const Request = require("../db/models/request_model");
 const requestQuery = require("../functions/requestQuery");
+const { Name, _Date, Department } = require("../functions/generateProfile");
 
 route.post("/create", userAuth, async (req, res) => {
   req.body.status = 0;
@@ -205,7 +207,7 @@ route.get("/admin/signed", adminAuth, async (req, res) => {
 });
 
 route.get("/track/:_id", async (req, res) => {
-  const { _id } = req.params;
+  const { _id } = mongoose.Types.ObjectId(req.params._id);
   if (!_id) return res.status(500).send({ message: "empty parameter" });
 
   const [tracked_request] = await Request.aggregate(
@@ -216,7 +218,13 @@ route.get("/track/:_id", async (req, res) => {
     })
   );
 
-  return res.send(tracked_request);
+  const { user, service_provider, admin, service, status } = tracked_request;
+
+  user.signature = user.signature ? true : false;
+  service_provider.signature = service_provider.signature ? true : false;
+  admin.signature = admin.signature ? true : false;
+
+  return res.send({ user, service_provider, admin, service, status });
 });
 
 route.post("/admin/sign", adminAuth, async (req, res) => {
