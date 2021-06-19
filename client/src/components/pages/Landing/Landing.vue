@@ -97,7 +97,10 @@ export default {
               <v-card-actions>
                 <v-row justify="start" justify-sm="start" justify-md="center">
                   <v-col cols="12" sm="4" class="pa-1">
-                    <router-link to="/" class="caption primary--text mr-2">
+                    <router-link
+                      to="/track/none"
+                      class="caption primary--text mr-2"
+                    >
                       Track Request
                     </router-link>
                   </v-col>
