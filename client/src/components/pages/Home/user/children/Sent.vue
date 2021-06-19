@@ -8,7 +8,6 @@ export default {
       { text: "All", value: "all" },
       { text: "Pending", value: "pending" },
       { text: "Completed", value: "completed" },
-      { text: "Archived", value: "archived" },
     ],
   }),
   computed: {
@@ -71,6 +70,13 @@ export default {
     },
     handleFilter(filter) {
       return this.$store.dispatch("request/allSend", filter);
+    },
+    markAsArchive(request_id) {
+      return this.$store.dispatch("request/markRequest", {
+        request_id,
+        type: "archive",
+        user_type: "faculty",
+      });
     },
   },
   created() {
@@ -152,7 +158,7 @@ export default {
                     <v-chip
                       class="font-weight-bold caption pt-2 pb-2 mr-2"
                       x-small
-                      :color="isSigned(send) ? 'primary' : 'error'"
+                      color="warning"
                     >
                       {{ send.service[0].type }}
                     </v-chip>
@@ -225,18 +231,33 @@ export default {
                         </v-timeline>
                         <v-divider />
                         <v-card-actions class="pa-3">
-                          <v-btn
-                            block
-                            rounded
-                            :color="isSigned(send) ? 'primary' : 'error'"
-                            :disabled="getPDFLoading"
-                            @click="downloadPDF(send._id)"
-                          >
-                            Download PDF
-                            <v-icon right dark>
-                              mdi-cloud-download
-                            </v-icon>
-                          </v-btn>
+                          <v-row>
+                            <v-btn
+                              block
+                              class="mt-2"
+                              :color="isSigned(send) ? 'primary' : 'error'"
+                              :disabled="getPDFLoading"
+                              @click="downloadPDF(send._id)"
+                            >
+                              Download PDF
+                              <v-icon right dark>
+                                mdi-cloud-download
+                              </v-icon>
+                            </v-btn>
+                            <v-btn
+                              v-if="send.status === 1"
+                              block
+                              class="mt-2"
+                              color="warning"
+                              :disabled="getLoading.mark"
+                              @click="markAsArchive(send._id)"
+                            >
+                              Archive
+                              <v-icon right dark>
+                                mdi-archive
+                              </v-icon>
+                            </v-btn>
+                          </v-row>
                         </v-card-actions>
                       </v-card-text>
                     </v-expansion-panel-content>
