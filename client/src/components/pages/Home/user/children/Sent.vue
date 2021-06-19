@@ -2,7 +2,15 @@
 import { formatDistanceToNow } from "date-fns";
 export default {
   name: "Drafts",
-  data: () => ({ show: false }),
+  data: () => ({
+    show: false,
+    filter: [
+      { text: "All", value: "all" },
+      { text: "Pending", value: "pending" },
+      { text: "Completed", value: "completed" },
+      { text: "Archived", value: "archived" },
+    ],
+  }),
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];
@@ -61,9 +69,12 @@ export default {
         );
       }
     },
+    handleFilter(filter) {
+      return this.$store.dispatch("request/allSend", filter);
+    },
   },
   created() {
-    this.$store.dispatch("request/allSend");
+    this.$store.dispatch("request/allSend", "all");
   },
 };
 </script>
@@ -77,9 +88,12 @@ export default {
               outlined
               class="mb-n5"
               label="Filter"
-              value="All"
+              value="all"
+              @change="handleFilter"
               prepend-inner-icon="mdi-filter"
-              :items="['All', 'Pending', 'Completed', 'Archived']"
+              :items="filter"
+              item-text="text"
+              item-value="value"
             />
           </v-col>
           <v-divider />
@@ -255,7 +269,7 @@ export default {
                 <v-icon slot="icon" color="warning" size="36">
                   mdi-exclamation-thick
                 </v-icon>
-                You have empty sent requests
+                No service requests found
                 <template v-slot:actions>
                   <v-btn color="primary" @click="gotoCreate" text>
                     create
