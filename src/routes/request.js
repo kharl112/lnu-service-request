@@ -80,6 +80,7 @@ route.get("/faculty/sent/all", userAuth, async (req, res) => {
     requestQuery({
       "user.staff_id": req.locals.staff_id,
       save_as: 1,
+      status: { $ne: 2 },
     })
   );
   return res.send(faculty_sent);
