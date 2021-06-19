@@ -51,6 +51,7 @@ export const routes = [
   },
   {
     path: "/track/:_id",
+    name: "track",
     component: TrackRequest,
   },
   {
