@@ -18,6 +18,7 @@ import Drafts from "../components/pages/Home/user/children/Drafts";
 import Sent from "../components/pages/Home/user/children/Sent";
 import FacultyPending from "../components/pages/Home/user/children/FacultyPending";
 import FacultySigned from "../components/pages/Home/user/children/FacultySigned";
+import FacultyArchives from "../components/pages/Home/user/children/FacultyArchives";
 import FacultySettings from "../components/pages/Home/user/children/FacultySettings";
 import Compose from "../components/pages/Home/user/children/Compose";
 import Edit from "../components/pages/Home/user/children/Edit";
@@ -132,6 +133,7 @@ export const routes = [
       { path: "settings", component: FacultySettings },
       { path: "pending", component: FacultyPending },
       { path: "signed", component: FacultySigned },
+      { path: "archives", component: FacultyArchives },
       {
         path: "edit/letter=:id",
         component: Edit,
