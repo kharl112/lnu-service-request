@@ -106,6 +106,7 @@ route.get("/provider/pending", userAuth, async (req, res) => {
   const service_provider_pending = await Request.aggregate(
     requestQuery({
       "service_provider.staff_id": req.locals.staff_id,
+      "admin.signature": { $ne: "" },
       "service_provider.signature": "",
       save_as: 1,
     })
@@ -117,6 +118,7 @@ route.get("/provider/signed", userAuth, async (req, res) => {
   const service_provider_signed = await Request.aggregate(
     requestQuery({
       "service_provider.staff_id": req.locals.staff_id,
+      "admin.signature": { $ne: "" },
       "service_provider.signature": { $ne: "" },
       save_as: 1,
     })
@@ -148,6 +150,7 @@ route.get("/admin/pending", adminAuth, async (req, res) => {
   const admin_pending = await Request.aggregate(
     requestQuery({
       "admin.staff_id": req.locals.staff_id,
+      "user.signature": { $ne: "" },
       "admin.signature": "",
       save_as: 1,
     })
@@ -159,6 +162,7 @@ route.get("/admin/signed", adminAuth, async (req, res) => {
   const admin_signed = await Request.aggregate(
     requestQuery({
       "admin.staff_id": req.locals.staff_id,
+      "user.signature": { $ne: "" },
       "admin.signature": { $ne: "" },
       save_as: 1,
     })
