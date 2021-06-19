@@ -35,6 +35,14 @@ export default {
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
     },
+
+    markAsCompleted(request_id) {
+      return this.$store.dispatch("request/markRequest", {
+        request_id,
+        type: "complete",
+        user_type: "provider",
+      });
+    },
   },
   created() {
     return this.$store.dispatch("request/allSigned", "provider");
@@ -95,6 +103,13 @@ export default {
                       Type:
                       {{ signed.service[0].type }}
                     </span>
+                    <v-chip
+                      x-small
+                      class="pt-1 pb-1 caption ml-1"
+                      :color="signed.status === 0 ? 'primary' : 'success'"
+                    >
+                      {{ signed.status === 0 ? "pending" : "completed" }}
+                    </v-chip>
                   </v-card-subtitle>
                 </v-row>
               </v-container>
@@ -139,6 +154,28 @@ export default {
                       Download
                       <v-icon right>
                         mdi-cloud-download
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col
+                    cols="12"
+                    sm="4"
+                    md="3"
+                    align="start"
+                    class="pa-2 pl-0"
+                  >
+                    <v-btn
+                      v-if="signed.status === 0"
+                      small
+                      block
+                      min-width="50px"
+                      color="primary"
+                      :disabled="getLoading.mark"
+                      @click="markAsCompleted(signed._id)"
+                    >
+                      Mark as completed
+                      <v-icon right>
+                        mdi-check-circle
                       </v-icon>
                     </v-btn>
                   </v-col>
