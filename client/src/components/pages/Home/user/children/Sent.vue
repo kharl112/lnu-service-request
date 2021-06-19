@@ -30,6 +30,10 @@ export default {
         id,
       });
     },
+    isSigned(service_request) {
+      const { admin, service_provider } = service_request;
+      return !!admin.signature && !!service_provider.signature;
+    },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
       return `${
@@ -37,8 +41,25 @@ export default {
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
     },
     getSignatures(service_request) {
-      const { admin, service_provider, user } = service_request;
-      return [user, admin, service_provider];
+      const { admin, service_provider } = service_request;
+      return [admin, service_provider];
+    },
+    copyTrackId(index) {
+      var copy_id = document.getElementById(`track_id${index}`);
+      copy_id.select();
+      copy_id.setSelectionRange(0, 99999);
+      try {
+        document.execCommand("copy");
+        return this.$store.dispatch(
+          "message/successMessage",
+          "copied to clipboard"
+        );
+      } catch (error) {
+        return this.$store.dispatch(
+          "message/errorMessage",
+          "something went wrong"
+        );
+      }
     },
   },
   created() {
@@ -69,7 +90,7 @@ export default {
               cols="12"
               sm="6"
               md="6"
-              v-for="send in getAllSend"
+              v-for="(send, index) in getAllSend"
               :key="send._id"
             >
               <v-card class="mx-auto">
@@ -88,21 +109,42 @@ export default {
                 </v-list-item>
                 <v-card-actions class="pa-4 pt-2 pb-0">
                   <v-container class="pa-0">
+                    <v-card-text class="pa-0 caption font-weight-bold">
+                      <v-text-field
+                        readonly
+                        dense
+                        outlined
+                        small
+                        label="Track ID"
+                        append-icon="mdi-content-copy"
+                        :id="`track_id${index}`"
+                        :value="send._id"
+                        @click:append="copyTrackId(index)"
+                        class="font-weight-regular caption mb-n6"
+                      />
+                    </v-card-text>
+                  </v-container>
+                </v-card-actions>
+                <v-card-actions class="pa-4 pt-2 pb-3">
+                  <v-spacer />
+                  <v-container class="pa-0">
                     <v-chip
-                      small
-                      :color="send.status === 0 ? 'primary' : 'success'"
+                      class="font-weight-bold caption pt-2 pb-2 mr-2"
+                      x-small
+                      :color="isSigned(send) ? 'primary' : 'error'"
                     >
-                      {{
-                        send.status === 0
-                          ? "pending"
-                          : send.status === 1
-                          ? "finished"
-                          : "archived"
-                      }}
+                      {{ isSigned(send) ? "fully-signed" : "not fully-signed" }}
+                    </v-chip>
+                    <v-chip
+                      class="font-weight-bold caption pt-2 pb-2 mr-2"
+                      x-small
+                      :color="isSigned(send) ? 'primary' : 'error'"
+                    >
+                      {{ send.service[0].type }}
                     </v-chip>
                   </v-container>
                 </v-card-actions>
-
+                <v-divider />
                 <v-expansion-panels accordion flat>
                   <v-expansion-panel>
                     <v-expansion-panel-header class="pa-4">
@@ -110,7 +152,7 @@ export default {
                         <v-btn
                           class="pa-0"
                           small
-                          :color="send.status === 0 ? 'primary' : 'success'"
+                          :color="isSigned(send) ? 'primary' : 'error'"
                           text
                         >
                           See more
@@ -172,7 +214,7 @@ export default {
                           <v-btn
                             block
                             rounded
-                            :color="send.status === 0 ? 'primary' : 'success'"
+                            :color="isSigned(send) ? 'primary' : 'error'"
                             :disabled="getPDFLoading"
                             @click="downloadPDF(send._id)"
                           >
