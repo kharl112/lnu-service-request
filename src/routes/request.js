@@ -75,11 +75,44 @@ route.get("/faculty/draft", userAuth, async (req, res) => {
   return res.send(faculty_drafts);
 });
 
-route.get("/faculty/sent", userAuth, async (req, res) => {
+route.get("/faculty/sent/all", userAuth, async (req, res) => {
   const faculty_sent = await Request.aggregate(
     requestQuery({
       "user.staff_id": req.locals.staff_id,
       save_as: 1,
+    })
+  );
+  return res.send(faculty_sent);
+});
+
+route.get("/faculty/sent/pending", userAuth, async (req, res) => {
+  const faculty_sent = await Request.aggregate(
+    requestQuery({
+      "user.staff_id": req.locals.staff_id,
+      save_as: 1,
+      status: 0,
+    })
+  );
+  return res.send(faculty_sent);
+});
+
+route.get("/faculty/sent/completed", userAuth, async (req, res) => {
+  const faculty_sent = await Request.aggregate(
+    requestQuery({
+      "user.staff_id": req.locals.staff_id,
+      save_as: 1,
+      status: 1,
+    })
+  );
+  return res.send(faculty_sent);
+});
+
+route.get("/faculty/sent/archived", userAuth, async (req, res) => {
+  const faculty_sent = await Request.aggregate(
+    requestQuery({
+      "user.staff_id": req.locals.staff_id,
+      save_as: 1,
+      status: 2,
     })
   );
   return res.send(faculty_sent);
