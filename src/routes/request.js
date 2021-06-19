@@ -218,4 +218,40 @@ route.post("/faculty/send/letter=:_id", userAuth, async (req, res) => {
   });
 });
 
+route.post("/mark/complete/letter=:_id", userAuth, async (req, res) => {
+  const { _id } = req.params;
+  if (!_id) return res.status(400).send({ message: "empty parameter" });
+
+  await Request.findOneAndUpdate(
+    { _id: _id, "service_provider.staff_id": req.locals.staff_id },
+    { status: 1 },
+    {},
+    (error) => {
+      if (error)
+        return res
+          .status(500)
+          .send({ message: "something went wrong, please try again" });
+      return res.send({ message: "request letter marked as completed" });
+    }
+  );
+});
+
+route.post("/mark/archive/letter=:_id", userAuth, async (req, res) => {
+  const { _id } = req.params;
+  if (!_id) return res.status(400).send({ message: "empty parameter" });
+
+  await Request.findOneAndUpdate(
+    { _id: _id, "user.staff_id": req.locals.staff_id },
+    { status: 1 },
+    {},
+    (error) => {
+      if (error)
+        return res
+          .status(500)
+          .send({ message: "something went wrong, please try again" });
+      return res.send({ message: "request letter marked as completed" });
+    }
+  );
+});
+
 module.exports = route;
