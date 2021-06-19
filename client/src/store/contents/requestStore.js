@@ -77,12 +77,15 @@ const request = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    allSend: async ({ commit, dispatch }) => {
+    allSend: async ({ commit, dispatch }, filter) => {
       commit("setLoading", { loading: true, type: "all_send" });
       try {
-        const { data } = await axios.get("/api/request/faculty/sent", {
-          headers: { Authorization: localStorage.getItem("Authorization") },
-        });
+        const { data } = await axios.get(
+          `/api/request/faculty/sent/${filter}`,
+          {
+            headers: { Authorization: localStorage.getItem("Authorization") },
+          }
+        );
         commit("setLoading", { loading: false, type: "all_send" });
         return commit("setAllSend", data);
       } catch (error) {
