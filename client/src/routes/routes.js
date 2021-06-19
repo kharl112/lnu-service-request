@@ -8,6 +8,8 @@ import Login from "../components/pages/Login/Login";
 
 import Landing from "../components/pages/Landing/Landing";
 
+import TrackRequest from "../components/pages/Track/TrackRequest";
+
 import ForgotPassword from "../components/pages/ForgotPassword/ForgotPassword";
 import Pass1 from "../components/pages/ForgotPassword/contents/Pass1";
 import Pass2 from "../components/pages/ForgotPassword/contents/Pass2";
@@ -46,6 +48,10 @@ export const routes = [
       }
       next();
     },
+  },
+  {
+    path: "/track/:_id",
+    component: TrackRequest,
   },
   {
     path: "/:user_type/login",
