@@ -204,6 +204,21 @@ route.get("/admin/signed", adminAuth, async (req, res) => {
   return res.send(admin_signed);
 });
 
+route.get("/track/:_id", adminAuth, async (req, res) => {
+  const { _id } = req.param;
+  if (!_id) return res.status(500).send({ message: "empty parameter" });
+
+  const [tracked_request] = await Request.aggregate(
+    requestQuery({
+      _id: req.locals.staff_id,
+      "user.signature": { $ne: "" },
+      save_as: 1,
+    })
+  );
+  
+  return res.send(tracked_request);
+});
+
 route.post("/admin/sign", adminAuth, async (req, res) => {
   await Request.findByIdAndUpdate(
     req.body.request_id,
