@@ -54,8 +54,8 @@ export default {
             <v-col
               cols="12"
               sm="6"
-              md="6"
-              v-for="(send, index) in getAllSend"
+              md="4"
+              v-for="send in getAllSend"
               :key="send._id"
             >
               <v-card class="mx-auto">
@@ -63,6 +63,7 @@ export default {
                   <v-list-item-content class="pb-0">
                     <div class="caption text-capitalize font-weight-bold mb-4">
                       {{ getTimeOrDate(send.date) }}
+                      <v-icon color="warning" class="ml-2">mdi-archive</v-icon>
                     </div>
                     <v-list-item-title class="text-subtitle-1 mb-1">
                       {{ send.subject }}
@@ -85,11 +86,10 @@ export default {
                   </v-container>
                 </v-card-actions>
                 <v-divider />
-                <v-container fluid class="pa-0">
+                <v-container fluid class="pa-2">
                   <v-btn
                     block
-                    class="mt-2"
-                    :color="isSigned(send) ? 'primary' : 'error'"
+                    color="error"
                     :disabled="getPDFLoading"
                     @click="downloadPDF(send._id)"
                   >
@@ -126,7 +126,7 @@ export default {
                 <v-icon slot="icon" color="warning" size="36">
                   mdi-exclamation-thick
                 </v-icon>
-                No service requests found
+                No archived requests found
                 <template v-slot:actions>
                   <v-btn color="primary" @click="gotoCreate" text>
                     create
