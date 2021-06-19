@@ -229,9 +229,13 @@ const request = {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "mark" });
       try {
-        await axios.post(`/api/request/mark/${type}/letter=${request_id}`, {
-          headers: { Authorization: localStorage.getItem("Authorization") },
-        });
+        await axios.post(
+          `/api/request/mark/${type}/letter=${request_id}`,
+          {},
+          {
+            headers: { Authorization: localStorage.getItem("Authorization") },
+          }
+        );
 
         dispatch("message/successMessage", `request letter mark as ${type}`, {
           root: true,
