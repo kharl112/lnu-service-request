@@ -10,6 +10,7 @@ export default {
     request_items: [
       { title: "Sent", icon: "mdi-send-check", getter: "Send" },
       { title: "Drafts", icon: "mdi-email-edit", getter: "Draft" },
+      { title: "Archives", icon: "mdi-archive" },
     ],
     received_items: [
       { title: "Pending", icon: "mdi-email-receive", getter: "Pending" },
@@ -116,7 +117,9 @@ export default {
             <v-icon v-text="child.icon" />
             <v-badge
               v-if="
-                $store.getters[`request/getAll${child.getter}`].length && mini
+                child.getter &&
+                  $store.getters[`request/getAll${child.getter}`].length &&
+                  mini
               "
               color="primary"
               dot
@@ -127,7 +130,9 @@ export default {
           </v-list-item-content>
           <v-badge
             v-if="
-              $store.getters[`request/getAll${child.getter}`].length && !mini
+              child.getter &&
+                $store.getters[`request/getAll${child.getter}`].length &&
+                !mini
             "
             color="primary"
             :content="$store.getters[`request/getAll${child.getter}`].length"
@@ -138,7 +143,7 @@ export default {
       </v-list-item-group>
     </v-list>
 
-    <v-list dense >
+    <v-list dense>
       <v-subheader v-show="!mini">Received</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item
