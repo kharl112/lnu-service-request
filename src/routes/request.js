@@ -275,7 +275,7 @@ route.post("/mark/archive/letter=:_id", userAuth, async (req, res) => {
 
   await Request.findOneAndUpdate(
     { _id: _id, "user.staff_id": req.locals.staff_id },
-    { status: 1 },
+    { status: 2 },
     {},
     (error) => {
       if (error)
