@@ -242,7 +242,10 @@ const request = {
         });
 
         commit("setLoading", { loading: false, type: "mark" });
-        return dispatch("allSigned", user_type);
+
+        return user_type === "provider"
+          ? dispatch("allSigned", user_type)
+          : dispatch("allSend", "all");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "mark" });
