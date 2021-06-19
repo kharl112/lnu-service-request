@@ -21,6 +21,7 @@ const request = {
       send: false,
       edit: false,
       sign: false,
+      mark: false,
     },
   }),
   getters: {
@@ -217,6 +218,30 @@ const request = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "sign" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+
+    markRequest: async (
+      { commit, dispatch },
+      { request_id, type, user_type }
+    ) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "mark" });
+      try {
+        await axios.post(`/api/request/mark/${type}/letter=${request_id}`, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+
+        dispatch("message/successMessage", `request letter mark as ${type}`, {
+          root: true,
+        });
+
+        commit("setLoading", { loading: false, type: "mark" });
+        return dispatch("allSigned", user_type);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "mark" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
