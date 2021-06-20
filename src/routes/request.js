@@ -207,24 +207,30 @@ route.get("/admin/signed", adminAuth, async (req, res) => {
 });
 
 route.get("/track/:_id", async (req, res) => {
-  const { _id } = mongoose.Types.ObjectId(req.params._id);
-  if (!_id) return res.status(500).send({ message: "empty parameter" });
+  try {
+    const { _id } = mongoose.Types.ObjectId(req.params._id);
+    if (!_id) return res.status(500).send({ message: "empty parameter" });
 
-  const [tracked_request] = await Request.aggregate(
-    requestQuery({
-      _id,
-      "user.signature": { $ne: "" },
-      save_as: 1,
-    })
-  );
+    const [tracked_request] = await Request.aggregate(
+      requestQuery({
+        _id,
+        "user.signature": { $ne: "" },
+        save_as: 1,
+      })
+    );
 
-  const { user, service_provider, admin, service, status } = tracked_request;
+    const { user, service_provider, admin, service, status } = tracked_request;
 
-  user.signature = user.signature ? true : false;
-  service_provider.signature = service_provider.signature ? true : false;
-  admin.signature = admin.signature ? true : false;
+    user.signature = user.signature ? true : false;
+    service_provider.signature = service_provider.signature ? true : false;
+    admin.signature = admin.signature ? true : false;
 
-  return res.send({ user, service_provider, admin, service, status });
+    return res.send({ user, service_provider, admin, service, status });
+  } catch (error) {
+    return res
+      .status(500)
+      .send({ message: "something went wrong, please try again." });
+  }
 });
 
 route.post("/admin/sign", adminAuth, async (req, res) => {
