@@ -96,30 +96,29 @@ export default {
             <v-col cols="12" class="pa-0">
               <v-card-actions>
                 <v-row justify="start" justify-sm="start" justify-md="center">
-                  <v-col cols="12" sm="4" class="pa-1">
-                    <router-link
-                      to="/track/none"
-                      class="caption primary--text mr-2"
-                    >
-                      Track Request
-                    </router-link>
-                  </v-col>
-                  <v-col cols="12" sm="4" class="pa-1">
-                    <router-link
-                      to="/admin/login"
-                      class="caption primary--text mr-2"
-                    >
-                      Chief Admin Office
-                    </router-link>
-                  </v-col>
-                  <v-col cols="12" sm="4" class="pa-1">
-                    <router-link
-                      to="/faculty/login"
-                      class="caption primary--text mr-2 text-center"
-                    >
-                      Faculty & Personnel
-                    </router-link>
-                  </v-col>
+                  <router-link
+                    to="/track/none"
+                    class="caption primary--text ma-1"
+                  >
+                    <v-icon color="primary">
+                      mdi-map-marker-distance
+                    </v-icon>
+                    Track Request
+                  </router-link>
+                  <router-link
+                    to="/admin/login"
+                    class="caption primary--text ma-1"
+                  >
+                    <v-icon color="primary">mdi-account</v-icon>
+                    Chief Admin Office
+                  </router-link>
+                  <router-link
+                    to="/faculty/login"
+                    class="caption primary--text ma-1 text-center"
+                  >
+                    <v-icon color="primary">mdi-account-supervisor</v-icon>
+                    Faculty & Personnel
+                  </router-link>
                 </v-row>
               </v-card-actions>
             </v-col>
