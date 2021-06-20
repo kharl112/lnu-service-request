@@ -193,7 +193,6 @@ export default {
       </v-col>
       <v-col cols="12" sm="8" md="7" align="center" v-else-if="getTrackLoading">
         <v-skeleton-loader
-          v-bind="attrs"
           type="card-heading, card-heading, article"
           max-width="500"
           min-width="250"
