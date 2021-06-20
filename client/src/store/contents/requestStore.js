@@ -8,6 +8,7 @@ const request = {
     all_send: [],
     all_pending: [],
     all_signed: [],
+    tracked_request: {},
     letter_info: {},
     selected: [],
     loading: {
@@ -16,6 +17,7 @@ const request = {
       all_send: false,
       all_pending: false,
       all_signed: false,
+      tracked_request: false,
       selected: false,
       letter_info: false,
       send: false,
@@ -29,6 +31,7 @@ const request = {
     getAllSend: (state) => state.all_send,
     getAllPending: (state) => state.all_pending,
     getAllSigned: (state) => state.all_signed,
+    getTrackedRequest: (state) => state.tracked_request,
     getLetterInfo: (state) => state.letter_info,
     getSelected: (state) => state.selected,
     getLoading: (state) => state.loading,
@@ -39,6 +42,8 @@ const request = {
     setAllPending: (state, all_pending) =>
       (state.all_pending = [...all_pending]),
     setAllSigned: (state, all_signed) => (state.all_signed = [...all_signed]),
+    setTrackedRequest: (state, tracked_request) =>
+      (state.tracked_request = tracked_request),
     setLetterInfo: (state, letter_info) => (state.letter_info = letter_info),
     setSelected: (state, selected) => (state.selected = selected),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
@@ -120,6 +125,18 @@ const request = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_signed" });
+        return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    trackRequest: async ({ commit, dispatch }, request_id) => {
+      commit("setLoading", { loading: true, type: "tracked_request" });
+      try {
+        const { data } = await axios.get(`/api/request/track/${request_id}`);
+        commit("setLoading", { loading: false, type: "tracked_request" });
+        return commit("setTrackedRequest", data);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "tracked_request" });
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
@@ -221,7 +238,6 @@ const request = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-
     markRequest: async (
       { commit, dispatch },
       { request_id, type, user_type }
