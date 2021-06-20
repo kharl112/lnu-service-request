@@ -149,16 +149,9 @@ export default {
                   <v-spacer />
                   <v-container class="pa-0">
                     <v-chip
-                      class="font-weight-bold caption pt-2 pb-2 mr-2"
-                      x-small
+                      small
+                      class="subtitle-1 pt-2 pb-2 mr-2"
                       :color="isSigned(send) ? 'primary' : 'error'"
-                    >
-                      {{ isSigned(send) ? "fully-signed" : "not fully-signed" }}
-                    </v-chip>
-                    <v-chip
-                      class="font-weight-bold caption pt-2 pb-2 mr-2"
-                      x-small
-                      color="warning"
                     >
                       {{ send.service[0].type }}
                     </v-chip>
