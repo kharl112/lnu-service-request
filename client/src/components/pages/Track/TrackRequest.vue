@@ -2,6 +2,15 @@
 export default {
   name: "TrackRequest",
   computed: {
+    getTrackLoading() {
+      return this.$store.getters["request/getLoading"].tracked_request;
+    },
+    getError() {
+      return this.$store.getters["message/getError"];
+    },
+    getTrackedRequest() {
+      return this.$store.getters["request/getTrackedRequest"];
+    },
     track_id: {
       get() {
         return this.$route.params._id;
@@ -18,18 +27,42 @@ export default {
       },
     },
   },
+  methods: {
+    handleSubmit(e) {
+      e.preventDefault();
+      if (this.track_id)
+        return this.$store.dispatch("request/trackRequest", this.track_id);
+    },
+    getFullname(name) {
+      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
+      return `${
+        prefix ? `${prefix}.` : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
+    getSignatures(service_request) {
+      const { admin, service_provider, user } = service_request;
+      return [user, admin, service_provider];
+    },
+  },
   created() {
-    console.log(this.$route);
+    if (this.track_id !== "none") {
+      return this.$store.dispatch("request/trackRequest", this.track_id);
+    }
   },
 };
 </script>
 <template>
   <div class="container">
     <v-row justify="center" align="center">
-      <v-col cols="12" sm="8" md="6" align="center">
-        <v-card class="pa-5 pt-7 pb-7 ma-1" max-width="400" min-width="200">
+      <v-col cols="12" sm="8" md="7" align="center">
+        <v-card
+          outlined
+          class="pa-5 pt-7 pb-7 ma-1"
+          max-width="500"
+          min-width="250"
+        >
           <v-row justify="center" align="center">
-            <v-col cols="12" class="pa-1" align="center">
+            <v-col cols="12" class="pa-1 mb-2" align="center">
               <v-row justify="center" align="center">
                 <v-icon x-large color="primary" classs="ma-4">
                   mdi-map-marker-distance
@@ -46,10 +79,12 @@ export default {
                 </div>
               </v-row>
             </v-col>
-            <v-col cols="11">
-              <v-form>
+            <v-col cols="11" class="pt-0 pb-0 mb-n3">
+              <v-form @submit="handleSubmit">
                 <v-text-field
                   append-icon="mdi-arrow-right-bold-box"
+                  @click:append="handleSubmit"
+                  :loading="getTrackLoading"
                   dense
                   outlined
                   label="track id"
@@ -57,19 +92,156 @@ export default {
                 />
               </v-form>
             </v-col>
+            <v-col cols="11" class="pt-0 pb-0" v-if="getError">
+              <v-alert type="error" class="pt-2 pb-2 text-left">
+                <span class="caption">{{ getError }}</span>
+              </v-alert>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+      <v-col
+        cols="12"
+        sm="8"
+        md="7"
+        align="center"
+        v-if="getTrackedRequest.user && !getTrackLoading"
+      >
+        <v-card
+          outlined
+          class="pa-5 pt-7 pb-7 ma-1"
+          max-width="500"
+          min-width="250"
+        >
+          <v-row justify="center" align="center">
+            <v-col cols="11" class="pa-0">
+              <v-row justify="center">
+                <v-card-title
+                  class="text-center pa-2 font-weight-bold caption text-md-body-1"
+                >
+                  Request Status
+                </v-card-title>
+              </v-row>
+            </v-col>
+            <v-col cols="12">
+              <v-divider />
+            </v-col>
+            <v-col cols="12" class="pa-0">
+              <v-timeline class="pa-0">
+                <v-timeline-item
+                  v-for="signee in getSignatures(getTrackedRequest)"
+                  :key="signee.profile[0].staff_id"
+                  :icon="signee.signature ? 'mdi-check' : 'mdi-dots-horizontal'"
+                  :color="signee.signature ? 'success' : 'primary'"
+                  small
+                >
+                  <template v-slot:opposite>
+                    <small class="caption">{{
+                      getFullname(signee.profile[0].name)
+                    }}</small>
+                  </template>
+                  <v-card
+                    elevation="2"
+                    :color="signee.signature ? 'success' : 'primary'"
+                    class="pa-2"
+                  >
+                    <v-spacer />
+                    <small
+                      class="pa-0 font-weight-bold caption white--text  text-left"
+                    >
+                      {{
+                        signee.department
+                          ? signee.department.unit[0].name
+                          : "Chief Admin Office"
+                      }}
+                    </small>
+                  </v-card>
+                </v-timeline-item>
+              </v-timeline>
+            </v-col>
+            <v-col cols="12">
+              <v-divider />
+            </v-col>
+            <v-col cols="11">
+              <v-row justify="start">
+                <v-card-text class="caption pa-0 green--text text-left">
+                  Service type:
+                  <span class="font-weight-bold">{{
+                    getTrackedRequest.service[0].type
+                  }}</span>
+                </v-card-text>
+                <v-card-text
+                  :class="
+                    `caption pa-0 text-left ${
+                      getTrackedRequest.status === 0 ? 'primary' : 'success'
+                    }--text`
+                  "
+                >
+                  Status:
+                  <span class="font-weight-bold">{{
+                    getTrackedRequest.status === 0
+                      ? "Pending"
+                      : getTrackedRequest.status === 1
+                      ? "Completed"
+                      : "Archived"
+                  }}</span>
+                </v-card-text>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+      <v-col cols="12" sm="8" md="7" align="center" v-else-if="getTrackLoading">
+        <v-skeleton-loader
+          v-bind="attrs"
+          type="card-heading, card-heading, article"
+          max-width="500"
+          min-width="250"
+        />
+      </v-col>
+      <v-col cols="12" sm="8" md="7" align="center">
+        <v-card
+          outlined
+          class="pa-5 pt-7 pb-7 ma-1"
+          max-width="500"
+          min-width="250"
+        >
+          <v-row justify="center" align="center">
+            <v-col cols="12" class="pa-0">
+              <v-card-subtitle class="pa-0 font-weight-bold">
+                Quick Links
+              </v-card-subtitle>
+            </v-col>
+            <v-col cols="12">
+              <v-divider />
+            </v-col>
+            <v-col cols="11">
+              <v-row justify="center">
+                <router-link to="/" class="caption primary--text ma-2">
+                  <v-icon color="primary">mdi-home</v-icon>
+                  Home
+                </router-link>
+
+                <router-link
+                  to="/admin/login"
+                  class="caption primary--text ma-2"
+                >
+                  <v-icon color="primary">mdi-account</v-icon>
+                  Chief Admin Office
+                </router-link>
+
+                <router-link
+                  to="/faculty/login"
+                  class="caption primary--text ma-2 text-center"
+                >
+                  <v-icon color="primary">mdi-account-supervisor</v-icon>
+                  Faculty & Personnel
+                </router-link>
+              </v-row>
+            </v-col>
           </v-row>
         </v-card>
       </v-col>
     </v-row>
   </div>
 </template>
-<style scoped>
-.container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-</style>
