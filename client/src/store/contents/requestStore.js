@@ -130,6 +130,7 @@ const request = {
     },
     trackRequest: async ({ commit, dispatch }, request_id) => {
       commit("setLoading", { loading: true, type: "tracked_request" });
+      commit("setTrackedRequest", {});
       try {
         const { data } = await axios.get(`/api/request/track/${request_id}`);
         commit("setLoading", { loading: false, type: "tracked_request" });
@@ -137,6 +138,7 @@ const request = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "tracked_request" });
+        commit("setTrackedRequest", {});
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
