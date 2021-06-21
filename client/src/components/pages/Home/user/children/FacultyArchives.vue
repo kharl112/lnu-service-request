@@ -127,11 +127,6 @@ export default {
                   mdi-exclamation-thick
                 </v-icon>
                 No archived requests found
-                <template v-slot:actions>
-                  <v-btn color="primary" @click="gotoCreate" text>
-                    create
-                  </v-btn>
-                </template>
               </v-banner>
             </v-col>
           </v-row>

@@ -75,163 +75,159 @@ export default {
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start" v-if="!getProfileLoading">
-      <v-col
-        cols="12"
-        sm="12"
-        md="8"
-        v-if="getAllPending[0] && !getLoading.all_pending"
-      >
-        <v-expansion-panels accordion hover>
-          <v-expansion-panel
-            outlined
-            v-for="pending in getAllPending"
-            :key="pending.name"
-          >
-            <v-expansion-panel-header>
-              <div align="left" class="hidden-sm-and-down pr-3">
-                <v-avatar size="40" :color="getRandomColor()">
-                  <span class="white--text text-subtitle-1">{{
-                    getInitials(pending.user.profile[0].name)
-                  }}</span>
-                </v-avatar>
-              </div>
-              <v-container fluid>
-                <v-row>
-                  <v-list-item-subtitle
-                    align="left"
-                    class="pa-0 text-left text-body-1 "
+      <v-col cols="12" sm="12" md="8">
+        <v-container fluid v-if="getAllPending[0] && !getLoading.all_pending">
+          <v-expansion-panels accordion hover>
+            <v-expansion-panel
+              outlined
+              v-for="pending in getAllPending"
+              :key="pending.name"
+            >
+              <v-expansion-panel-header>
+                <div align="left" class="hidden-sm-and-down pr-3">
+                  <v-avatar size="40" :color="getRandomColor()">
+                    <span class="white--text text-subtitle-1">{{
+                      getInitials(pending.user.profile[0].name)
+                    }}</span>
+                  </v-avatar>
+                </div>
+                <v-container fluid>
+                  <v-row>
+                    <v-list-item-subtitle
+                      align="left"
+                      class="pa-0 text-left text-body-1 "
+                    >
+                      {{ pending.subject }}
+                    </v-list-item-subtitle>
+                    <v-card-subtitle
+                      class="pa-0 text-subtitle-2 text-no-wrap primary--text hidden-md-and-up"
+                    >
+                      {{ pending.service[0].type }}
+                      <span class="text-caption ">
+                        &#40;
+                        {{ getTimeOrDate(pending.date) }}
+                        &#41;
+                      </span>
+                    </v-card-subtitle>
+                  </v-row>
+                </v-container>
+                <div align="right" class="hidden-sm-and-down">
+                  <v-chip
+                    small
+                    max-width="70px"
+                    class="ma-2 text-center pr-2 pl-2 caption"
+                    color="primary"
                   >
-                    {{ pending.subject }}
-                  </v-list-item-subtitle>
-                  <v-card-subtitle
-                    class="pa-0 text-subtitle-2 text-no-wrap primary--text hidden-md-and-up"
-                  >
-                    {{ pending.service[0].type }}
-                    <span class="text-caption ">
-                      &#40;
-                      {{ getTimeOrDate(pending.date) }}
-                      &#41;
-                    </span>
-                  </v-card-subtitle>
-                </v-row>
-              </v-container>
-              <div align="right" class="hidden-sm-and-down">
-                <v-chip
-                  small
-                  max-width="70px"
-                  class="ma-2 text-center pr-2 pl-2 caption"
-                  color="primary"
+                    {{ getTimeOrDate(pending.date) }}
+                  </v-chip>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-divider class="mb-2" />
+                <v-card-subtitle
+                  class="pa-0 pb-2 text-caption text-justify text-sm-body-2"
                 >
-                  {{ getTimeOrDate(pending.date) }}
-                </v-chip>
-              </div>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              <v-divider class="mb-2" />
-              <v-card-subtitle
-                class="pa-0 pb-2 text-caption text-justify text-sm-body-2"
-              >
-                {{ pending.body }}
-              </v-card-subtitle>
-              <v-divider />
-              <v-container>
-                <v-row>
-                  <v-col cols="12" class="pa-1 pl-0">
-                    <v-card-subtitle class="pa-0 text-caption ">
-                      <span class="font-weight-bold">FROM: </span>
-                      {{ getFullname(pending.user.profile[0].name) }}
-                      <span class="hidden-sm-and-down font-italic">
-                        -
-                        {{
-                          `${pending.user.department.role[0].name} of ${pending.user.department.unit[0].name}`
-                        }}
-                      </span>
-                    </v-card-subtitle>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    class="pa-1 pl-0"
-                    v-if="pending.service_provider.profile[0]"
-                  >
-                    <v-card-subtitle class="pa-0 text-caption ">
-                      <span class="font-weight-bold">TO: </span>
-                      {{ getFullname(pending.service_provider.profile[0].name) }}
-                      <span class="hidden-sm-and-down font-italic">
-                        {{
-                          `${pending.service_provider.department.role[0].name} of ${pending.service_provider.department.unit[0].name}`
-                        }}
-                      </span>
-                    </v-card-subtitle>
-                  </v-col>
-                </v-row>
-              </v-container>
-              <v-divider />
-              <v-card-actions class="pa-3 pt-3 pb-3">
-                <v-row justify="start" align="center">
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="3"
-                    align="start"
-                    class="pa-2 pl-0"
-                  >
-                    <v-btn
-                      block
-                      min-width="50px"
-                      color="success"
-                      @click="showSignature(pending._id)"
+                  {{ pending.body }}
+                </v-card-subtitle>
+                <v-divider />
+                <v-container>
+                  <v-row>
+                    <v-col cols="12" class="pa-1 pl-0">
+                      <v-card-subtitle class="pa-0 text-caption ">
+                        <span class="font-weight-bold">FROM: </span>
+                        {{ getFullname(pending.user.profile[0].name) }}
+                        <span class="hidden-sm-and-down font-italic">
+                          -
+                          {{
+                            `${pending.user.department.role[0].name} of ${pending.user.department.unit[0].name}`
+                          }}
+                        </span>
+                      </v-card-subtitle>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      class="pa-1 pl-0"
+                      v-if="pending.service_provider.profile[0]"
                     >
-                      Sign
-                      <v-icon right>
-                        mdi-signature-freehand
-                      </v-icon>
-                    </v-btn>
-                  </v-col>
-                  <v-col
-                    cols="12"
-                    sm="6"
-                    md="3"
-                    align="start"
-                    class="pa-2 pl-0"
-                  >
-                    <v-btn
-                      block
-                      min-width="50px"
-                      color="error"
-                      :disabled="getPDFLoading"
-                      @click="downloadPDF(pending._id)"
+                      <v-card-subtitle class="pa-0 text-caption ">
+                        <span class="font-weight-bold">TO: </span>
+                        {{
+                          getFullname(pending.service_provider.profile[0].name)
+                        }}
+                        <span class="hidden-sm-and-down font-italic">
+                          {{
+                            `${pending.service_provider.department.role[0].name} of ${pending.service_provider.department.unit[0].name}`
+                          }}
+                        </span>
+                      </v-card-subtitle>
+                    </v-col>
+                  </v-row>
+                </v-container>
+                <v-divider />
+                <v-card-actions class="pa-3 pt-3 pb-3">
+                  <v-row justify="start" align="center">
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="3"
+                      align="start"
+                      class="pa-2 pl-0"
                     >
-                      Download
-                      <v-icon right>
-                        mdi-cloud-download
-                      </v-icon>
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-card-actions>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-col>
-      <v-col cols="12" sm="12" md="8" v-else-if="getLoading.all_pending">
-        <v-skeleton-loader type="table" />
-      </v-col>
-      <v-col
-        cols="12"
-        sm="12"
-        md="8"
-        v-else-if="!getAllPending[0] && !getLoading.all_pending"
-      >
-        <v-row justify="start">
-          <v-col cols="12">
-            <v-banner single-line>
-              <v-icon slot="icon" color="warning" size="36">
-                mdi-exclamation-thick
-              </v-icon>
-              No pending request
-            </v-banner>
-          </v-col>
-        </v-row>
+                      <v-btn
+                        block
+                        min-width="50px"
+                        color="success"
+                        @click="showSignature(pending._id)"
+                      >
+                        Sign
+                        <v-icon right>
+                          mdi-signature-freehand
+                        </v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="3"
+                      align="start"
+                      class="pa-2 pl-0"
+                    >
+                      <v-btn
+                        block
+                        min-width="50px"
+                        color="error"
+                        :disabled="getPDFLoading"
+                        @click="downloadPDF(pending._id)"
+                      >
+                        Download
+                        <v-icon right>
+                          mdi-cloud-download
+                        </v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card-actions>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-container>
+        <v-container fluid v-else-if="getLoading.all_pending">
+          <v-skeleton-loader type="table" />
+        </v-container>
+        <v-container
+          fluid
+          v-else-if="!getAllPending[0] && !getLoading.all_pending"
+          ><v-row justify="start">
+            <v-col cols="12">
+              <v-banner single-line>
+                <v-icon slot="icon" color="warning" size="36">
+                  mdi-exclamation-thick
+                </v-icon>
+                No pending request
+              </v-banner>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
       <v-col md="4" class="hidden-sm-and-down">

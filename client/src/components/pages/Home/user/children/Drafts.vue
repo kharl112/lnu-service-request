@@ -50,97 +50,91 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="pa-1 pa-sm-3">
+  <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start" v-if="!getLoading.letter_info">
-      <v-col
-        cols="12"
-        sm="12"
-        md="8"
-        v-if="getAllDraft[0] && !getLoading.all_draft"
-      >
-        <v-simple-table>
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left" />
-                <th class="text-left">
-                  Subject
-                </th>
-                <th class="text-center">
-                  Created
-                </th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="draft in getAllDraft" :key="draft.name">
-                <td>
-                  <v-checkbox v-model="selected" :value="draft._id" />
-                </td>
-                <td @click="gotoEdit(draft._id)">
-                  <v-list-item-subtitle
-                    class="pa-0 text-caption text-left text-wrap text-sm-body-2 "
-                  >
-                    {{ limitText(draft.subject) }}
-                  </v-list-item-subtitle>
-                </td>
-                <td @click="gotoEdit(draft._id)" class="text-center">
-                  <v-chip
-                    small
-                    color="primary"
-                    class="pa-0 pr-2 pl-2 text-center text-caption"
-                  >
-                    {{ getTimeOrDate(draft.date) }}
-                  </v-chip>
-                </td>
-                <td>
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        color="success"
-                        :disabled="getLoading.send && selected_id === draft._id"
-                        @click="sendRequest(draft._id)"
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        <v-icon>
-                          mdi-send
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Send Instantly</span>
-                  </v-tooltip>
-                </td>
-              </tr>
-            </tbody>
-          </template>
-        </v-simple-table>
-      </v-col>
-      <v-col cols="12" sm="12" md="8" v-else-if="getLoading.all_draft">
-        <v-skeleton-loader type="table" />
-      </v-col>
-      <v-col
-        cols="12"
-        sm="12"
-        md="8"
-        v-else-if="!getAllDraft[0] && !getLoading.all_draft"
-      >
-        <v-row justify="start">
-          <v-col cols="12">
-            <v-banner single-line>
-              <v-icon slot="icon" color="warning" size="36">
-                mdi-exclamation-thick
-              </v-icon>
-              You have empty drafts
-              <template v-slot:actions>
-                <v-btn color="primary" @click="gotoCreate" text>
-                  create
-                </v-btn>
-              </template>
-            </v-banner>
-          </v-col>
-        </v-row>
+      <v-col cols="12" sm="12" md="8">
+        <v-container fluid v-if="getAllDraft[0] && !getLoading.all_draft">
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left" />
+                  <th class="text-left">
+                    Subject
+                  </th>
+                  <th class="text-center">
+                    Created
+                  </th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="draft in getAllDraft" :key="draft.name">
+                  <td>
+                    <v-checkbox v-model="selected" :value="draft._id" />
+                  </td>
+                  <td @click="gotoEdit(draft._id)">
+                    <v-list-item-subtitle
+                      class="pa-0 text-caption text-left text-wrap text-sm-body-2 "
+                    >
+                      {{ limitText(draft.subject) }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td @click="gotoEdit(draft._id)" class="text-center">
+                    <v-chip
+                      small
+                      color="primary"
+                      class="pa-0 pr-2 pl-2 text-center text-caption"
+                    >
+                      {{ getTimeOrDate(draft.date) }}
+                    </v-chip>
+                  </td>
+                  <td>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          color="success"
+                          :disabled="
+                            getLoading.send && selected_id === draft._id
+                          "
+                          @click="sendRequest(draft._id)"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon>
+                            mdi-send
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Send Instantly</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-container>
+        <v-container fluid v-else-if="getLoading.all_draft">
+          <v-skeleton-loader type="table" />
+        </v-container>
+        <v-container fluid v-else-if="!getAllDraft[0] && !getLoading.all_draft">
+          <v-row justify="start">
+            <v-col cols="12">
+              <v-banner single-line>
+                <v-icon slot="icon" color="warning" size="36">
+                  mdi-exclamation-thick
+                </v-icon>
+                You have empty drafts
+                <template v-slot:actions>
+                  <v-btn color="primary" @click="gotoCreate" text>
+                    create
+                  </v-btn>
+                </template>
+              </v-banner>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
       <v-col md="4" class="hidden-sm-and-down">
