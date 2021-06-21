@@ -185,7 +185,7 @@ export default {
                               send.status === 0
                                 ? "pending"
                                 : send.status === 1
-                                ? "finished"
+                                ? "completed"
                                 : "archived"
                             }}
                           </v-chip>

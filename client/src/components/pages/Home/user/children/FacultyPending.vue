@@ -152,7 +152,7 @@ export default {
                       v-if="pending.service_provider.profile[0]"
                     >
                       <v-card-subtitle class="pa-0 text-caption ">
-                        <span class="font-weight-bold">TO: </span>
+                        <span class="font-weight-bold">CAO: </span>
                         {{ getFullname(pending.admin.profile[0].name) }}
                         <span class="hidden-sm-and-down font-italic">
                           - Chief Administration Office

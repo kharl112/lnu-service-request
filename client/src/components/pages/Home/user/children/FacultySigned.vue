@@ -129,7 +129,7 @@ export default {
                   }}
                 </v-card-subtitle>
                 <v-card-subtitle class="pa-0 pt-2 text-caption">
-                  To:
+                  CAO:
                   {{ getFullname(signed.admin.profile[0].name) }}
                 </v-card-subtitle>
                 <v-card-subtitle
