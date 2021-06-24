@@ -23,12 +23,14 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form.user.department = Department.getFullDepartment(form.user.department);
     form.user.profile = Name.getFullName(req.locals.name);
 
-    form.service_provider.department = Department.getFullDepartment(
-      form.service_provider.department
-    );
-    form.service_provider.profile = Name.getFullName(
-      form.service_provider.profile[0].name
-    );
+    if (form.service_provider.staff_id) {
+      form.service_provider.department = Department.getFullDepartment(
+        form.service_provider.department
+      );
+      form.service_provider.profile = Name.getFullName(
+        form.service_provider.profile[0].name
+      );
+    }
 
     form.admin.profile = Name.getFullName(form.admin.profile[0].name);
 
@@ -69,12 +71,14 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     form.user.department = Department.getFullDepartment(form.user.department);
     form.user.profile = Name.getFullName(req.locals.name);
 
-    form.service_provider.department = Department.getFullDepartment(
-      form.service_provider.department
-    );
-    form.service_provider.profile = Name.getFullName(
-      form.service_provider.profile[0].name
-    );
+    if (form.service_provider.staff_id) {
+      form.service_provider.department = Department.getFullDepartment(
+        form.service_provider.department
+      );
+      form.service_provider.profile = Name.getFullName(
+        form.service_provider.profile[0].name
+      );
+    }
 
     form.admin.profile = Name.getFullName(form.admin.profile[0].name);
 
@@ -112,12 +116,14 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form.user.department = Department.getFullDepartment(form.user.department);
     form.user.profile = Name.getFullName(req.locals.name);
 
-    form.service_provider.department = Department.getFullDepartment(
-      form.service_provider.department
-    );
-    form.service_provider.profile = Name.getFullName(
-      form.service_provider.profile[0].name
-    );
+    if (form.service_provider.staff_id) {
+      form.service_provider.department = Department.getFullDepartment(
+        form.service_provider.department
+      );
+      form.service_provider.profile = Name.getFullName(
+        form.service_provider.profile[0].name
+      );
+    }
 
     form.admin.profile = Name.getFullName(form.admin.profile[0].name);
 
