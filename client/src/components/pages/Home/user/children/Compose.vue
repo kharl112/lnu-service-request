@@ -137,11 +137,11 @@ export default {
                     <v-autocomplete
                       v-model="form.service_provider.staff_id"
                       :items="getAllServiceProviders"
-                      :rules="rules"
                       item-text="text"
                       item-value="staff_id"
                       outlined
-                      label="Service Provider"
+                      label="Service Provider (optional)"
+                      hint="(optional)"
                       dense
                     />
                   </v-col>
