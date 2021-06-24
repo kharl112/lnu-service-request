@@ -5,7 +5,6 @@ export default {
   data: () => ({
     show: false,
     colors: ["primary", "warning", "error", "success"],
-    seen: [],
   }),
   computed: {
     getLoading() {
@@ -47,20 +46,9 @@ export default {
     isCompleted(status) {
       return status > 0;
     },
-    isOpened(_id) {
-      return this.seen.indexOf(_id) !== -1;
-    },
-    removeOpenedItem(_id) {
-      if (this.isOpened(_id))
-        this.seen = this.seen
-          .slice(0, this.seen.indexOf(_id))
-          .concat(this.seen.slice(this.seen.indexOf(_id) + 1));
-    },
   },
   created() {
-    this.$store.dispatch("request/allSigned", "admin");
-    if (this.getAllSigned[0])
-      this.getAllSigned.map(({ _id }) => (this.seen = [...this.seen, _id]));
+    return this.$store.dispatch("request/allSigned", "admin");
   },
 };
 </script>
@@ -74,25 +62,13 @@ export default {
               v-for="signed in getAllSigned"
               :key="signed.name"
             >
-              <v-expansion-panel-header @click="removeOpenedItem(signed._id)">
+              <v-expansion-panel-header>
                 <v-container fluid class="pa-2 ">
                   <v-row>
-                    <v-list-item-subtitle
-                      :class="
-                        `text-body-1 ${
-                          isOpened(signed._id) ? 'font-weight-bold' : ''
-                        }`
-                      "
-                    >
+                    <v-list-item-subtitle class="text-body-1">
                       {{ signed.subject }}
                     </v-list-item-subtitle>
-                    <v-list-item-subtitle
-                      :class="
-                        `caption ${
-                          isOpened(signed._id) ? 'font-weight-bold' : ''
-                        }`
-                      "
-                    >
+                    <v-list-item-subtitle class="text-caption">
                       {{ signed.service[0].type }} &#8211;
                       <span class="font-italic caption">
                         {{
@@ -149,9 +125,7 @@ export default {
                   </v-row>
                 </v-container>
                 <v-divider class="mb-1 mt-1" />
-                <v-card-subtitle
-                  class="pa-0 pt-2 text-caption font-weight-bold"
-                >
+                <v-card-subtitle class="pa-0 pt-2 text-caption font-weight-bold">
                   From:
                   {{ getFullname(signed.user.profile[0].name) }}
                 </v-card-subtitle>
