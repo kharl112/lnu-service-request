@@ -39,7 +39,9 @@ export default {
     },
     isSigned(service_request) {
       const { admin, service_provider } = service_request;
-      return !!admin.signature && !!service_provider.signature;
+      if (service_provider)
+        return !!admin.signature && !!service_provider.signature;
+      return !!admin.signature;
     },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
@@ -49,7 +51,8 @@ export default {
     },
     getSignatures(service_request) {
       const { admin, service_provider } = service_request;
-      return [admin, service_provider];
+      if (service_provider.staff_id) return [admin, service_provider];
+      return [admin];
     },
     copyTrackId(index) {
       var copy_id = document.getElementById(`track_id${index}`);
