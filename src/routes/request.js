@@ -289,7 +289,13 @@ route.post("/mark/complete/letter=:_id", userAuth, async (req, res) => {
   if (!_id) return res.status(400).send({ message: "empty parameter" });
 
   await Request.findOneAndUpdate(
-    { _id: _id, "service_provider.staff_id": req.locals.staff_id },
+    {
+      _id: _id,
+      $or: [
+        { "service_provider.staff_id": req.locals.staff_id },
+        { "user.staff_id": req.locals.staff_id },
+      ],
+    },
     { status: 1 },
     {},
     (error) => {
