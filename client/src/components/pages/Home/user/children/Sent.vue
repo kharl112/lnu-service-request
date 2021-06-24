@@ -81,6 +81,13 @@ export default {
         user_type: "faculty",
       });
     },
+    markAsCompleted(request_id) {
+      return this.$store.dispatch("request/markRequest", {
+        request_id,
+        type: "complete",
+        user_type: "faculty",
+      });
+    },
   },
   created() {
     this.$store.dispatch("request/allSend", "all");
@@ -255,6 +262,23 @@ export default {
                               Archive
                               <v-icon right dark>
                                 mdi-archive
+                              </v-icon>
+                            </v-btn>
+                            <v-btn
+                              v-if="
+                                send.status === 0 &&
+                                  !send.service_provider.staff_id
+                              "
+                              block
+                              class="mt-2"
+                              min-width="50px"
+                              color="primary"
+                              :disabled="getLoading.mark"
+                              @click="markAsCompleted(send._id)"
+                            >
+                              Mark as completed
+                              <v-icon right>
+                                mdi-check-circle
                               </v-icon>
                             </v-btn>
                           </v-row>
