@@ -221,8 +221,11 @@ route.get("/track/:_id", async (req, res) => {
 
     const { user, service_provider, admin, service, status } = tracked_request;
 
+    if (service_provider.staff_id) {
+      service_provider.signature = service_provider.signature ? true : false;
+    }
+
     user.signature = user.signature ? true : false;
-    service_provider.signature = service_provider.signature ? true : false;
     admin.signature = admin.signature ? true : false;
 
     return res.send({ user, service_provider, admin, service, status });
