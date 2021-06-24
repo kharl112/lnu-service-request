@@ -43,6 +43,9 @@ export default {
     getRandomColor() {
       return this.colors[Math.floor(Math.random() * this.colors.length)];
     },
+    isCompleted(status) {
+      return status > 0;
+    },
   },
   created() {
     return this.$store.dispatch("request/allSigned", "admin");
@@ -72,6 +75,18 @@ export default {
                           `${signed.user.profile[0].name.firstname} ${signed.user.profile[0].name.lastname}`
                         }}
                       </span>
+                      <v-spacer />
+                      <v-chip
+                        x-small
+                        :color="
+                          isCompleted(signed.status) ? 'success' : 'primary'
+                        "
+                        class="mt-1 mb-2 pr-1 pl-1"
+                      >
+                        {{
+                          isCompleted(signed.status) ? "completed" : "pending"
+                        }}
+                      </v-chip>
                     </v-list-item-subtitle>
                     <v-list-item-subtitle class="text-caption hidden-md-and-up">
                       <span class="primary--text caption">
@@ -110,7 +125,7 @@ export default {
                   </v-row>
                 </v-container>
                 <v-divider class="mb-1 mt-1" />
-                <v-card-subtitle class="pa-0 pt-2 text-caption">
+                <v-card-subtitle class="pa-0 pt-2 text-caption font-weight-bold">
                   From:
                   {{ getFullname(signed.user.profile[0].name) }}
                 </v-card-subtitle>
@@ -122,7 +137,7 @@ export default {
                   }}
                 </v-card-subtitle>
                 <v-card-subtitle
-                  class="pa-0 pt-2 text-caption"
+                  class="pa-0 pt-2 text-caption font-weight-bold"
                   v-if="signed.service_provider.department.role[0]"
                 >
                   TO:
