@@ -67,6 +67,12 @@ const requestQuery = (match) => [
     },
   },
   {
+    $sort: {
+      date: -1,
+      subject: 1,
+    },
+  },
+  {
     $project: {
       "user.profile.password": 0,
       "admin.profile.password": 0,
