@@ -123,18 +123,6 @@ export default {
                 <v-row justify="start" align="start" dense>
                   <v-col cols="12" sm="4" md="5">
                     <v-autocomplete
-                      v-model="form.service_provider.staff_id"
-                      :items="getAllServiceProviders"
-                      :rules="rules"
-                      item-text="text"
-                      item-value="staff_id"
-                      outlined
-                      label="Service Provider"
-                      dense
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="4" md="5">
-                    <v-autocomplete
                       v-model="form.admin.staff_id"
                       :rules="rules"
                       :items="getAllAdmin"
@@ -142,6 +130,18 @@ export default {
                       item-value="staff_id"
                       outlined
                       label="Chief Admin Office"
+                      dense
+                    />
+                  </v-col>
+                  <v-col cols="12" sm="4" md="5">
+                    <v-autocomplete
+                      v-model="form.service_provider.staff_id"
+                      :items="getAllServiceProviders"
+                      :rules="rules"
+                      item-text="text"
+                      item-value="staff_id"
+                      outlined
+                      label="Service Provider"
                       dense
                     />
                   </v-col>
