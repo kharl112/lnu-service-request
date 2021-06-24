@@ -69,6 +69,7 @@ const requestQuery = (match) => [
   {
     $sort: {
       date: -1,
+      status: 1,
       subject: 1,
     },
   },
