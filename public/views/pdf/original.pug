@@ -21,10 +21,11 @@ body
       p(class="user-name")=`FROM: ${form.user.profile}`
       p(class="admin-dept-title")=form.user.department
     | !{form.user.signature}
-    div(class="signature")
-      p(class="dept-head")=`TO: ${form.service_provider.profile}`
-      p(class="dept-head-title")=form.service_provider.department
-    | !{form.service_provider.signature}
+    if form.service_provider.staff_id
+      div(class="signature")
+        p(class="dept-head")=`TO: ${form.service_provider.profile}`
+        p(class="dept-head-title")=form.service_provider.department
+      | !{form.service_provider.signature}
     div(class="signature")
       p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Chief Administration Office
