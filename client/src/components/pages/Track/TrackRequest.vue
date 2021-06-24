@@ -41,7 +41,8 @@ export default {
     },
     getSignatures(service_request) {
       const { admin, service_provider, user } = service_request;
-      return [user, admin, service_provider];
+      if (service_provider.staff_id) return [user, admin, service_provider];
+      return [user, admin];
     },
   },
   created() {
