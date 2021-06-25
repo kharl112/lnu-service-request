@@ -1,4 +1,5 @@
 <script>
+import QRCode from "qrcode";
 export default {
   name: "TrackRequest",
   computed: {
@@ -43,6 +44,25 @@ export default {
       const { admin, service_provider, user } = service_request;
       if (service_provider.staff_id) return [user, admin, service_provider];
       return [user, admin];
+    },
+    generateQR(text) {
+      QRCode.toDataURL(
+        text,
+        {
+          type: "image/jpeg",
+          quality: 1,
+          margin: 1,
+          color: {
+            dark: "#1976d2",
+            light: "#fcaa43",
+          },
+        },
+        (err, url) => {
+          if (err) throw err;
+          const image = document.getElementById("qr_image");
+          image.src = url;
+        }
+      );
     },
   },
   created() {
@@ -93,8 +113,16 @@ export default {
                 />
               </v-form>
             </v-col>
-            <v-col cols="11" class="pt-0 pb-0" v-if="getError">
-              <v-alert type="error" class="pt-2 pb-2 text-left">
+            <v-col cols="11" class="pa-1 pl-6" v-if="track_id !== 'none'">
+              <v-row justify="start">
+                <v-btn elevation="0" small color="primary">
+                  get QR code
+                  <v-icon right>mdi-qrcode</v-icon>
+                </v-btn>
+              </v-row>
+            </v-col>
+            <v-col cols="11" class="pt-4" v-if="getError">
+              <v-alert type="error" class="pt-1 pb-1 text-left">
                 <span class="caption">{{ getError }}</span>
               </v-alert>
             </v-col>
