@@ -1,34 +1,72 @@
 <script>
+import QRCode from "qrcode";
 export default {
   name: "QRCodeBox",
   props: {
     show: Boolean,
     showQR: Function,
   },
-  created() {
-    console.log(this.$route);
+  methods: {
+    generateQR() {
+      const url = `https://lnusr.herokuapp.com${this.$route.fullPath}`;
+      QRCode.toDataURL(
+        url,
+        {
+          type: "image/jpeg",
+          quality: 1,
+          margin: 0,
+          color: {
+            dark: "#1976d2",
+            light: "#ffffff",
+          },
+        },
+        (err, url) => {
+          if (err) return;
+          const image = document.getElementById("qr_image");
+          image.src = url;
+        }
+      );
+    },
+  },
+  updated() {
+    return this.generateQR();
   },
 };
 </script>
 <template>
   <v-overlay :value="show" :z-index="100">
-    <v-card :light="!$vuetify.theme.dark" max-width="344">
-      <v-list-item three-line>
-        <v-list-item-content>
-          <v-list-item-title class="headline mb-2">
-            QRCode Generated
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <img id="qr_image" />
-      <v-card-actions>
-        <v-btn @click="handleLogout" color="primary">
-          Confirm
-        </v-btn>
-        <v-btn outlined color="warning" @click="showQR">
-          Close
-        </v-btn>
-      </v-card-actions>
+    <v-card
+      :light="!$vuetify.theme.dark"
+      max-width="344"
+      min-width="200"
+      class="ma-2"
+    >
+      <v-container fluid>
+        <v-row justify="center">
+          <v-col cols="12" class="pa-2" align="center">
+            <v-list-item-title class="subtitle-1 mb-2 warning--text pa-0">
+              <span class="font-weight-bold">QRCode</span> Generated
+            </v-list-item-title>
+          </v-col>
+          <v-col cols="12" class="pa-2" align="center">
+            <img id="qr_image" />
+          </v-col>
+          <v-col cols="12" class="pa-2">
+            <v-card-actions>
+              <v-btn small outlined color="warning" @click="showQR">
+                Close
+              </v-btn>
+            </v-card-actions>
+          </v-col>
+        </v-row>
+      </v-container>
     </v-card>
   </v-overlay>
 </template>
+<style scoped>
+#qr_image {
+  width: 40%;
+  min-width: 230px;
+  max-width: 300px;
+}
+</style>

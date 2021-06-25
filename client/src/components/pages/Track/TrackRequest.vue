@@ -1,7 +1,13 @@
 <script>
-import QRCode from "qrcode";
+import QRCodeBox from "./contents/QRCodeBox";
 export default {
   name: "TrackRequest",
+  components: {
+    QRCodeBox,
+  },
+  data: () => ({
+    show: false,
+  }),
   computed: {
     getTrackLoading() {
       return this.$store.getters["request/getLoading"].tracked_request;
@@ -45,24 +51,8 @@ export default {
       if (service_provider.staff_id) return [user, admin, service_provider];
       return [user, admin];
     },
-    generateQR(text) {
-      QRCode.toDataURL(
-        text,
-        {
-          type: "image/jpeg",
-          quality: 1,
-          margin: 1,
-          color: {
-            dark: "#1976d2",
-            light: "#fcaa43",
-          },
-        },
-        (err, url) => {
-          if (err) throw err;
-          const image = document.getElementById("qr_image");
-          image.src = url;
-        }
-      );
+    showQR() {
+      return (this.show = !this.show);
     },
   },
   created() {
@@ -113,9 +103,13 @@ export default {
                 />
               </v-form>
             </v-col>
-            <v-col cols="11" class="pa-1 pl-6" v-if="track_id !== 'none'">
+            <v-col
+              cols="11"
+              class="pa-1 pl-6"
+              v-if="track_id.length === 24 && !getError"
+            >
               <v-row justify="start">
-                <v-btn elevation="0" small color="primary">
+                <v-btn elevation="0" small color="primary" @click="showQR">
                   get QR code
                   <v-icon right>mdi-qrcode</v-icon>
                 </v-btn>
@@ -270,6 +264,7 @@ export default {
           </v-row>
         </v-card>
       </v-col>
+      <QRCodeBox :showQR="showQR" :show="show" />
     </v-row>
   </div>
 </template>
