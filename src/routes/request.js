@@ -206,6 +206,18 @@ route.get("/admin/signed", adminAuth, async (req, res) => {
   return res.send(admin_signed);
 });
 
+route.get("/admin/sent/archived", adminAuth, async (req, res) => {
+  const admin_archived = await Request.aggregate(
+    requestQuery({
+      "admin.staff_id": req.locals.staff_id,
+      save_as: 1,
+      status: 2,
+    })
+  );
+  
+  return res.send(admin_archived);
+});
+
 route.get("/track/:_id", async (req, res) => {
   try {
     const { _id } = mongoose.Types.ObjectId(req.params._id);
