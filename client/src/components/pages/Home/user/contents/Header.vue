@@ -40,6 +40,23 @@ export default {
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 icon
+                color="primary"
+                class="mr-3"
+                @click="$router.push('/track/none')"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon size="30">
+                  mdi-map-marker-distance
+                </v-icon>
+              </v-btn>
+            </template>
+            <span>Track a request</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
                 color="warning"
                 class="mr-3"
                 @click="darkmode ? (darkmode = false) : (darkmode = true)"
