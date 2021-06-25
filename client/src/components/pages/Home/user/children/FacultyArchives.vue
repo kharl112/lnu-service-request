@@ -41,7 +41,10 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("request/allSend", "archived");
+    this.$store.dispatch("request/allSend", {
+      filter: "archived",
+      type: "faculty",
+    });
   },
 };
 </script>

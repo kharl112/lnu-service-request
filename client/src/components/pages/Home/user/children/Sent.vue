@@ -72,7 +72,10 @@ export default {
       }
     },
     handleFilter(filter) {
-      return this.$store.dispatch("request/allSend", filter);
+      return this.$store.dispatch("request/allSend", {
+        filter,
+        type: "faculty",
+      });
     },
     markAsArchive(request_id) {
       return this.$store.dispatch("request/markRequest", {
@@ -90,7 +93,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("request/allSend", "all");
+    this.$store.dispatch("request/allSend", { filter: "all", type: "faculty" });
   },
 };
 </script>

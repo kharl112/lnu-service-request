@@ -83,11 +83,11 @@ const request = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    allSend: async ({ commit, dispatch }, filter) => {
+    allSend: async ({ commit, dispatch }, { filter, type }) => {
       commit("setLoading", { loading: true, type: "all_send" });
       try {
         const { data } = await axios.get(
-          `/api/request/faculty/sent/${filter}`,
+          `/api/request/${type}/sent/${filter}`,
           {
             headers: { Authorization: localStorage.getItem("Authorization") },
           }
