@@ -6,26 +6,28 @@ export default {
     show: Boolean,
     showQR: Function,
   },
+  data: () => ({
+    options: {
+      type: "image/jpeg",
+      quality: 1,
+      margin: 0,
+      color: {
+        dark: "#1976d2",
+        light: "#ffffff",
+      },
+    },
+  }),
   methods: {
     generateQR() {
       const url = `https://lnusr.herokuapp.com${this.$route.fullPath}`;
-      QRCode.toDataURL(
-        url,
-        {
-          type: "image/jpeg",
-          quality: 1,
-          margin: 0,
-          color: {
-            dark: "#1976d2",
-            light: "#ffffff",
-          },
-        },
-        (err, url) => {
-          if (err) return;
-          const image = document.getElementById("qr_image");
-          image.src = url;
-        }
-      );
+      this.options.color.light = this.$vuetify.theme.isDark
+        ? "#1e1e1e"
+        : "#ffffff";
+      QRCode.toDataURL(url, this.options, (err, url) => {
+        if (err) return;
+        const image = document.getElementById("qr_image");
+        image.src = url;
+      });
     },
   },
   updated() {
