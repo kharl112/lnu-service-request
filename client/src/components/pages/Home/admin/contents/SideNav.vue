@@ -10,6 +10,7 @@ export default {
     items: [
       { title: "Signed", icon: "mdi-email-edit", getter: "Signed" },
       { title: "Pending", icon: "mdi-email-alert", getter: "Pending" },
+      { title: "Archives", icon: "mdi-archive" },
     ],
   }),
   computed: {
@@ -98,7 +99,9 @@ export default {
             <v-icon v-text="child.icon" />
             <v-badge
               v-if="
-                $store.getters[`request/getAll${child.getter}`].length && mini
+                child.getter &&
+                  $store.getters[`request/getAll${child.getter}`].length &&
+                  mini
               "
               dot
               color="warning"
@@ -109,7 +112,9 @@ export default {
           </v-list-item-content>
           <v-badge
             v-if="
-              $store.getters[`request/getAll${child.getter}`].length && !mini
+              child.getter &&
+                $store.getters[`request/getAll${child.getter}`].length &&
+                !mini
             "
             color="warning"
             :content="$store.getters[`request/getAll${child.getter}`].length"
