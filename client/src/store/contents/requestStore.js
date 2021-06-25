@@ -130,6 +130,7 @@ const request = {
     },
     trackRequest: async ({ commit, dispatch }, request_id) => {
       commit("setLoading", { loading: true, type: "tracked_request" });
+      dispatch("message/defaultState", null, { root: true });
       commit("setTrackedRequest", {});
       try {
         const { data } = await axios.get(`/api/request/track/${request_id}`);
