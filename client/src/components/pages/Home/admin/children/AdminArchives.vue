@@ -74,6 +74,9 @@ export default {
                     <v-list-item-subtitle class="text-subtitle-2 mb-2">
                       {{ send.body }}
                     </v-list-item-subtitle>
+                    <v-list-item-subtitle class="caption font-weight-bold primary--text mb-2">
+                      FROM: {{ getFullname(send.user.profile[0].name) }}
+                    </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
                 <v-card-actions class="pa-4 pt-2 pb-3">
