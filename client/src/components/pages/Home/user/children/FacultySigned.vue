@@ -62,10 +62,22 @@ export default {
               <v-expansion-panel-header>
                 <v-container fluid class="pa-2 ">
                   <v-row>
-                    <v-list-item-subtitle class="text-body-1">
+                    <v-list-item-subtitle
+                      :class="
+                        `text-body-1 ${
+                          signed.status === 0 ? 'primary--text' : ''
+                        }`
+                      "
+                    >
                       {{ signed.subject }}
                     </v-list-item-subtitle>
-                    <v-list-item-subtitle class="text-caption">
+                    <v-list-item-subtitle
+                      :class="
+                        `text-caption ${
+                          signed.status === 0 ? 'primary--text' : ''
+                        }`
+                      "
+                    >
                       {{ signed.service[0].type }} &#8211;
                       <span class="font-italic caption">
                         {{
@@ -74,9 +86,9 @@ export default {
                       </span>
                     </v-list-item-subtitle>
                     <v-list-item-subtitle class="text-caption hidden-md-and-up">
-                      <span class="primary--text caption">
+                      <v-chip x-small class="caption pa-0 pr-1 pl-1 ma-1 ml-0">
                         {{ getTimeOrDate(signed.date) }}
-                      </span>
+                      </v-chip>
                     </v-list-item-subtitle>
                   </v-row>
                 </v-container>
