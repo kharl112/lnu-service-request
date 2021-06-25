@@ -39,7 +39,7 @@ export default {
     },
     isSigned(service_request) {
       const { admin, service_provider } = service_request;
-      if (service_provider.staff_id)
+      if (service_provider)
         return !!admin.signature && !!service_provider.signature;
       return !!admin.signature;
     },
@@ -270,13 +270,12 @@ export default {
                             <v-btn
                               v-if="
                                 send.status === 0 &&
-                                  !send.service_provider.staff_id &&
-                                  send.admin.signature
+                                  !send.service_provider.staff_id
                               "
                               block
                               class="mt-2"
                               min-width="50px"
-                              color="success"
+                              color="primary"
                               :disabled="getLoading.mark"
                               @click="markAsCompleted(send._id)"
                             >
