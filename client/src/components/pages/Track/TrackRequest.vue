@@ -60,6 +60,9 @@ export default {
       return this.$store.dispatch("request/trackRequest", this.track_id);
     }
   },
+  destroyed() {
+    return this.$store.commit("request/setTrackedRequest", {});
+  },
 };
 </script>
 <template>
