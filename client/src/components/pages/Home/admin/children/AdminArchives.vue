@@ -71,11 +71,20 @@ export default {
                     <v-list-item-title class="text-subtitle-1 mb-1">
                       {{ send.subject }}
                     </v-list-item-title>
-                    <v-list-item-subtitle class="text-subtitle-2 mb-2">
-                      {{ send.body }}
+                    <v-list-item-subtitle class="caption mt-2">
+                      From:
+                      <span class="font-weight-bold">{{
+                        getFullname(send.user.profile[0].name)
+                      }}</span>
                     </v-list-item-subtitle>
-                    <v-list-item-subtitle class="caption font-weight-bold primary--text mb-2">
-                      FROM: {{ getFullname(send.user.profile[0].name) }}
+                    <v-list-item-subtitle
+                      class="caption"
+                      v-if="send.service_provider.staff_id"
+                    >
+                      Renderer:
+                      <span class="font-weight-bold">{{
+                        getFullname(send.service_provider.profile[0].name)
+                      }}</span>
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
