@@ -60,20 +60,20 @@ export default {
                   <th class="text-left">
                     Type
                   </th>
-                  <th class="text-center">
+                  <th class="text-center hidden-sm-and-down">
                     Created
                   </th>
-                  <th />
+                  <th class="text-center"/>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="send in getAllSend" :key="send._id">
                   <td>
-                    <v-list-item-subtitle class="text-left text-md-subtitle-1 text-caption">
+                    <v-list-item-subtitle class="text-left subtitle-1">
                       {{ send.service[0].type }}
                     </v-list-item-subtitle>
                   </td>
-                  <td class="text-center">
+                  <td class="text-center hidden-sm-and-down">
                     <v-chip
                       x-small
                       color="primary"
@@ -82,7 +82,7 @@ export default {
                       {{ getTimeOrDate(send.date) }}
                     </v-chip>
                   </td>
-                  <td class="text-right">
+                  <td class="text-center">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on, attrs }">
                         <v-btn
@@ -90,7 +90,7 @@ export default {
                           large
                           color="error"
                           :loading="getPDFLoading"
-                          @click="downloadPDF(draft._id)"
+                          @click="downloadPDF(send._id)"
                           v-bind="attrs"
                           v-on="on"
                         >
