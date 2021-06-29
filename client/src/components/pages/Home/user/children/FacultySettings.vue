@@ -229,7 +229,7 @@ export default {
                   <v-col cols="12" sm="4" md="5">
                     <v-select
                       v-model="form.department.role_id"
-                      :disabled="!edit_mode"
+                      :disabled="true"
                       :items="getAllRoles"
                       item-text="name"
                       item-value="_id"
