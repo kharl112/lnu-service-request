@@ -264,7 +264,7 @@ const request = {
 
         return user_type === "provider"
           ? dispatch("allSigned", user_type)
-          : dispatch("allSend", "all");
+          : router.push("/faculty/home/archives");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "mark" });
