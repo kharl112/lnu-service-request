@@ -77,14 +77,15 @@ export default {
                         getFullname(send.user.profile[0].name)
                       }}</span>
                     </v-list-item-subtitle>
-                    <v-list-item-subtitle
-                      class="caption"
-                      v-if="send.service_provider.staff_id"
-                    >
+                    <v-list-item-subtitle class="caption">
                       Renderer:
-                      <span class="font-weight-bold">{{
-                        getFullname(send.service_provider.profile[0].name)
-                      }}</span>
+                      <span
+                        class="font-weight-bold"
+                        v-if="send.service_provider.staff_id"
+                      >
+                        {{ getFullname(send.service_provider.profile[0].name) }}
+                      </span>
+                      <span class="error--text font-weight-bold" v-else>Unspecified</span>
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
