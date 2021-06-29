@@ -29,16 +29,6 @@ export default {
         id,
       });
     },
-    getFullname(name) {
-      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
-      return `${
-        prefix ? `${prefix}.` : ""
-      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
-    },
-    getSignatures(service_request) {
-      const { admin, service_provider } = service_request;
-      return [admin, service_provider];
-    },
   },
   created() {
     this.$store.dispatch("request/allSend", {
