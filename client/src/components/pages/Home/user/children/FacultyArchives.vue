@@ -53,74 +53,62 @@ export default {
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8" class="pa-0">
         <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
-          <v-row justify="start" justify-sm="start" align="start">
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-              v-for="send in getAllSend"
-              :key="send._id"
-            >
-              <v-card class="mx-auto">
-                <v-list-item three-line>
-                  <v-list-item-content class="pb-0">
-                    <div class="caption text-capitalize font-weight-bold mb-4">
-                      {{ getTimeOrDate(send.date) }}
-                      <v-icon color="warning" class="ml-2">mdi-archive</v-icon>
-                    </div>
-                    <v-list-item-title class="text-subtitle-1 mb-1">
-                      {{ send.subject }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle class="text-subtitle-2 mb-2">
-                      {{ send.body }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-card-actions class="pa-4 pt-2 pb-3">
-                  <v-spacer />
-                  <v-container class="pa-0">
-                    <v-chip
-                      class="font-weight-bold caption pt-2 pb-2 mr-2"
-                      x-small
-                      color="warning"
-                    >
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Type
+                  </th>
+                  <th class="text-center">
+                    Created
+                  </th>
+                  <th />
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="send in getAllSend" :key="send._id">
+                  <td>
+                    <v-list-item-subtitle class="text-left text-md-subtitle-1 text-caption">
                       {{ send.service[0].type }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td class="text-center">
+                    <v-chip
+                      x-small
+                      color="primary"
+                      class="pa-0 pr-2 pl-2 text-center text-caption"
+                    >
+                      {{ getTimeOrDate(send.date) }}
                     </v-chip>
-                  </v-container>
-                </v-card-actions>
-                <v-divider />
-                <v-container fluid class="pa-2">
-                  <v-btn
-                    block
-                    color="error"
-                    :disabled="getPDFLoading"
-                    @click="downloadPDF(send._id)"
-                  >
-                    Download PDF
-                    <v-icon right dark>
-                      mdi-cloud-download
-                    </v-icon>
-                  </v-btn>
-                </v-container>
-              </v-card>
-            </v-col>
-          </v-row>
+                  </td>
+                  <td class="text-right">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          large
+                          color="error"
+                          :loading="getPDFLoading"
+                          @click="downloadPDF(draft._id)"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon>
+                            mdi-cloud-download
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Download PDF</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-container>
         <v-container fluid v-else-if="getLoading.all_send">
-          <v-row justify="start">
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-          </v-row>
+          <v-skeleton-loader type="table" />
         </v-container>
         <v-container fluid v-else-if="!getAllSend[0] && !getLoading.all_send">
           <v-row justify="start">
