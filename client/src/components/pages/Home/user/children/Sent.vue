@@ -126,21 +126,36 @@ export default {
               v-for="(send, index) in getAllSend"
               :key="send._id"
             >
-              <v-card class="mx-auto">
+              <v-card class="mx-auto pa-1">
                 <v-list-item three-line>
                   <v-list-item-content class="pb-0">
                     <div class="caption text-capitalize font-weight-bold mb-4">
                       {{ getTimeOrDate(send.date) }}
+                      <v-chip
+                        x-small
+                        class="caption pr-1 pl-1 ml-1"
+                        :color="send.status === 0 ? 'primary' : 'success'"
+                      >
+                        {{ send.status === 0 ? "pending" : "completed" }}
+                      </v-chip>
                     </div>
                     <v-list-item-title class="text-subtitle-1 mb-1">
                       {{ send.subject }}
                     </v-list-item-title>
-                    <v-list-item-subtitle class="text-subtitle-2 mb-2">
-                      {{ send.body }}
+                    <v-list-item-subtitle class="caption  mb-1">
+                      Service type:
+                      <span
+                        :class="
+                          `font-weight-bold text-uppercase ${
+                            send.status === 0 ? 'primary' : 'success'
+                          }--text`
+                        "
+                        >{{ send.service[0].type }}</span
+                      >
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-                <v-card-actions class="pa-4 pt-2 pb-0">
+                <v-card-actions class="pa-4 pt-2 pb-2">
                   <v-container class="pa-0">
                     <v-card-text class="pa-0 caption font-weight-bold">
                       <v-text-field
@@ -158,90 +173,30 @@ export default {
                     </v-card-text>
                   </v-container>
                 </v-card-actions>
-                <v-card-actions class="pa-4 pt-2 pb-3">
-                  <v-spacer />
-                  <v-container class="pa-0">
-                    <v-chip
-                      small
-                      class="subtitle-1 pt-2 pb-2 mr-2"
-                      :color="isSigned(send) ? 'primary' : 'error'"
-                    >
-                      {{ send.service[0].type }}
-                    </v-chip>
-                  </v-container>
-                </v-card-actions>
-                <v-divider />
                 <v-expansion-panels accordion flat>
                   <v-expansion-panel>
-                    <v-expansion-panel-header class="pa-4">
+                    <v-expansion-panel-header class="pa-1 pl-4">
                       <div>
                         <v-btn
-                          class="pa-0"
+                          class="pa-0 pl-1 pr-1 font-weight-bold"
                           small
-                          :color="isSigned(send) ? 'primary' : 'error'"
-                          text
+                          :color="send.status === 0 ? 'primary' : 'success'"
+                          elevation="0"
+                          @click="$router.push(`/track/${send._id}`)"
                         >
-                          See more
+                          Track Request
                         </v-btn>
                       </div>
                     </v-expansion-panel-header>
                     <v-expansion-panel-content class="pa-0">
                       <v-card-text class="pa-0">
-                        <div class="font-weight-bold mb-2">
-                          Request Status
-                          <v-chip
-                            :color="send.status === 0 ? 'primary' : 'success'"
-                            class="ml-2 pl-1 pr-2"
-                            x-small
-                          >
-                            {{
-                              send.status === 0
-                                ? "pending"
-                                : send.status === 1
-                                ? "completed"
-                                : "archived"
-                            }}
-                          </v-chip>
-                        </div>
-                        <div class="pb-3 pt-1">
-                          <v-divider />
-                        </div>
-                        <v-timeline align-top reverse dense class="pa-0">
-                          <v-timeline-item
-                            v-for="signee in getSignatures(send)"
-                            :key="signee.profile[0].staff_id"
-                            :icon="
-                              signee.signature
-                                ? 'mdi-check'
-                                : 'mdi-dots-horizontal'
-                            "
-                            :color="signee.signature ? 'success' : 'primary'"
-                            small
-                          >
-                            <v-container fluid class="pa-0">
-                              <span
-                                class="pa-0 caption font-weight-bold text-center"
-                              >
-                                {{ getFullname(signee.profile[0].name) }}
-                              </span>
-                              <v-spacer />
-                              <small class="pa-0 caption text-center">
-                                {{
-                                  signee.department
-                                    ? signee.department.unit[0].name
-                                    : "Chief Admin Office"
-                                }}
-                              </small>
-                            </v-container>
-                          </v-timeline-item>
-                        </v-timeline>
-                        <v-divider />
-                        <v-card-actions class="pa-3">
+                        <v-card-actions>
                           <v-row>
                             <v-btn
                               block
-                              class="mt-2"
-                              :color="isSigned(send) ? 'primary' : 'error'"
+                              elevation="0"
+                              class="mt-2 mb-1"
+                              color="primary"
                               :disabled="getPDFLoading"
                               @click="downloadPDF(send._id)"
                             >
@@ -253,7 +208,8 @@ export default {
                             <v-btn
                               v-if="send.status === 1"
                               block
-                              class="mt-2"
+                              elevation="0"
+                              class="mt-2 mb-1"
                               color="warning"
                               :disabled="getLoading.mark"
                               @click="markAsArchive(send._id)"
@@ -270,8 +226,8 @@ export default {
                                   send.admin.signature
                               "
                               block
-                              class="mt-2"
-                              min-width="50px"
+                              elevation="0"
+                              class="mt-2 mb-1"
                               color="success"
                               :disabled="getLoading.mark"
                               @click="markAsCompleted(send._id)"
