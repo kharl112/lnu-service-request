@@ -39,6 +39,7 @@ const faculty = {
   actions: {
     userLogin: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
+      dispatch("request/defaultState", null, { root: true });
       commit("setProfile", null);
       commit("setLoading", { loading: true, type: "login" });
       try {
@@ -55,6 +56,7 @@ const faculty = {
     },
     userRegister: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
+      dispatch("request/defaultState", null, { root: true });
       commit("setProfile", null);
       commit("setLoading", { loading: true, type: "register" });
       try {

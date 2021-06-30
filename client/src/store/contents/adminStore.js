@@ -33,6 +33,7 @@ const admin = {
   actions: {
     adminLogin: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
+      dispatch("request/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "login" });
       commit("setProfile", null);
       try {
@@ -49,6 +50,7 @@ const admin = {
     },
     adminRegister: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
+      dispatch("request/defaultState", null, { root: true });
       commit("setProfile", null);
       commit("setLoading", { loading: true, type: "register" });
       try {
