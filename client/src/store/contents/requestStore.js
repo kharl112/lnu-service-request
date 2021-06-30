@@ -49,6 +49,12 @@ const request = {
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
   },
   actions: {
+    defaultState: ({ commit }) => {
+      commit("setAllDraft", []);
+      commit("setAllSend", []);
+      commit("setAllPending", []);
+      commit("setAllSigned", []);
+    },
     createRequest: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "compose" });
