@@ -19,6 +19,9 @@ export default {
     async install() {
       this.deferredPrompt.prompt();
     },
+    goToLink(link) {
+      return this.$router.push(link);
+    },
   },
 };
 </script>
@@ -95,30 +98,36 @@ export default {
             </v-col>
             <v-col cols="12" class="pa-0">
               <v-card-actions>
-                <v-row justify="start" justify-sm="start" justify-md="center">
-                  <router-link
-                    to="/track/none"
-                    class="caption primary--text ma-1"
+                <v-row justify="start">
+                  <v-btn
+                    block
+                    elevation="0"
+                    @click="goToLink('/track/none')"
+                    class="caption mt-2"
                   >
-                    <v-icon color="primary">
+                    <v-icon left color="primary">
                       mdi-map-marker-distance
                     </v-icon>
                     Track Request
-                  </router-link>
-                  <router-link
-                    to="/admin/login"
-                    class="caption primary--text ma-1"
+                  </v-btn>
+                  <v-btn
+                    block
+                    elevation="0"
+                    @click="goToLink('/admin/login')"
+                    class="caption mt-2"
                   >
-                    <v-icon color="primary">mdi-account</v-icon>
-                    Chief Admin Office
-                  </router-link>
-                  <router-link
-                    to="/faculty/login"
-                    class="caption primary--text ma-1 text-center"
+                    <v-icon left color="primary">mdi-account</v-icon>
+                    Chief Administration Office
+                  </v-btn>
+                  <v-btn
+                    block
+                    elevation="0"
+                    @click="goToLink('/faculty/login')"
+                    class="caption mt-2"
                   >
-                    <v-icon color="primary">mdi-account-supervisor</v-icon>
-                    Faculty & Personnel
-                  </router-link>
+                    <v-icon left color="primary">mdi-account-supervisor</v-icon>
+                    Employee's Portal
+                  </v-btn>
                 </v-row>
               </v-card-actions>
             </v-col>
