@@ -4,6 +4,7 @@ export default {
   name: "FacultyArchives",
   data: () => ({
     show: false,
+    selected: null,
   }),
   computed: {
     getLoading() {
@@ -24,6 +25,7 @@ export default {
       }).replace("about ", "");
     },
     downloadPDF(id) {
+      this.selected = id;
       return this.$store.dispatch("pdf/generatePDF", {
         user_type: "faculty",
         id,
@@ -48,19 +50,27 @@ export default {
               <thead>
                 <tr>
                   <th class="text-left">
-                    Type
+                    Type & receiver
                   </th>
                   <th class="text-center hidden-sm-and-down">
                     Created
                   </th>
-                  <th class="text-center"/>
+                  <th class="text-center">Download</th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="send in getAllSend" :key="send._id">
                   <td>
-                    <v-list-item-subtitle class="text-left subtitle-1">
+                    <v-list-item-subtitle class="text-left body-2">
                       {{ send.service[0].type }}
+                      <v-spacer />
+                      <small
+                        class="caption font-weight-bold"
+                        v-if="send.service_provider.staff_id"
+                      >
+                        TO:
+                        {{ send.service_provider.profile[0].name.firstname }}
+                      </small>
                     </v-list-item-subtitle>
                   </td>
                   <td class="text-center hidden-sm-and-down">
@@ -79,7 +89,7 @@ export default {
                           icon
                           large
                           color="error"
-                          :loading="getPDFLoading"
+                          :loading="getPDFLoading && selected === send._id"
                           @click="downloadPDF(send._id)"
                           v-bind="attrs"
                           v-on="on"
