@@ -108,7 +108,11 @@ export default {
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid>
-                <h4 class="text-h6 text-sm-h6 text-md-h5">Compose Request</h4>
+                <h4
+                  class="text-h6 text-sm-h6 text-md-h5 primary--text text-uppercase"
+                >
+                  Compose Request
+                </h4>
                 <v-divider />
               </v-container>
             </v-col>
@@ -125,6 +129,7 @@ export default {
                     <v-autocomplete
                       v-model="form.admin.staff_id"
                       :rules="rules"
+                      small
                       :items="getAllAdmin"
                       class="caption"
                       item-text="name"
