@@ -84,7 +84,11 @@ export default {
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid>
-                <h4 class="text-h6 text-sm-h6 text-md-h5">Compose Request</h4>
+                <h4
+                  class="text-h6 text-sm-h6 text-md-h5 warning--text text-uppercase"
+                >
+                  Edit Request
+                </h4>
                 <v-divider />
               </v-container>
             </v-col>
@@ -102,23 +106,29 @@ export default {
                       v-model="form.admin.staff_id"
                       :rules="rules"
                       :items="getAllAdmin"
+                      class="caption"
                       item-text="name"
                       item-value="staff_id"
                       outlined
                       label="Chief Admin Office"
                       dense
+                      prepend-inner-icon="mdi-close"
+                      @click:prepend-inner="form.admin.staff_id = ''"
                     />
                   </v-col>
                   <v-col cols="12" sm="4" md="5">
                     <v-autocomplete
                       v-model="form.service_provider.staff_id"
                       :items="getAllServiceProviders"
+                      class="caption"
                       item-text="text"
                       item-value="staff_id"
                       outlined
                       label="Service Provider (optional)"
                       hint="(optional)"
                       dense
+                      prepend-inner-icon="mdi-close"
+                      @click:prepend-inner="form.service_provider.staff_id = ''"
                     />
                   </v-col>
                 </v-row>
@@ -160,7 +170,8 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-textarea
-                      rows="10"
+                      rows="15"
+                      class="body-2"
                       v-model="form.body"
                       outlined
                       :rules="rules"
