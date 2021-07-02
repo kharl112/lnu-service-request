@@ -121,28 +121,34 @@ export default {
             <v-col cols="12">
               <v-container fluid class="pt-2 pb-0">
                 <v-row justify="start" align="start" dense>
-                  <v-col cols="12" sm="4" md="5">
+                  <v-col cols="12" sm="6" md="5">
                     <v-autocomplete
                       v-model="form.admin.staff_id"
                       :rules="rules"
                       :items="getAllAdmin"
+                      class="caption"
                       item-text="name"
                       item-value="staff_id"
                       outlined
                       label="Chief Admin Office"
                       dense
+                      prepend-inner-icon="mdi-close"
+                      @click:prepend-inner="form.admin.staff_id = ''"
                     />
                   </v-col>
-                  <v-col cols="12" sm="4" md="5">
+                  <v-col cols="12" sm="6" md="5">
                     <v-autocomplete
                       v-model="form.service_provider.staff_id"
                       :items="getAllServiceProviders"
+                      class="caption"
                       item-text="text"
                       item-value="staff_id"
                       outlined
                       label="Service Provider (optional)"
                       hint="(optional)"
                       dense
+                      prepend-inner-icon="mdi-close"
+                      @click:prepend-inner="form.service_provider.staff_id = ''"
                     />
                   </v-col>
                 </v-row>
@@ -183,7 +189,8 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-textarea
-                      rows="10"
+                      rows="15"
+                      class="body-2"
                       v-model="form.body"
                       outlined
                       :rules="rules"
