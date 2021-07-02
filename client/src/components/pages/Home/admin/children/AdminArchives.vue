@@ -4,6 +4,7 @@ export default {
   name: "AdminArchives",
   data: () => ({
     show: false,
+    selected: null,
   }),
   computed: {
     getLoading() {
@@ -24,6 +25,7 @@ export default {
       }).replace("about ", "");
     },
     downloadPDF(id) {
+      this.selected = id;
       return this.$store.dispatch("pdf/generatePDF", {
         user_type: "admin",
         id,
@@ -63,7 +65,7 @@ export default {
             >
               <v-card class="mx-auto">
                 <v-list-item three-line>
-                  <v-list-item-content class="pb-0">
+                  <v-list-item-content class="pb-4">
                     <div class="caption text-capitalize font-weight-bold mb-4">
                       {{ getTimeOrDate(send.date) }}
                       <v-icon color="warning" class="ml-2">mdi-archive</v-icon>
@@ -78,39 +80,36 @@ export default {
                       }}</span>
                     </v-list-item-subtitle>
                     <v-list-item-subtitle class="caption">
-                      Renderer:
+                      To:
                       <span
                         class="font-weight-bold"
                         v-if="send.service_provider.staff_id"
                       >
                         {{ getFullname(send.service_provider.profile[0].name) }}
                       </span>
-                      <span class="error--text font-weight-bold" v-else>Unspecified</span>
+                      <span class="error--text font-weight-bold" v-else
+                        >Unspecified</span
+                      >
+                    </v-list-item-subtitle>
+                    <v-list-item-subtitle class="caption">
+                      Service type:
+                      <span class="font-weight-bold primary--text">{{
+                        send.service[0].type
+                      }}</span>
                     </v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
-                <v-card-actions class="pa-4 pt-2 pb-3">
-                  <v-spacer />
-                  <v-container class="pa-0">
-                    <v-chip
-                      class="font-weight-bold caption pt-2 pb-2 mr-2"
-                      x-small
-                      color="warning"
-                    >
-                      {{ send.service[0].type }}
-                    </v-chip>
-                  </v-container>
-                </v-card-actions>
+
                 <v-divider />
-                <v-container fluid class="pa-2">
+                <v-container fluid class="pa-0 pl-2">
                   <v-btn
-                    block
                     color="error"
-                    :disabled="getPDFLoading"
+                    icon
+                    large
+                    :loading="getPDFLoading && selected === send._id"
                     @click="downloadPDF(send._id)"
                   >
-                    Download PDF
-                    <v-icon right dark>
+                    <v-icon>
                       mdi-cloud-download
                     </v-icon>
                   </v-btn>
