@@ -75,8 +75,9 @@ const request = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    allDraft: async ({ commit, dispatch }) => {
-      commit("setLoading", { loading: true, type: "all_draft" });
+    allDraft: async ({ commit, dispatch, state }) => {
+      if (!state.all_draft[0])
+        commit("setLoading", { loading: true, type: "all_draft" });
       try {
         const { data } = await axios.get("/api/request/faculty/draft", {
           headers: { Authorization: localStorage.getItem("Authorization") },
