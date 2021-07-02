@@ -107,8 +107,9 @@ const request = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    allPending: async ({ commit, dispatch }, type) => {
-      commit("setLoading", { loading: true, type: "all_pending" });
+    allPending: async ({ commit, dispatch, state }, type) => {
+      if (!state.all_pending[0])
+        commit("setLoading", { loading: true, type: "all_pending" });
       try {
         const { data } = await axios.get(`/api/request/${type}/pending`, {
           headers: { Authorization: localStorage.getItem("Authorization") },
@@ -121,8 +122,9 @@ const request = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    allSigned: async ({ commit, dispatch }, type) => {
-      commit("setLoading", { loading: true, type: "all_signed" });
+    allSigned: async ({ commit, dispatch, state }, type) => {
+      if (!state.all_signed[0])
+        commit("setLoading", { loading: true, type: "all_signed" });
       try {
         const { data } = await axios.get(`/api/request/${type}/signed`, {
           headers: { Authorization: localStorage.getItem("Authorization") },
