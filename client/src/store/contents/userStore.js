@@ -190,8 +190,9 @@ const faculty = {
         return dispatch("message/errorMessage", message, { root: true });
       }
     },
-    allServiceProviders: async ({ commit, dispatch }) => {
-      commit("setLoading", { loading: true, type: "all_service_providers" });
+    allServiceProviders: async ({ commit, dispatch, state }) => {
+      if (!state.all_service_providers[0])
+        commit("setLoading", { loading: true, type: "all_service_providers" });
       try {
         const { data } = await axios.get("/api/user/provider/all", {
           headers: { Authorization: localStorage.getItem("Authorization") },

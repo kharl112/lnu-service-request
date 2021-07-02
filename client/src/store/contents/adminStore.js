@@ -5,7 +5,7 @@ const admin = {
   namespaced: true,
   state: () => ({
     profile: null,
-    admins: null,
+    all_admins: [],
     email: null,
     loading: {
       login: false,
@@ -22,13 +22,13 @@ const admin = {
     getProfile: (state) => state.profile,
     getLoading: (state) => state.loading,
     getEmail: (state) => state.email,
-    getAllAdmin: (state) => state.admins,
+    getAllAdmin: (state) => state.all_admins,
   },
   mutations: {
     setEmail: (state, email) => (state.email = email),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
     setProfile: (state, admin_profile) => (state.profile = admin_profile),
-    setAllAdmin: (state, admins) => (state.admins = [...admins]),
+    setAllAdmin: (state, all_admins) => (state.all_admins = [...all_admins]),
   },
   actions: {
     adminLogin: async ({ commit, dispatch }, form) => {
@@ -167,9 +167,10 @@ const admin = {
           : router.replace("/admin/login");
       }
     },
-    allAdmin: async ({ commit, dispatch }) => {
+    allAdmin: async ({ commit, dispatch, state }) => {
       dispatch("message/defaultState", null, { root: true });
-      commit("setLoading", { loading: true, type: "all_admin" });
+      if (!state.all_admins[0])
+        commit("setLoading", { loading: true, type: "all_admin" });
       try {
         const { data } = await axios.get("/api/admin/all", {
           headers: { Authorization: localStorage.getItem("Authorization") },
