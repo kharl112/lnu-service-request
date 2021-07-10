@@ -27,9 +27,15 @@ const pdf = {
             },
           }
         );
-        dispatch("message/successMessage", "Download Completed", { root: true });
+        dispatch("message/successMessage", "Download Completed", {
+          root: true,
+        });
         commit("setLoading", false);
-        return fileDownload(data, `${new Date().toString()}.pdf`);
+        const date = new Date();
+        return fileDownload(
+          data,
+          `${id}_${date.getMonth()}${date.getDate()}${date.getFullYear()}.pdf`
+        );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
