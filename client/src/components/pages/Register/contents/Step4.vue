@@ -47,6 +47,7 @@ export default {
 <template>
   <v-card class="card-container" elevation="5">
     <div class="ma-0 mb-3 caption font-weight-bold">
+      <v-icon color="warning"> mdi-information </v-icon>
       We sent you a code to your E-mail
     </div>
     <v-form ref="form" @submit="handleSubmit">

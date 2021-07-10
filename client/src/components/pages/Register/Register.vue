@@ -63,7 +63,11 @@ export default {
               </h3>
             </router-link>
             <h5
-              class="caption pa-0 pt-2 font-weight-bold text-center text-md-left primary--text"
+              :class="
+                `caption pa-0 pt-2 font-weight-bold text-center text-md-left ${
+                  getUserType === 'faculty' ? 'primary--text' : 'warning--text'
+                }`
+              "
             >
               {{
                 getUserType === "faculty"
@@ -92,19 +96,9 @@ export default {
           >
             I have an account
           </router-link>
-          <v-tooltip bottom v-if="getStepIndex === '4'">
-            <template v-slot:activator="{ on, attrs }">
-              <span v-bind="attrs" v-on="on" class="tooltip-text primary--text">
-                What is this?
-              </span>
-            </template>
-            <span>
-              Check your E-mail account to proceed
-            </span>
-          </v-tooltip>
           <small>
-            <strong> Step {{ getStepIndex }} of 4</strong> of creating an
-            account.
+            <strong class="primary--text"> Step {{ getStepIndex }} of 4</strong>
+            of creating an account.
           </small>
         </v-row>
       </v-col>
