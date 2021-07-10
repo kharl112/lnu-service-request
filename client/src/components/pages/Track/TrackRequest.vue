@@ -153,7 +153,7 @@ export default {
               <v-divider />
             </v-col>
             <v-col cols="12" class="pa-0">
-              <v-timeline class="pa-0">
+              <v-timeline align-top dense class="pa-0">
                 <v-timeline-item
                   v-for="signee in getSignatures(getTrackedRequest)"
                   :key="signee.profile[0].staff_id"
@@ -161,27 +161,42 @@ export default {
                   :color="signee.signature ? 'success' : 'primary'"
                   small
                 >
-                  <template v-slot:opposite>
-                    <small class="caption">{{
-                      getFullname(signee.profile[0].name)
-                    }}</small>
-                  </template>
-                  <v-card
-                    elevation="2"
-                    :color="signee.signature ? 'success' : 'primary'"
-                    class="pa-2"
-                  >
-                    <v-spacer />
-                    <small
-                      class="pa-0 font-weight-bold caption white--text  text-left"
-                    >
-                      {{
-                        signee.department
-                          ? signee.department.unit[0].name
-                          : "Chief Admin Office"
-                      }}
-                    </small>
-                  </v-card>
+                  <v-row justify="start" align="start">
+                    <v-col cols="12">
+                      <v-row justify="start">
+                        <span
+                          :class="
+                            `pt-3 caption font-weight-bold text-left ${
+                              signee.signature
+                                ? 'success--text text-decoration-line-through'
+                                : 'primary--text'
+                            }`
+                          "
+                        >
+                          {{ getFullname(signee.profile[0].name) }}
+                        </span>
+                      </v-row>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-row justify="start">
+                        <small
+                          :class="
+                            `secondary--text caption ${
+                              signee.signature
+                                ? 'text-decoration-line-through'
+                                : ''
+                            }`
+                          "
+                        >
+                          {{
+                            signee.department
+                              ? signee.department.unit[0].name
+                              : "Chief Admin Office"
+                          }}
+                        </small>
+                      </v-row>
+                    </v-col>
+                  </v-row>
                 </v-timeline-item>
               </v-timeline>
             </v-col>
@@ -190,11 +205,11 @@ export default {
             </v-col>
             <v-col cols="11">
               <v-row justify="start">
-                <v-card-text class="caption pa-0 green--text text-left">
+                <v-card-text class="caption secondary--text pa-0 text-left">
                   Service type:
-                  <span class="font-weight-bold">{{
-                    getTrackedRequest.service[0].type
-                  }}</span>
+                  <span class="font-weight-bold">
+                    {{ getTrackedRequest.service[0].type }}
+                  </span>
                 </v-card-text>
                 <v-card-text
                   :class="
