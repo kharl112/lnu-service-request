@@ -114,7 +114,7 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     );
 
     form.user.department = Department.getFullDepartment(form.user.department);
-    form.user.profile = Name.getFullName(req.locals.name);
+    form.user.profile = Name.getFullName(form.user.profile[0].name);
 
     if (form.service_provider.staff_id) {
       form.service_provider.department = Department.getFullDepartment(
