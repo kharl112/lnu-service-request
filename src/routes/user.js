@@ -341,16 +341,15 @@ route.get("/provider/all", userAuth, async (req, res) => {
       },
     },
   ]);
+
   return res.send(
-    all_service_provider
-      .filter((node) => node.role[0].level === 2)
-      .map((node) => ({
-        text: `${Name.getFullName(node.name)} (${Department.getFullDepartment({
-          unit: node.unit,
-          role: node.role,
-        })})`,
-        staff_id: node.staff_id,
-      }))
+    all_service_provider.map((node) => ({
+      text: `${Name.getFullName(node.name)} (${Department.getFullDepartment({
+        unit: node.unit,
+        role: node.role,
+      })})`,
+      staff_id: node.staff_id,
+    }))
   );
 });
 
