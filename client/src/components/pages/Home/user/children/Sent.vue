@@ -100,9 +100,9 @@ export default {
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
-      <v-col cols="12" sm="12" md="8" class="pa-0">
-        <v-container fluid class="pa-0">
-          <v-col cols="12" sm="5" md="4" class="pt-0 pb-0">
+      <v-col cols="12" class="pa-0">
+        <v-container fluid class="pa-0" v-if="getAllSend[0] && !getLoading.all_send">
+          <v-col cols="8" sm="5" md="4" class="pt-0 pb-2">
             <v-select
               outlined
               class="mb-n5"
@@ -113,153 +113,169 @@ export default {
               :items="filter"
               item-text="text"
               item-value="value"
+              dense
             />
           </v-col>
           <v-divider />
         </v-container>
         <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
-          <v-row justify="start" justify-sm="start" align="start">
-            <v-col
-              cols="12"
-              sm="6"
-              md="6"
-              v-for="(send, index) in getAllSend"
-              :key="send._id"
-            >
-              <v-card class="mx-auto pa-1">
-                <v-list-item three-line>
-                  <v-list-item-content class="pb-0">
-                    <div class="caption text-capitalize font-weight-bold mb-4">
-                      {{ getTimeOrDate(send.date) }}
-                      <v-chip
-                        x-small
-                        class="caption pr-1 pl-1 ml-1"
-                        :color="send.status === 0 ? 'primary' : 'success'"
-                      >
-                        {{ send.status === 0 ? "pending" : "completed" }}
-                      </v-chip>
-                    </div>
-                    <v-list-item-title class="text-subtitle-1 mb-1">
+          <v-simple-table fixed-header>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Description
+                  </th>
+                  <th class="text-center">
+                    Type
+                  </th>
+                  <th class="text-center">
+                    Created
+                  </th>
+                  <th class="text-center">
+                    Status
+                  </th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="send in getAllSend" :key="send.name">
+                  <td>
+                    <v-list-item-subtitle
+                      class="pa-0 text-caption text-left text-sm-body-2 text-lowercase"
+                    >
                       {{ send.subject }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle class="caption  mb-1">
-                      Service type:
-                      <span
-                        :class="
-                          `font-weight-bold text-uppercase ${
-                            send.status === 0 ? 'primary' : 'success'
-                          }--text`
-                        "
-                        >{{ send.service[0].type }}</span
-                      >
                     </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-                <v-card-actions class="pa-4 pt-2 pb-2">
-                  <v-container class="pa-0">
-                    <v-card-text class="pa-0 caption font-weight-bold">
-                      <v-text-field
-                        readonly
-                        dense
-                        outlined
-                        small
-                        label="Track ID"
-                        append-icon="mdi-content-copy"
-                        :id="`track_id${index}`"
-                        :value="send._id"
-                        @click:append="copyTrackId(index)"
-                        class="font-weight-regular caption mb-n6"
-                      />
-                    </v-card-text>
-                  </v-container>
-                </v-card-actions>
-                <v-expansion-panels accordion flat>
-                  <v-expansion-panel>
-                    <v-expansion-panel-header class="pa-1 pl-4">
-                      <div>
+                  </td>
+                  <td class="text-center">
+                    <v-list-item-subtitle
+                      class="pa-0 text-caption text-sm-body-2 text-lowercase"
+                    >
+                      {{ send.service[0].type }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td class="text-center">
+                    <v-chip
+                      small
+                      color="primary"
+                      class="pa-0 pr-2 pl-2 text-center text-caption"
+                    >
+                      {{ getTimeOrDate(send.date) }}
+                    </v-chip>
+                  </td>
+                  <td class="text-center">
+                    <small
+                      :class="
+                        `pa-0 text-caption font-weight-bold ${
+                          send.status === 0 ? 'primary--text' : 'success--text'
+                        }`
+                      "
+                    >
+                      {{ send.status === 0 ? "Pending" : "Completed" }}
+                    </small>
+                  </td>
+                  <td class="text-center text-no-wrap">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
                         <v-btn
-                          class="pa-0 pl-1 pr-1 font-weight-bold"
-                          small
-                          :color="send.status === 0 ? 'primary' : 'success'"
-                          elevation="0"
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          class="mt-2 mb-1"
+                          color="error"
+                          :disabled="getPDFLoading"
+                          @click="downloadPDF(send._id)"
+                        >
+                          <v-icon>
+                            mdi-cloud-download
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Download</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          v-if="send.status === 1"
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          class="mt-2 mb-1"
+                          color="warning"
+                          :disabled="getLoading.mark"
+                          @click="markAsArchive(send._id)"
+                        >
+                          <v-icon>
+                            mdi-archive
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Archive</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          v-if="
+                            send.status === 0 &&
+                              !send.service_provider.staff_id &&
+                              send.admin.signature
+                          "
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          class="mt-2 mb-1"
+                          color="success"
+                          :disabled="getLoading.mark"
+                          @click="markAsCompleted(send._id)"
+                        >
+                          <v-icon>
+                            mdi-check-circle
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Mark as completed</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          class="mt-2 mb-1"
+                          color="primary"
+                          :disabled="getLoading.mark"
                           @click="$router.push(`/track/${send._id}`)"
                         >
-                          Track Request
+                          <v-icon>
+                            mdi-map-marker-distance
+                          </v-icon>
                         </v-btn>
-                      </div>
-                    </v-expansion-panel-header>
-                    <v-expansion-panel-content class="pa-0">
-                      <v-card-text class="pa-0">
-                        <v-card-actions>
-                          <v-row>
-                            <v-btn
-                              block
-                              elevation="0"
-                              class="mt-2 mb-1"
-                              color="primary"
-                              :disabled="getPDFLoading"
-                              @click="downloadPDF(send._id)"
-                            >
-                              Download PDF
-                              <v-icon right dark>
-                                mdi-cloud-download
-                              </v-icon>
-                            </v-btn>
-                            <v-btn
-                              v-if="send.status === 1"
-                              block
-                              elevation="0"
-                              class="mt-2 mb-1"
-                              color="warning"
-                              :disabled="getLoading.mark"
-                              @click="markAsArchive(send._id)"
-                            >
-                              Archive
-                              <v-icon right dark>
-                                mdi-archive
-                              </v-icon>
-                            </v-btn>
-                            <v-btn
-                              v-if="
-                                send.status === 0 &&
-                                  !send.service_provider.staff_id &&
-                                  send.admin.signature
-                              "
-                              block
-                              elevation="0"
-                              class="mt-2 mb-1"
-                              color="success"
-                              :disabled="getLoading.mark"
-                              @click="markAsCompleted(send._id)"
-                            >
-                              Mark as completed
-                              <v-icon right>
-                                mdi-check-circle
-                              </v-icon>
-                            </v-btn>
-                          </v-row>
-                        </v-card-actions>
-                      </v-card-text>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
-                </v-expansion-panels>
-              </v-card>
-            </v-col>
-          </v-row>
+                      </template>
+                      <span>Track request</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-container>
         <v-container fluid v-else-if="getLoading.all_send">
+          <v-skeleton-loader type="table" />
+        </v-container>
+        <v-container fluid v-else-if="!getAllSend[0] && !getLoading.all_send">
           <v-row justify="start">
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
+            <v-col cols="12">
+              <v-banner single-line>
+                <v-icon slot="icon" color="warning" size="36">
+                  mdi-exclamation-thick
+                </v-icon>
+                You have empty sents
+                <template v-slot:actions>
+                  <v-btn color="primary" @click="gotoCreate" text>
+                    create
+                  </v-btn>
+                </template>
+              </v-banner>
             </v-col>
           </v-row>
         </v-container>
@@ -280,52 +296,6 @@ export default {
             </v-col>
           </v-row>
         </v-container>
-      </v-col>
-      <v-divider class="hidden-sm-and-down" vertical />
-      <v-col md="4" class="hidden-sm-and-down">
-        <v-row>
-          <v-col cols="12">
-            <v-container fluid>
-              <v-card class="mx-auto" max-width="344">
-                <v-img
-                  src="https://www.windowsphonefr.com/wp-content/uploads/2019/05/ThinkstockPhotos-187625854.jpg"
-                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                  class="white--text align-end"
-                  width="720px"
-                  height="auto"
-                >
-                  <v-card-title>
-                    Requesting Services in LNU
-                  </v-card-title>
-                </v-img>
-
-                <v-card-actions>
-                  <v-btn color="warning" text>
-                    Contact Us
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn icon @click="show = !show">
-                    <v-icon>{{
-                      show ? "mdi-chevron-up" : "mdi-chevron-down"
-                    }}</v-icon>
-                  </v-btn>
-                </v-card-actions>
-
-                <v-expand-transition>
-                  <div v-show="show">
-                    <v-divider></v-divider>
-                    <v-card-text>
-                      Leyte Normal University <br />
-                      Paterno Street Tacloban City 6500 <br />
-                      +63 (53) 832 3205 info@lnu.edu.ph <br />
-                      www.facebook.com/lnuofficial
-                    </v-card-text>
-                  </div>
-                </v-expand-transition>
-              </v-card>
-            </v-container>
-          </v-col>
-        </v-row>
       </v-col>
     </v-row>
   </v-container>
