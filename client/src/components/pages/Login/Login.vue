@@ -239,11 +239,12 @@ export default {
                     </v-btn>
                   </v-col>
                   <v-col cols="12">
-                    <v-container fluid class="pa-0 pt-3">
+                    <v-container fluid class="pa-0 pt-2">
                       <router-link
+                        class="caption"
                         :to="`/${getUserType}/forgot/password/step=1`"
                       >
-                        I forgot my password
+                        Forgot your password?
                       </router-link>
                     </v-container>
                   </v-col>
