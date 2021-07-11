@@ -6,6 +6,11 @@ export default {
   data() {
     return {
       show: false,
+      deferredPrompt: null,
+      selections: [
+        { value: "admin", text: "Chief Administration Office" },
+        { value: "faculty", text: "Employee/Faculty" },
+      ],
       form: {
         email: "",
         password: "",
@@ -43,6 +48,12 @@ export default {
       e.preventDefault();
       return this.$router.push(`/${this.getUserType}/register/step=1`);
     },
+    async install() {
+      if (this.deferredPrompt) this.deferredPrompt.prompt();
+    },
+    goToLink(link) {
+      return this.$router.push(link);
+    },
   },
   computed: {
     getUserType() {
@@ -56,6 +67,15 @@ export default {
         ? this.$store.getters["faculty/getLoading"]
         : this.$store.getters["admin/getLoading"];
     },
+  },
+  created() {
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+    });
+    window.addEventListener("appinstalled", () => {
+      this.deferredPrompt = null;
+    });
   },
 };
 </script>
@@ -92,7 +112,7 @@ export default {
                 <router-link to="/" class="text-decoration-none">
                   <h3
                     :class="
-                      `text-h5 text-sm-h4 text-md-h4 ${
+                      `text-h5 text-sm-h4 text-md-h4 text-center text-md-left ${
                         $vuetify.theme.dark ? 'primary--text' : ''
                       }`
                     "
@@ -103,25 +123,21 @@ export default {
                 </router-link>
               </v-col>
               <v-col cols="12" class="pa-2"><v-divider /></v-col>
-              <v-col
-                cols="12"
-                class="pa-2 pb-5"
-                v-if="getUserType === 'faculty'"
-              >
+              <v-col cols="11" class="pa-2 pb-0">
                 <h4
+                  v-if="getUserType === 'faculty'"
                   :class="
-                    `text-h6 text-sm-h5 text-md-h5 ${
+                    ` overline font-weight-bold text-center ${
                       $vuetify.theme.dark ? 'primary--text' : ''
                     }`
                   "
                 >
                   Faculty Personnel Login
                 </h4>
-              </v-col>
-              <v-col cols="12" class="pa-2  pb-5" v-else>
                 <h4
+                  v-else
                   :class="
-                    `text-h6 text-sm-h5 text-md-h5 ${
+                    ` overline font-weight-bold text-center ${
                       $vuetify.theme.dark ? 'warning--text' : ''
                     }`
                   "
@@ -129,15 +145,29 @@ export default {
                   Chief Admin Office Login
                 </h4>
               </v-col>
+              <v-col cols="12" md="11" sm="12" class="pb-0">
+                <v-select
+                  @change="(e) => $router.push(`/${e}/login`)"
+                  dense
+                  outlined
+                  :items="selections"
+                  label="Select user level"
+                  item-text="text"
+                  item-value="value"
+                  v-model="getUserType"
+                />
+              </v-col>
+              <v-col cols="12" class="pb-5 pt-0"><v-divider /></v-col>
             </v-row>
           </v-col>
           <v-col cols="12">
-            <v-form ref="form" @submit="handleSubmit" >
+            <v-form ref="form" @submit="handleSubmit">
               <v-row no-gutters>
                 <v-col cols="12" md="11" sm="12">
                   <v-text-field
                     :rules="rules.email"
                     :disabled="getLoading.login"
+                    dense
                     class="input"
                     label="E-mail"
                     v-model="form.email"
@@ -153,6 +183,7 @@ export default {
                     :rules="rules.password"
                     :type="show ? 'text' : 'password'"
                     :disabled="getLoading.login"
+                    dense
                     class="input"
                     label="Password"
                     v-model="form.password"
@@ -225,8 +256,58 @@ export default {
         </v-row>
       </v-col>
     </v-row>
+    <v-row class="floating-button">
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            small
+            v-bind="attrs"
+            v-on="on"
+            @click="goToLink('/track/none')"
+            color="primary"
+            medium
+            class="ma-2"
+            fab
+          >
+            <v-icon>mdi-map-marker-distance</v-icon>
+          </v-btn>
+        </template>
+        <span>
+          Track request
+        </span>
+      </v-tooltip>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            small
+            v-bind="attrs"
+            v-on="on"
+            @click="install"
+            :color="deferredPrompt ? 'error' : 'grey lighten-1'"
+            medium
+            class="ma-2"
+            fab
+          >
+            <v-icon v-if="deferredPrompt">mdi-download</v-icon>
+            <v-icon v-else>mdi-download-off</v-icon>
+          </v-btn>
+        </template>
+        <span>
+          {{
+            deferredPrompt
+              ? "This app is compatible in your device"
+              : "This app is not installable in your browser"
+          }}
+        </span>
+      </v-tooltip>
+    </v-row>
   </v-container>
 </template>
 <style lang="scss" scoped>
 @import "../../../assets/scss/pages/Login/login.scss";
+.floating-button {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
+}
 </style>
