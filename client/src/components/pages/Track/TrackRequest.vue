@@ -7,16 +7,28 @@ export default {
   },
   data: () => ({
     show: false,
+    timeout: 3000,
   }),
   computed: {
     getTrackLoading() {
       return this.$store.getters["request/getLoading"].tracked_request;
+    },
+    getSuccess() {
+      return this.$store.getters["message/getSuccess"];
     },
     getError() {
       return this.$store.getters["message/getError"];
     },
     getTrackedRequest() {
       return this.$store.getters["request/getTrackedRequest"];
+    },
+    snackbar: {
+      get() {
+        return this.$store.getters["message/getSnackbar"];
+      },
+      set(flag) {
+        return this.$store.commit("message/setSnackbar", flag);
+      },
     },
     track_id: {
       get() {
@@ -113,28 +125,20 @@ export default {
             <v-col cols="11" class="pt-0 pb-0 mb-n3">
               <v-form @submit="handleSubmit">
                 <v-text-field
-                  append-icon="mdi-arrow-right-bold-box"
+                  append-icon="mdi-send"
+                  prepend-inner-icon="mdi-content-copy"
                   @click:append="handleSubmit"
+                  @click:prepend-inner="copyTrackId"
                   :loading="getTrackLoading"
                   dense
                   outlined
+                  id="track_id"
                   label="track id"
                   v-model="track_id"
                 />
               </v-form>
             </v-col>
-            <v-col
-              cols="11"
-              class="pa-1 pl-6"
-              v-if="track_id.length === 24 && !getError"
-            >
-              <v-row justify="start">
-                <v-btn elevation="0" small color="primary" @click="showQR">
-                  get QR code
-                  <v-icon right>mdi-qrcode</v-icon>
-                </v-btn>
-              </v-row>
-            </v-col>
+
             <v-col cols="11" class="pt-4" v-if="getError">
               <v-alert type="error" class="pt-1 pb-1 text-left">
                 <span class="caption">{{ getError }}</span>
@@ -157,13 +161,28 @@ export default {
           min-width="250"
         >
           <v-row justify="center" align="center">
-            <v-col cols="11" class="pa-0">
+            <v-col cols="11" class="pa-2">
               <v-row justify="center">
                 <v-card-title
-                  class="text-center pa-2 font-weight-bold caption text-md-body-1"
+                  :class="
+                    `text-center font-weight-bold pa-2 body-2 ${
+                      getTrackedRequest.status === 0 ? 'primary' : 'success'
+                    }--text`
+                  "
                 >
                   Request Status
                 </v-card-title>
+                <v-btn
+                  v-if="track_id.length === 24 && !getError"
+                  icon
+                  large
+                  :color="
+                    getTrackedRequest.status === 0 ? 'primary' : 'success'
+                  "
+                  @click="showQR"
+                >
+                  <v-icon>mdi-qrcode</v-icon>
+                </v-btn>
               </v-row>
             </v-col>
             <v-col cols="12">
@@ -222,7 +241,7 @@ export default {
             </v-col>
             <v-col cols="11">
               <v-row justify="start">
-                <v-card-text class="caption secondary--text pa-0 text-left">
+                <v-card-text class="body-2 secondary--text pa-0 text-left">
                   Service type:
                   <span class="font-weight-bold">
                     {{ getTrackedRequest.service[0].type }}
@@ -230,7 +249,7 @@ export default {
                 </v-card-text>
                 <v-card-text
                   :class="
-                    `caption pa-0 text-left ${
+                    `body-2 pa-0 text-left ${
                       getTrackedRequest.status === 0 ? 'primary' : 'success'
                     }--text`
                   "
@@ -292,7 +311,7 @@ export default {
                   class="caption primary--text ma-2 text-center"
                 >
                   <v-icon color="primary">mdi-account-supervisor</v-icon>
-                  Faculty & Personnel
+                  Employee & Service Provider
                 </router-link>
               </v-row>
             </v-col>
@@ -300,6 +319,33 @@ export default {
         </v-card>
       </v-col>
       <QRCodeBox :showQR="showQR" :show="show" />
+      <v-snackbar
+        :timeout="timeout"
+        v-show="getSuccess"
+        color="success"
+        v-model="snackbar"
+      >
+        {{ getSuccess }}
+        <template v-slot:action="{ attrs }">
+          <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+
+      <v-snackbar
+        :timeout="timeout"
+        v-show="getError"
+        color="error"
+        v-model="snackbar"
+      >
+        {{ getError }}
+        <template v-slot:action="{ attrs }">
+          <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
     </v-row>
   </div>
 </template>
