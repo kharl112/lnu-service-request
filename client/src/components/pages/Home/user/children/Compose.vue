@@ -84,6 +84,7 @@ export default {
         e.preventDefault();
       };
       this.form.save_as = save_as;
+      if (!this.form.other_service) delete this.form.other_service;
       if (this.$refs.form.validate()) {
         if (!this.form.user.signature)
           return this.$store.dispatch(
@@ -99,9 +100,6 @@ export default {
     this.$store.dispatch("faculty/allServiceProviders");
     this.$store.dispatch("admin/allAdmin");
     this.$store.dispatch("service/allServices");
-  },
-  updated() {
-    console.log(this.form.service_id, this.form.other_service);
   },
 };
 </script>
