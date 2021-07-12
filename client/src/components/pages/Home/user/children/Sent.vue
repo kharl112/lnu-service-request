@@ -84,11 +84,7 @@ export default {
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
       <v-col cols="12" class="pa-0">
-        <v-container
-          fluid
-          class="pa-0"
-          v-if="getAllSend[0] && !getLoading.all_send"
-        >
+        <v-container fluid class="pa-0">
           <v-col cols="8" sm="5" md="4" class="pt-0 pb-2">
             <v-select
               outlined
