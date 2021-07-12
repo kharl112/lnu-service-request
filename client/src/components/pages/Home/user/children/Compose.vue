@@ -7,6 +7,7 @@ export default {
   },
   data: () => ({
     signatureVisibility: false,
+    others: false,
     rules: [(v) => !!v || "This field is not allowed to be empty"],
     items: ["A4", "Letter"],
     timeout: 3000,
@@ -35,6 +36,7 @@ export default {
         signature: "",
       },
       save_as: 0,
+      other_service: "",
     },
   }),
   computed: {
@@ -66,6 +68,11 @@ export default {
     showSignature() {
       this.signatureVisibility = !this.signatureVisibility;
     },
+    customService(bool) {
+      this.others = bool;
+      if (bool) return (this.form.service_id = "");
+      return (this.form.other_service = "");
+    },
     handleSetSignature(signatureId) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
       return (this.form.user.signature = signatureElement
@@ -92,6 +99,9 @@ export default {
     this.$store.dispatch("faculty/allServiceProviders");
     this.$store.dispatch("admin/allAdmin");
     this.$store.dispatch("service/allServices");
+  },
+  updated() {
+    console.log(this.form.service_id, this.form.other_service);
   },
 };
 </script>
@@ -161,35 +171,60 @@ export default {
             </v-col>
             <v-col cols="12">
               <v-container fluid class="pt-0 pb-0">
-                <v-subheader>Purpose</v-subheader>
+                <v-subheader>Request</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
             <v-col cols="12">
               <v-container fluid>
                 <v-row justify="start" dense no-gutters>
+                  <v-col cols="12" class="pb-5 pb-md-0">
+                    <v-row align="start" dense>
+                      <v-col cols="12" sm="8" v-if="!others">
+                        <v-autocomplete
+                          v-model="form.service_id"
+                          outlined
+                          label="Service Type"
+                          :rules="others ? rules : []"
+                          :items="getAllServices"
+                          item-text="type"
+                          item-value="_id"
+                          dense
+                        />
+                      </v-col>
+                      <v-col cols="12" sm="8" v-if="others">
+                        <v-text-field
+                          v-model="form.other_service"
+                          append-outer-icon="mdi-eye-off"
+                          label="Others"
+                          hint="please specify custom service"
+                          @click:append-outer="customService(false)"
+                          outlined
+                          dense
+                        />
+                      </v-col>
+                      <v-col v-else cols="12" sm="3" md="3">
+                        <v-btn
+                          @click="customService(true)"
+                          block
+                          outlined
+                          color="primary"
+                        >
+                          others
+                        </v-btn>
+                      </v-col>
+                    </v-row>
+                  </v-col>
                   <v-col cols="12">
                     <v-text-field
                       v-model="form.subject"
                       autofocus
                       outlined
                       :rules="rules"
-                      label="Subject"
+                      label="Description"
                       dense
                       counter
                       maxlength="50"
-                    />
-                  </v-col>
-                  <v-col cols="12">
-                    <v-autocomplete
-                      v-model="form.service_id"
-                      outlined
-                      label="Services Type"
-                      :rules="rules"
-                      :items="getAllServices"
-                      item-text="type"
-                      item-value="_id"
-                      dense
                     />
                   </v-col>
                   <v-col cols="12">
@@ -199,7 +234,7 @@ export default {
                       v-model="form.body"
                       outlined
                       :rules="rules"
-                      label="Body"
+                      label="Purpose"
                       auto-grow
                     />
                   </v-col>
