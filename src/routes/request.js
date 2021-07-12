@@ -1,6 +1,7 @@
 const route = require("express").Router();
 const { create, deleteSelected } = require("../validation/request_validation");
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
 const userAuth = require("../authentication/userAuth");
 const adminAuth = require("../authentication/adminAuth");
@@ -8,11 +9,39 @@ const adminAuth = require("../authentication/adminAuth");
 const User = require("../db/models/user_model");
 const Admin = require("../db/models/admin_model");
 const Request = require("../db/models/request_model");
+const Service = require("../db/models/service_model");
 const requestQuery = require("../functions/requestQuery");
-const { Name, _Date, Department } = require("../functions/generateProfile");
+const { Name } = require("../functions/generateProfile");
 
 route.post("/create", userAuth, async (req, res) => {
   req.body.status = 0;
+
+  if (req.body.other_service) {
+    const schema = Joi.string().max(255);
+    const { error } = schema.validate(req.body.other_service);
+    if (error) return res.status(400).send(error.details[0]);
+
+    req.body.other_service = req.body.other_service
+      .split(" ")
+      .map((node) => Name.getFixedName(node))
+      .join(" ")
+      .trim();
+
+    const service_found = await Service.findOne({
+      type: req.body.other_service,
+    });
+
+    if (service_found) {
+      req.body.service_id = service_found._id.toString();
+    } else {
+      const new_service = new Service({ type: req.body.other_service });
+      const service = await new_service.save();
+
+      req.body.service_id = service._id.toString();
+    }
+
+    delete req.body.other_service;
+  }
 
   const { error } = create(req.body);
   if (error) return res.status(400).send(error.details[0]);
@@ -214,7 +243,7 @@ route.get("/admin/sent/archived", adminAuth, async (req, res) => {
       status: 2,
     })
   );
-  
+
   return res.send(admin_archived);
 });
 
