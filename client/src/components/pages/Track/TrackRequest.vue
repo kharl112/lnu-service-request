@@ -54,6 +54,23 @@ export default {
     showQR() {
       return (this.show = !this.show);
     },
+    copyTrackId() {
+      var copy_id = document.getElementById("track_id");
+      copy_id.select();
+      copy_id.setSelectionRange(0, 99999);
+      try {
+        document.execCommand("copy");
+        return this.$store.dispatch(
+          "message/successMessage",
+          "copied to clipboard"
+        );
+      } catch (error) {
+        return this.$store.dispatch(
+          "message/errorMessage",
+          "something went wrong"
+        );
+      }
+    },
   },
   created() {
     if (this.track_id !== "none") {

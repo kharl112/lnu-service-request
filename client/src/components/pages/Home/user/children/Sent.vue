@@ -54,23 +54,6 @@ export default {
       if (service_provider.staff_id) return [admin, service_provider];
       return [admin];
     },
-    copyTrackId(index) {
-      var copy_id = document.getElementById(`track_id${index}`);
-      copy_id.select();
-      copy_id.setSelectionRange(0, 99999);
-      try {
-        document.execCommand("copy");
-        return this.$store.dispatch(
-          "message/successMessage",
-          "copied to clipboard"
-        );
-      } catch (error) {
-        return this.$store.dispatch(
-          "message/errorMessage",
-          "something went wrong"
-        );
-      }
-    },
     handleFilter(filter) {
       return this.$store.dispatch("request/allSend", {
         filter,
@@ -101,7 +84,11 @@ export default {
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
       <v-col cols="12" class="pa-0">
-        <v-container fluid class="pa-0" v-if="getAllSend[0] && !getLoading.all_send">
+        <v-container
+          fluid
+          class="pa-0"
+          v-if="getAllSend[0] && !getLoading.all_send"
+        >
           <v-col cols="8" sm="5" md="4" class="pt-0 pb-2">
             <v-select
               outlined
