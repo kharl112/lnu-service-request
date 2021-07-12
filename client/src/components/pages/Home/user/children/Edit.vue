@@ -44,7 +44,6 @@ export default {
     },
     customService(bool) {
       this.others = bool;
-      if (bool) return (this.form.service_id = "");
       return (this.form.other_service = "");
     },
     handleSetSignature(signatureId) {
