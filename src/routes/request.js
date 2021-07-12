@@ -298,9 +298,36 @@ route.post("/faculty/update/letter=:_id", userAuth, async (req, res) => {
   const { _id } = req.params;
   if (!_id) return res.status(400).send({ message: "empty parameter" });
 
-  const { error } = create(req.body.form);
+  if (req.body.form.other_service) {
+    const schema = Joi.string().max(255);
+    const { error } = schema.validate(req.body.form.other_service);
+    if (error) return res.status(400).send(error.details[0]);
 
+    req.body.form.other_service = req.body.form.other_service
+      .split(" ")
+      .map((node) => Name.getFixedName(node))
+      .join(" ")
+      .trim();
+
+    const service_found = await Service.findOne({
+      type: req.body.form.other_service,
+    });
+
+    if (service_found) {
+      req.body.form.service_id = service_found._id.toString();
+    } else {
+      const new_service = new Service({ type: req.body.form.other_service });
+      const service = await new_service.save();
+
+      req.body.form.service_id = service._id.toString();
+    }
+
+    delete req.body.form.other_service;
+  }
+
+  const { error } = create(req.body.form);
   if (error) return res.status(400).send(error.details[0]);
+
   req.body.form.user.staff_id = req.locals.staff_id;
 
   await Request.findByIdAndUpdate(_id, req.body.form, {}, (error) => {
