@@ -4,6 +4,7 @@ export default {
   name: "Sent",
   data: () => ({
     show: false,
+    selected: "",
     filter: [
       { text: "All", value: "all" },
       { text: "Pending", value: "pending" },
@@ -32,6 +33,7 @@ export default {
       return this.$router.push(`/faculty/home/compose`);
     },
     downloadPDF(id) {
+      this.selected = id;
       return this.$store.dispatch("pdf/generatePDF", {
         user_type: "faculty",
         id,
@@ -61,6 +63,7 @@ export default {
       });
     },
     markAsArchive(request_id) {
+      this.selected = request_id;
       return this.$store.dispatch("request/markRequest", {
         request_id,
         type: "archive",
@@ -68,6 +71,7 @@ export default {
       });
     },
     markAsCompleted(request_id) {
+      this.selected = request_id;
       return this.$store.dispatch("request/markRequest", {
         request_id,
         type: "complete",
@@ -166,7 +170,7 @@ export default {
                           v-on="on"
                           class="mt-2 mb-1"
                           color="error"
-                          :disabled="getPDFLoading"
+                          :loading="getPDFLoading && selected === send._id"
                           @click="downloadPDF(send._id)"
                         >
                           <v-icon>
@@ -185,7 +189,7 @@ export default {
                           v-on="on"
                           class="mt-2 mb-1"
                           color="warning"
-                          :disabled="getLoading.mark"
+                          :loading="getLoading.mark && selected === send._id"
                           @click="markAsArchive(send._id)"
                         >
                           <v-icon>
@@ -208,7 +212,7 @@ export default {
                           v-on="on"
                           class="mt-2 mb-1"
                           color="success"
-                          :disabled="getLoading.mark"
+                          :loading="getLoading.mark && selected === send._id"
                           @click="markAsCompleted(send._id)"
                         >
                           <v-icon>
