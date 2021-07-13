@@ -61,25 +61,31 @@ export default {
                 <v-img
                   src="https://upload.wikimedia.org/wikipedia/en/1/17/LNUTaclobanLogo.jpg"
                   max-width="75"
-                  height="auto"
-                  class="mr-2"
+                  min-width="25"
+                  class="mr-2 hidden-sm-and-down"
                 />
-                <v-col cols="6">
+                <v-col cols="12" md="6">
                   <v-row justify="center">
-                    <v-col cols="12" class="pt-0 pb-0 mt-1">
-                      <span class="black--text text-center body-1">
-                        Republic of the Philippines
-                      </span>
+                    <v-col cols="12" class="ml-2">
+                      <v-row justify="center" justify-md="start">
+                        <span class="black--text text-center body-1">
+                          Republic of the Philippines
+                        </span>
+                      </v-row>
                     </v-col>
-                    <v-col cols="12" class="pt-0 pb-0 mt-n1">
-                      <span class="black--text font-weight-bold body-2">
-                        Leyte Normal University
-                      </span>
+                    <v-col cols="12" class="ml-2">
+                      <v-row justify="center" justify-md="start">
+                        <span class="black--text font-weight-bold body-2">
+                          Leyte Normal University
+                        </span>
+                      </v-row>
                     </v-col>
-                    <v-col cols="12" class="pt-0 pb-0 mt-n1">
-                      <span class="black--text caption">
-                        P. Paterno St., Tacloban City
-                      </span>
+                    <v-col cols="12" class="ml-2">
+                      <v-row justify="center" justify-md="start">
+                        <span class="black--text caption">
+                          P. Paterno St., Tacloban City
+                        </span>
+                      </v-row>
                     </v-col>
                   </v-row>
                 </v-col>
