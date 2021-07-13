@@ -10,7 +10,7 @@ export default {
   },
   data: () => ({
     signatureVisibility: false,
-    preview: false,
+    preview: { show: false, data: null },
     selected: "",
     selectedRequest: "",
     colors: ["primary", "warning", "error", "success"],
@@ -39,9 +39,8 @@ export default {
       this.selectedRequest = request_id;
       this.signatureVisibility = !this.signatureVisibility;
     },
-    showPreview(request_id) {
-      this.selectedRequest = request_id;
-      this.preview = !this.preview;
+    showPreview(request = null) {
+      return (this.preview = { show: !this.preview.show, data: request });
     },
     handleSetSignature(signatureId) {
       const signature = document
@@ -201,7 +200,7 @@ export default {
                           v-on="on"
                           class="mt-2 mb-1"
                           color="primary"
-                          @click="showPreview(pending.id)"
+                          @click="showPreview(pending)"
                         >
                           <v-icon>
                             mdi-eye
