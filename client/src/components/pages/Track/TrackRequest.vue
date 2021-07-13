@@ -1,5 +1,6 @@
 <script>
 import QRCodeBox from "./contents/QRCodeBox";
+import shortenUuid from "shorten-uuid";
 export default {
   name: "TrackRequest",
   components: {
@@ -86,7 +87,21 @@ export default {
   },
   created() {
     if (this.track_id !== "none") {
-      return this.$store.dispatch("request/trackRequest", this.track_id);
+      const characters =
+        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      const { decode } = shortenUuid(characters);
+      const decoded = decode(this.track_id)
+        .split("-")
+        .splice(0, 24)
+        .join("");
+
+      return this.$store.dispatch(
+        "request/trackRequest",
+        decoded
+          .split("")
+          .splice(0, 24)
+          .join("")
+      );
     }
   },
   destroyed() {
