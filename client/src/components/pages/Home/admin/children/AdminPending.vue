@@ -114,7 +114,7 @@ export default {
                 <tr v-for="pending in getAllPending" :key="pending.name">
                   <td>
                     <v-list-item-subtitle
-                      @click="$router.push(`/track/${pending._id}`)"
+                      @click="showPreview(pending)"
                       class="pa-0 text-caption text-left text-sm-body-2 text-lowercase"
                     >
                       {{ pending.subject }}
@@ -122,16 +122,13 @@ export default {
                   </td>
                   <td class="text-center">
                     <v-list-item-subtitle
-                      @click="$router.push(`/track/${pending._id}`)"
+                      @click="showPreview(pending)"
                       class="pa-0 text-caption text-sm-body-2 text-lowercase"
                     >
                       {{ pending.service[0].type }}
                     </v-list-item-subtitle>
                   </td>
-                  <td
-                    class="text-center"
-                    @click="$router.push(`/track/${pending._id}`)"
-                  >
+                  <td class="text-center" @click="showPreview(pending)">
                     <v-chip
                       small
                       color="primary"
@@ -140,10 +137,7 @@ export default {
                       {{ getTimeOrDate(pending.date) }}
                     </v-chip>
                   </td>
-                  <td
-                    class="text-center"
-                    @click="$router.push(`/track/${pending._id}`)"
-                  >
+                  <td class="text-center" @click="showPreview(pending)">
                     <small
                       :class="
                         `pa-0 text-caption font-weight-bold ${
@@ -200,14 +194,14 @@ export default {
                           v-on="on"
                           class="mt-2 mb-1"
                           color="primary"
-                          @click="showPreview(pending)"
+                          @click="$router.push(`/track/${pending._id}`)"
                         >
                           <v-icon>
-                            mdi-eye
+                            mdi-map-marker-distance
                           </v-icon>
                         </v-btn>
                       </template>
-                      <span>Preview request</span>
+                      <span>Track Request</span>
                     </v-tooltip>
                   </td>
                 </tr>
@@ -250,6 +244,10 @@ export default {
       :showSignature="showSignature"
       :handleSetSignature="handleSetSignature"
     />
-    <PreviewRequest :showPreview="showPreview" :preview="preview" />
+    <PreviewRequest
+      :downloadPDF="downloadPDF"
+      :showPreview="showPreview"
+      :preview="preview"
+    />
   </v-container>
 </template>
