@@ -55,82 +55,85 @@ export default {
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8" class="pa-0">
         <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
-          <v-row justify="start" justify-sm="start" align="start">
-            <v-col
-              cols="12"
-              sm="6"
-              md="4"
-              v-for="send in getAllSend"
-              :key="send._id"
-            >
-              <v-card class="mx-auto">
-                <v-list-item three-line>
-                  <v-list-item-content class="pb-4">
-                    <div class="caption text-capitalize font-weight-bold mb-4">
-                      {{ getTimeOrDate(send.date) }}
-                      <v-icon color="warning" class="ml-2">mdi-archive</v-icon>
-                    </div>
-                    <v-list-item-title class="text-subtitle-1 mb-1">
-                      {{ send.subject }}
-                    </v-list-item-title>
-                    <v-list-item-subtitle class="caption mt-2">
-                      From:
-                      <span class="font-weight-bold">{{
-                        getFullname(send.user.profile[0].name)
-                      }}</span>
-                    </v-list-item-subtitle>
-                    <v-list-item-subtitle class="caption">
-                      To:
-                      <span
-                        class="font-weight-bold"
+          <v-simple-table>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Info
+                  </th>
+                  <th class="text-center hidden-sm-and-down">
+                    Created
+                  </th>
+                  <th class="text-center">Download</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="send in getAllSend" :key="send._id">
+                  <td>
+                    <v-list-item-subtitle class="text-left body-2 pb-1 pt-1">
+                      {{ send.service[0].type }}
+                      <v-spacer />
+                      <small
+                        class="caption font-weight-bold"
                         v-if="send.service_provider.staff_id"
                       >
-                        {{ getFullname(send.service_provider.profile[0].name) }}
-                      </span>
-                      <span class="error--text font-weight-bold" v-else
-                        >Unspecified</span
-                      >
+                        TO:
+                        {{ send.service_provider.profile[0].name.firstname }}
+                      </small>
+                      <v-spacer />
+                      <small class="caption font-weight-bold">
+                        FROM:
+                        {{ send.user.profile[0].name.firstname }}
+                      </small>
                     </v-list-item-subtitle>
-                    <v-list-item-subtitle class="caption">
-                      Service type:
-                      <span class="font-weight-bold primary--text">{{
-                        send.service[0].type
-                      }}</span>
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-
-                <v-divider />
-                <v-container fluid class="pa-0 pl-2">
-                  <v-btn
-                    color="error"
-                    icon
-                    large
-                    :loading="getPDFLoading && selected === send._id"
-                    @click="downloadPDF(send._id)"
-                  >
-                    <v-icon>
-                      mdi-cloud-download
-                    </v-icon>
-                  </v-btn>
-                </v-container>
-              </v-card>
-            </v-col>
-          </v-row>
+                  </td>
+                  <td class="text-center hidden-sm-and-down">
+                    <v-chip
+                      x-small
+                      color="primary"
+                      class="pa-0 pr-2 pl-2 text-center text-caption"
+                    >
+                      {{ getTimeOrDate(send.date) }}
+                    </v-chip>
+                  </td>
+                  <td class="text-center">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          large
+                          color="error"
+                          :loading="getPDFLoading && selected === send._id"
+                          @click="downloadPDF(send._id)"
+                          v-bind="attrs"
+                          v-on="on"
+                        >
+                          <v-icon>
+                            mdi-cloud-download
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Download PDF</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-container>
         <v-container fluid v-else-if="getLoading.all_send">
+          <v-skeleton-loader type="table" />
+        </v-container>
+        <v-container fluid v-else-if="!getAllSend[0] && !getLoading.all_send">
           <v-row justify="start">
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
-            </v-col>
-            <v-col cols="12" sm="5" md="4">
-              <v-skeleton-loader type="card" />
+            <v-col cols="12">
+              <v-banner single-line>
+                <v-icon slot="icon" color="warning" size="36">
+                  mdi-exclamation-thick
+                </v-icon>
+                No archived requests found
+              </v-banner>
             </v-col>
           </v-row>
         </v-container>
