@@ -1,9 +1,14 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
+import PreviewRequest from "../contents/PreviewRequest";
 export default {
   name: "Sent",
+  components: {
+    PreviewRequest,
+  },
   data: () => ({
     show: false,
+    preview: { show: false, data: null },
     selected: "",
     filter: [
       { text: "All", value: "all" },
@@ -28,6 +33,9 @@ export default {
         addSuffix: true,
         includeSeconds: true,
       }).replace("about ", "");
+    },
+    showPreview(request = null) {
+      return (this.preview = { show: !this.preview.show, data: request });
     },
     gotoCreate() {
       return this.$router.push(`/faculty/home/compose`);
@@ -127,21 +135,21 @@ export default {
               </thead>
               <tbody>
                 <tr v-for="send in getAllSend" :key="send.name">
-                  <td>
+                  <td @click="showPreview(send)">
                     <v-list-item-subtitle
                       class="pa-0 text-caption text-left text-sm-body-2 text-lowercase"
                     >
                       {{ send.subject }}
                     </v-list-item-subtitle>
                   </td>
-                  <td class="text-center">
+                  <td class="text-center" @click="showPreview(send)">
                     <v-list-item-subtitle
                       class="pa-0 text-caption text-sm-body-2 text-lowercase"
                     >
                       {{ send.service[0].type }}
                     </v-list-item-subtitle>
                   </td>
-                  <td class="text-center">
+                  <td class="text-center" @click="showPreview(send)">
                     <v-chip
                       small
                       color="primary"
@@ -150,7 +158,7 @@ export default {
                       {{ getTimeOrDate(send.date) }}
                     </v-chip>
                   </td>
-                  <td class="text-center">
+                  <td class="text-center" @click="showPreview(send)">
                     <small
                       :class="
                         `pa-0 text-caption font-weight-bold ${
@@ -285,6 +293,11 @@ export default {
         </v-container>
       </v-col>
     </v-row>
+    <PreviewRequest
+      :downloadPDF="downloadPDF"
+      :showPreview="showPreview"
+      :preview="preview"
+    />
   </v-container>
 </template>
 <style scoped lang="scss">
