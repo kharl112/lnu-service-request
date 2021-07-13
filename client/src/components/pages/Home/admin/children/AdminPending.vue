@@ -1,13 +1,16 @@
 <script>
 import SetSignature from "../contents/SetSignature";
+import PreviewRequest from "../contents/PreviewRequest";
 import { formatDistanceToNow } from "date-fns";
 export default {
   name: "AdminPending",
   components: {
     SetSignature,
+    PreviewRequest,
   },
   data: () => ({
     signatureVisibility: false,
+    preview: false,
     selected: "",
     selectedRequest: "",
     colors: ["primary", "warning", "error", "success"],
@@ -35,6 +38,10 @@ export default {
     showSignature(request_id = "") {
       this.selectedRequest = request_id;
       this.signatureVisibility = !this.signatureVisibility;
+    },
+    showPreview(request_id) {
+      this.selectedRequest = request_id;
+      this.preview = !this.preview;
     },
     handleSetSignature(signatureId) {
       const signature = document
@@ -194,6 +201,7 @@ export default {
                           v-on="on"
                           class="mt-2 mb-1"
                           color="primary"
+                          @click="showPreview(pending.id)"
                         >
                           <v-icon>
                             mdi-eye
@@ -243,5 +251,6 @@ export default {
       :showSignature="showSignature"
       :handleSetSignature="handleSetSignature"
     />
+    <PreviewRequest :showPreview="showPreview" :preview="preview" />
   </v-container>
 </template>
