@@ -39,14 +39,14 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate()) {
-        return this.getUserType === "faculty"
+        return this.userType === "faculty"
           ? this.$store.dispatch("faculty/userLogin", this.form)
           : this.$store.dispatch("admin/adminLogin", this.form);
       }
     },
     gotoRegister(e) {
       e.preventDefault();
-      return this.$router.push(`/${this.getUserType}/register/step=1`);
+      return this.$router.push(`/${this.userType}/register/step=1`);
     },
     async install() {
       if (this.deferredPrompt) this.deferredPrompt.prompt();
@@ -56,14 +56,19 @@ export default {
     },
   },
   computed: {
-    getUserType() {
-      return this.$route.params.user_type;
+    userType: {
+      get() {
+        return this.$route.params.user_type;
+      },
+      set(user_type) {
+        return (this.$route.params.user_type = user_type);
+      },
     },
     getError() {
       return this.$store.getters["message/getError"];
     },
     getLoading() {
-      return this.getUserType === "faculty"
+      return this.userType === "faculty"
         ? this.$store.getters["faculty/getLoading"]
         : this.$store.getters["admin/getLoading"];
     },
@@ -92,7 +97,7 @@ export default {
       class="pt-6 pa-sm-0"
     >
       <v-col sm="2" md="3" class="d-none d-sm-flex pa-0 ma-0">
-        <LeftBg1 v-if="getUserType === 'faculty'" />
+        <LeftBg1 v-if="userType === 'faculty'" />
         <LeftBg2 v-else />
       </v-col>
       <v-col cols="12" sm="7" md="5" lg="4" id="login-col2">
@@ -123,7 +128,7 @@ export default {
               <v-col cols="12" class="pa-2"><v-divider /></v-col>
               <v-col cols="11" class="pa-2 pb-0">
                 <h4
-                  v-if="getUserType === 'faculty'"
+                  v-if="userType === 'faculty'"
                   :class="
                     ` overline font-weight-bold text-center ${
                       $vuetify.theme.dark ? 'primary--text' : ''
@@ -152,7 +157,7 @@ export default {
                   label="Select user level"
                   item-text="text"
                   item-value="value"
-                  v-model="getUserType"
+                  v-model="userType"
                 />
               </v-col>
               <v-col cols="12" class="pb-5 pt-0"><v-divider /></v-col>
@@ -242,7 +247,7 @@ export default {
                     <v-container fluid class="pa-0 pt-2">
                       <router-link
                         class="caption"
-                        :to="`/${getUserType}/forgot/password/step=1`"
+                        :to="`/${userType}/forgot/password/step=1`"
                       >
                         Forgot your password?
                       </router-link>
