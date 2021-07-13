@@ -49,9 +49,24 @@ export default {
   },
   methods: {
     handleSubmit(e) {
-      e.preventDefault();
-      if (this.track_id)
-        return this.$store.dispatch("request/trackRequest", this.track_id);
+      if (e) e.preventDefault();
+      if (this.track_id) {
+        const characters =
+          "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+        const { decode } = shortenUuid(characters);
+        const decoded = decode(this.track_id)
+          .split("-")
+          .splice(0, 24)
+          .join("");
+
+        return this.$store.dispatch(
+          "request/trackRequest",
+          decoded
+            .split("")
+            .splice(0, 24)
+            .join("")
+        );
+      }
     },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
@@ -87,21 +102,7 @@ export default {
   },
   created() {
     if (this.track_id !== "none") {
-      const characters =
-        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-      const { decode } = shortenUuid(characters);
-      const decoded = decode(this.track_id)
-        .split("-")
-        .splice(0, 24)
-        .join("");
-
-      return this.$store.dispatch(
-        "request/trackRequest",
-        decoded
-          .split("")
-          .splice(0, 24)
-          .join("")
-      );
+      return this.handleSubmit(null);
     }
   },
   destroyed() {
@@ -188,7 +189,7 @@ export default {
                   Request Status
                 </v-card-title>
                 <v-btn
-                  v-if="track_id.length === 24 && !getError"
+                  v-if="!getError"
                   icon
                   large
                   :color="
