@@ -1,9 +1,15 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
+import PreviewRequest from "../contents/PreviewRequest";
 export default {
   name: "AdminSigned",
+  components: {
+    PreviewRequest,
+  },
   data: () => ({
     show: false,
+    preview: { show: false, data: null },
+    selected: "",
     colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
@@ -24,27 +30,21 @@ export default {
         addSuffix: true,
       });
     },
+    showPreview(request = null) {
+      return (this.preview = { show: !this.preview.show, data: request });
+    },
     downloadPDF(id) {
+      this.selected = id;
       return this.$store.dispatch("pdf/generatePDF", {
         user_type: "admin",
         id,
       });
-    },
-    getInitials(name) {
-      const { firstname, lastname } = name;
-      return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
     },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
       return `${
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
-    },
-    getRandomColor() {
-      return this.colors[Math.floor(Math.random() * this.colors.length)];
-    },
-    isCompleted(status) {
-      return status > 0;
     },
   },
   created() {
@@ -55,130 +55,116 @@ export default {
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
-      <v-col cols="12" sm="12" md="8">
+      <v-col cols="12">
+        <v-container fluid class="pr-0 pb-0 pt-0">
+          <v-col cols="8" sm="5" md="4">
+            <span class="h4 primary--text"> Signed Requests </span>
+          </v-col>
+          <v-divider />
+        </v-container>
         <v-container fluid v-if="getAllSigned[0] && !getLoading.all_signed">
-          <v-expansion-panels outlined hover>
-            <v-expansion-panel
-              v-for="signed in getAllSigned"
-              :key="signed.name"
-            >
-              <v-expansion-panel-header>
-                <v-container fluid class="pa-2 ">
-                  <v-row>
-                    <v-list-item-subtitle class="text-body-1">
-                      {{ signed.subject }}
-                    </v-list-item-subtitle>
-                    <v-list-item-subtitle class="text-caption">
-                      {{ signed.service[0].type }} &#8211;
-                      <span class="font-italic caption">
-                        {{
-                          `${signed.user.profile[0].name.firstname} ${signed.user.profile[0].name.lastname}`
-                        }}
-                      </span>
-                      <v-spacer />
-                      <v-chip
-                        x-small
-                        :color="
-                          isCompleted(signed.status) ? 'success' : 'primary'
-                        "
-                        class="mt-1 mb-2 pr-1 pl-1"
-                      >
-                        {{
-                          isCompleted(signed.status) ? "completed" : "pending"
-                        }}
-                      </v-chip>
-                    </v-list-item-subtitle>
-                    <v-list-item-subtitle class="text-caption hidden-md-and-up">
-                      <span class="primary--text caption">
-                        {{ getTimeOrDate(signed.date) }}
-                      </span>
-                    </v-list-item-subtitle>
-                  </v-row>
-                </v-container>
-                <div align="right" class="hidden-sm-and-down">
-                  <v-chip
-                    small
-                    class="ma-2 pl-2 pr-2 text-center caption"
-                    color="primary"
-                  >
-                    {{ getTimeOrDate(signed.date) }}
-                  </v-chip>
-                </div>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-divider class="mb-1 mt-1 hidden-md-and-up" />
-                <v-container class="hidden-md-and-up">
-                  <v-row
-                    justify="space-between"
-                    align="start"
-                    align-sm="center"
-                  >
-                    <v-card-subtitle class="pa-0 pt-sm-2 pb-sm-2 text-body-2">
-                      Subject:
-                      {{ signed.subject }}
-                      <br />
-                      <span class="text-caption">
-                        Type:
-                        {{ signed.service[0].type }}
-                      </span>
-                    </v-card-subtitle>
-                  </v-row>
-                </v-container>
-                <v-divider class="mb-1 mt-1" />
-                <v-card-subtitle class="pa-0 pt-2 text-caption font-weight-bold">
-                  From:
-                  {{ getFullname(signed.user.profile[0].name) }}
-                </v-card-subtitle>
-                <v-card-subtitle
-                  class="pa-0 pb-2 text-caption text-decoration-underline"
-                >
-                  {{
-                    `${signed.user.department.role[0].name} of ${signed.user.department.unit[0].name}`
-                  }}
-                </v-card-subtitle>
-                <v-card-subtitle
-                  class="pa-0 pt-2 text-caption font-weight-bold"
-                  v-if="signed.service_provider.department.role[0]"
-                >
-                  TO:
-                  {{ getFullname(signed.service_provider.profile[0].name) }}
-                </v-card-subtitle>
-                <v-card-subtitle
-                  class="pa-0 pb-2 text-caption text-decoration-underline"
-                  v-if="signed.service_provider.department.role[0]"
-                >
-                  {{
-                    `${signed.service_provider.department.role[0].name} of ${signed.service_provider.department.unit[0].name}`
-                  }}
-                </v-card-subtitle>
-                <v-card-actions class="pa-2">
-                  <v-row justify="start" align="center">
-                    <v-col
-                      cols="12"
-                      sm="4"
-                      md="3"
-                      align="start"
-                      class="pa-2 pl-0"
+          <v-simple-table fixed-header>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Description
+                  </th>
+                  <th class="text-center">
+                    Type
+                  </th>
+                  <th class="text-center">
+                    Created
+                  </th>
+                  <th class="text-center">
+                    Status
+                  </th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="signed in getAllSigned" :key="signed.name">
+                  <td>
+                    <v-list-item-subtitle
+                      @click="showPreview(signed)"
+                      class="pa-0 text-caption text-left text-sm-body-2 text-lowercase"
                     >
-                      <v-btn
-                        small
-                        block
-                        min-width="50px"
-                        color="error"
-                        :disabled="getPDFLoading"
-                        @click="downloadPDF(signed._id)"
-                      >
-                        Download
-                        <v-icon right>
-                          mdi-cloud-download
-                        </v-icon>
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </v-card-actions>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+                      {{ signed.subject }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td class="text-center">
+                    <v-list-item-subtitle
+                      @click="showPreview(signed)"
+                      class="pa-0 text-caption text-sm-body-2 text-lowercase"
+                    >
+                      {{ signed.service[0].type }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td class="text-center" @click="showPreview(signed)">
+                    <v-chip
+                      small
+                      color="primary"
+                      class="pa-0 pr-2 pl-2 text-center text-caption"
+                    >
+                      {{ getTimeOrDate(signed.date) }}
+                    </v-chip>
+                  </td>
+                  <td class="text-center" @click="showPreview(signed)">
+                    <small
+                      :class="
+                        `pa-0 text-caption font-weight-bold ${
+                          signed.status === 0
+                            ? 'primary--text'
+                            : 'success--text'
+                        }`
+                      "
+                    >
+                      {{ signed.status === 0 ? "Pending" : "Completed" }}
+                    </small>
+                  </td>
+                  <td class="text-center text-no-wrap">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          large
+                          v-bind="attrs"
+                          v-on="on"
+                          class="mt-2 mb-1"
+                          color="error"
+                          :loading="getPDFLoading && selected === signed._id"
+                          @click="downloadPDF(signed._id)"
+                        >
+                          <v-icon>
+                            mdi-cloud-download
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Download</span>
+                    </v-tooltip>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          large
+                          v-bind="attrs"
+                          v-on="on"
+                          class="mt-2 mb-1"
+                          color="primary"
+                          @click="$router.push(`/track/${signed._id}`)"
+                        >
+                          <v-icon>
+                            mdi-map-marker-distance
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Track Request</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
         </v-container>
         <v-container fluid v-else-if="getLoading.all_signed">
           <v-skeleton-loader type="table" />
@@ -193,58 +179,17 @@ export default {
                 <v-icon slot="icon" color="warning" size="36">
                   mdi-exclamation-thick
                 </v-icon>
-                No signed service request
+                You have empty signed requests
               </v-banner>
             </v-col>
           </v-row>
         </v-container>
       </v-col>
-      <v-divider class="hidden-sm-and-down" vertical />
-      <v-col md="4" class="hidden-sm-and-down">
-        <v-row>
-          <v-col cols="12">
-            <v-container fluid>
-              <v-card class="mx-auto" max-width="344">
-                <v-img
-                  src="https://www.windowsphonefr.com/wp-content/uploads/2019/05/ThinkstockPhotos-187625854.jpg"
-                  gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-                  class="white--text align-end"
-                  width="720px"
-                  height="auto"
-                >
-                  <v-card-title>
-                    Requesting Services in LNU
-                  </v-card-title>
-                </v-img>
-
-                <v-card-actions>
-                  <v-btn color="warning" text>
-                    Contact Us
-                  </v-btn>
-                  <v-spacer></v-spacer>
-                  <v-btn icon @click="show = !show">
-                    <v-icon>{{
-                      show ? "mdi-chevron-up" : "mdi-chevron-down"
-                    }}</v-icon>
-                  </v-btn>
-                </v-card-actions>
-
-                <v-expand-transition>
-                  <div v-show="show">
-                    <v-divider></v-divider>
-                    <v-card-text>
-                      Leyte Normal University <br />
-                      Paterno Street Tacloban City 6500 <br />
-                      +63 (53) 832 3205 info@lnu.edu.ph <br />
-                      www.facebook.com/lnuofficial
-                    </v-card-text>
-                  </div>
-                </v-expand-transition>
-              </v-card>
-            </v-container>
-          </v-col>
-        </v-row>
-      </v-col>
     </v-row>
+    <PreviewRequest
+      :downloadPDF="downloadPDF"
+      :showPreview="showPreview"
+      :preview="preview"
+    />
   </v-container>
 </template>

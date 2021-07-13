@@ -34,8 +34,8 @@ export default {
       v-if="preview.data"
       elevation="1"
       max-width="470"
-      height="95vh"
       width="95vw"
+      height="99vh"
       color="white"
     >
       <v-container fluid>
@@ -117,9 +117,9 @@ export default {
             <v-container fluid class="pt-0 pb-2">
               <v-row>
                 <v-col cols="12" class="pt-0 pb-0">
-                  <span class="black--text text-capitalize body-2">
+                  <p class="black--text text-justify caption">
                     {{ preview.data.body }}
-                  </span>
+                  </p>
                 </v-col>
               </v-row>
             </v-container>
@@ -216,3 +216,8 @@ export default {
     </v-sheet>
   </v-overlay>
 </template>
+<style scoped>
+.pdf-sheet {
+  overflow-y: scroll;
+}
+</style>

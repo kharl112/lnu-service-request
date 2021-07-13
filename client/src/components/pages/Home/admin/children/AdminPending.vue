@@ -67,13 +67,6 @@ export default {
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
     },
-    getInitials(name) {
-      const { firstname, lastname } = name;
-      return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
-    },
-    getRandomColor() {
-      return this.colors[Math.floor(Math.random() * this.colors.length)];
-    },
   },
   created() {
     return this.$store.dispatch("request/allPending", "admin");
