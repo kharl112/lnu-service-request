@@ -2,6 +2,7 @@
 import SetSignature from "../contents/SetSignature";
 import PreviewRequest from "../contents/PreviewRequest";
 import { formatDistanceToNow } from "date-fns";
+import shortenUuid from "shorten-uuid";
 export default {
   name: "AdminPending",
   components: {
@@ -34,6 +35,16 @@ export default {
       return formatDistanceToNow(new Date(date), {
         includeSeconds: true,
       });
+    },
+    trackRequest(id) {
+      const characters =
+        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+      const { encode } = shortenUuid(characters);
+      const encoded = encode(id)
+        .split("")
+        .splice(0, 18)
+        .join("");
+      return this.$router.push(`/track/${encoded}`);
     },
     showSignature(request_id = "") {
       this.selectedRequest = request_id;
@@ -187,7 +198,7 @@ export default {
                           v-on="on"
                           class="mt-2 mb-1"
                           color="primary"
-                          @click="$router.push(`/track/${pending._id}`)"
+                          @click="trackRequest(pending._id)"
                         >
                           <v-icon>
                             mdi-map-marker-distance
