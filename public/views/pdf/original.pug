@@ -12,22 +12,26 @@ body
       p(class="header-info-p3") P. Paterno St., Tacloban City 
   div(class="main")
     h4(class="subject")=form.subject
-    p(class="service-type")=`Service type: ${form.service_type}`
-    p(class="date")=`Date created: ${form.date}`
+    p(class="service-type")=`REQUEST FOR: ${form.service_type}`
+    p(class="date")=`DATE: ${form.date}`
+    span(class="prefix") PURPOSE:
     div(class="body")
     | !{form.body}
   div(class="recipients")
     div(class="signature")
-      p(class="user-name")=`REQUESTED BY: ${form.user.profile}`
+      span(class="prefix") Requested by:
+      p(class="user-name")=form.user.profile
       p(class="admin-dept-title")=form.user.department
     | !{form.user.signature}
     if form.service_provider.staff_id
       div(class="signature")
-        p(class="dept-head")=`TO: ${form.service_provider.profile}`
+        span(class="prefix") Job done by:
+        p(class="dept-head")=form.service_provider.profile
         p(class="dept-head-title")=form.service_provider.department
       | !{form.service_provider.signature}
     div(class="signature")
-      p(class="admin-dept")=`APPROVED BY: ${form.admin.profile}`
+      span(class="prefix") Approved by:
+      p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Chief Administrative Officer-Admin
     | !{form.admin.signature}
 
