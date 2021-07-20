@@ -76,7 +76,13 @@ export default {
         e === "60f62dcb69f7dd1017e2ba49"
           ? { timeout: "" }
           : e === "60f62de769f7dd1017e2ba4b"
-          ? { postal: "", to: "", released_by: "", released_date: "" }
+          ? {
+              postal: "",
+              type: "",
+              recipient: "",
+              released_by: "",
+              released_date: "",
+            }
           : {});
     },
     handleSetSignature(signatureId) {
@@ -208,10 +214,12 @@ export default {
                   <v-divider class="hidden-sm-and-down" vertical />
                   <PassSlip
                     :options="this.form.options"
+                    :rules="rules"
                     v-if="form.service_id === '60f62dcb69f7dd1017e2ba49'"
                   />
                   <Mailing
                     :options="this.form.options"
+                    :rules="rules"
                     v-else-if="form.service_id === '60f62de769f7dd1017e2ba4b'"
                   />
                   <Unavailable v-else />

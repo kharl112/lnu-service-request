@@ -50,7 +50,7 @@ export default {
                 class="pt-0 pb-0 mt-n3"
                 v-if="options.postal === 'PPC'"
               >
-                <v-radio-group v-model="options.type" column>
+                <v-radio-group :rules="rules" v-model="options.type" column>
                   <v-radio
                     label="Mailing Envelope"
                     color="primary"
@@ -69,7 +69,7 @@ export default {
                 class="pt-0 pb-0 mt-n3"
                 v-if="options.postal === 'JRS'"
               >
-                <v-radio-group v-model="options.type" column>
+                <v-radio-group :rules="rules" v-model="options.type" column>
                   <v-radio
                     label="Registered"
                     color="primary"

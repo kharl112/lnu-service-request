@@ -5,9 +5,6 @@ export default {
     options: Object,
     rules: Array,
   },
-  data: () => ({
-    modal2: false,
-  }),
 };
 </script>
 <template>
@@ -24,44 +21,15 @@ export default {
           <v-list-item>
             <v-list-item-content>
               <v-card-title>Timeout</v-card-title>
-              <v-dialog
-                ref="dialog"
-                v-model="modal2"
-                :return-value.sync="options.timeout"
-                persistent
-                width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-text-field
-                    outlined
-                    v-model="options.timeout"
-                    :rules="rules"
-                    dense
-                    label="Select Timeout"
-                    prepend-inner-icon="mdi-clock-time-four-outline"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  />
-                </template>
-                <v-time-picker
-                  v-if="modal2"
-                  v-model="options.timeout"
-                  full-width
-                >
-                  <v-spacer></v-spacer>
-                  <v-btn text color="primary" @click="modal2 = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="primary"
-                    @click="$refs.dialog.save(options.timeout)"
-                  >
-                    OK
-                  </v-btn>
-                </v-time-picker>
-              </v-dialog>
+              <v-text-field
+                outlined
+                v-model="options.timeout"
+                :rules="rules"
+                dense
+                type="time"
+                label="Select Timeout"
+                prepend-inner-icon="mdi-clock-time-four-outline"
+              />
             </v-list-item-content>
           </v-list-item>
         </v-card>
