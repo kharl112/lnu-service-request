@@ -90,7 +90,6 @@ export default {
                   dense
                   v-model="options.released_by"
                   outlined
-                  :rules="rules"
                   label="Released By (Name)"
                 />
               </v-col>
@@ -101,8 +100,7 @@ export default {
                   type="date"
                   v-model="options.released_date"
                   outlined
-                  :rules="rules"
-                  label="Released By (Name)"
+                  label="Released Date"
                 />
               </v-col>
             </v-list-item-content>
