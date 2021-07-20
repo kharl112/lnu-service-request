@@ -5,19 +5,7 @@ const create = (body) => {
     subject: Joi.string().min(10).max(100).required(),
     service_id: Joi.string().min(24).max(24).required(),
     body: Joi.string().min(10).required(),
-    options: Joi.object({
-      format: Joi.string().allow(""),
-      border: Joi.object({
-        top: Joi.number().default(0.5).min(0.2).max(4),
-        right: Joi.number().default(0.5).min(0.2).max(4),
-        bottom: Joi.number().default(0.5).min(0.2).max(4),
-        left: Joi.number().default(0.5).min(0.2).max(4),
-      })
-        .required()
-        .allow({}),
-    })
-      .required()
-      .allow({}),
+    options: Joi.object().required().allow({}),
     user: Joi.object({
       signature: Joi.string().required(),
     }).required(),
