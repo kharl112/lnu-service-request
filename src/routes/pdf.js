@@ -43,10 +43,15 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
       { form }
     );
 
-    const { options } = form;
-    Object.keys(options.border).map(
-      (node) => (options.border[node] = `${options.border[node]}in`)
-    );
+    const options = {
+      format: "A4",
+      border: {
+        top: "0.5in",
+        right: "0.5in",
+        bottom: "0.5in",
+        left: "0.5in",
+      },
+    };
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
@@ -91,10 +96,15 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
       { form }
     );
 
-    const { options } = form;
-    Object.keys(options.border).map(
-      (node) => (options.border[node] = `${options.border[node]}in`)
-    );
+    const options = {
+      format: "A4",
+      border: {
+        top: "0.5in",
+        right: "0.5in",
+        bottom: "0.5in",
+        left: "0.5in",
+      },
+    };
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
@@ -136,10 +146,15 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
       { form }
     );
 
-    const { options } = form;
-    Object.keys(options.border).map(
-      (node) => (options.border[node] = `${options.border[node]}in`)
-    );
+    const options = {
+      format: "A4",
+      border: {
+        top: "0.5in",
+        right: "0.5in",
+        bottom: "0.5in",
+        left: "0.5in",
+      },
+    };
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
