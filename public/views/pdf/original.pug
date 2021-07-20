@@ -11,14 +11,14 @@ body
       p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
       p(class="header-info-p3") P. Paterno St., Tacloban City 
   div(class="main")
-    h3(class="subject")=form.subject
+    h4(class="subject")=form.subject
     p(class="service-type")=`Service type: ${form.service_type}`
     p(class="date")=`Date created: ${form.date}`
     div(class="body")
     | !{form.body}
   div(class="recipients")
     div(class="signature")
-      p(class="user-name")=`FROM: ${form.user.profile}`
+      p(class="user-name")=`REQUESTED BY: ${form.user.profile}`
       p(class="admin-dept-title")=form.user.department
     | !{form.user.signature}
     if form.service_provider.staff_id
@@ -27,8 +27,8 @@ body
         p(class="dept-head-title")=form.service_provider.department
       | !{form.service_provider.signature}
     div(class="signature")
-      p(class="admin-dept")=form.admin.profile
-      p(class="admin-dept-title") Chief Administration Office
+      p(class="admin-dept")=`APPROVED BY: ${form.admin.profile}`
+      p(class="admin-dept-title") Chief Administrative Officer-Admin
     | !{form.admin.signature}
 
     
