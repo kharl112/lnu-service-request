@@ -102,48 +102,7 @@ export default {
                 <v-divider />
               </v-container>
             </v-col>
-            <v-col cols="12">
-              <v-container fluid>
-                <v-subheader>Receivers</v-subheader>
-                <v-divider />
-              </v-container>
-            </v-col>
-            <v-col cols="12">
-              <v-container fluid class="pt-2 pb-0">
-                <v-row justify="start" align="start" dense>
-                  <v-col cols="12" sm="4" md="5">
-                    <v-autocomplete
-                      v-model="form.admin.staff_id"
-                      :rules="rules"
-                      :items="getAllAdmin"
-                      class="caption"
-                      item-text="name"
-                      item-value="staff_id"
-                      outlined
-                      label="Chief Admin Office"
-                      dense
-                      prepend-inner-icon="mdi-close"
-                      @click:prepend-inner="form.admin.staff_id = ''"
-                    />
-                  </v-col>
-                  <v-col cols="12" sm="4" md="5">
-                    <v-autocomplete
-                      v-model="form.service_provider.staff_id"
-                      :items="getAllServiceProviders"
-                      class="caption"
-                      item-text="text"
-                      item-value="staff_id"
-                      outlined
-                      label="Service Provider (optional)"
-                      hint="(optional)"
-                      dense
-                      prepend-inner-icon="mdi-close"
-                      @click:prepend-inner="form.service_provider.staff_id = ''"
-                    />
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-col>
+
             <v-col cols="12">
               <v-container fluid class="pt-0 pb-0">
                 <v-subheader>Request</v-subheader>
@@ -212,6 +171,50 @@ export default {
                       label="Purpose"
                       auto-grow
                     />
+                  </v-col>
+                  <v-col cols="12" class="pb-0 pt-0">
+                    <v-container fluid class="pt-0">
+                      <v-subheader>Person/s involved</v-subheader>
+                      <v-divider />
+                    </v-container>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-container fluid class="pt-2 pb-0">
+                      <v-row justify="start" align="start" dense>
+                        <v-col cols="12" sm="4" md="5">
+                          <v-autocomplete
+                            v-model="form.admin.staff_id"
+                            :rules="rules"
+                            :items="getAllAdmin"
+                            class="caption"
+                            item-text="name"
+                            item-value="staff_id"
+                            outlined
+                            label="Chief Admin Office"
+                            dense
+                            prepend-inner-icon="mdi-close"
+                            @click:prepend-inner="form.admin.staff_id = ''"
+                          />
+                        </v-col>
+                        <v-col cols="12" sm="4" md="5">
+                          <v-autocomplete
+                            v-model="form.service_provider.staff_id"
+                            :items="getAllServiceProviders"
+                            class="caption"
+                            item-text="text"
+                            item-value="staff_id"
+                            outlined
+                            label="Service Provider (optional)"
+                            hint="(optional)"
+                            dense
+                            prepend-inner-icon="mdi-close"
+                            @click:prepend-inner="
+                              form.service_provider.staff_id = ''
+                            "
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-container>
                   </v-col>
                   <v-col cols="12">
                     <v-btn
