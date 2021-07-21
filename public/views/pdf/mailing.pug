@@ -6,19 +6,34 @@ html
 body
   header
     div(class="header-info")
-      p(class="header-info-p1") Leyte Normal University
+      p(class="header-info-p1") Republic of the Philippines
+      p(class="header-info-p3") LEYTE NORMAL UNIVERSITY
       p(class="header-info-p2") Tacloban City
-      p(class="header-info-p3") OFFICE OF THE ADMINISTRATIVE OFFICER
   div(class="main")
-    span(class="date")=`DATE: ${form.date}`
+    p(class="date")=`Date: ${form.date}`
+    p(class="records") Records 
+    p(class="form") Form #01 
     h4(class="subject") REQUEST FOR MAILING
+    div(class="checkboxes-container-1")
+      span(class=`checkbox ${form.options.postal === 'JRS' ? "checked" : ""}`)
+      span(class="checkbox-label") JRS
+      span(class=`checkbox ${form.options.postal === 'PPC' ? "checked" : ""}`)
+      span(class="checkbox-label-2") PPC
+      small(class="info-label") (Phil. Postal Corp.)
+    div(class="mail-recipient")
+      span(class="prefix") Mail to:
+      span(class="recipient")=form.options.recipient
+    div(class="mail-sender")
+      span(class="prefix") From:
+      span(class="sender")=form.user.profile
+    div(class="request-body")
       span(class="prefix") PURPOSE / Re: Subject:
       | !{form.body}
   div(class="recipients")
     div(class="signature")
       span(class="prefix") Requested by:
       p(class="user-name")=form.user.profile
-      p(class="admin-dept-title")=form.user.department
+      p(class="admin-dept-title") (Print Name & Signature)
     | !{form.user.signature}
     if form.service_provider.staff_id
       div(class="signature")
@@ -31,6 +46,29 @@ body
       p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Chief Administrative Officer-Admin
     | !{form.admin.signature}
+  div(class="footer")
+    div(class="post-container")
+      span(class="post-prefix") JRS:
+      span(class=`checkbox ${form.options.type === 'Mailing Envelope' ? "checked" : ""}`)
+      span(class="checkbox-label") Mailing Envelope
+      span(class=`checkbox ${form.options.type === 'Brown Envelope' ? "checked" : ""}`)
+      span(class="checkbox-label") Brown Envelope
+      span(class=`checkbox ${form.options.type === 'Box' ? "checked" : ""}`)
+      span(class="checkbox-label") Box
+    div(class="post-container")
+      span(class="post-prefix") PPC:
+      span(class=`checkbox ${form.options.type === 'Registered' ? "checked" : ""}`)
+      span(class="checkbox-label") Registered
+      span(class=`checkbox ${form.options.type === 'Speed' ? "checked" : ""}`)
+      span(class="checkbox-label") Speed
+      span(class=`checkbox ${form.options.type === 'Priority' ? "checked" : ""}`)
+      span(class="checkbox-label") Priority
+      span(class=`checkbox ${form.options.type === 'International' ? "checked" : ""}`)
+      span(class="checkbox-label") International
+    div(class="released-container")
+      p(class="released")=`Released by: ${form.options.released_by}`
+      p(class="released")=`Released date: ${form.options.released_date}`
+      
 
     
 
