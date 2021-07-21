@@ -89,7 +89,7 @@ export default {
           ? {
               with_paper: false,
               back_to_back: false,
-              documents: [{ title: "", copies: 0, pages: 0, produced: 0 }],
+              documents: [],
             }
           : {});
     },
