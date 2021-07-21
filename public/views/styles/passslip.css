@@ -1,6 +1,8 @@
 body {
-  font-size: 12px;
+  font-size: 13px;
   margin: 0px;
+  padding: 20px;
+  border: 2px solid black;
 }
 header {
   display: flex;
@@ -10,6 +12,8 @@ header {
 }
 p {
   text-align: justify;
+  text-decoration: underline;
+  margin-top: 2px;
 }
 .header-info {
   display: flex;
@@ -24,16 +28,19 @@ p {
   margin-bottom: -65px;
 }
 .header-info-p2 {
+  text-decoration: none;
   text-align: center;
   margin: 2px;
   font-weight: bold;
 }
 .header-info-p3 {
+  text-decoration: none;
   text-align: center;
   margin: 2px;
   font-size: 10px;
 }
 .header-info-p1 {
+  text-decoration: none;
   text-align: center;
   margin: 2px;
 }
@@ -44,26 +51,31 @@ p {
   align-items: center;
   margin-top: 30px;
 }
+
+.subject {
+  margin-top: 2px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: underline;
+}
 .date {
   text-decoration: underline;
   font-size: 13px;
   text-align: end;
-}
-.subject {
-  margin-top: 2px;
-  font-size: 15px;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: underline;
 }
 .name-container {
   margin-top: 20px;
 }
 .name {
   text-decoration: underline;
+  margin-left: 10px;
+  padding-bottom: 2px;
 }
 .timeout {
   text-decoration: underline;
+  margin-left: 10px;
+  padding-bottom: 2px;
 }
 .request-body {
   margin: 5px 0px 18px;
