@@ -1,6 +1,5 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import shortenUuid from "shorten-uuid";
 import PreviewRequest from "../contents/PreviewRequest";
 export default {
   name: "AdminSigned",
@@ -30,16 +29,6 @@ export default {
         includeSeconds: true,
         addSuffix: true,
       });
-    },
-    trackRequest(id) {
-      const characters =
-        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-      const { encode } = shortenUuid(characters);
-      const encoded = encode(id)
-        .split("")
-        .splice(0, 18)
-        .join("");
-      return this.$router.push(`/track/${encoded}`);
     },
     showPreview(request = null) {
       return (this.preview = { show: !this.preview.show, data: request });
@@ -162,7 +151,7 @@ export default {
                           v-on="on"
                           class="mt-2 mb-1"
                           color="primary"
-                          @click="trackRequest(signed._id)"
+                          @click="$router.push(`/track/${signed._id}`)"
                         >
                           <v-icon>
                             mdi-map-marker-distance

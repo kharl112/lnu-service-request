@@ -1,6 +1,5 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import shortenUuid from "shorten-uuid";
 import PreviewRequest from "../contents/PreviewRequest";
 export default {
   name: "Sent",
@@ -48,11 +47,22 @@ export default {
         id,
       });
     },
+    isSigned(service_request) {
+      const { admin, service_provider } = service_request;
+      if (service_provider.staff_id)
+        return !!admin.signature && !!service_provider.signature;
+      return !!admin.signature;
+    },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
       return `${
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
+    getSignatures(service_request) {
+      const { admin, service_provider } = service_request;
+      if (service_provider.staff_id) return [admin, service_provider];
+      return [admin];
     },
     handleFilter(filter) {
       return this.$store.dispatch("request/allSend", {
@@ -75,16 +85,6 @@ export default {
         type: "complete",
         user_type: "faculty",
       });
-    },
-    trackRequest(id) {
-      const characters =
-        "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-      const { encode } = shortenUuid(characters);
-      const encoded = encode(id)
-        .split("")
-        .splice(0, 18)
-        .join("");
-      return this.$router.push(`/track/${encoded}`);
     },
   },
   created() {
@@ -239,7 +239,7 @@ export default {
                           class="mt-2 mb-1"
                           color="primary"
                           :disabled="getLoading.mark"
-                          @click="trackRequest(send._id)"
+                          @click="$router.push(`/track/${send._id}`)"
                         >
                           <v-icon>
                             mdi-map-marker-distance
