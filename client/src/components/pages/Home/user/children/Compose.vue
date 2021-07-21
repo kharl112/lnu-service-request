@@ -2,6 +2,7 @@
 import SetSignature from "../contents/SetSignature";
 import Mailing from "./options/Mailing";
 import PassSlip from "./options/PassSlip";
+import Risograph from "./options/Risograph";
 import Unavailable from "./options/Unavailable";
 export default {
   name: "Compose",
@@ -10,6 +11,7 @@ export default {
     Mailing,
     PassSlip,
     Unavailable,
+    Risograph,
   },
   data: () => ({
     signatureVisibility: false,
@@ -82,6 +84,12 @@ export default {
               recipient: "",
               released_by: "",
               released_date: "",
+            }
+          : e === "60f62dd969f7dd1017e2ba4a"
+          ? {
+              with_paper: false,
+              back_to_back: false,
+              documents: [{ title: "", copies: 0, pages: 0, produced: 0 }],
             }
           : {});
     },
@@ -221,6 +229,11 @@ export default {
                     :options="this.form.options"
                     :rules="rules"
                     v-else-if="form.service_id === '60f62de769f7dd1017e2ba4b'"
+                  />
+                  <Risograph
+                    :options="this.form.options"
+                    :rules="rules"
+                    v-else-if="form.service_id === '60f62dd969f7dd1017e2ba4a'"
                   />
                   <Unavailable v-else />
                   <v-col cols="12">
