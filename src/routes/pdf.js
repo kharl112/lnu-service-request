@@ -15,7 +15,7 @@ const { Name, _Date, Department } = require("../functions/generateProfile");
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = req.params.id
     const [form] = await Request.aggregate(
       requestQuery({ _id: id, "user.staff_id": req.locals.staff_id })
     );
@@ -72,7 +72,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
 
 route.post("/provider/create/id=:id", userAuth, async (req, res) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = req.params.id
     const [form] = await Request.aggregate(
       requestQuery({
         _id: id,
@@ -132,7 +132,7 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
 
 route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
   try {
-    const id = mongoose.Types.ObjectId(req.params.id);
+    const id = req.params.id
     const [form] = await Request.aggregate(
       requestQuery({ _id: id, "admin.staff_id": req.locals.staff_id })
     );

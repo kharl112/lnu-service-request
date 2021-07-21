@@ -249,7 +249,7 @@ route.get("/admin/sent/archived", adminAuth, async (req, res) => {
 
 route.get("/track/:_id", async (req, res) => {
   try {
-    const { _id } = mongoose.Types.ObjectId(req.params._id);
+    const { _id } = req.params;
     if (!_id) return res.status(500).send({ message: "empty parameter" });
 
     const [tracked_request] = await Request.aggregate(
