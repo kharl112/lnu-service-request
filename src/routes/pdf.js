@@ -15,7 +15,7 @@ const { Name, _Date, Department } = require("../functions/generateProfile");
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const [form] = await Request.aggregate(
       requestQuery({ _id: id, "user.staff_id": req.locals.staff_id })
     );
@@ -43,6 +43,8 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
         ? "mailing"
         : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
         ? "passslip"
+        : form.service_id.toString() === "60f62dd969f7dd1017e2ba4a"
+        ? "risograph"
         : "original";
 
     const html = pug.renderFile(
@@ -72,7 +74,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
 
 route.post("/provider/create/id=:id", userAuth, async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const [form] = await Request.aggregate(
       requestQuery({
         _id: id,
@@ -103,6 +105,8 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
         ? "mailing"
         : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
         ? "passslip"
+        : form.service_id.toString() === "60f62dd969f7dd1017e2ba4a"
+        ? "risograph"
         : "original";
 
     const html = pug.renderFile(
@@ -132,7 +136,7 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
 
 route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
   try {
-    const id = req.params.id
+    const id = req.params.id;
     const [form] = await Request.aggregate(
       requestQuery({ _id: id, "admin.staff_id": req.locals.staff_id })
     );
@@ -160,6 +164,8 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
         ? "mailing"
         : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
         ? "passslip"
+        : form.service_id.toString() === "60f62dd969f7dd1017e2ba4a"
+        ? "risograph"
         : "original";
 
     const html = pug.renderFile(
