@@ -38,8 +38,15 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
+    const temp =
+      form.service_id.toString() === "60f62de769f7dd1017e2ba4b"
+        ? "mailing"
+        : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
+        ? "passslip"
+        : "original";
+
     const html = pug.renderFile(
-      path.join(__dirname + "/../../public/views/pdf/original.pug"),
+      path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
       { form }
     );
 
@@ -91,8 +98,15 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
+    const temp =
+      form.service_id.toString() === "60f62de769f7dd1017e2ba4b"
+        ? "mailing"
+        : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
+        ? "passslip"
+        : "original";
+
     const html = pug.renderFile(
-      path.join(__dirname + "/../../public/views/pdf/original.pug"),
+      path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
       { form }
     );
 
@@ -141,8 +155,15 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
+    const temp =
+      form.service_id.toString() === "60f62de769f7dd1017e2ba4b"
+        ? "mailing"
+        : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
+        ? "passslip"
+        : "original";
+
     const html = pug.renderFile(
-      path.join(__dirname + "/../../public/views/pdf/original.pug"),
+      path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
       { form }
     );
 
