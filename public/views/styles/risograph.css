@@ -12,6 +12,7 @@ header {
 }
 p {
   text-align: justify;
+  margin-top: 0px;
   text-decoration: underline;
 }
 .header-info {
@@ -37,24 +38,71 @@ p {
   margin: 2px;
   font-size: 12px;
 }
-.container-1 {
-  margin: 20px 0px 20px;
+.header-info-p4 {
+  text-align: center;
+  text-decoration: none;
+  margin: -15px 0px;
+  padding: 0px;
+  font-size: 12px;
 }
+
 .main {
   display: flex;
   flex-direction: column;
   justify-content: stretch;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 35px;
 }
 .subject {
-  margin-top: 2px;
   font-size: 15px;
   font-weight: bold;
   text-align: center;
 }
+.container-1 {
+  margin: 20px 0px 20px;
+  text-align: center;
+}
+.item-1 {
+  margin-right: 45px;
+}
+.item-2 {
+  margin-left: 45px;
+  margin-right: 5px;
+}
+.item-3 {
+  text-decoration: underline;
+}
+.note {
+  text-decoration: none;
+  margin-bottom: 0px;
+}
+.container-2 {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+.c-item-1 {
+  font-weight: bold;
+  margin-right: 35px;
+}
+.c-item-2 {
+  font-weight: bold;
+  margin-left: 35px;
+  margin-right: 5px;
+}
+.data-table {
+  border: 1px solid black;
+  width: 100%;
+  margin: 10px 0px 25px;
+}
+.tb-row {
+  border: 1px solid black;
+}
+.tb-data {
+  text-align: center;
+  border: 1px solid black;
+}
 .request-body {
-  margin: 5px 0px 18px;
+  margin: 5px 0px 0px;
 }
 .recipients {
   display: flex;
@@ -71,7 +119,6 @@ p {
   text-decoration: none;
   width: 40%;
   margin: 0px;
-  margin-top: 10px;
   text-align: center;
   padding-bottom: 5px;
   border-bottom: 1px solid black;
@@ -88,7 +135,6 @@ p {
   text-decoration: none;
   width: 40%;
   margin: 0px;
-  margin-top: 10px;
   text-align: center;
   padding-bottom: 5px;
   border-bottom: 1px solid black;
@@ -105,14 +151,14 @@ p {
   text-decoration: none;
   width: 40%;
   margin: 0px;
-  margin-top: 10px;
   text-align: center;
   padding-bottom: 5px;
   border-bottom: 1px solid black;
 }
 .signature {
-  margin: 45px 0px 0px 0px;
+  margin: 25px 0px 0px 0px;
 }
+
 svg {
   height: 50px;
   width: 40%;
