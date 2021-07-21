@@ -2,21 +2,26 @@ doctype html
 html 
   head 
     style
-        include ../styles/template1.css
+        include ../styles/original.css
 body
   header
-    img(class="university-logo" src="https://upload.wikimedia.org/wikipedia/en/1/17/LNUTaclobanLogo.jpg")
     div(class="header-info")
-      p(class="header-info-p1") Republic of the Philippines
-      p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
-      p(class="header-info-p3") P. Paterno St., Tacloban City 
+      p(class="header-info-p1") Leyte Normal University
+      p(class="header-info-p2") Tacloban City
+      p(class="header-info-p3") OFFICE OF THE ADMINISTRATIVE OFFICER
   div(class="main")
-    h4(class="subject")=form.subject
-    p(class="service-type")=`REQUEST FOR: ${form.service_type}`
-    p(class="date")=`DATE: ${form.date}`
-    span(class="prefix") PURPOSE:
-    div(class="body")
-    | !{form.body}
+    h4(class="subject") REQUEST FOR SERVICES
+    span(class="date")=`DATE: ${form.date}`
+    div(class="request-type")
+      span(class="prefix") REQUEST FOR:
+      p(class="type")=form.service_type
+    if form.service_provider.staff_id
+      div(class="persons-involved")
+        span(class="prefix") Name of person/s involved:
+        p(class="involved")=form.service_provider.profile
+    div(class="request-body")
+      span(class="prefix") PURPOSE:
+      | !{form.body}
   div(class="recipients")
     div(class="signature")
       span(class="prefix") Requested by:

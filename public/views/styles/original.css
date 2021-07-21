@@ -10,6 +10,7 @@ header {
 }
 p {
   text-align: justify;
+  text-decoration: underline;
 }
 .header-info {
   display: flex;
@@ -23,36 +24,57 @@ p {
   height: auto;
   margin-bottom: -65px;
 }
+.header-info-p1 {
+  text-align: center;
+  text-decoration: none;
+  margin: 2px;
+}
 .header-info-p2 {
   text-align: center;
+  text-decoration: none;
   margin: 2px;
-  font-weight: bold;
 }
 .header-info-p3 {
   text-align: center;
+  text-decoration: none;
   margin: 2px;
-  font-size: 10px;
+  font-size: 12px;
 }
-.header-info-p1 {
+.subject {
+  font-size: 15px;
+  font-weight: bold;
   text-align: center;
-  margin: 2px;
 }
 .main {
   display: flex;
   flex-direction: column;
   justify-content: stretch;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 35px;
 }
-.subject {
-  font-size: 15px;
+.prefix {
+  margin: 25px 0px;
+}
+.request-type {
+  margin-top: 30px;
+}
+.type {
   text-decoration: underline;
-  font-weight: bold;
-  text-align: center;
 }
-.body {
-  font-size: 10px;
-  text-align: justify;
+.date {
+  text-decoration: underline;
+  font-size: 11px;
+  text-align: end;
+}
+.persons-involved {
+  margin-left: 35px;
+  margin-top: 30px;
+}
+.involved {
+  text-decoration: underline;
+}
+.request-body {
+  margin-top: 30px;
 }
 .recipients {
   display: flex;
@@ -64,15 +86,9 @@ p {
   width: 100%;
   grid-row-start: 1;
 }
-.service-type {
-  margin-top: 25px;
-  font-weight: bold;
-}
-.date {
-  font-weight: bold;
-}
 .dept-head {
   font-size: 11px;
+  text-decoration: none;
   width: 40%;
   margin: 0px;
   margin-top: 10px;
@@ -82,6 +98,7 @@ p {
 }
 .dept-head-title {
   font-size: 9px;
+  text-decoration: none;
   font-weight: bold;
   text-align: center;
   margin: 0px;
@@ -89,6 +106,7 @@ p {
 }
 .admin-dept {
   font-size: 11px;
+  text-decoration: none;
   width: 40%;
   margin: 0px;
   margin-top: 10px;
@@ -98,6 +116,7 @@ p {
 }
 .admin-dept-title {
   font-size: 9px;
+  text-decoration: none;
   font-weight: bold;
   text-align: center;
   margin: 0px;
@@ -105,16 +124,13 @@ p {
 }
 .user-name {
   font-size: 11px;
+  text-decoration: none;
   width: 40%;
   margin: 0px;
   margin-top: 10px;
   text-align: center;
   padding-bottom: 5px;
   border-bottom: 1px solid black;
-}
-.prefix {
-  margin: 10px 0px -15px;
-  font-weight: bold;
 }
 .signature {
   margin: 45px 0px 0px 0px;
