@@ -20,7 +20,13 @@ export default {
         <v-card outlined class="mx-auto">
           <v-list-item>
             <v-list-item-content>
-              <v-card-title>Timeout</v-card-title>
+              <v-text-field
+                outlined
+                v-model="options.name"
+                :rules="rules"
+                dense
+                label="Name"
+              />
               <v-text-field
                 outlined
                 v-model="options.timeout"

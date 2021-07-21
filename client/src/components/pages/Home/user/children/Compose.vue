@@ -74,7 +74,7 @@ export default {
     handleChangeService(e) {
       return (this.form.options =
         e === "60f62dcb69f7dd1017e2ba49"
-          ? { timeout: "" }
+          ? { name: "", timeout: "" }
           : e === "60f62de769f7dd1017e2ba4b"
           ? {
               postal: "",
