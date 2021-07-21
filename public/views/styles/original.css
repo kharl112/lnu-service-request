@@ -1,6 +1,8 @@
 body {
-  font-size: 12px;
+  font-size: 13px;
   margin: 0px;
+  padding: 20px;
+  border: 2px solid black;
 }
 header {
   display: flex;
@@ -55,15 +57,20 @@ p {
 .prefix {
   margin: 25px 0px;
 }
+.fixer {
+  font-size: 12px;
+  margin-bottom: -5px;
+}
 .request-type {
   margin-top: 30px;
 }
 .type {
   text-decoration: underline;
+  margin-left: 35px;
 }
 .date {
   text-decoration: underline;
-  font-size: 11px;
+  font-size: 13px;
   text-align: end;
 }
 .persons-involved {
