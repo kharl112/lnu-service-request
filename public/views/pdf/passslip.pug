@@ -1,0 +1,40 @@
+doctype html 
+html 
+  head 
+    style
+        include ../styles/passslip.css
+body
+  header
+    img(class="university-logo" src="https://upload.wikimedia.org/wikipedia/en/1/17/LNUTaclobanLogo.jpg")
+    div(class="header-info")
+      p(class="header-info-p1") Republic of the Philippines
+      p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
+      p(class="header-info-p3") Tacloban City 
+  div(class="main")
+    p(class="date")=`DATE: ${form.date}`
+    h4(class="subject") PASS SLIP
+    div(class="name-container")
+      span(class="prefix") NAME:
+      span(class="name")=form.options.name
+    div(class="timeout-container")
+      span(class="prefix") TIMEOUT:
+      span(class="timeout")=form.options.timeout
+    div(class="request-body")
+      span(class="prefix") PURPOSE:
+      | !{form.body}
+  div(class="recipients")
+    div(class="signature")
+      p(class="user-name")=form.user.profile
+      p(class="admin-dept-title") (Signature over Printed Name)
+    | !{form.user.signature}
+    if form.service_provider.staff_id
+      div(class="signature")
+        span(class="fixer") Job done by:
+        p(class="dept-head")=form.service_provider.profile
+        p(class="dept-head-title")=form.service_provider.department
+      | !{form.service_provider.signature}
+    div(class="signature")
+      span(class="fixer") Approved by:
+      p(class="admin-dept")=form.admin.profile
+      p(class="admin-dept-title") Chief Administrative Officer-Admin
+    | !{form.admin.signature}
