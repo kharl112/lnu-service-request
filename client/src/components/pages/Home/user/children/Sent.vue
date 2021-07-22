@@ -1,6 +1,6 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import PreviewRequest from "../contents/PreviewRequest";
+import PreviewRequest from "../contents/preview/PreviewRequest";
 export default {
   name: "Sent",
   components: {

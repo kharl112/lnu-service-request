@@ -1,6 +1,6 @@
 <script>
 import SetSignature from "../contents/SetSignature";
-import PreviewRequest from "../contents/PreviewRequest";
+import PreviewRequest from "../contents/preview/PreviewRequest";
 import { formatDistanceToNow } from "date-fns";
 export default {
   name: "AdminPending",
