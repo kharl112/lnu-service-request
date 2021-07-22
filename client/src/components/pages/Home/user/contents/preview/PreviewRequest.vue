@@ -17,7 +17,7 @@ export default {
 };
 </script>
 <template>
-  <v-overlay :value="preview.show" :z-index="100">
+  <v-overlay :value="preview.show" :z-index="100" class="overlay">
     <v-sheet
       v-if="preview.data"
       elevation="1"
@@ -25,8 +25,9 @@ export default {
       width="95vw"
       height="99vh"
       color="white"
+      class="pa-3 sheet"
     >
-      <v-container fluid>
+      <v-container fluid class="inner-sheet">
         <v-row>
           <v-col cols="12" class="pa-6">
             <v-row justify="end">
@@ -54,7 +55,10 @@ export default {
   </v-overlay>
 </template>
 <style scoped>
-.pdf-sheet {
+.inner-sheet {
+  border: 2px solid black;
+}
+.sheet {
   overflow-y: scroll;
 }
 </style>
