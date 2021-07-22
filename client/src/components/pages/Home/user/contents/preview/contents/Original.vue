@@ -95,9 +95,13 @@ export default {
           <v-col cols="12" class="pa-0">
             <span class="black--text caption">
               Name of Person/s involved:
-              <span class="ml-1 text-decoration-underline">
+              <span
+                class="ml-1 text-decoration-underline"
+                v-if="preview.data.service_provider.staff_id"
+              >
                 {{ getFullname(preview.data.service_provider.profile[0].name) }}
               </span>
+              <span v-else> _______ </span>
             </span>
           </v-col>
         </v-row>
@@ -145,7 +149,7 @@ export default {
         </v-row>
       </v-container>
     </v-col>
-    <v-col cols="12">
+    <v-col cols="12" v-if="preview.data.service_provider.staff_id">
       <v-container fluid class="mt-2 pt-0 pb-2">
         <v-row>
           <v-col cols="12" class="pt-0 pb-0">

@@ -1,8 +1,9 @@
 <script>
 import Original from "./contents/Original";
+import Mailing from "./contents/Mailing";
 export default {
   name: "PreviewRequest",
-  components: { Original },
+  components: { Original, Mailing },
   props: {
     preview: Object,
     showPreview: Function,
@@ -42,7 +43,11 @@ export default {
               </v-btn>
             </v-row>
           </v-col>
-          <Original :preview="preview" />
+          <Mailing
+            :preview="preview"
+            v-if="preview.data.service_id === '60f62de769f7dd1017e2ba4b'"
+          />
+          <Original v-else :preview="preview" />
         </v-row>
       </v-container>
     </v-sheet>
