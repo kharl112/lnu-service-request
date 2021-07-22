@@ -28,23 +28,25 @@ export default {
         <v-row justify="center">
           <v-col cols="12" md="6">
             <v-row justify="center">
-              <v-col cols="12" class="ml-2">
-                <v-row justify="center" justify-md="start">
+              <v-col cols="12">
+                <v-row justify="center">
                   <span class="black--text text-center body-2">
                     Leyte Normal University
                   </span>
                 </v-row>
               </v-col>
-              <v-col cols="12" class="ml-2">
-                <v-row justify="center" justify-md="start">
-                  <span class="black--text caption">
+              <v-col cols="12">
+                <v-row justify="center">
+                  <span class="black--text text-center caption">
                     Tacloban City
                   </span>
                 </v-row>
               </v-col>
-              <v-col cols="12" class="ml-2">
-                <v-row justify="center" justify-md="start">
-                  <span class="black--text subtitle-2 text-uppercase">
+              <v-col cols="12">
+                <v-row justify="center">
+                  <span
+                    class="black--text text-center subtitle-2 text-uppercase"
+                  >
                     Office of the Administrative Officer
                   </span>
                 </v-row>
