@@ -1,6 +1,6 @@
 const route = require("express").Router();
 const { create, deleteSelected } = require("../validation/request_validation");
-const mongoose = require("mongoose");
+const { nanoid } = require("nanoid");
 const Joi = require("joi");
 
 const userAuth = require("../authentication/userAuth");
@@ -62,6 +62,7 @@ route.post("/create", userAuth, async (req, res) => {
   }
 
   const request = new Request({
+    _id: nanoid(9),
     ...req.body,
     user: { staff_id: req.locals.staff_id, ...req.body.user },
   });
