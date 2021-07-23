@@ -28,7 +28,7 @@ export default {
       color="white"
       class="pa-3 sheet"
     >
-      <v-container fluid class="inner-sheet">
+      <v-container fluid class="inner-sheet pb-10">
         <v-row>
           <v-col cols="12" class="pa-6">
             <v-row justify="end">
@@ -51,7 +51,7 @@ export default {
           />
           <PassSlip
             :preview="preview"
-            v-else-if="(preview.data.service_id = '60f62dcb69f7dd1017e2ba49')"
+            v-else-if="(preview.data.service_id === '60f62dcb69f7dd1017e2ba49')"
           />
           <Original v-else :preview="preview" />
         </v-row>
@@ -65,5 +65,6 @@ export default {
 }
 .sheet {
   overflow-y: scroll;
+  
 }
 </style>

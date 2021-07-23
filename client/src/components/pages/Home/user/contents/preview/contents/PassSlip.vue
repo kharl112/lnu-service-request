@@ -60,17 +60,17 @@ export default {
       <v-container fluid>
         <v-row justify="center">
           <span
-            class="black--text text-uppercase font-weight-bold body-1 text-decoration-underline"
+            class="black--text text-uppercase text-h6 text-decoration-underline"
           >
             Pass Slip
           </span>
         </v-row>
       </v-container>
     </v-col>
-    <v-col cols="12" class="pb-0 pt-0">
+    <v-col cols="12">
       <v-container fluid class="pr-10">
         <v-row justify="end">
-          <span class="black--text text-center caption">
+          <span class="black--text text-center body-2">
             Date:
             <span class="text-decoration-underline text-center">
               {{ fixDate(preview.data.date) }}
@@ -83,9 +83,9 @@ export default {
       <v-container fluid class="pt-0">
         <v-row justify="start">
           <v-col cols="12" class="pa-0">
-            <span class="black--text body-2">
+            <span class="black--text font-weight-bold body-2">
               NAME:
-              <span class="ml-1 text-decoration-underline">
+              <span class="ml-1 font-weight-regular text-decoration-underline">
                 {{ preview.data.options.name }}
               </span>
             </span>
@@ -97,9 +97,9 @@ export default {
       <v-container fluid class="pt-0">
         <v-row justify="start">
           <v-col cols="12" class="pa-0">
-            <span class="black--text body-2">
+            <span class="black--text font-weight-bold body-2">
               TIMEOUT:
-              <span class="ml-1 text-decoration-underline">
+              <span class="ml-1 font-weight-regular text-decoration-underline">
                 {{ preview.data.options.timeout }}
               </span>
             </span>
@@ -111,9 +111,9 @@ export default {
       <v-container fluid class="pt-0">
         <v-row justify="start">
           <v-col cols="12" class="pa-0">
-            <span class="black--text body-2">
-              Purpose:
-              <span class="ml-1 text-decoration-underline">
+            <span class="black--text font-weight-bold body-2">
+              PURPOSE:
+              <span class="ml-1 font-weight-regular text-decoration-underline">
                 {{ preview.data.body }}
               </span>
             </span>
@@ -122,27 +122,28 @@ export default {
       </v-container>
     </v-col>
     <v-col cols="12" class="pl-0 pt-2">
-      <v-container fluid class="mt-2 pt-0 pb-2">
+      <v-container fluid class="mt-2 pb-2">
         <v-row>
-          <v-col cols="12" class="pt-0 pb-0">
-            <span class="black--text text-uppercase caption">
-              <span class="text-decoration-underline text-center">
-                {{ getFullname(preview.data.user.profile[0].name) }}
-                <v-icon
-                  v-if="preview.data.user.signature"
-                  small
-                  color="success"
-                  class="ml-1 mb-1"
-                >
-                  mdi-check-circle
-                </v-icon>
+          <v-col cols="12">
+            <v-row justify="end">
+              <span class="black--text text-uppercase text-center caption">
+                <span class="text-decoration-underline text-center">
+                  {{ getFullname(preview.data.user.profile[0].name) }}
+                  <v-icon
+                    v-if="preview.data.user.signature"
+                    small
+                    color="success"
+                    class="ml-1 mb-1"
+                  >
+                    mdi-check-circle
+                  </v-icon>
+                </span>
+                <v-spacer />
+                <small class="black--text caption text-center text-capitalize">
+                  (signature over printed name)
+                </small>
               </span>
-            </span>
-          </v-col>
-          <v-col cols="12" class="pt-0 pb-0 mt-n2">
-            <small class="black--text caption tex-center text-capitalize">
-              (Print name & signature)
-            </small>
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
@@ -152,7 +153,7 @@ export default {
         <v-row>
           <v-col cols="12" class="pt-0 pb-0">
             <span class="black--text text-uppercase caption ">
-              Job Done By:
+              JOB DONE BY:
               <v-spacer />
               <span class="text-decoration-underline text-center">
                 {{ getFullname(preview.data.service_provider.profile[0].name) }}
@@ -168,37 +169,39 @@ export default {
             </span>
           </v-col>
           <v-col cols="12" class="pt-0 pb-0 mt-n2">
-            <small class="black--text caption tex-center text-capitalize">
+            <small class="black--text caption text-center text-capitalize">
               {{ getDepartment(preview.data.service_provider.department) }}
             </small>
           </v-col>
         </v-row>
       </v-container>
     </v-col>
-    <v-col cols="12" class="pl-0">
-      <v-container fluid class="mt-2 pt-0 pb-2">
+    <v-col cols="12">
+      <span class="text-left black--text caption pb-0 pt-0"> APPROVED BY: </span>
+    </v-col>
+    <v-col cols="12">
+      <v-container fluid class="pt-0 pb-2">
         <v-row>
           <v-col cols="12" class="pt-0 pb-0">
-            <span class="black--text text-uppercase caption ">
-              APPROVED BY:
-              <v-spacer />
-              <span class="text-decoration-underline text-center">
-                {{ getFullname(preview.data.admin.profile[0].name) }}
-                <v-icon
-                  v-if="preview.data.admin.signature"
-                  small
-                  color="success"
-                  class="ml-1 mb-1"
-                >
-                  mdi-check-circle
-                </v-icon>
+            <v-row justify="start">
+              <span class="black--text text-uppercase text-center caption ">
+                <span class="text-decoration-underline text-center">
+                  {{ getFullname(preview.data.admin.profile[0].name) }}
+                  <v-icon
+                    v-if="preview.data.admin.signature"
+                    small
+                    color="success"
+                    class="ml-1 mb-1"
+                  >
+                    mdi-check-circle
+                  </v-icon>
+                </span>
+                <v-spacer />
+                <small class="black--text caption text-center text-capitalize">
+                  Chief Administrative Officer-Admin
+                </small>
               </span>
-            </span>
-          </v-col>
-          <v-col cols="12" class="pt-0 pb-0 mt-n2">
-            <small class="black--text caption tex-center text-capitalize">
-              Chief Administrative Officer-Admin
-            </small>
+            </v-row>
           </v-col>
         </v-row>
       </v-container>
