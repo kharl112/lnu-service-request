@@ -2,9 +2,10 @@
 import Original from "./contents/Original";
 import Mailing from "./contents/Mailing";
 import PassSlip from "./contents/PassSlip";
+import Risograph from "./contents/Risograph";
 export default {
   name: "PreviewRequest",
-  components: { Original, Mailing, PassSlip },
+  components: { Original, Mailing, PassSlip, Risograph },
   props: {
     preview: Object,
     showPreview: Function,
@@ -49,9 +50,13 @@ export default {
             :preview="preview"
             v-if="preview.data.service_id === '60f62de769f7dd1017e2ba4b'"
           />
+          <Risograph
+            :preview="preview"
+            v-else-if="preview.data.service_id === '60f62dd969f7dd1017e2ba4a'"
+          />
           <PassSlip
             :preview="preview"
-            v-else-if="(preview.data.service_id === '60f62dcb69f7dd1017e2ba49')"
+            v-else-if="preview.data.service_id === '60f62dcb69f7dd1017e2ba49'"
           />
           <Original v-else :preview="preview" />
         </v-row>
@@ -65,6 +70,5 @@ export default {
 }
 .sheet {
   overflow-y: scroll;
-  
 }
 </style>
