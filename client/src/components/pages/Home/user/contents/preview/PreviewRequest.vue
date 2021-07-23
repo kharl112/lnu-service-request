@@ -1,9 +1,10 @@
 <script>
 import Original from "./contents/Original";
 import Mailing from "./contents/Mailing";
+import PassSlip from "./contents/PassSlip";
 export default {
   name: "PreviewRequest",
-  components: { Original, Mailing },
+  components: { Original, Mailing, PassSlip },
   props: {
     preview: Object,
     showPreview: Function,
@@ -47,6 +48,10 @@ export default {
           <Mailing
             :preview="preview"
             v-if="preview.data.service_id === '60f62de769f7dd1017e2ba4b'"
+          />
+          <PassSlip
+            :preview="preview"
+            v-else-if="(preview.data.service_id = '60f62dcb69f7dd1017e2ba49')"
           />
           <Original v-else :preview="preview" />
         </v-row>
