@@ -3,9 +3,15 @@ export default {
   name: "Risograph",
   props: {
     options: Object,
-    rules: Array,
   },
-  data: () => ({ idle: { title: "", copies: 0, pages: 0, produced: 0 } }),
+  data: () => ({
+    idle: { title: "", copies: 0, pages: 0, produced: 0 },
+    rules: {
+      isNumber: (v) =>
+        /\d/gi.test(v) || parseInt(v) > 0 || "a valid number is required",
+      isRequired: (v) => !!v || "this field is required",
+    },
+  }),
   methods: {
     deleteIndex(index) {
       this.options.documents = this.options.documents.filter(
@@ -19,12 +25,15 @@ export default {
         this.options.documents,
       ] = [false, false, []]);
     },
-    saveIdle() {
-      const { documents } = this.options;
-      return (this.options.documents = [
-        ...documents,
-        JSON.parse(JSON.stringify(this.idle)),
-      ]);
+    saveIdle(e) {
+      e.preventDefault();
+      if (this.$refs.table_form.validate()) {
+        const { documents } = this.options;
+        return (this.options.documents = [
+          ...documents,
+          JSON.parse(JSON.stringify(this.idle)),
+        ]);
+      }
     },
   },
 };
@@ -82,79 +91,97 @@ export default {
                 <v-divider />
               </v-col>
               <v-col cols="12">
-                <v-simple-table>
-                  <template v-slot:default>
-                    <thead>
-                      <tr>
-                        <th class="text-left">
-                          Document Title
-                        </th>
-                        <th class="text-center">
-                          No. of copies
-                        </th>
-                        <th class="text-center">
-                          No. of pages
-                        </th>
-                        <th class="text-center">
-                          Total copies produced
-                        </th>
-                        <th class="text-center">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr
-                        v-for="(doc, index) in options.documents"
-                        :key="index"
-                      >
-                        <td>{{ doc.title }}</td>
-                        <td class="text-center">{{ doc.copies }}</td>
-                        <td class="text-center">{{ doc.pages }}</td>
-                        <td class="text-center">{{ doc.produced }}</td>
-                        <td class="text-center">
-                          <v-btn icon color="error" @click="deleteIndex(index)">
-                            <v-icon>mdi-delete</v-icon>
-                          </v-btn>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <v-text-field v-model="idle.title" dense />
-                        </td>
-                        <td class="text-center">
-                          <v-text-field
-                            class="body-2"
-                            v-model="idle.copies"
-                            type="number"
-                            dense
-                          />
-                        </td>
-                        <td class="text-center">
-                          <v-text-field
-                            class="body-2"
-                            v-model="idle.pages"
-                            type="number"
-                            dense
-                          />
-                        </td>
-                        <td class="text-center">
-                          <v-text-field
-                            class="body-2"
-                            v-model="idle.produced"
-                            type="number"
-                            dense
-                          />
-                        </td>
-                        <td class="text-center">
-                          <v-btn icon color="primary" @click="saveIdle">
-                            <v-icon>mdi-content-save</v-icon>
-                          </v-btn>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </template>
-                </v-simple-table>
+                <v-form ref="table_form">
+                  <v-simple-table>
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th class="text-left">
+                            Document Title
+                          </th>
+                          <th class="text-center">
+                            No. of copies
+                          </th>
+                          <th class="text-center">
+                            No. of pages
+                          </th>
+                          <th class="text-center">
+                            Total copies produced
+                          </th>
+                          <th class="text-center">
+                            Actions
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr
+                          v-for="(doc, index) in options.documents"
+                          :key="index"
+                        >
+                          <td>{{ doc.title }}</td>
+                          <td class="text-center">{{ doc.copies }}</td>
+                          <td class="text-center">{{ doc.pages }}</td>
+                          <td class="text-center">{{ doc.produced }}</td>
+                          <td class="text-center">
+                            <v-btn
+                              icon
+                              color="error"
+                              @click="deleteIndex(index)"
+                            >
+                              <v-icon>mdi-delete</v-icon>
+                            </v-btn>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <v-text-field
+                              :rules="[rules.isRequired]"
+                              v-model="idle.title"
+                              dense
+                            />
+                          </td>
+                          <td class="text-center">
+                            <v-text-field
+                              class="body-2"
+                              :rules="[rules.isNumber, rules.isRequired]"
+                              v-model="idle.copies"
+                              type="number"
+                              dense
+                            />
+                          </td>
+                          <td class="text-center">
+                            <v-text-field
+                              class="body-2"
+                              :rules="[rules.isNumber, rules.isRequired]"
+                              v-model="idle.pages"
+                              type="number"
+                              dense
+                            />
+                          </td>
+                          <td class="text-center">
+                            <v-text-field
+                              class="body-2"
+                              :rules="[rules.isNumber]"
+                              v-model="idle.produced"
+                              type="number"
+                              dense
+                            />
+                          </td>
+                          <td class="text-center">
+                            <v-btn
+                              type="submit"
+                              icon
+                              color="primary"
+                              @click="saveIdle"
+                            >
+                              <v-icon>mdi-content-save</v-icon>
+                            </v-btn>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                </v-form>
               </v-col>
               <v-col cols="12" class="pa-0">
                 <v-divider />

@@ -232,7 +232,6 @@ export default {
                   />
                   <Risograph
                     :options="this.form.options"
-                    :rules="rules"
                     v-else-if="form.service_id === '60f62dd969f7dd1017e2ba4a'"
                   />
                   <Unavailable v-else />
