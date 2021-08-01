@@ -10,6 +10,7 @@ export default {
     preview: Object,
     showPreview: Function,
     downloadPDF: Function,
+    showSignature: Function,
   },
   computed: {
     getPDFLoading() {
@@ -33,11 +34,27 @@ export default {
         <v-row>
           <v-col cols="12" class="pa-6">
             <v-row justify="end">
+              <v-tooltip bottom v-if="showSignature">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    color="success"
+                    @click="showSignature(preview.data._id)"
+                  >
+                    <v-icon>
+                      mdi-signature-freehand
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Sign request</span>
+              </v-tooltip>
               <v-btn
                 @click="downloadPDF(preview.data._id)"
                 :loading="getPDFLoading"
                 icon
-                color="secondary "
+                color="secondary"
               >
                 <v-icon>mdi-download</v-icon>
               </v-btn>

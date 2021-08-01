@@ -151,48 +151,13 @@ export default {
                           v-bind="attrs"
                           v-on="on"
                           class="mt-2 mb-1"
-                          color="error"
-                          :loading="getPDFLoading && selected === pending._id"
-                          @click="downloadPDF(pending._id)"
-                        >
-                          <v-icon>
-                            mdi-cloud-download
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Download</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          icon
-                          v-bind="attrs"
-                          v-on="on"
-                          class="mt-2 mb-1"
-                          color="success"
-                          @click="showSignature(pending._id)"
-                        >
-                          <v-icon>
-                            mdi-signature-freehand
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Sign request</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          icon
-                          v-bind="attrs"
-                          v-on="on"
-                          class="mt-2 mb-1"
                           color="primary"
                           @click="$router.push(`/track/${pending._id}`)"
                         >
                           <v-icon>
                             mdi-map-marker-distance
                           </v-icon>
-                        </v-btn>
+                        </v-btn>  
                       </template>
                       <span>Track Request</span>
                     </v-tooltip>
@@ -232,15 +197,16 @@ export default {
         <v-progress-circular :size="50" indeterminate color="primary" />
       </v-col>
     </v-row>
-    <SetSignature
-      :signatureVisibility="signatureVisibility"
-      :showSignature="showSignature"
-      :handleSetSignature="handleSetSignature"
-    />
     <PreviewRequest
       :downloadPDF="downloadPDF"
       :showPreview="showPreview"
       :preview="preview"
+      :showSignature="showSignature"
+    />
+    <SetSignature
+      :signatureVisibility="signatureVisibility"
+      :showSignature="showSignature"
+      :handleSetSignature="handleSetSignature"
     />
   </v-container>
 </template>

@@ -10,10 +10,15 @@ export default {
     preview: Object,
     showPreview: Function,
     downloadPDF: Function,
+    showSignature: Function,
+    markAsCompleted: Function,
   },
   computed: {
     getPDFLoading() {
       return this.$store.getters["pdf/getLoading"];
+    },
+    getLoading() {
+      return this.$store.getters["request/getLoading"];
     },
   },
 };
@@ -33,6 +38,40 @@ export default {
         <v-row>
           <v-col cols="12" class="pa-6">
             <v-row justify="end">
+              <v-tooltip bottom v-if="showSignature">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    color="success"
+                    @click="showSignature(preview.data._id)"
+                  >
+                    <v-icon>
+                      mdi-signature-freehand
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Sign request</span>
+              </v-tooltip>
+              <v-tooltip bottom v-if="markAsCompleted">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-if="preview.data.status === 0"
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    color="primary"
+                    :loading="getLoading.mark"
+                    @click="markAsCompleted(preview.data._id)"
+                  >
+                    <v-icon>
+                      mdi-check-circle
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Mark as completed</span>
+              </v-tooltip>
               <v-btn
                 @click="downloadPDF(preview.data._id)"
                 :loading="getPDFLoading"

@@ -141,46 +141,7 @@ export default {
                           v-bind="attrs"
                           v-on="on"
                           class="mt-2 mb-1"
-                          color="error"
-                          :loading="getPDFLoading && selected === signed._id"
-                          @click="downloadPDF(signed._id)"
-                        >
-                          <v-icon>
-                            mdi-cloud-download
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Download</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          v-if="signed.status === 0"
-                          icon
-                          large
-                          v-bind="attrs"
-                          v-on="on"
-                          class="mt-2 mb-1"
                           color="primary"
-                          :loading="getLoading.mark && selected === signed._id"
-                          @click="markAsCompleted(signed._id)"
-                        >
-                          <v-icon>
-                            mdi-check-circle
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Mark as completed</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          icon
-                          large
-                          v-bind="attrs"
-                          v-on="on"
-                          class="mt-2 mb-1"
-                          color="warning"
                           @click="$router.push(`/track/${signed._id}`)"
                         >
                           <v-icon>
@@ -220,6 +181,7 @@ export default {
       :downloadPDF="downloadPDF"
       :showPreview="showPreview"
       :preview="preview"
+      :markAsCompleted="markAsCompleted"
     />
   </v-container>
 </template>
