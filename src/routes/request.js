@@ -230,6 +230,7 @@ route.get("/admin/signed", adminAuth, async (req, res) => {
       "admin.staff_id": req.locals.staff_id,
       "user.signature": { $ne: "" },
       "admin.signature": { $ne: "" },
+      status: { $ne: 2 },
       save_as: 1,
     })
   );
