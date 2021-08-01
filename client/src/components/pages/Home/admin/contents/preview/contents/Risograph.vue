@@ -25,7 +25,7 @@ export default {
 };
 </script>
 <template>
-  <v-col cols="12" class="pa-0 mt-n7 content">
+  <v-col cols="12" class="pa-0 content">
     <v-col cols="12">
       <v-container fluid class="pa-2">
         <v-row justify="center">
