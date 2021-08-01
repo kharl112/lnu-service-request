@@ -1,8 +1,9 @@
 const Token = require("../db/models/token_model");
+const { nanoid } = require("nanoid");
 
 module.exports = async (token_found, staff_id) => {
   if (token_found) {
-    token_found.token = Math.random().toString(36).substring(1, 10);
+    token_found.token = nanoid(9);
     token_found.claimer_staff_id = staff_id;
 
     await token_found.save();
@@ -10,7 +11,7 @@ module.exports = async (token_found, staff_id) => {
   } else {
     const user_token = new Token({
       claimer_staff_id: staff_id,
-      token: Math.random().toString(36).substring(1, 10),
+      token: nanoid(9),
       claimed: false,
     });
     await user_token.save();

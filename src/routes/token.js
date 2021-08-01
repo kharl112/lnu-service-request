@@ -23,7 +23,6 @@ route.post("/faculty/send", async (req, res) => {
 
     const token_found = await Token.findOne({
       claimer_staff_id: claimer.staff_id,
-      claimed: false,
     });
 
     const new_token = await generateToken(token_found, claimer.staff_id);
@@ -65,7 +64,6 @@ route.post("/admin/send", async (req, res) => {
 
     const token_found = await Token.findOne({
       claimer_staff_id: claimer.staff_id,
-      claimed: false,
     });
 
     const new_token = await generateToken(token_found, claimer.staff_id);
@@ -108,7 +106,6 @@ route.post("/faculty/claim", async (req, res) => {
     const user_token = await Token.findOne({
       token: req.body.token,
       claimer_staff_id: claimer.staff_id,
-      claimed: false,
     });
     if (!user_token)
       return res.status(400).send({ message: "token not found" });
@@ -138,7 +135,6 @@ route.post("/admin/claim", async (req, res) => {
     const admin_token = await Token.findOne({
       token: req.body.token,
       claimer_staff_id: claimer.staff_id,
-      claimed: false,
     });
     if (!admin_token)
       return res.status(400).send({ message: "token not found" });
