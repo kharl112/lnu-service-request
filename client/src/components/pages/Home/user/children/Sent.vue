@@ -47,12 +47,6 @@ export default {
         id,
       });
     },
-    isSigned(service_request) {
-      const { admin, service_provider } = service_request;
-      if (service_provider.staff_id)
-        return !!admin.signature && !!service_provider.signature;
-      return !!admin.signature;
-    },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
       return `${
@@ -222,7 +216,6 @@ export default {
       :preview="preview"
       :markAsArchive="markAsArchive"
       :markAsCompleted="markAsCompleted"
-      :isSigned="isSigned"
     />
   </v-container>
 </template>

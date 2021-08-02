@@ -13,7 +13,6 @@ export default {
     showSignature: Function,
     markAsCompleted: Function,
     markAsArchive: Function,
-    isSigned: Function,
   },
   computed: {
     getPDFLoading() {
@@ -21,6 +20,14 @@ export default {
     },
     getLoading() {
       return this.$store.getters["request/getLoading"];
+    },
+  },
+  methods: {
+    isSigned(service_request) {
+      const { admin, service_provider } = service_request;
+      if (service_provider.staff_id)
+        return !!admin.signature && !!service_provider.signature;
+      return !!admin.signature;
     },
   },
 };

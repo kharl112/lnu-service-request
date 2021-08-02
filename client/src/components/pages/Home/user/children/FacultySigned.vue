@@ -125,11 +125,19 @@ export default {
                         `pa-0 text-caption font-weight-bold ${
                           signed.status === 0
                             ? 'primary--text'
-                            : 'success--text'
+                            : signed.status === 1
+                            ? 'success--text'
+                            : 'warning--text'
                         }`
                       "
                     >
-                      {{ signed.status === 0 ? "Pending" : "Completed" }}
+                      {{
+                        signed.status === 0
+                          ? "Pending"
+                          : signed.status === 1
+                          ? "Completed"
+                          : "Archived"
+                      }}
                     </small>
                   </td>
                   <td class="text-center text-no-wrap">
