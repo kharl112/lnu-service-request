@@ -12,6 +12,8 @@ export default {
     downloadPDF: Function,
     showSignature: Function,
     markAsCompleted: Function,
+    markAsArchive: Function,
+    isSigned: Function,
   },
   computed: {
     getPDFLoading() {
@@ -38,6 +40,24 @@ export default {
         <v-row>
           <v-col cols="12" class="pa-6">
             <v-row justify="end">
+              <v-tooltip bottom v-if="markAsArchive">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    v-if="preview.data.status === 1"
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    color="warning"
+                    :loading="getLoading.mark"
+                    @click="markAsArchive(preview.data._id)"
+                  >
+                    <v-icon>
+                      mdi-archive
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Archive</span>
+              </v-tooltip>
               <v-tooltip bottom v-if="showSignature">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -57,7 +77,7 @@ export default {
               <v-tooltip bottom v-if="markAsCompleted">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
-                    v-if="preview.data.status === 0"
+                    v-if="preview.data.status === 0 && isSigned(preview.data)"
                     icon
                     v-bind="attrs"
                     v-on="on"

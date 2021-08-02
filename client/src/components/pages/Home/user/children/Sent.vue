@@ -177,66 +177,6 @@ export default {
                           v-bind="attrs"
                           v-on="on"
                           class="mt-2 mb-1"
-                          color="error"
-                          :loading="getPDFLoading && selected === send._id"
-                          @click="downloadPDF(send._id)"
-                        >
-                          <v-icon>
-                            mdi-cloud-download
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Download</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          v-if="send.status === 1"
-                          icon
-                          v-bind="attrs"
-                          v-on="on"
-                          class="mt-2 mb-1"
-                          color="warning"
-                          :loading="getLoading.mark && selected === send._id"
-                          @click="markAsArchive(send._id)"
-                        >
-                          <v-icon>
-                            mdi-archive
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Archive</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          v-if="
-                            send.status === 0 &&
-                              !send.service_provider.staff_id &&
-                              send.admin.signature
-                          "
-                          icon
-                          v-bind="attrs"
-                          v-on="on"
-                          class="mt-2 mb-1"
-                          color="success"
-                          :loading="getLoading.mark && selected === send._id"
-                          @click="markAsCompleted(send._id)"
-                        >
-                          <v-icon>
-                            mdi-check-circle
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Mark as completed</span>
-                    </v-tooltip>
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          icon
-                          v-bind="attrs"
-                          v-on="on"
-                          class="mt-2 mb-1"
                           color="primary"
                           :disabled="getLoading.mark"
                           @click="$router.push(`/track/${send._id}`)"
@@ -264,23 +204,6 @@ export default {
                 <v-icon slot="icon" color="warning" size="36">
                   mdi-exclamation-thick
                 </v-icon>
-                You have empty sents
-                <template v-slot:actions>
-                  <v-btn color="primary" @click="gotoCreate" text>
-                    create
-                  </v-btn>
-                </template>
-              </v-banner>
-            </v-col>
-          </v-row>
-        </v-container>
-        <v-container fluid v-else-if="!getAllSend[0] && !getLoading.all_send">
-          <v-row justify="start">
-            <v-col cols="12">
-              <v-banner single-line>
-                <v-icon slot="icon" color="warning" size="36">
-                  mdi-exclamation-thick
-                </v-icon>
                 No service requests found
                 <template v-slot:actions>
                   <v-btn color="primary" @click="gotoCreate" text>
@@ -297,6 +220,9 @@ export default {
       :downloadPDF="downloadPDF"
       :showPreview="showPreview"
       :preview="preview"
+      :markAsArchive="markAsArchive"
+      :markAsCompleted="markAsCompleted"
+      :isSigned="isSigned"
     />
   </v-container>
 </template>
