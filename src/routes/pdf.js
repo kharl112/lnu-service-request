@@ -53,7 +53,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     );
 
     const options = {
-      format: "A4",
+      format: temp === "mailing" ? "Legal" : "A4",
       border: {
         top: "0.5in",
         right: "0.5in",
@@ -115,7 +115,7 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     );
 
     const options = {
-      format: "A4",
+      format: temp === "mailing" ? "Legal" : "A4",
       border: {
         top: "0.5in",
         right: "0.5in",
@@ -174,7 +174,7 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     );
 
     const options = {
-      format: "A4",
+      format: temp === "mailing" ? "Legal" : "A4",
       border: {
         top: "0.5in",
         right: "0.5in",
