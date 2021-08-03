@@ -167,7 +167,11 @@ export default {
                 <v-card-title
                   :class="
                     `text-center font-weight-bold pa-2 body-2 ${
-                      getTrackedRequest.status === 0 ? 'primary' : 'success'
+                      getTrackedRequest.status === 0
+                        ? 'primary'
+                        : getTrackedRequest.status === 1
+                        ? 'success'
+                        : 'warning'
                     }--text`
                   "
                 >
@@ -178,7 +182,11 @@ export default {
                   icon
                   large
                   :color="
-                    getTrackedRequest.status === 0 ? 'primary' : 'success'
+                    getTrackedRequest.status === 0
+                      ? 'primary'
+                      : getTrackedRequest.status === 1
+                      ? 'success'
+                      : 'warning'
                   "
                   @click="showQR"
                 >
@@ -218,7 +226,7 @@ export default {
                       <v-row justify="start">
                         <small
                           :class="
-                            `secondary--text caption ${
+                            `caption ${
                               signee.signature
                                 ? 'text-decoration-line-through'
                                 : ''
@@ -242,16 +250,20 @@ export default {
             </v-col>
             <v-col cols="11">
               <v-row justify="start">
-                <v-card-text class="body-2 secondary--text pa-0 text-left">
+                <v-card-text class="body-2 text-uppercase pa-0 text-left">
                   Service type:
-                  <span class="font-weight-bold">
+                  <span class="text-decoration-underline">
                     {{ getTrackedRequest.service[0].type }}
                   </span>
                 </v-card-text>
                 <v-card-text
                   :class="
-                    `body-2 pa-0 text-left ${
-                      getTrackedRequest.status === 0 ? 'primary' : 'success'
+                    `body-2 text-uppercase pa-0 text-left ${
+                      getTrackedRequest.status === 0
+                        ? 'primary'
+                        : getTrackedRequest.status === 1
+                        ? 'success'
+                        : 'warning'
                     }--text`
                   "
                 >
