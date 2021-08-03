@@ -5,7 +5,7 @@ const create = (body) => {
     subject: Joi.string().min(10).max(100).required(),
     service_id: Joi.string().min(24).max(24).required(),
     body: Joi.string().min(10).required(),
-    options: Joi.object().required().allow({}),
+    options: Joi.object().allow({}),
     user: Joi.object({
       signature: Joi.string().required(),
     }).required(),
