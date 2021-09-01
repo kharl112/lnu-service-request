@@ -31,12 +31,16 @@ export default {
         return this.$store.commit("message/setSnackbar", flag);
       },
     },
-    navigation: {
+    isMobile() {
+      const mobile = window.matchMedia("(max-width: 480px)");
+      return mobile.matches;
+    },
+    drawer: {
       get() {
         return this.$store.getters["navigation/getDrawer"];
       },
-      set(drawer) {
-        return this.$store.commit("navigation/setDrawer", drawer);
+      set(bool) {
+        return this.$store.commit("navigation/setDrawer", bool);
       },
     },
     slide_info: {
@@ -68,8 +72,8 @@ export default {
   <v-container fluid class="home-container">
     <v-row no-gutters dense class="home-row1" v-if="getAdminProfile">
       <SideNav :showLogout="showLogout" />
-      <v-col cols="12">
-        <v-container fluid>
+      <v-col class="home-col1">
+        <v-container fluid class="home-container2">
           <v-row
             justify="end"
             justify-sm="center"
@@ -79,10 +83,7 @@ export default {
             <v-col cols="12">
               <Header />
             </v-col>
-            <v-col
-              cols="12"
-              :class="navigation ? 'pa-1 pa-sm-3 pl-15 pl-sm-15' : 'pa-1'"
-            >
+            <v-col cols="12">
               <transition name="slide-right" mode="out-in">
                 <router-view></router-view>
               </transition>

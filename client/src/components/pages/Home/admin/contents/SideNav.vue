@@ -5,7 +5,6 @@ export default {
     showLogout: Function,
   },
   data: () => ({
-    mini: true,
     dialog: false,
     items: [
       { title: "Signed", icon: "mdi-email-edit", getter: "Signed" },
@@ -46,12 +45,16 @@ export default {
         return;
       },
     },
-    navigation: {
+    isMobile() {
+      const mobile = window.matchMedia("(max-width: 480px)");
+      return mobile.matches;
+    },
+    drawer: {
       get() {
         return this.$store.getters["navigation/getDrawer"];
       },
-      set(drawer) {
-        return this.$store.commit("navigation/setDrawer", drawer);
+      set(bool) {
+        return this.$store.commit("navigation/setDrawer", bool);
       },
     },
   },
@@ -59,10 +62,11 @@ export default {
 </script>
 <template>
   <v-navigation-drawer
-    fixed
-    permanent
-    v-model="navigation"
-    :mini-variant.sync="mini"
+    :permanent="!isMobile"
+    :absolute="isMobile"
+    :temporary="isMobile"
+    v-model="drawer"
+    height="100vh"
   >
     <v-list>
       <v-list-item class="px-2">
@@ -78,17 +82,13 @@ export default {
             this.getAdminProfile.email
           }}</v-list-item-subtitle>
         </v-list-item-content>
-
-        <v-btn icon @click.stop="mini = !mini">
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
       </v-list-item>
     </v-list>
 
     <v-divider />
 
     <v-list dense>
-      <v-subheader v-show="!mini">Requests</v-subheader>
+      <v-subheader>Requests</v-subheader>
       <v-list-item-group v-model="route" color="warning">
         <v-list-item
           v-for="(child, i) in items"
@@ -100,8 +100,7 @@ export default {
             <v-badge
               v-if="
                 child.getter &&
-                  $store.getters[`request/getAll${child.getter}`].length &&
-                  mini
+                  $store.getters[`request/getAll${child.getter}`].length
               "
               dot
               color="warning"
@@ -113,8 +112,7 @@ export default {
           <v-badge
             v-if="
               child.getter &&
-                $store.getters[`request/getAll${child.getter}`].length &&
-                !mini
+                $store.getters[`request/getAll${child.getter}`].length 
             "
             color="warning"
             :content="$store.getters[`request/getAll${child.getter}`].length"
@@ -128,7 +126,7 @@ export default {
     <v-divider />
 
     <v-list dense>
-      <v-subheader v-show="!mini">Account</v-subheader>
+      <v-subheader >Account</v-subheader>
       <v-list-item-group color="warning" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
