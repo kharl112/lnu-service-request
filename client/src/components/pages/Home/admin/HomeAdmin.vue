@@ -31,10 +31,6 @@ export default {
         return this.$store.commit("message/setSnackbar", flag);
       },
     },
-    isMobile() {
-      const mobile = window.matchMedia("(max-width: 480px)");
-      return mobile.matches;
-    },
     drawer: {
       get() {
         return this.$store.getters["navigation/getDrawer"];

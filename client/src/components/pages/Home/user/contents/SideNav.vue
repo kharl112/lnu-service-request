@@ -37,7 +37,7 @@ export default {
       return this.$store.getters["faculty/getProfile"];
     },
     isMobile() {
-      const mobile = window.matchMedia("(max-width: 480px)");
+      const mobile = window.matchMedia("(max-width: 680px)");
       return mobile.matches;
     },
     drawer: {
