@@ -1,4 +1,9 @@
 @import "../../_var";
+.home-container2 {
+  overflow-y: auto;
+  height: 100vh;
+}
+
 .home-container {
   font-family: $ubuntu-font;
   margin: 0px;

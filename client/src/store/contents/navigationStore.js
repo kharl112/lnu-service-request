@@ -1,6 +1,6 @@
 const navigation = {
   namespaced: true,
-  state: () => ({ drawer: true, slide_info: false }),
+  state: () => ({ drawer: false, slide_info: false }),
   getters: {
     getDrawer: (state) => state.drawer,
     getSlideInfo: (state) => state.slide_info,

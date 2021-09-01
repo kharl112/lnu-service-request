@@ -5,21 +5,48 @@ export default {
     showLogout: Function,
   },
   data: () => ({
-    mini: true,
     dialog: false,
     request_items: [
-      { title: "Sent", icon: "mdi-send-check", getter: "Send" },
-      { title: "Drafts", icon: "mdi-email-edit", getter: "Draft" },
+      {
+        title: "Sent",
+        icon: "mdi-send-check",
+        getter: "Send",
+      },
+      {
+        title: "Drafts",
+        icon: "mdi-email-edit",
+        getter: "Draft",
+      },
       { title: "Archives", icon: "mdi-archive" },
     ],
     received_items: [
-      { title: "Pending", icon: "mdi-email-receive", getter: "Pending" },
-      { title: "Signed", icon: "mdi-signature-freehand", getter: "Signed" },
+      {
+        title: "Pending",
+        icon: "mdi-email-receive",
+        getter: "Pending",
+      },
+      {
+        title: "Signed",
+        icon: "mdi-signature-freehand",
+        getter: "Signed",
+      },
     ],
   }),
   computed: {
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
+    },
+    isMobile() {
+      const mobile = window.matchMedia("(max-width: 480px)");
+      return mobile.matches;
+    },
+    drawer: {
+      get() {
+        return this.$store.getters["navigation/getDrawer"];
+      },
+      set(bool) {
+        return this.$store.commit("navigation/setDrawer", bool);
+      },
     },
     getFacultyFullName() {
       const {
@@ -50,24 +77,16 @@ export default {
         return;
       },
     },
-    navigation: {
-      get() {
-        return this.$store.getters["navigation/getDrawer"];
-      },
-      set(drawer) {
-        return this.$store.commit("navigation/setDrawer", drawer);
-      },
-    },
   },
 };
 </script>
 <template>
   <v-navigation-drawer
-    fixed
-    permanent
-    disable-route-watcher
-    v-model="navigation"
-    :mini-variant.sync="mini"
+    :permanent="!isMobile"
+    :absolute="isMobile"
+    :temporary="isMobile"
+    v-model="drawer"
+    height="100vh"
   >
     <v-list>
       <v-list-item class="px-2">
@@ -83,10 +102,6 @@ export default {
             getFacultyProfile.email
           }}</v-list-item-subtitle>
         </v-list-item-content>
-
-        <v-btn icon @click.stop="mini = !mini">
-          <v-icon>mdi-chevron-left</v-icon>
-        </v-btn>
       </v-list-item>
     </v-list>
 
@@ -106,7 +121,7 @@ export default {
     <v-divider />
 
     <v-list dense>
-      <v-subheader v-show="!mini">Requests</v-subheader>
+      <v-subheader>Requests</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item
           v-for="(child, i) in request_items"
@@ -118,8 +133,7 @@ export default {
             <v-badge
               v-if="
                 child.getter &&
-                  $store.getters[`request/getAll${child.getter}`].length &&
-                  mini
+                  $store.getters[`request/getAll${child.getter}`].length
               "
               color="primary"
               dot
@@ -131,8 +145,7 @@ export default {
           <v-badge
             v-if="
               child.getter &&
-                $store.getters[`request/getAll${child.getter}`].length &&
-                !mini
+                $store.getters[`request/getAll${child.getter}`].length
             "
             color="primary"
             :content="$store.getters[`request/getAll${child.getter}`].length"
@@ -144,7 +157,7 @@ export default {
     </v-list>
 
     <v-list dense>
-      <v-subheader v-show="!mini">Received</v-subheader>
+      <v-subheader>Received</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item
           v-for="(child, i) in received_items"
@@ -154,9 +167,7 @@ export default {
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
             <v-badge
-              v-if="
-                $store.getters[`request/getAll${child.getter}`].length && mini
-              "
+              v-if="$store.getters[`request/getAll${child.getter}`].length"
               color="primary"
               dot
             />
@@ -165,9 +176,7 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
-            v-if="
-              $store.getters[`request/getAll${child.getter}`].length && !mini
-            "
+            v-if="$store.getters[`request/getAll${child.getter}`].length"
             color="primary"
             :content="$store.getters[`request/getAll${child.getter}`].length"
             offset-x="10"
@@ -178,7 +187,7 @@ export default {
     </v-list>
 
     <v-list dense>
-      <v-subheader v-show="!mini">Account</v-subheader>
+      <v-subheader>Account</v-subheader>
       <v-list-item-group color="primary" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
