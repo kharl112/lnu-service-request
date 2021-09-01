@@ -46,7 +46,7 @@ export default {
 <template>
   <v-container fluid class="pa-0">
     <v-row justify="end" align="end">
-      <v-col cols="12" align="end">
+      <v-col cols="12" align="center">
         <v-row
           :justify="isMobile ? 'space-between' : 'end'"
           align="end"
@@ -57,13 +57,13 @@ export default {
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
-                  color="secondary"
+                  color="gray"
                   class="mr-3"
                   @click="drawer = true"
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="35">
+                  <v-icon size="45">
                     mdi-menu
                   </v-icon>
                 </v-btn>

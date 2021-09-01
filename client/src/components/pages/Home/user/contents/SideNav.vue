@@ -78,6 +78,9 @@ export default {
       },
     },
   },
+  mounted() {
+    this.drawer = false;
+  },
 };
 </script>
 <template>

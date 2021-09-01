@@ -58,6 +58,9 @@ export default {
       },
     },
   },
+  mounted() {
+    this.drawer = false;
+  },
 };
 </script>
 <template>
@@ -112,7 +115,7 @@ export default {
           <v-badge
             v-if="
               child.getter &&
-                $store.getters[`request/getAll${child.getter}`].length 
+                $store.getters[`request/getAll${child.getter}`].length
             "
             color="warning"
             :content="$store.getters[`request/getAll${child.getter}`].length"
@@ -126,7 +129,7 @@ export default {
     <v-divider />
 
     <v-list dense>
-      <v-subheader >Account</v-subheader>
+      <v-subheader>Account</v-subheader>
       <v-list-item-group color="warning" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
