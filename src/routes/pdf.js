@@ -1,6 +1,5 @@
 const route = require("express").Router();
 const pdf = require("html-pdf");
-const mongoose = require("mongoose");
 const path = require("path");
 const pug = require("pug");
 const md = require("markdown-it")();
@@ -12,6 +11,7 @@ const Request = require("../db/models/request_model");
 
 const requestQuery = require("../functions/requestQuery");
 const { Name, _Date, Department } = require("../functions/generateProfile");
+const getTemplateType = require("../functions/getTemplateType");
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
@@ -38,15 +38,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
-    const temp =
-      form.service_id.toString() === "60f62de769f7dd1017e2ba4b"
-        ? "mailing"
-        : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
-        ? "passslip"
-        : form.service_id.toString() === "60f62dd969f7dd1017e2ba4a"
-        ? "risograph"
-        : "original";
-
+    const temp = getTemplateType(form.service_id);
     const html = pug.renderFile(
       path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
       { form }
@@ -100,15 +92,7 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
-    const temp =
-      form.service_id.toString() === "60f62de769f7dd1017e2ba4b"
-        ? "mailing"
-        : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
-        ? "passslip"
-        : form.service_id.toString() === "60f62dd969f7dd1017e2ba4a"
-        ? "risograph"
-        : "original";
-
+    const temp = getTemplateType(form.service_id);
     const html = pug.renderFile(
       path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
       { form }
@@ -159,15 +143,7 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
-    const temp =
-      form.service_id.toString() === "60f62de769f7dd1017e2ba4b"
-        ? "mailing"
-        : form.service_id.toString() === "60f62dcb69f7dd1017e2ba49"
-        ? "passslip"
-        : form.service_id.toString() === "60f62dd969f7dd1017e2ba4a"
-        ? "risograph"
-        : "original";
-
+    const temp = getTemplateType(form.service_id);
     const html = pug.renderFile(
       path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
       { form }
