@@ -84,6 +84,11 @@ export default {
       this.form.save_as = save_as;
       if (!this.form.other_service) delete this.form.other_service;
       if (this.$refs.form.validate()) {
+        if (this.form.options.documents && !this.form.options.documents[0])
+          return this.$store.dispatch(
+            "message/errorMessage",
+            "You need to add atleast 1 document for Risograph"
+          );
         if (!this.form.user.signature)
           return this.$store.dispatch(
             "message/errorMessage",
@@ -91,7 +96,7 @@ export default {
           );
         return this.$store.dispatch("request/editRequest", this.form);
       }
-      return console.log("unvalidated");
+      return;
     },
   },
   created() {
@@ -215,7 +220,6 @@ export default {
                   />
                   <Risograph
                     :options="this.form.options"
-                    :rules="rules"
                     v-else-if="form.service_id === '60f62dd969f7dd1017e2ba4a'"
                   />
                   <Unavailable v-else />
