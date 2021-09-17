@@ -4,6 +4,8 @@ import Mailing from "./options/Mailing";
 import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
 import Unavailable from "./options/Unavailable";
+import form from "./options/form";
+
 export default {
   name: "Compose",
   components: {
@@ -19,25 +21,7 @@ export default {
     rules: [(v) => !!v || "This field is not allowed to be empty"],
     items: ["A4", "Letter"],
     timeout: 3000,
-    form: {
-      subject: "",
-      service_id: "",
-      body: "",
-      options: {},
-      user: {
-        signature: "",
-      },
-      admin: {
-        staff_id: "",
-        signature: "",
-      },
-      service_provider: {
-        staff_id: "",
-        signature: "",
-      },
-      save_as: 0,
-      other_service: "",
-    },
+    form,
   }),
   computed: {
     getFacultyProfile() {
