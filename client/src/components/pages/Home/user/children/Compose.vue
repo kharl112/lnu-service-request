@@ -5,6 +5,7 @@ import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
 import Unavailable from "./options/Unavailable";
 import form from "./options/form";
+import changeServices from "./options/changeServices";
 
 export default {
   name: "Compose",
@@ -58,24 +59,7 @@ export default {
       return (this.form.other_service = "");
     },
     handleChangeService(e) {
-      return (this.form.options =
-        e === "60f62dcb69f7dd1017e2ba49"
-          ? { name: "", timeout: "" }
-          : e === "60f62de769f7dd1017e2ba4b"
-          ? {
-              postal: "",
-              type: "",
-              recipient: "",
-              released_by: "",
-              released_date: "",
-            }
-          : e === "60f62dd969f7dd1017e2ba4a"
-          ? {
-              with_paper: false,
-              back_to_back: false,
-              documents: [],
-            }
-          : {});
+      return (this.form.options = changeServices(e));
     },
     handleSetSignature(signatureId) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
