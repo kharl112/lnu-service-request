@@ -50,7 +50,6 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
       return res.send(buffer);
     });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again" });
