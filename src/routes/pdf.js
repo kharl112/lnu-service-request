@@ -12,6 +12,7 @@ const Request = require("../db/models/request_model");
 const requestQuery = require("../functions/requestQuery");
 const { Name, _Date, Department } = require("../functions/generateProfile");
 const getTemplateType = require("../functions/getTemplateType");
+const getTemplateOptions = require("../functions/getTemplateOptions");
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
@@ -49,6 +50,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
       return res.send(buffer);
     });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again" });
