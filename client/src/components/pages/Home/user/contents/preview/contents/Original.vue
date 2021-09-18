@@ -18,6 +18,13 @@ export default {
     getDepartment({ role, unit }) {
       return `${role[0].name} of ${unit[0].name}`;
     },
+    getPersonsInvolved(persons) {
+      return persons
+        .join(",")
+        .split(" ")
+        .map((name) => name.replace(/^[a-z]/gi, (first) => first.toUpperCase()))
+        .join(" ");
+    },
   },
 };
 </script>
@@ -99,9 +106,9 @@ export default {
               Name of Person/s involved:
               <span
                 class="ml-1 text-decoration-underline"
-                v-if="preview.data.service_provider.staff_id"
+                v-if="preview.data.options.persons_involved[0]"
               >
-                {{ getFullname(preview.data.service_provider.profile[0].name) }}
+                {{ getPersonsInvolved(preview.data.options.persons_involved) }}
               </span>
               <span v-else> _______ </span>
             </span>
