@@ -22,6 +22,11 @@ export default {
     others: false,
     timeout: 3000,
     form: null,
+    optionalComponents: [
+      { id: "60f62de769f7dd1017e2ba4b", component: "Mailing" },
+      { id: "60f62dd969f7dd1017e2ba4a", component: "Risograph" },
+      { id: "60f62dcb69f7dd1017e2ba49", component: "PassSlip" },
+    ],
   }),
   computed: {
     getAllServiceProviders() {
@@ -46,6 +51,13 @@ export default {
     },
   },
   methods: {
+    getOptionalComponent() {
+      const [optionalComponent] = this.optionalComponents.filter(
+        ({ id }) => id === this.form.service_id
+      );
+      return optionalComponent ? optionalComponent.component : "Unavailable";
+    },
+
     showSignature() {
       this.signatureVisibility = !this.signatureVisibility;
     },
@@ -193,21 +205,11 @@ export default {
                     </v-row>
                   </v-col>
                   <v-divider class="hidden-sm-and-down" vertical />
-                  <PassSlip
-                    :options="this.form.options"
+                  <component
+                    :options="form.options"
                     :rules="rules"
-                    v-if="form.service_id === '60f62dcb69f7dd1017e2ba49'"
+                    :is="getOptionalComponent()"
                   />
-                  <Mailing
-                    :options="this.form.options"
-                    :rules="rules"
-                    v-else-if="form.service_id === '60f62de769f7dd1017e2ba4b'"
-                  />
-                  <Risograph
-                    :options="this.form.options"
-                    v-else-if="form.service_id === '60f62dd969f7dd1017e2ba4a'"
-                  />
-                  <Unavailable v-else />
                   <v-col cols="12">
                     <v-divider />
                   </v-col>
