@@ -3,7 +3,7 @@ import SetSignature from "../contents/SetSignature";
 import Mailing from "./options/Mailing";
 import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
-import Unavailable from "./options/Unavailable";
+import Default from "./options/Default";
 import form from "./options/form";
 import changeServices from "./options/changeServices";
 
@@ -13,7 +13,7 @@ export default {
     SetSignature,
     Mailing,
     PassSlip,
-    Unavailable,
+    Default,
     Risograph,
   },
   data: () => ({
@@ -59,7 +59,7 @@ export default {
       const [optionalComponent] = this.optionalComponents.filter(
         ({ id }) => id === this.form.service_id
       );
-      return optionalComponent ? optionalComponent.component : "Unavailable";
+      return optionalComponent ? optionalComponent.component : "Default";
     },
     showSignature() {
       this.signatureVisibility = !this.signatureVisibility;
@@ -214,7 +214,7 @@ export default {
                   </v-col>
                   <v-col cols="12" class="pb-0 pt-0">
                     <v-container fluid class="pt-0">
-                      <v-subheader>Person/s involved </v-subheader>
+                      <v-subheader>Signees</v-subheader>
                       <v-divider />
                     </v-container>
                   </v-col>

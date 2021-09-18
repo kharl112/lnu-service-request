@@ -15,6 +15,6 @@ const changeServices = (value) =>
         back_to_back: false,
         documents: [],
       }
-    : {};
+    : { persons_involved: [] };
 
 export default changeServices;
