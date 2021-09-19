@@ -12,8 +12,11 @@ const changeServices = (id) => {
     {
       id: "60f62e6169f7dd1017e2ba51",
       obj: {
-        co_maker: [],
-        request_for: "",
+        co_makers: [],
+        request_for: {
+          accounting: "",
+          records: "",
+        },
         purpose: "",
       },
     },
@@ -31,7 +34,7 @@ const changeServices = (id) => {
 
   const [selected] = services.filter((service) => service.id === id);
 
-  return selected || { persons_involved: [] };
+  return selected ? selected.obj : { persons_involved: [] };
 };
 
 export default changeServices;

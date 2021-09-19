@@ -198,6 +198,7 @@ export default {
                           class="body-2"
                           v-model="form.body"
                           outlined
+                          height="100%"
                           :rules="rules"
                           label="Purpose"
                           auto-grow

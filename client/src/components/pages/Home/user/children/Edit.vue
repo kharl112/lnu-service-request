@@ -3,6 +3,7 @@ import SetSignature from "../contents/SetSignature";
 import Mailing from "./options/Mailing";
 import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
+import Certification from "./options/Certification";
 import Default from "./options/Default";
 import changeServices from "./options/changeServices";
 
@@ -13,6 +14,7 @@ export default {
     Mailing,
     PassSlip,
     Default,
+    Certification,
     Risograph,
   },
   data: () => ({
@@ -26,6 +28,7 @@ export default {
       { id: "60f62de769f7dd1017e2ba4b", component: "Mailing" },
       { id: "60f62dd969f7dd1017e2ba4a", component: "Risograph" },
       { id: "60f62dcb69f7dd1017e2ba49", component: "PassSlip" },
+      { id: "60f62e6169f7dd1017e2ba51", component: "Certification" },
     ],
   }),
   computed: {
