@@ -101,7 +101,7 @@ export default {
         <div class="ma-2">
           <input
             type="checkbox"
-            :value="preview.data.options.postal === 'JRS'"
+            :checked="preview.data.options.postal === 'JRS'"
             disabled
             class="mr-1"
           />
