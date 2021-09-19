@@ -4,9 +4,9 @@ import Mailing from "./options/Mailing";
 import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
 import Default from "./options/Default";
+import Certification from "./options/Certification";
 import form from "./options/form";
 import changeServices from "./options/changeServices";
-
 export default {
   name: "Compose",
   components: {
@@ -15,6 +15,7 @@ export default {
     PassSlip,
     Default,
     Risograph,
+    Certification,
   },
   data: () => ({
     signatureVisibility: false,
@@ -27,6 +28,7 @@ export default {
       { id: "60f62de769f7dd1017e2ba4b", component: "Mailing" },
       { id: "60f62dd969f7dd1017e2ba4a", component: "Risograph" },
       { id: "60f62dcb69f7dd1017e2ba49", component: "PassSlip" },
+      { id: "60f62e6169f7dd1017e2ba51", component: "Certification" },
     ],
   }),
   computed: {
