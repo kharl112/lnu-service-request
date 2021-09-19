@@ -6,8 +6,7 @@ export default {
   },
   methods: {
     fixDate(date) {
-      const new_date = new Date(date);
-      return `   ${new_date.getMonth()}/${new_date.getDate()}/${new_date.getFullYear()}   `;
+      const new_date = new Date(date); return `   ${new_date.getMonth()}/${new_date.getDate()}/${new_date.getFullYear()}   `;
     },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
@@ -101,7 +100,7 @@ export default {
         <div class="ma-2">
           <input
             type="checkbox"
-            :value="preview.data.options.postal === 'JRS'"
+            :checked="preview.data.options.postal === 'JRS'"
             disabled
             class="mr-1"
           />
