@@ -1,0 +1,63 @@
+doctype html 
+html 
+  head 
+    style
+        include ../styles/risograph.css
+body
+  header
+    div(class="header-info")
+      p(class="header-info-p1") LEYTE NORMAL UNIVERSITY
+      p(class="header-info-p2") Tacloban City
+      p(class="header-info-p3") OFFICE OF THE CHIEF ADMINISTRATION OFFICE 
+      br
+      p(class="header-info-p4") For ADMINISTRATION
+  div(class="main")
+    h4(class="subject") JOB ORDER FOR RISOGRAPH
+    div(class="container-1")
+      span(class="item-1") To: Reproduction Center
+      span(class="item-2") Date:
+      span(class="item-3")=form.date
+    p(class="note") Please Produce the following request for risograph
+    div(class="container-2")
+      span(class="c-item-1")=`With paper: ${form.options.with_paper ? "YES" : "NO"}`
+      span(class="c-item-2")=`Back to back: ${form.options.back_to_back ? "YES" : "NO"}`
+    table(class="data-table")
+      tr(class="tb-row")
+        th(class="tb-data") Title
+        th(class="tb-data") No. of Copies
+        th(class="tb-data") No. of Pages
+        th(class="tb-data") Total No. of Copies Produced
+      each doc in form.options.documents
+        tr(class="tb-row")
+            td(class="tb-data")=doc.title
+            td(class="tb-data")=doc.copies
+            td(class="tb-data")=doc.pages
+            td(class="tb-data")=doc.produced
+      tr(class="tb-row")
+            td(class="tb-data") TOTAL OUTPUT
+            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies), 0)}`
+            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.pages), 0)}`
+            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.produced), 0)}`
+    div(class="request-body")
+      span(class="prefix") PURPOSE:
+      | !{form.body}
+  div(class="recipients")
+    div(class="signature")
+      span(class="prefix") Requested by:
+      p(class="user-name")=form.user.profile
+      p(class="admin-dept-title") (Signature Over Printed Name)
+    | !{form.user.signature}
+    div(class="signature")
+      span(class="prefix") Approved by:
+      p(class="admin-dept")=form.admin.profile
+      p(class="admin-dept-title") Chief Administrative Officer-Admin
+    | !{form.admin.signature}
+    if form.service_provider.staff_id
+      div(class="signature")
+        span(class="prefix") Job done by:
+        p(class="dept-head")=form.service_provider.profile
+        p(class="dept-head-title")=form.service_provider.department
+      | !{form.service_provider.signature}
+
+    
+
