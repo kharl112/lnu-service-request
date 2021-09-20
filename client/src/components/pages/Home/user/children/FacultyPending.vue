@@ -1,6 +1,6 @@
 <script>
 import SetSignature from "../contents/SetSignature";
-import PreviewRequest from "../contents/preview/PreviewRequest";
+import PreviewRequest from "../contents/PreviewRequest";
 import { formatDistanceToNow } from "date-fns";
 export default {
   name: "FacultyPending",
@@ -200,6 +200,7 @@ export default {
       </v-col>
     </v-row>
     <PreviewRequest
+      v-if="preview.show"
       :downloadPDF="downloadPDF"
       :showPreview="showPreview"
       :preview="preview"

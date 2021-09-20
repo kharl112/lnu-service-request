@@ -1,11 +1,9 @@
 <script>
-import Original from "./contents/Original";
-import Mailing from "./contents/Mailing";
-import PassSlip from "./contents/PassSlip";
-import Risograph from "./contents/Risograph";
+import pdf from "vue-pdf";
+
 export default {
   name: "PreviewRequest",
-  components: { Original, Mailing, PassSlip, Risograph },
+  components: { pdf },
   props: {
     preview: Object,
     showPreview: Function,
@@ -14,9 +12,16 @@ export default {
     markAsCompleted: Function,
     markAsArchive: Function,
   },
+  data: () => ({
+    currentPage: 0,
+    pageCount: 0,
+  }),
   computed: {
     getPDFLoading() {
       return this.$store.getters["pdf/getLoading"];
+    },
+    getBlobURL() {
+      return this.$store.getters["pdf/getBlobURL"];
     },
     getLoading() {
       return this.$store.getters["request/getLoading"];
@@ -30,6 +35,13 @@ export default {
       return !!admin.signature;
     },
   },
+  mounted() {
+    if (this.preview.data._id)
+      this.$store.dispatch("pdf/previewPDF", {
+        user_type: "faculty",
+        id: this.preview.data._id,
+      });
+  },
 };
 </script>
 <template>
@@ -37,15 +49,16 @@ export default {
     <v-sheet
       v-if="preview.data"
       elevation="1"
-      max-width="470"
-      width="95vw"
-      height="99vh"
+      width="75vw"
+      max-width="470px"
+      height="95vh"
+      max-height="600px"
       color="white"
       class="pa-3 sheet"
     >
-      <v-container fluid class="inner-sheet pb-10">
+      <v-container fluid class="inner-sheet">
         <v-row>
-          <v-col cols="12" class="pa-6">
+          <v-col cols="12">
             <v-row justify="end">
               <v-tooltip bottom v-if="markAsArchive">
                 <template v-slot:activator="{ on, attrs }">
@@ -101,7 +114,7 @@ export default {
               </v-tooltip>
               <v-btn
                 @click="downloadPDF(preview.data._id)"
-                :loading="getPDFLoading"
+                :loading="getPDFLoading.download"
                 icon
                 color="secondary "
               >
@@ -112,29 +125,34 @@ export default {
               </v-btn>
             </v-row>
           </v-col>
-          <Mailing
-            :preview="preview"
-            v-if="preview.data.service_id === '60f62de769f7dd1017e2ba4b'"
-          />
-          <Risograph
-            :preview="preview"
-            v-else-if="preview.data.service_id === '60f62dd969f7dd1017e2ba4a'"
-          />
-          <PassSlip
-            :preview="preview"
-            v-else-if="preview.data.service_id === '60f62dcb69f7dd1017e2ba49'"
-          />
-          <Original v-else :preview="preview" />
+          <v-col cols="12" v-if="!getPDFLoading.preview && getBlobURL">
+            <v-row justify="center">
+              <pdf
+                :src="getBlobURL"
+                class="pdf-mod"
+                @num-pages="pageCount = $event"
+                @page-loaded="currentPage = $event"
+              />
+            </v-row>
+          </v-col>
+          <v-col cols="12" v-else>
+            <v-skeleton-loader
+              type="article, article, actions"
+              light
+            />
+          </v-col>
         </v-row>
       </v-container>
     </v-sheet>
   </v-overlay>
 </template>
 <style scoped>
-.inner-sheet {
-  border: 2px solid black;
-}
 .sheet {
   overflow-y: scroll;
+  overflow-x: hidden;
+}
+.pdf-mod {
+  width: 100%;
+  height: content;
 }
 </style>

@@ -1,6 +1,6 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import PreviewRequest from "../contents/preview/PreviewRequest";
+import PreviewRequest from "../contents/PreviewRequest";
 export default {
   name: "Sent",
   components: {
@@ -211,6 +211,7 @@ export default {
       </v-col>
     </v-row>
     <PreviewRequest
+      v-if="preview.show"
       :downloadPDF="downloadPDF"
       :showPreview="showPreview"
       :preview="preview"

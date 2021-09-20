@@ -1,6 +1,6 @@
 <script>
 import SetSignature from "../contents/SetSignature";
-import PreviewRequest from "../contents/preview/PreviewRequest";
+import PreviewRequest from "../contents/PreviewRequest";
 import { formatDistanceToNow } from "date-fns";
 export default {
   name: "AdminPending",
@@ -157,7 +157,7 @@ export default {
                           <v-icon>
                             mdi-map-marker-distance
                           </v-icon>
-                        </v-btn>  
+                        </v-btn>
                       </template>
                       <span>Track Request</span>
                     </v-tooltip>
@@ -198,6 +198,7 @@ export default {
       </v-col>
     </v-row>
     <PreviewRequest
+      v-if="preview.show"
       :downloadPDF="downloadPDF"
       :showPreview="showPreview"
       :preview="preview"
