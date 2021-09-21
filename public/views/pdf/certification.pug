@@ -2,45 +2,56 @@ doctype html
 html 
   head 
     style
-        include ../styles/risograph.css
+        include ../styles/certification.css
 body
   header
     div(class="header-info")
       p(class="header-info-p1") LEYTE NORMAL UNIVERSITY
       p(class="header-info-p2") Tacloban City
-      p(class="header-info-p3") OFFICE OF THE CHIEF ADMINISTRATION OFFICE 
-      br
-      p(class="header-info-p4") For ADMINISTRATION
+      p(class="header-info-p3") OFFICE OF THE CHIEF ADMINISTRATION OFFICER 
   div(class="main")
-    h4(class="subject") JOB ORDER FOR RISOGRAPH
+    h4(class="subject") REQUEST FOR RECORDS AND CERTIFICATION
     div(class="container-1")
-      span(class="item-1") To: Reproduction Center
-      span(class="item-2") Date:
-      span(class="item-3")=form.date
-    p(class="note") Please Produce the following request for risograph
-    div(class="container-2")
-      span(class="c-item-1")=`With paper: ${form.options.with_paper ? "YES" : "NO"}`
-      span(class="c-item-2")=`Back to back: ${form.options.back_to_back ? "YES" : "NO"}`
-    table(class="data-table")
-      tr(class="tb-row")
-        th(class="tb-data") Title
-        th(class="tb-data") No. of Copies
-        th(class="tb-data") No. of Pages
-        th(class="tb-data") Total No. of Copies Produced
-      each doc in form.options.documents
-        tr(class="tb-row")
-            td(class="tb-data")=doc.title
-            td(class="tb-data")=doc.copies
-            td(class="tb-data")=doc.pages
-            td(class="tb-data")=doc.produced
-      tr(class="tb-row")
-            td(class="tb-data") TOTAL OUTPUT
-            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies), 0)}`
-            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.pages), 0)}`
-            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.produced), 0)}`
-    div(class="request-body")
-      span(class="prefix") PURPOSE:
-      | !{form.body}
+      span(class="item-1") Date:
+      span(class="item-2")=form.date
+    p(class="note") TO ACCOUNTING SECTION
+  div(class="request container")
+    span(class="title") Request for:
+    div(class="items-container")
+      each item in ["Not Take Home Pay", "Loan Remittances/Payments", "Annual Gross Income"]
+        div(class="items")
+            input(checked=item === form.options.request_for.accounting type="checkbox" class="checkbox") 
+            span(class="item")=item 
+      div(class="items")
+        input(checked=["Not Take Home Pay", "Loan Remittances/Payments", "Annual Gross Income"].indexOf(form.options.request_for.accounting) === -1 type="checkbox" class="checkbox") 
+        span(class="item") Others (pls. specify) 
+        span(class="custom")=["Not Take Home Pay", "Loan Remittances/Payments", "Annual Gross Income"].indexOf(form.options.request_for.accounting) === -1 ? form.options.request_for.accounting : null
+
+    div(class="items-container")
+      p(class="subtitle") HRM/RECORDS OFFICE
+      each item in ["Service Records", "Leave Credits/Balance", "No Pending Administrative Case", "Employment Certificate"]
+        div(class="items")
+          input(checked=item === form.options.request_for.records type="checkbox" class="checkbox") 
+          span(class="item")=item 
+      div(class="items")
+        input(checked=["Service Records", "Leave Credits/Balance", "No Pending Administrative Case", "Employment Certificate"].indexOf(form.options.request_for.records) === -1 type="checkbox" class="checkbox") 
+        span(class="item") Others (pls. specify) 
+        span(class="custom")=["Service Records", "Leave Credits/Balance", "No Pending Administrative Case", "Employment Certificate"].indexOf(form.options.request_for.records) === -1 ? form.options.request_for.records : null
+
+    span(class="title") Purpose: 
+    div(class="items-container")
+     div(class="items")
+      input(checked=["DBP", "GSIS", "LBP", "HDMF"].indexOf(form.options.purpose) !== -1 "type="checkbox" class="checkbox") 
+      span(class="item") LOAN
+      each item in ["Travel Abroad", "Employment", "Updates"]
+        div(class="items")
+          input(checked=item === form.options.purpose type="checkbox" class="checkbox") 
+          span(class="item")=item
+      div(class="items")
+        input(checked=["Travel Abroad", "Employment", "Updates"].indexOf(form.options.purpose) === -1 type="checkbox" class="checkbox") 
+        span(class="item") Others (pls. specify) 
+        span(class="custom")=["Travel Abroad", "Employment", "Updates", "DPB", "GSIS", "LBP", "HDMF"].indexOf(form.options.purpose) === -1 ? form.options.purpose : null
+
   div(class="recipients")
     div(class="signature")
       span(class="prefix") Requested by:

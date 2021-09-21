@@ -1,7 +1,7 @@
 body {
   font-size: 12px;
   margin: 0px;
-  padding: 20px;
+  padding: 30px;
   border: 2px solid black;
 }
 header {
@@ -45,7 +45,6 @@ p {
   padding: 0px;
   font-size: 12px;
 }
-
 .main {
   display: flex;
   flex-direction: column;
@@ -60,49 +59,53 @@ p {
 }
 .container-1 {
   margin: 20px 0px 20px;
-  text-align: center;
+  text-align: end;
 }
 .item-1 {
-  margin-right: 45px;
-}
-.item-2 {
-  margin-left: 45px;
   margin-right: 5px;
 }
-.item-3 {
+.item-2 {
   text-decoration: underline;
 }
 .note {
   text-decoration: none;
-  margin-bottom: 0px;
 }
-.container-2 {
-  margin-top: 2px;
-  margin-bottom: 2px;
+.request-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
-.c-item-1 {
+.title {
   font-weight: bold;
-  margin-right: 35px;
 }
-.c-item-2 {
-  font-weight: bold;
-  margin-left: 35px;
-  margin-right: 5px;
-}
-.data-table {
-  border: 1px solid black;
+.items-container {
   width: 100%;
-  margin: 10px 0px 25px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 15px;
 }
-.tb-row {
-  border: 1px solid black;
+.subtitle {
+  text-decoration: none;
 }
-.tb-data {
-  text-align: center;
-  border: 1px solid black;
+.items {
+  width: 100%;
+  margin: 5px;
 }
-.request-body {
-  margin: 5px 0px 0px;
+.checkbox {
+  200~-ms-transform: scale(2);
+  -moz-transform: scale(2);
+  -webkit-transform: scale(2);
+  -o-transform: scale(2);
+  transform: scale(2);
+  padding: 10px;
+}
+.item {
+  text-decoration: none;
+  margin-left: 10px;
+  display: inline;
 }
 .recipients {
   display: flex;
