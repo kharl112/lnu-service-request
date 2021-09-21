@@ -76,17 +76,16 @@ p {
   margin: 10px 0px 30px;
 }
 .checkbox {
-  border: 2px solid black;
-  padding: 0px 8px 0px 8px;
-  margin-right: 5px;
+  -ms-transform: scale(2);
+  -moz-transform: scale(2);
+  -webkit-transform: scale(2);
+  -o-transform: scale(2);
+  transform: scale(2);
+  padding: 10px;
 }
-.checked {
-  background-color: black;
-}
-
 .checkbox-label {
   font-size: 13px;
-  margin-right: 20px;
+  margin: 0px 20px 0px 5px;
 }
 .checkbox-label-2 {
   font-size: 13px;
@@ -96,20 +95,23 @@ p {
   font-size: 9px;
 }
 .mail-recipient {
+  font-size: 15px;
   margin: 5px 0px 18px;
 }
 .mail-sender {
+  font-size: 15px;
   margin: 5px 0px 18px;
 }
 .recipient {
   margin-left: 5px;
-  text-decoration: underline;
+  border-bottom: 1px solid black;
 }
 .sender {
   margin-left: 5px;
-  text-decoration: underline;
+  border-bottom: 1px solid black;
 }
 .request-body {
+  font-size: 15px;
   margin: 5px 0px 18px;
 }
 .recipients {

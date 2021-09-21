@@ -15,9 +15,9 @@ body
     p(class="form") Form #01 
     h4(class="subject") REQUEST FOR MAILING
     div(class="checkboxes-container-1")
-      span(class=`checkbox ${form.options.postal === 'JRS' ? "checked" : ""}`)
+      input(checked = form.options.postal === "JRS" type="checkbox" class="checkbox")
       span(class="checkbox-label") JRS
-      span(class=`checkbox ${form.options.postal === 'PPC' ? "checked" : ""}`)
+      input(checked = form.options.postal === "PPC" type="checkbox" class="checkbox")
       span(class="checkbox-label-2") PPC
       small(class="info-label") (Phil. Postal Corp.)
     div(class="mail-recipient")
@@ -48,23 +48,15 @@ body
     | !{form.admin.signature}
   div(class="footer")
     div(class="post-container")
-      span(class="post-prefix") JRS:
-      span(class=`checkbox ${form.options.type === 'Mailing Envelope' ? "checked" : ""}`)
-      span(class="checkbox-label") Mailing Envelope
-      span(class=`checkbox ${form.options.type === 'Brown Envelope' ? "checked" : ""}`)
-      span(class="checkbox-label") Brown Envelope
-      span(class=`checkbox ${form.options.type === 'Box' ? "checked" : ""}`)
-      span(class="checkbox-label") Box
-    div(class="post-container")
       span(class="post-prefix") PPC:
-      span(class=`checkbox ${form.options.type === 'Registered' ? "checked" : ""}`)
-      span(class="checkbox-label") Registered
-      span(class=`checkbox ${form.options.type === 'Speed' ? "checked" : ""}`)
-      span(class="checkbox-label") Speed
-      span(class=`checkbox ${form.options.type === 'Priority' ? "checked" : ""}`)
-      span(class="checkbox-label") Priority
-      span(class=`checkbox ${form.options.type === 'International' ? "checked" : ""}`)
-      span(class="checkbox-label") International
+      each type in ["Mailing Envelope", "Brown Envelope", "Box"]
+        input(checked = form.options.type === type type="checkbox" class="checkbox")
+        span(class="checkbox-label")=type
+    div(class="post-container")
+      span(class="post-prefix") JRS:
+      each type in ["Registered", "Speed", "Priority", "International"]
+        input(checked = form.options.type === type type="checkbox" class="checkbox")
+        span(class="checkbox-label")=type
     div(class="released-container")
       p(class="released")=`Released by: ${form.options.released_by}`
       p(class="released")=`Released date: ${form.options.released_date}`
