@@ -1,5 +1,6 @@
 module.exports = (temp) => ({
-  format: temp === "mailing" ? "Legal" : "A4",
+  format:
+    temp === "mailing" ? "Legal" : temp === "certification" ? "Legal" : "A4",
   border: {
     top: "0.5in",
     right: "0.5in",

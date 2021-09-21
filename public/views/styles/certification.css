@@ -95,7 +95,7 @@ p {
   margin: 5px;
 }
 .checkbox {
-  200~-ms-transform: scale(2);
+  -ms-transform: scale(2);
   -moz-transform: scale(2);
   -webkit-transform: scale(2);
   -o-transform: scale(2);
@@ -106,6 +106,25 @@ p {
   text-decoration: none;
   margin-left: 10px;
   display: inline;
+}
+.custom {
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+.bank-container {
+  display: inline;
+  margin-left: 10px;
+}
+.bank-checkbox {
+  -ms-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  transform: scale(1.5);
+  padding: 10px;
+}
+.bank-text {
+  margin-right: 10px;
 }
 .recipients {
   display: flex;
@@ -160,6 +179,13 @@ p {
 }
 .signature {
   margin: 25px 0px 0px 0px;
+}
+.co-maker {
+  margin: 0px 0px 0px 10px;
+  padding: 0px;
+  text-transform: capitalize;
+  width: 40%;
+  border-bottom: 1px solid black;
 }
 
 svg {

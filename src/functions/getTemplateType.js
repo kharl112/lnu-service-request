@@ -5,5 +5,7 @@ module.exports = (service_id) => {
     ? "passslip"
     : service_id.toString() === "60f62dd969f7dd1017e2ba4a"
     ? "risograph"
+    : service_id.toString() === "60f62e6169f7dd1017e2ba51"
+    ? "certification"
     : "original";
 };
