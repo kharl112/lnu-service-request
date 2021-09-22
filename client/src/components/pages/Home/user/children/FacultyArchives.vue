@@ -89,7 +89,7 @@ export default {
                           icon
                           large
                           color="error"
-                          :loading="getPDFLoading && selected === send._id"
+                          :loading="getPDFLoading.download && selected === send._id"
                           @click="downloadPDF(send._id)"
                           v-bind="attrs"
                           v-on="on"
