@@ -120,7 +120,7 @@ export default {
                     icon
                     v-bind="attrs"
                     v-on="on"
-                    color="primary"
+                    color="success"
                     :loading="getLoading.mark"
                     @click="markAsCompleted(preview.data._id)"
                   >
