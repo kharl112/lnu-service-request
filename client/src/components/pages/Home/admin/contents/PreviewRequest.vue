@@ -78,6 +78,24 @@ export default {
                 </template>
                 <span>Archive</span>
               </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    color="primary"
+                    :disabled="getLoading.mark"
+                    @click="$router.push(`/track/${preview.data._id}`)"
+                  >
+                    <v-icon>
+                      mdi-map-marker-distance
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Track request</span>
+              </v-tooltip>
+
               <v-tooltip bottom v-if="showSignature">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -136,10 +154,7 @@ export default {
             </v-row>
           </v-col>
           <v-col cols="12" v-else>
-            <v-skeleton-loader
-              type="article, article, actions"
-              light
-            />
+            <v-skeleton-loader type="article, article, actions" light />
           </v-col>
         </v-row>
       </v-container>
