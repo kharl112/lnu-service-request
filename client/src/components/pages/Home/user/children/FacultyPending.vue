@@ -182,6 +182,7 @@ export default {
       :showPreview="showPreview"
       :preview="preview"
       :showSignature="showSignature"
+      :user_type="'provider'"
     />
     <SetSignature
       :signatureVisibility="signatureVisibility"
