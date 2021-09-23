@@ -1,6 +1,7 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
 import PreviewRequest from "../contents/PreviewRequest";
+import tableOptions from "./tableOptions";
 export default {
   name: "Sent",
   components: {
@@ -10,41 +11,7 @@ export default {
     show: false,
     preview: { show: false, data: null },
     selected: "",
-    table: {
-      search: "",
-      headers: [
-        {
-          text: "Description",
-          align: "center",
-          sortable: false,
-          value: "subject",
-        },
-        {
-          text: "Service type",
-          align: "center",
-          sortable: false,
-          value: "service[0].type",
-        },
-        {
-          text: "Date Created",
-          align: "center",
-          sortable: true,
-          value: "date",
-        },
-        {
-          text: "Status",
-          align: "center",
-          sortable: false,
-          value: "status",
-        },
-        {
-          text: "More",
-          align: "center",
-          sortable: false,
-          value: "_id",
-        },
-      ],
-    },
+    table: tableOptions,
     filter: [
       { text: "All", value: "all" },
       { text: "Pending", value: "pending" },
