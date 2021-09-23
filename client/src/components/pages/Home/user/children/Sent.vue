@@ -10,6 +10,40 @@ export default {
     show: false,
     preview: { show: false, data: null },
     selected: "",
+    table: {
+      headers: [
+        {
+          text: "Description",
+          align: "center",
+          sortable: false,
+          value: "subject",
+        },
+        {
+          text: "Service type",
+          align: "center",
+          sortable: false,
+          value: "service[0].type",
+        },
+        {
+          text: "Date Created",
+          align: "center",
+          sortable: true,
+          value: "date",
+        },
+        {
+          text: "Status",
+          align: "center",
+          sortable: false,
+          value: "status",
+        },
+        {
+          text: "More",
+          align: "center",
+          sortable: false,
+          value: "_id",
+        },
+      ],
+    },
     filter: [
       { text: "All", value: "all" },
       { text: "Pending", value: "pending" },
@@ -108,85 +142,50 @@ export default {
           <v-divider />
         </v-container>
         <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
-          <v-simple-table fixed-header>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">
-                    Description
-                  </th>
-                  <th class="text-center">
-                    Type
-                  </th>
-                  <th class="text-center">
-                    Created
-                  </th>
-                  <th class="text-center">
-                    Status
-                  </th>
-                  <th class="text-center">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="send in getAllSend" :key="send.name">
-                  <td @click="showPreview(send)">
-                    <v-list-item-subtitle
-                      class="pa-0 text-caption text-left text-sm-body-2 text-lowercase"
-                    >
-                      {{ send.subject }}
-                    </v-list-item-subtitle>
-                  </td>
-                  <td class="text-center" @click="showPreview(send)">
-                    <v-list-item-subtitle
-                      class="pa-0 text-caption text-sm-body-2 text-lowercase"
-                    >
-                      {{ send.service[0].type }}
-                    </v-list-item-subtitle>
-                  </td>
-                  <td class="text-center" @click="showPreview(send)">
-                    <v-chip
-                      small
-                      color="primary"
-                      class="pa-0 pr-2 pl-2 text-center text-caption"
-                    >
-                      {{ getTimeOrDate(send.date) }}
-                    </v-chip>
-                  </td>
-                  <td class="text-center" @click="showPreview(send)">
-                    <small
-                      :class="
-                        `pa-0 text-caption font-weight-bold ${
-                          send.status === 0 ? 'primary--text' : 'success--text'
-                        }`
-                      "
-                    >
-                      {{ send.status === 0 ? "Pending" : "Completed" }}
-                    </small>
-                  </td>
-                  <td class="text-center text-no-wrap">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          icon
-                          v-bind="attrs"
-                          v-on="on"
-                          class="mt-2 mb-1"
-                          color="primary"
-                          :disabled="getLoading.mark"
-                          @click="$router.push(`/track/${send._id}`)"
-                        >
-                          <v-icon>
-                            mdi-map-marker-distance
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Track request</span>
-                    </v-tooltip>
-                  </td>
-                </tr>
-              </tbody>
+          <v-data-table
+            :headers="table.headers"
+            :items="getAllSend"
+            class="elevation-0"
+          >
+            <template v-slot:item.date="{ item }">
+              <v-chip
+                small
+                color="primary"
+                class="pa-0 pr-2 pl-2 text-center text-caption"
+              >
+                {{ getTimeOrDate(item.date) }}
+              </v-chip>
             </template>
-          </v-simple-table>
+            <template v-slot:item.status="{ item }">
+              <small
+                :class="
+                  `${item.status === 0 ? 'primary--text' : 'success--text'}`
+                "
+              >
+                {{ item.status === 0 ? "Pending" : "Completed" }}
+              </small>
+            </template>
+            <template v-slot:item._id="{ item }">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    icon
+                    v-bind="attrs"
+                    v-on="on"
+                    class="mt-2 mb-1"
+                    color="secondary"
+                    :disabled="getLoading.mark"
+                    @click="showPreview(item)"
+                  >
+                    <v-icon>
+                      mdi-dots-horizontal-circle
+                    </v-icon>
+                  </v-btn>
+                </template>
+                <span>Options</span>
+              </v-tooltip>
+            </template>
+          </v-data-table>
         </v-container>
         <v-container fluid v-else-if="getLoading.all_send">
           <v-skeleton-loader type="table" />
