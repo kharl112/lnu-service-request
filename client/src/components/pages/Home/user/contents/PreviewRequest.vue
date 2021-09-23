@@ -6,6 +6,7 @@ export default {
   components: { pdf },
   props: {
     preview: Object,
+    user_type: String,
     showPreview: Function,
     downloadPDF: Function,
     showSignature: Function,
@@ -36,11 +37,11 @@ export default {
     },
   },
   mounted() {
-    if (this.preview.data._id)
-      this.$store.dispatch("pdf/previewPDF", {
-        user_type: "faculty",
-        id: this.preview.data._id,
-      });
+    if (this.preview.data._id) console.log(this.preview.data);
+    this.$store.dispatch("pdf/previewPDF", {
+      user_type: this.user_type || "faculty",
+      id: this.preview.data._id,
+    });
   },
 };
 </script>
