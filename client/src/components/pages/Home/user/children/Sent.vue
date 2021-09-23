@@ -11,6 +11,7 @@ export default {
     preview: { show: false, data: null },
     selected: "",
     table: {
+      search: "",
       headers: [
         {
           text: "Description",
@@ -142,9 +143,22 @@ export default {
           <v-divider />
         </v-container>
         <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
+          <v-row justify="start">
+            <v-col cols="12" sm="7" md="4">
+              <v-text-field
+                v-model="table.search"
+                append-icon="mdi-magnify"
+                label="Search"
+                dense
+                single-line
+                hide-details
+              />
+            </v-col>
+          </v-row>
           <v-data-table
             :headers="table.headers"
             :items="getAllSend"
+            :search="table.search"
             class="elevation-0"
           >
             <template v-slot:item.date="{ item }">
