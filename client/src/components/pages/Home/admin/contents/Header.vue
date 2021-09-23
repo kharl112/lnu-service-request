@@ -11,7 +11,7 @@ export default {
       },
     },
     isMobile() {
-      const mobile = window.matchMedia("(max-width: 680px)");
+      const mobile = window.matchMedia("(max-width: 780px)");
       return mobile.matches;
     },
     darkmode: {
