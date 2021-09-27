@@ -2,8 +2,6 @@
 import SetSignature from "../contents/SetSignature";
 import PreviewRequest from "../contents/PreviewRequest";
 import { formatDistanceToNow } from "date-fns";
-import tableOptions from "./tableOptions";
-
 export default {
   name: "AdminPending",
   components: {
@@ -13,7 +11,6 @@ export default {
   data: () => ({
     signatureVisibility: false,
     preview: { show: false, data: null },
-    table: tableOptions,
     selected: "",
     selectedRequest: "",
     colors: ["primary", "warning", "error", "success"],
@@ -87,63 +84,88 @@ export default {
           <v-divider />
         </v-container>
         <v-container fluid v-if="getAllPending[0] && !getLoading.all_pending">
-          <v-row justify="start">
-            <v-col cols="12" sm="7" md="4">
-              <v-text-field
-                v-model="table.search"
-                append-icon="mdi-magnify"
-                label="Search"
-                dense
-                single-line
-                hide-details
-              />
-            </v-col>
-          </v-row>
-          <v-data-table
-            :headers="table.headers"
-            :items="getAllPending"
-            :search="table.search"
-            class="elevation-0"
-          >
-            <template v-slot:item.date="{ item }">
-              <v-chip
-                small
-                color="primary"
-                class="pa-0 pr-2 pl-2 text-center text-caption"
-              >
-                {{ getTimeOrDate(item.date) }}
-              </v-chip>
+          <v-simple-table fixed-header>
+            <template v-slot:default>
+              <thead>
+                <tr>
+                  <th class="text-left">
+                    Description
+                  </th>
+                  <th class="text-center">
+                    Type
+                  </th>
+                  <th class="text-center">
+                    Created
+                  </th>
+                  <th class="text-center">
+                    Status
+                  </th>
+                  <th class="text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="pending in getAllPending" :key="pending.name">
+                  <td>
+                    <v-list-item-subtitle
+                      @click="showPreview(pending)"
+                      class="pa-0 text-caption text-left text-sm-body-2 text-lowercase"
+                    >
+                      {{ pending.subject }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td class="text-center">
+                    <v-list-item-subtitle
+                      @click="showPreview(pending)"
+                      class="pa-0 text-caption text-sm-body-2 text-lowercase"
+                    >
+                      {{ pending.service[0].type }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td class="text-center" @click="showPreview(pending)">
+                    <v-chip
+                      small
+                      color="primary"
+                      class="pa-0 pr-2 pl-2 text-center text-caption"
+                    >
+                      {{ getTimeOrDate(pending.date) }}
+                    </v-chip>
+                  </td>
+                  <td class="text-center" @click="showPreview(pending)">
+                    <small
+                      :class="
+                        `pa-0 text-caption font-weight-bold ${
+                          pending.status === 0
+                            ? 'primary--text'
+                            : 'success--text'
+                        }`
+                      "
+                    >
+                      {{ pending.status === 0 ? "Pending" : "Completed" }}
+                    </small>
+                  </td>
+                  <td class="text-center text-no-wrap">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-btn
+                          icon
+                          v-bind="attrs"
+                          v-on="on"
+                          class="mt-2 mb-1"
+                          color="primary"
+                          @click="$router.push(`/track/${pending._id}`)"
+                        >
+                          <v-icon>
+                            mdi-map-marker-distance
+                          </v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Track Request</span>
+                    </v-tooltip>
+                  </td>
+                </tr>
+              </tbody>
             </template>
-            <template v-slot:item.status="{ item }">
-              <small
-                :class="
-                  `${item.status === 0 ? 'primary--text' : 'success--text'}`
-                "
-              >
-                {{ item.status === 0 ? "Pending" : "Completed" }}
-              </small>
-            </template>
-            <template v-slot:item._id="{ item }">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    v-bind="attrs"
-                    v-on="on"
-                    class="mt-2 mb-1"
-                    color="secondary"
-                    :disabled="getLoading.mark"
-                    @click="showPreview(item)"
-                  >
-                    <v-icon>
-                      mdi-dots-horizontal-circle
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Options</span>
-              </v-tooltip>
-            </template>
-          </v-data-table>
+          </v-simple-table>
         </v-container>
         <v-container fluid v-else-if="getLoading.all_pending">
           <v-skeleton-loader type="table" />
