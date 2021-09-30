@@ -80,16 +80,13 @@ export default {
     <v-row dense justify="start" v-if="!getProfileLoading">
       <v-col cols="12" class="pa-0">
         <v-container fluid class="pa-0">
-          <v-col cols="8" sm="5" md="4">
-            <span class="h4 warning--text font-weight-bold">
-              Pending Requests
-            </span>
-          </v-col>
-          <v-divider />
-        </v-container>
-        <v-container fluid v-if="getAllPending[0] && !getLoading.all_pending">
-          <v-row justify="start">
-            <v-col cols="12" sm="7" md="4">
+          <v-row justify="space-between" align="start" class="pa-4">
+            <v-col cols="8" sm="6" md="4">
+              <span class="h4 warning--text font-weight-bold">
+                Pending Requests
+              </span>
+            </v-col>
+            <v-col cols="12" sm="6" md="7">
               <v-text-field
                 v-model="table.search"
                 append-icon="mdi-magnify"
@@ -100,6 +97,9 @@ export default {
               />
             </v-col>
           </v-row>
+          <v-divider />
+        </v-container>
+        <v-container fluid v-if="getAllPending[0] && !getLoading.all_pending">
           <v-data-table
             @click:row="(item) => showPreview(item)"
             :headers="table.headers"

@@ -92,26 +92,23 @@ export default {
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
       <v-col cols="12" class="pa-0">
-        <v-container fluid class="pa-0">
-          <v-col cols="8" sm="5" md="4" class="pt-0 pb-2">
-            <v-select
-              outlined
-              class="mb-n5"
-              label="Filter"
-              value="all"
-              @change="handleFilter"
-              prepend-inner-icon="mdi-filter"
-              :items="filter"
-              item-text="text"
-              item-value="value"
-              dense
-            />
-          </v-col>
-          <v-divider />
-        </v-container>
-        <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
-          <v-row justify="start">
-            <v-col cols="12" sm="7" md="4">
+        <v-container fluid>
+          <v-row justify="space-between" align="start" class="pa-2">
+            <v-col cols="12" sm="6" md="4">
+              <v-select
+                outlined
+                class="mb-n5"
+                label="Filter"
+                value="all"
+                @change="handleFilter"
+                prepend-inner-icon="mdi-filter"
+                :items="filter"
+                item-text="text"
+                item-value="value"
+                dense
+              />
+            </v-col>
+            <v-col cols="12" sm="6" md="6">
               <v-text-field
                 v-model="table.search"
                 append-icon="mdi-magnify"
@@ -122,6 +119,9 @@ export default {
               />
             </v-col>
           </v-row>
+          <v-divider />
+        </v-container>
+        <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
           <v-data-table
             @click:row="(item) => showPreview(item)"
             :headers="table.headers"
