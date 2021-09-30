@@ -89,6 +89,7 @@ export default {
         </v-container>
         <v-container fluid v-if="getAllSigned[0] && !getLoading.all_signed">
           <v-data-table
+            @click:row="(item) => showPreview(item)"
             :headers="table.headers"
             :items="getAllSigned"
             :search="table.search"
@@ -111,26 +112,6 @@ export default {
               >
                 {{ item.status === 0 ? "Pending" : "Completed" }}
               </small>
-            </template>
-            <template v-slot:item._id="{ item }">
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    v-bind="attrs"
-                    v-on="on"
-                    class="mt-2 mb-1"
-                    color="secondary"
-                    :disabled="getLoading.mark"
-                    @click="showPreview(item)"
-                  >
-                    <v-icon>
-                      mdi-dots-horizontal-circle
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Options</span>
-              </v-tooltip>
             </template>
           </v-data-table>
         </v-container>
