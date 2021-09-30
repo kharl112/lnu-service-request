@@ -25,12 +25,6 @@ const tableOptions = {
       sortable: false,
       value: "status",
     },
-    {
-      text: "More",
-      align: "center",
-      sortable: false,
-      value: "_id",
-    },
   ],
 };
 
