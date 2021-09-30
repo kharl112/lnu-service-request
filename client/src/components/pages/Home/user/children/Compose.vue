@@ -85,6 +85,7 @@ export default {
         e.preventDefault();
       };
       this.form.save_as = save_as;
+      localStorage.removeItem("compose");
       if (!this.form.other_service) delete this.form.other_service;
       if (this.$refs.form.validate()) {
         if (this.form.options.documents && !this.form.options.documents[0])
@@ -103,9 +104,17 @@ export default {
     },
   },
   created() {
+    const compose = localStorage.getItem("compose");
+    if (compose) {
+      this.form = JSON.parse(compose);
+      this.form.user.signature = "";
+    }
     this.$store.dispatch("faculty/allServiceProviders");
     this.$store.dispatch("admin/allAdmin");
     this.$store.dispatch("service/allServices");
+  },
+  updated() {
+    localStorage.setItem("compose", JSON.stringify(this.form));
   },
 };
 </script>
