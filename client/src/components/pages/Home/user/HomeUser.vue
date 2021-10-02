@@ -31,14 +31,6 @@ export default {
         return this.$store.commit("message/setSnackbar", flag);
       },
     },
-    navigation: {
-      get() {
-        return this.$store.getters["navigation/getDrawer"];
-      },
-      set(drawer) {
-        return this.$store.commit("navigation/setDrawer", drawer);
-      },
-    },
   },
   methods: {
     showLogout() {
@@ -47,12 +39,6 @@ export default {
   },
   created() {
     return this.$store.dispatch("faculty/userProfile");
-  },
-  updated() {
-    if (!this.navigation && document.cookie !== "slide_info=false") {
-      document.cookie = "slide_info=false";
-      this.slide_info = true;
-    }
   },
 };
 </script>
