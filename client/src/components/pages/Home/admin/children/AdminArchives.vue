@@ -1,16 +1,47 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
+import PreviewRequest from "../contents/PreviewRequest";
 export default {
   name: "AdminArchives",
+  components: { PreviewRequest },
   data: () => ({
     show: false,
+    preview: false,
     selected: null,
+    table: {
+      headers: [
+        {
+          text: "From",
+          align: "left",
+          sortable: false,
+          value: "user.profile[0].name.lastname",
+        },
+        {
+          text: "Service Provider",
+          align: "left",
+          sortable: false,
+          value: "service_provider.profile[0]",
+        },
+        {
+          text: "Service type",
+          align: "left",
+          sortable: false,
+          value: "service[0].type",
+        },
+        {
+          text: "Date Created",
+          align: "left",
+          sortable: true,
+          value: "date",
+        },
+      ],
+    },
   }),
   computed: {
     getLoading() {
       return this.$store.getters["request/getLoading"];
     },
-    getAllSend() {
+    getAllArchives() {
       return this.$store.getters["request/getAllSend"];
     },
     getPDFLoading() {
@@ -41,6 +72,9 @@ export default {
       const { admin, service_provider } = service_request;
       return [admin, service_provider];
     },
+    showPreview(request = null) {
+      return (this.preview = { show: !this.preview.show, data: request });
+    },
   },
   created() {
     this.$store.dispatch("request/allSend", {
@@ -54,78 +88,39 @@ export default {
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8" class="pa-0">
-        <v-container fluid v-if="getAllSend[0] && !getLoading.all_send">
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">
-                    Info
-                  </th>
-                  <th class="text-center hidden-sm-and-down">
-                    Created
-                  </th>
-                  <th class="text-center">Download</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="send in getAllSend" :key="send._id">
-                  <td>
-                    <v-list-item-subtitle class="text-left body-2 pb-1 pt-1">
-                      {{ send.service[0].type }}
-                      <v-spacer />
-                      <small
-                        class="caption font-weight-bold"
-                        v-if="send.service_provider.staff_id"
-                      >
-                        TO:
-                        {{ send.service_provider.profile[0].name.firstname }}
-                      </small>
-                      <v-spacer />
-                      <small class="caption font-weight-bold">
-                        FROM:
-                        {{ send.user.profile[0].name.firstname }}
-                      </small>
-                    </v-list-item-subtitle>
-                  </td>
-                  <td class="text-center hidden-sm-and-down">
-                    <v-chip
-                      x-small
-                      color="primary"
-                      class="pa-0 pr-2 pl-2 text-center text-caption"
-                    >
-                      {{ getTimeOrDate(send.date) }}
-                    </v-chip>
-                  </td>
-                  <td class="text-center">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          icon
-                          large
-                          color="error"
-                          :loading="getPDFLoading.download && selected === send._id"
-                          @click="downloadPDF(send._id)"
-                          v-bind="attrs"
-                          v-on="on"
-                        >
-                          <v-icon>
-                            mdi-cloud-download
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <span>Download PDF</span>
-                    </v-tooltip>
-                  </td>
-                </tr>
-              </tbody>
+        <v-container fluid v-if="getAllArchives[0] && !getLoading.all_send">
+          <v-data-table
+            @click:row="(item) => showPreview(item)"
+            :headers="table.headers"
+            :items="getAllArchives"
+            class="elevation-0"
+          >
+            <template v-slot:item.date="{ item }">
+              <v-chip small color="primary" class="text-center text-caption">
+                {{ getTimeOrDate(item.date) }}
+              </v-chip>
             </template>
-          </v-simple-table>
+            <template v-slot:item.service_provider.profile[0]="{ item }">
+              <div v-if="item.service_provider.staff_id">
+                <span>
+                  {{ item.service_provider.profile[0].name.lastname }}
+                </span>
+                <v-spacer />
+                <span class="caption">
+                  {{ item.service_provider.department.unit[0].name }}
+                </span>
+              </div>
+              <span v-else class="error--text font-weight-bold"> NA </span>
+            </template>
+          </v-data-table>
         </v-container>
         <v-container fluid v-else-if="getLoading.all_send">
           <v-skeleton-loader type="table" />
         </v-container>
-        <v-container fluid v-else-if="!getAllSend[0] && !getLoading.all_send">
+        <v-container
+          fluid
+          v-else-if="!getAllArchives[0] && !getLoading.all_send"
+        >
           <v-row justify="start">
             <v-col cols="12">
               <v-banner single-line>
@@ -137,7 +132,10 @@ export default {
             </v-col>
           </v-row>
         </v-container>
-        <v-container fluid v-else-if="!getAllSend[0] && !getLoading.all_send">
+        <v-container
+          fluid
+          v-else-if="!getAllArchives[0] && !getLoading.all_send"
+        >
           <v-row justify="start">
             <v-col cols="12">
               <v-banner single-line>
@@ -157,7 +155,7 @@ export default {
             <v-container fluid>
               <v-card class="mx-auto" max-width="344">
                 <v-img
-                  src="https://www.windowsphonefr.com/wp-content/uploads/2019/05/ThinkstockPhotos-187625854.jpg"
+                  src="https://anlantawan.files.wordpress.com/2020/08/ellenyu.jpg?w=720"
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                   class="white--text align-end"
                   width="720px"
@@ -197,6 +195,12 @@ export default {
         </v-row>
       </v-col>
     </v-row>
+    <PreviewRequest
+      v-if="preview.show"
+      :downloadPDF="downloadPDF"
+      :showPreview="showPreview"
+      :preview="preview"
+    />
   </v-container>
 </template>
 <style scoped lang="scss">
