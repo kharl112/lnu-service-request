@@ -7,8 +7,8 @@ export default {
   data: () => ({
     dialog: false,
     items: [
-      { title: "Signed", icon: "mdi-email-edit", getter: "Signed" },
       { title: "Pending", icon: "mdi-email-alert", getter: "Pending" },
+      { title: "Signed", icon: "mdi-email-edit", getter: "Signed" },
       { title: "Archives", icon: "mdi-archive" },
     ],
   }),

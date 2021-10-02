@@ -8,14 +8,14 @@ export default {
     dialog: false,
     request_items: [
       {
-        title: "Sent",
-        icon: "mdi-send-check",
-        getter: "Send",
-      },
-      {
         title: "Drafts",
         icon: "mdi-email-edit",
         getter: "Draft",
+      },
+      {
+        title: "Sent",
+        icon: "mdi-send-check",
+        getter: "Send",
       },
       { title: "Archives", icon: "mdi-archive" },
     ],
