@@ -89,7 +89,9 @@ export default {
                           icon
                           large
                           color="error"
-                          :loading="getPDFLoading.download && selected === send._id"
+                          :loading="
+                            getPDFLoading.download && selected === send._id
+                          "
                           @click="downloadPDF(send._id)"
                           v-bind="attrs"
                           v-on="on"
@@ -130,7 +132,7 @@ export default {
             <v-container fluid>
               <v-card class="mx-auto" max-width="344">
                 <v-img
-                  src="https://www.windowsphonefr.com/wp-content/uploads/2019/05/ThinkstockPhotos-187625854.jpg"
+                  src="https://anlantawan.files.wordpress.com/2020/08/ellenyu.jpg?w=720"
                   gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
                   class="white--text align-end"
                   width="720px"
