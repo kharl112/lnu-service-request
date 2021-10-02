@@ -78,7 +78,7 @@ export default {
       },
     },
   },
-  mounted() {
+  destroyed() {
     this.drawer = false;
   },
 };
