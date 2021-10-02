@@ -8,8 +8,8 @@ export default {
       show: false,
       deferredPrompt: null,
       selections: [
-        { value: "admin", text: "Chief Administration Office" },
-        { value: "faculty", text: "Employee/Faculty" },
+        { value: "admin", text: "Chief Administration Officer" },
+        { value: "faculty", text: "Employee/Faculty/Personnel" },
       ],
       form: {
         email: "",
@@ -154,7 +154,7 @@ export default {
                   dense
                   outlined
                   :items="selections"
-                  label="Select user level"
+                  label="Select user type"
                   item-text="text"
                   item-value="value"
                   v-model="userType"
