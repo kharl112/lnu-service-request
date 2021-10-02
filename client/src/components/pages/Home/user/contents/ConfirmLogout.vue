@@ -20,26 +20,25 @@ export default {
 </script>
 <template>
   <v-overlay :value="logout" :z-index="100">
-    <v-card :light="!$vuetify.theme.dark" max-width="344">
-      <v-list-item three-line>
-        <v-list-item-content>
-          <div class="overline mb-4">
-            LOGOUT
-          </div>
-          <v-list-item-title class="headline mb-2">
-            You are about to logout
-          </v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-card-actions>
-        <v-btn @click="handleLogout" color="primary">
-          Confirm
-        </v-btn>
-        <v-btn outlined color="warning" @click="showLogout">
-          Cancel
-        </v-btn>
-      </v-card-actions>
+    <v-card
+      :light="!$vuetify.theme.dark"
+      min-width="250"
+      max-width="300"
+      class="px-4 py-6"
+    >
+      <p class="subtitle">
+        Are you sure you want to logout?
+      </p>
+      <v-container fluid>
+        <v-row justify="space-around" align="center">
+          <v-btn small elevation="0" @click="handleLogout" color="primary">
+            Yes, Log me out
+          </v-btn>
+          <v-btn small outlined color="primary" @click="showLogout">
+            Cancel
+          </v-btn>
+        </v-row>
+      </v-container>
     </v-card>
   </v-overlay>
 </template>
