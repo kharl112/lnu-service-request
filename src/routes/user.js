@@ -72,11 +72,7 @@ route.post("/create", async (req, res) => {
 
     const mail = nodemailer.createTransport(generateEmail.transport);
     await mail.sendMail(
-      generateEmail.options(
-        new_user.email,
-        "LnuSR sent you a account permission code",
-        html
-      )
+      generateEmail.options(new_user.email, "Account permission code", html)
     );
 
     const token = jwt.sign({ _id: new_user._id }, process.env.JWT_SECRET, {
@@ -182,13 +178,12 @@ route.post("/send/email/link", async (req, res) => {
     await mail.sendMail(
       generateEmail.options(
         email_found.email,
-        "LnuSR account retrieval",
+        "Account retrieval",
         html.toString()
       )
     );
     return res.send({ message: "email sent" });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .send({ message: "we can't process your request, please try again." });
