@@ -64,11 +64,7 @@ route.post("/create", async (req, res) => {
 
     const mail = nodemailer.createTransport(generateEmail.transport);
     await mail.sendMail(
-      generateEmail.options(
-        new_admin.email,
-        "LnuSR sent you a account permission code",
-        html
-      )
+      generateEmail.options(new_admin.email, "Account permission code", html)
     );
     const token = jwt.sign({ _id: new_admin._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
@@ -164,7 +160,7 @@ route.post("/send/email/link", async (req, res) => {
     await mail.sendMail(
       generateEmail.options(
         email_found.email,
-        "LnuSR account retrieval",
+        "Account retrieval",
         html.toString()
       )
     );
