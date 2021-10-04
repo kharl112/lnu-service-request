@@ -82,7 +82,7 @@ export default {
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="30">
+                  <v-icon size="25">
                     mdi-map-marker-distance
                   </v-icon>
                 </v-btn>
@@ -99,7 +99,7 @@ export default {
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="30">
+                  <v-icon size="25">
                     {{
                       !darkmode
                         ? "mdi-moon-waning-crescent"
@@ -111,7 +111,7 @@ export default {
               <span>Enable darkmode</span>
             </v-tooltip>
             <v-btn icon color="success" class="mr-3" @click="handleRefresh">
-              <v-icon size="30">mdi-cached</v-icon>
+              <v-icon size="25">mdi-cached</v-icon>
             </v-btn>
             <v-btn
               @click="handleDeleteSelected"
@@ -127,7 +127,7 @@ export default {
                 dot
                 v-if="getSelected[0]"
               />
-              <v-icon size="30">mdi-trash-can</v-icon>
+              <v-icon size="25">mdi-trash-can</v-icon>
             </v-btn>
           </div>
           <v-col cols="12" class="pa-0 pt-2">

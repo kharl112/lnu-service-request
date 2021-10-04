@@ -36,7 +36,7 @@ export default {
     <v-row justify="end" align="center">
       <v-col cols="12" align="center">
         <v-row
-          :justify="isMobile ? 'space-between' : 'end'"
+          justify="space-between"
           align="end"
           class="pa-2"
         >
@@ -59,7 +59,10 @@ export default {
               <span>Menu</span>
             </v-tooltip>
           </div>
-          <div>
+          <div class="ml-5 hidden-sm-and-down">
+              <span>Chief Administration Office </span>
+          </div>
+          <div class="sm-ml-5">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -70,7 +73,7 @@ export default {
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="30">
+                  <v-icon size="25">
                     mdi-map-marker-distance
                   </v-icon>
                 </v-btn>
@@ -87,7 +90,7 @@ export default {
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="30">
+                  <v-icon size="25">
                     {{
                       !darkmode
                         ? "mdi-moon-waning-crescent"
@@ -108,7 +111,7 @@ export default {
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="30">mdi-cached</v-icon>
+                  <v-icon size="25">mdi-cached</v-icon>
                 </v-btn>
               </template>
               <span>Refresh</span>
