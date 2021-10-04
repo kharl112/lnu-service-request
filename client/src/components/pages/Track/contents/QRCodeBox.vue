@@ -46,8 +46,8 @@ export default {
       <v-container fluid>
         <v-row justify="center">
           <v-col cols="12" class="pa-2" align="center">
-            <v-list-item-title class="subtitle-1 mb-2 warning--text pa-0">
-              <span class="font-weight-bold">QRCode</span> Generated
+            <v-list-item-title class="subtitle-1 mb-2 pt-3">
+              <span class="headline text-uppercase">Generated QR</span> 
             </v-list-item-title>
           </v-col>
           <v-col cols="12" class="pa-2" align="center">
@@ -55,7 +55,7 @@ export default {
           </v-col>
           <v-col cols="12" class="pa-2">
             <v-card-actions>
-              <v-btn small outlined color="warning" @click="showQR">
+              <v-btn small outlined @click="showQR">
                 Close
               </v-btn>
             </v-card-actions>

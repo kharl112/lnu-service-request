@@ -7,6 +7,7 @@ export default {
   },
   data: () => ({
     show: false,
+    step: 9,
     timeout: 3000,
   }),
   computed: {
@@ -165,15 +166,7 @@ export default {
             <v-col cols="11" class="pa-2">
               <v-row justify="center">
                 <v-card-title
-                  :class="
-                    `text-center font-weight-bold pa-2 body-2 ${
-                      getTrackedRequest.status === 0
-                        ? 'primary'
-                        : getTrackedRequest.status === 1
-                        ? 'success'
-                        : 'warning'
-                    }--text`
-                  "
+                  class="text-center font-weight-bold pa-2 overline"
                 >
                   Request Status
                 </v-card-title>
@@ -181,13 +174,7 @@ export default {
                   v-if="!getError"
                   icon
                   large
-                  :color="
-                    getTrackedRequest.status === 0
-                      ? 'primary'
-                      : getTrackedRequest.status === 1
-                      ? 'success'
-                      : 'warning'
-                  "
+                  color="primary"
                   @click="showQR"
                 >
                   <v-icon>mdi-qrcode</v-icon>
@@ -198,52 +185,47 @@ export default {
               <v-divider />
             </v-col>
             <v-col cols="12" class="pa-0">
-              <v-timeline align-top dense class="pa-0">
-                <v-timeline-item
-                  v-for="signee in getSignatures(getTrackedRequest)"
-                  :key="signee.profile[0].staff_id"
-                  :icon="signee.signature ? 'mdi-check' : 'mdi-dots-horizontal'"
-                  :color="signee.signature ? 'success' : 'primary'"
-                  small
+              <v-stepper v-model="step" vertical outlined>
+                <v-stepper-step
+                  v-for="(signee, index) in getSignatures(getTrackedRequest)"
+                  :key="signee._id"
+                  :complete="signee.signature"
+                  :step="index + 1"
                 >
-                  <v-row justify="start" align="start">
-                    <v-col cols="12">
-                      <v-row justify="start">
-                        <span
-                          :class="
-                            `pt-3 caption font-weight-bold text-left ${
-                              signee.signature
-                                ? 'success--text text-decoration-line-through'
-                                : 'primary--text'
-                            }`
-                          "
-                        >
-                          {{ getFullname(signee.profile[0].name) }}
-                        </span>
-                      </v-row>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-row justify="start">
-                        <small
-                          :class="
-                            `caption ${
-                              signee.signature
-                                ? 'text-decoration-line-through'
-                                : ''
-                            }`
-                          "
-                        >
-                          {{
-                            signee.department
-                              ? signee.department.unit[0].name
-                              : "Chief Admin Office"
-                          }}
-                        </small>
-                      </v-row>
-                    </v-col>
-                  </v-row>
-                </v-timeline-item>
-              </v-timeline>
+                  {{ getFullname(signee.profile[0].name) }}
+                  <small>
+                    {{
+                      signee.department
+                        ? signee.department.unit[0].name
+                        : "Chief Admin Office"
+                    }}
+                  </small>
+                </v-stepper-step>
+
+                <v-stepper-step
+                  :complete="getTrackedRequest.status >= 1"
+                  color="success"
+                  complete-icon="mdi-hammer-wrench"
+                  :step="getTrackedRequest.service_provider.staff_id ? 4 : 3"
+                >
+                  Rendered
+                  <small>
+                    Service providers or the requesters marked the request as
+                    completed
+                  </small>
+                </v-stepper-step>
+                <v-stepper-step
+                  :complete="getTrackedRequest.status === 2"
+                  color="warning"
+                  complete-icon="mdi-archive"
+                  :step="getTrackedRequest.service_provider.staff_id ? 5 : 4"
+                >
+                  Archived
+                  <small>
+                    Requesters already archived this request
+                  </small>
+                </v-stepper-step>
+              </v-stepper>
             </v-col>
             <v-col cols="12">
               <v-divider />
@@ -256,17 +238,7 @@ export default {
                     {{ getTrackedRequest.service[0].type }}
                   </span>
                 </v-card-text>
-                <v-card-text
-                  :class="
-                    `body-2 text-uppercase pa-0 text-left ${
-                      getTrackedRequest.status === 0
-                        ? 'primary'
-                        : getTrackedRequest.status === 1
-                        ? 'success'
-                        : 'warning'
-                    }--text`
-                  "
-                >
+                <v-card-text class="body-2 text-uppercase pa-0 text-left">
                   Status:
                   <span class="font-weight-bold">{{
                     getTrackedRequest.status === 0
@@ -275,6 +247,25 @@ export default {
                       ? "Completed"
                       : "Archived"
                   }}</span>
+                </v-card-text>
+                <v-card-text class="body-2 text-uppercase pa-0 pt-4 text-left">
+                  Requested By:
+                  <span class="font-weight-bold">{{
+                    getFullname(getTrackedRequest.user.profile[0].name)
+                  }}</span>
+                </v-card-text>
+                <v-card-text class="body-2 text-uppercase pa-0 text-left">
+                  Rendered By:
+                  <span
+                    class="font-weight-bold"
+                    v-if="getTrackedRequest.service_provider.staff_id"
+                    >{{
+                      getFullname(
+                        getTrackedRequest.service_provider.profile[0].name
+                      )
+                    }}</span
+                  >
+                  <span class="font-weight-bold" v-else>NA</span>
                 </v-card-text>
               </v-row>
             </v-col>
