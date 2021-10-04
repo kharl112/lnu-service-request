@@ -98,7 +98,7 @@ export default {
 </script>
 <template>
   <div class="container">
-    <v-row justify="center" align="center">
+    <v-row justify="center" align="center" class="row-container">
       <v-col cols="12" sm="8" md="7" align="center">
         <v-card
           outlined
@@ -353,3 +353,9 @@ export default {
     </v-row>
   </div>
 </template>
+<style scoped>
+  .row-container {
+    height: 95vh;
+    overflow-y: auto;
+  }
+</style>
