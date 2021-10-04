@@ -7,13 +7,13 @@ export default {
     showQR: Function,
   },
   data: () => ({
+    image_url: null,
     options: {
       type: "image/jpeg",
       quality: 1,
       margin: 0,
       color: {
         dark: "#1976d2",
-        light: "#ffffff",
       },
     },
   }),
@@ -27,7 +27,18 @@ export default {
         if (err) return;
         const image = document.getElementById("qr_image");
         image.src = url;
+        this.image_url = url;
       });
+    },
+    downloadQR() {
+      if (this.image_url) {
+        const link = document.createElement("a");
+        link.href = this.image_url;
+        link.download = this.$route.fullPath.split("/")[2];
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     },
   },
   updated() {
@@ -47,7 +58,7 @@ export default {
         <v-row justify="center">
           <v-col cols="12" class="pa-2" align="center">
             <v-list-item-title class="subtitle-1 mb-2 pt-3">
-              <span class="headline text-uppercase">Generated QR</span> 
+              <span class="headline text-uppercase">Generated QR</span>
             </v-list-item-title>
           </v-col>
           <v-col cols="12" class="pa-2" align="center">
@@ -57,6 +68,16 @@ export default {
             <v-card-actions>
               <v-btn small outlined @click="showQR">
                 Close
+              </v-btn>
+              <v-btn
+                v-if="this.image_url"
+                small
+                elevation="0"
+                color="primary"
+                @click="downloadQR"
+              >
+                <v-icon right> mdi-download </v-icon>
+                Download Image
               </v-btn>
             </v-card-actions>
           </v-col>
