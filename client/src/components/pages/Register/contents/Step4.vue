@@ -45,7 +45,7 @@ export default {
 };
 </script>
 <template>
-  <v-card class="card-container" elevation="5">
+  <v-card class="card-container" outlined>
     <div class="ma-0 mb-3 caption font-weight-bold">
       <v-icon color="warning"> mdi-information </v-icon>
       We sent you a code to your E-mail
@@ -76,15 +76,21 @@ export default {
           <v-btn
             type="submit"
             :disabled="getLoading"
-            bottom
-            color="warning"
+            color="primary"
+            elevation="0"
             medium
           >
             Submit
           </v-btn>
         </v-col>
         <v-col cols="4">
-          <v-btn type="reset" @click="handleGoBack" bottom color="gray" medium>
+          <v-btn
+            type="reset"
+            elevation="0"
+            @click="handleGoBack"
+            color="gray"
+            medium
+          >
             Not Now
           </v-btn>
         </v-col>

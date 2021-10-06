@@ -58,8 +58,11 @@ export default {
 };
 </script>
 <template>
-  <v-card class="card-container" elevation="5" v-if="!isUnitandRoleLoading">
+  <v-card class="card-container" outlined v-if="!isUnitandRoleLoading">
     <v-form ref="form" @submit="handleSubmit">
+      <v-card-title class="px-0">
+        Department Unit/Workstation
+      </v-card-title>
       <v-text-field
         :disabled="getLoading.register"
         class="input"
@@ -68,6 +71,7 @@ export default {
         :rules="[...rules.notNull, ...rules.numbers, ...rules.id]"
         v-model="form.staff_id"
         autofocus
+        dense
         outlined
       />
       <v-autocomplete
@@ -80,6 +84,7 @@ export default {
         v-model="form.department.unit_id"
         item-text="name"
         item-value="_id"
+        dense
         outlined
       />
       <v-autocomplete
@@ -92,6 +97,7 @@ export default {
         v-model="form.department.role_id"
         item-text="name"
         item-value="_id"
+        dense
         outlined
       />
       <v-alert class="alert" v-if="getError" dense type="error">
@@ -101,8 +107,8 @@ export default {
         :disabled="getLoading.register"
         :loading="getLoading.register"
         type="submit"
-        bottom
-        color="warning"
+        color="primary"
+        elevation="0"
         medium
       >
         Next

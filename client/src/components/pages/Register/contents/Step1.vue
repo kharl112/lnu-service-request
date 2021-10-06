@@ -37,7 +37,7 @@ export default {
 };
 </script>
 <template>
-  <v-card class="card-container" elevation="5">
+  <v-card class="card-container" outlined>
     <v-form ref="form" @submit="handleSubmit">
       <v-subheader class="pa-0 ma-0 mb-3 mb-sm-0 caption font-weight-bold">
         NOTE: Please use your active email to validate your account
@@ -61,9 +61,9 @@ export default {
         :disabled="getLoading.email"
         :loading="getLoading.email"
         type="submit"
-        bottom
-        color="warning"
+        color="primary"
         medium
+        elevation="0"
       >
         Next
       </v-btn>

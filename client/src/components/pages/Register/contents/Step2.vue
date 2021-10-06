@@ -54,52 +54,60 @@ export default {
 };
 </script>
 <template>
-  <v-card class="card-container" elevation="5">
+  <v-card class="card-container" outlined>
     <v-form ref="form" @submit="handleNext">
+      <v-card-title class="px-0">
+        Personal Information
+      </v-card-title>
       <v-text-field
         class="input"
         label="Firstname"
         :rules="[...rules.name, ...rules.letters]"
         v-model="form.name.firstname"
         autofocus
+        dense
         outlined
       />
       <v-row dense>
-        <v-col cols="8">
+        <v-col cols="8" class="py-0">
           <v-text-field
             class="input"
             label="Lastname"
             :rules="[...rules.name, ...rules.letters]"
             v-model="form.name.lastname"
+            dense
             outlined
           />
         </v-col>
-        <v-col cols="4">
+        <v-col cols="4" class="py-0">
           <v-text-field
             class="input"
             label="Middle Initial"
             :rules="[...rules.middle_initial, ...rules.letters]"
             v-model="form.name.middle_initial"
+            dense
             outlined
           />
         </v-col>
       </v-row>
       <v-row dense>
-        <v-col cols="6">
+        <v-col cols="6" class="py-0">
           <v-text-field
             class="input"
             label="Prefix"
             v-model="form.name.prefix"
             :rules="[...rules.letters, ...rules.prefix]"
+            dense
             outlined
           />
         </v-col>
-        <v-col cols="6">
+        <v-col cols="6" class="py-0">
           <v-text-field
             class="input"
             label="Suffixes"
             v-model="form.name.suffixes"
             hint="comma separated ex: engr, mit"
+            dense
             outlined
           />
         </v-col>
@@ -113,9 +121,10 @@ export default {
         :type="show ? 'text' : 'password'"
         :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
         @click:append="handleShowPassword"
+        dense
         outlined
       />
-      <v-btn type="submit" bottom color="warning" medium>
+      <v-btn type="submit" bottom color="primary" medium elevation="0">
         Next
       </v-btn>
     </v-form>

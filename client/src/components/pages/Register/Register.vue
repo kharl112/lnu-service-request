@@ -44,10 +44,10 @@ export default {
       class="register-row1"
     >
       <v-col sm="9" md="4">
-        <v-row justify="center" align="center">
+        <v-row justify="start" align="center">
           <v-col md="4" class="hidden-sm-and-down" align="center">
             <v-img
-              max-width="100"
+              max-width="250"
               min-width="70"
               src="../../../assets/images/logo-512x512.png"
             />
@@ -96,10 +96,7 @@ export default {
           >
             I have an account
           </router-link>
-          <small>
-            <strong class="primary--text"> Step {{ getStepIndex }} of 4</strong>
-            of creating an account.
-          </small>
+          <small> Step {{ getStepIndex }} of 4 of creating an account. </small>
         </v-row>
       </v-col>
     </v-row>
