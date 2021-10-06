@@ -35,7 +35,7 @@ export default {
 };
 </script>
 <template>
-  <v-card class="pa-5 ma-2" elevation="5" min-width="250" max-width="500px">
+  <v-card class="pa-5 ma-2" outlined min-width="250" max-width="500px">
     <v-form ref="form" @submit="handleSubmit">
       <v-row>
         <v-col cols="12">
@@ -90,16 +90,15 @@ export default {
             <v-btn
               :disabled="getLoading.reset_password"
               @click="$router.replace(`/${getUserType}/login`)"
-              color="grey"
+              color="secondary"
               type="reset"
-              medium
-              elevation="0"
+              outlined
             >
               Cancel
             </v-btn>
             <v-btn
               :disabled="getLoading.reset_password"
-              color="warning"
+              color="primary"
               type="submit"
               medium
               elevation="0"
