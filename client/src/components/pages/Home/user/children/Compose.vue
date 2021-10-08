@@ -213,23 +213,6 @@ export default {
                           auto-grow
                         />
                       </v-col>
-                      <v-col cols="12" class="py-0">
-                        <v-btn
-                          :disabled="getComposeLoading"
-                          color="success"
-                          type="button"
-                          @click="showSignature"
-                          block
-                          large
-                          rounded
-                          elevation="0"
-                        >
-                          sign
-                          <v-icon right>
-                            mdi-signature
-                          </v-icon>
-                        </v-btn>
-                      </v-col>
                     </v-row>
                   </v-col>
                   <v-divider class="hidden-sm-and-down" vertical />
@@ -286,7 +269,22 @@ export default {
                       </v-row>
                     </v-container>
                   </v-col>
-
+                  <v-col cols="12">
+                    <v-btn
+                      :disabled="getComposeLoading"
+                      color="success"
+                      type="button"
+                      @click="showSignature"
+                      block
+                      rounded
+                      elevation="0"
+                    >
+                      sign
+                      <v-icon right>
+                        mdi-signature
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
                   <v-col cols="12">
                     <v-container fluid>
                       <v-subheader
