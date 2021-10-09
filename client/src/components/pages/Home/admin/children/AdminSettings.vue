@@ -4,6 +4,12 @@ export default {
   data: () => ({
     form: null,
     show_pass: false,
+    selectedLink: 1,
+    hash_links: [
+      { link: "name", text: "Name" },
+      { link: "contact", text: "Contact" },
+      { link: "password", text: "Password" },
+    ],
     password: {
       old: "",
       new_1: "",
@@ -115,7 +121,7 @@ export default {
                 <v-divider />
               </v-container>
             </v-col>
-            <v-col cols="12" class="pt-0 pb-0">
+            <v-col cols="12" class="pt-0 pb-0" id="name">
               <v-container fluid>
                 <v-subheader>Name</v-subheader>
                 <v-divider />
@@ -192,7 +198,7 @@ export default {
                 </v-row>
               </v-container>
             </v-col>
-            <v-col cols="12" class="pt-0 pb-0">
+            <v-col cols="12" class="pt-0 pb-0" id="contact">
               <v-container fluid>
                 <v-subheader>Contact Information</v-subheader>
                 <v-divider />
@@ -213,7 +219,7 @@ export default {
                 </v-row>
               </v-container>
             </v-col>
-            <v-col cols="12" class="pt-0 pb-0">
+            <v-col cols="12" class="pt-0 pb-0" id="password">
               <v-container fluid>
                 <v-row justify="start" align="center">
                   <v-col cols="6">
@@ -299,7 +305,27 @@ export default {
         </v-form>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
-      <v-col sm="2" md="4" class="hidden-sm-and-down"> </v-col>
+      <v-col sm="2" md="4">
+        <v-row justify="start">
+          <v-col cols="12">
+            <v-list dense>
+              <v-subheader>Contents</v-subheader>
+              <v-list-item-group v-model="selectedLink" color="primary">
+                <v-list-item v-for="({ link, text }, i) in hash_links" :key="i">
+                  <v-list-item-content>
+                    <a
+                      :href="`#${link}`"
+                      class="text--secondary text-decoration-none body-2"
+                    >
+                      {{ text }}
+                    </a>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list-item-group>
+            </v-list>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
   </v-container>
 </template>
