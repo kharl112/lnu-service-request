@@ -13,6 +13,7 @@ export default {
   methods: {
     handleLogout() {
       localStorage.removeItem("Authorization");
+      localStorage.removeItem("compose");
       return this.$router.replace(`/${this.getUserType}/login`);
     },
   },
