@@ -123,18 +123,8 @@ export default {
         >
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
-              <v-container fluid>
-                <h4
-                  class="text-h6 text-sm-h6 text-md-h5 primary--text text-uppercase"
-                >
-                  Edit Request
-                </h4>
-                <v-divider />
-              </v-container>
-            </v-col>
-            <v-col cols="12">
-              <v-container fluid class="pt-0 pb-0">
-                <v-subheader>Request</v-subheader>
+              <v-container fluid class="px-0">
+                <v-subheader class="subtitle-1">Edit Request</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
