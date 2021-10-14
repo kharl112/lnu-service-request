@@ -61,24 +61,36 @@ p {
 }
 .date {
   text-decoration: underline;
-  font-size: 13px;
+  font-size: 15px;
   text-align: end;
 }
 .name-container {
-  margin-top: 20px;
+  margin: 20px 0px 5px;
+  font-size: 18px;
 }
 .name {
-  text-decoration: underline;
   margin-left: 10px;
-  padding-bottom: 2px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.timeout-container {
+  margin: 0px 0px 5px;
+  font-size: 18px;
 }
 .timeout {
-  text-decoration: underline;
   margin-left: 10px;
-  padding-bottom: 2px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 .request-body {
   margin: 5px 0px 18px;
+  font-size: 18px;
+}
+.request-body p {
+  margin-left: 10px;
+  display: inline;
+  text-decoration: none;
+  text-align: justify;
 }
 .recipients {
   display: flex;
