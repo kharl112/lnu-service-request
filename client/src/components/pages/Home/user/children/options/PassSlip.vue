@@ -8,11 +8,11 @@ export default {
 };
 </script>
 <template>
-  <v-col cols="12" sm="12" md="4">
+  <v-col cols="12">
     <v-row justify="start" align="start">
       <v-col cols="12">
-        <v-container fluid class="pt-0 pb-0">
-          <v-subheader>Pass Slip Options</v-subheader>
+        <v-container fluid class="py-0">
+          <v-subheader class="px-0">Pass Slip Options</v-subheader>
           <v-divider />
         </v-container>
       </v-col>

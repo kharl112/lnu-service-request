@@ -127,7 +127,7 @@ export default {
                 <h4
                   class="text-h6 text-sm-h6 text-md-h5 primary--text text-uppercase"
                 >
-                  Compose Request
+                  Edit Request
                 </h4>
                 <v-divider />
               </v-container>
@@ -141,11 +141,11 @@ export default {
             <v-col cols="12">
               <v-container fluid>
                 <v-row justify="start">
-                  <v-col cols="12" sm="12" md="8">
+                  <v-col cols="12" sm="12" md="6">
                     <v-row justify="start">
-                      <v-col cols="12" class="pb-5 pb-md-0">
+                      <v-col cols="12" class="pb-3">
                         <v-row align="start" dense>
-                          <v-col cols="12" sm="8" v-if="!others">
+                          <v-col cols="12" v-if="!others">
                             <v-autocomplete
                               v-model="form.service_id"
                               outlined
@@ -158,22 +158,22 @@ export default {
                               dense
                             />
                           </v-col>
-                          <v-col cols="12" sm="8" v-if="others">
+                          <v-col cols="12" v-if="others">
                             <v-text-field
                               v-model="form.other_service"
-                              append-outer-icon="mdi-eye-off"
-                              label="Others"
+                              append-icon="mdi-eye-off"
+                              label="Custom Service"
                               hint="please specify custom service"
-                              @click:append-outer="customService(false)"
+                              @click:append="customService(false)"
                               outlined
                               dense
                             />
                           </v-col>
-                          <v-col v-else cols="12" sm="3" md="3">
+                          <v-col v-else cols="12" class="pt-0 mt-n3">
                             <v-btn
                               @click="customService(true)"
                               block
-                              outlined
+                              elevation="0"
                               color="primary"
                             >
                               others
@@ -182,7 +182,7 @@ export default {
                         </v-row>
                       </v-col>
 
-                      <v-col cols="12">
+                      <v-col cols="12" class="pb-0">
                         <v-text-field
                           v-model="form.subject"
                           autofocus
@@ -194,7 +194,7 @@ export default {
                           maxlength="50"
                         />
                       </v-col>
-                      <v-col cols="12">
+                      <v-col cols="12" class="py-0">
                         <v-textarea
                           rows="10"
                           class="body-2"
@@ -205,130 +205,136 @@ export default {
                           auto-grow
                         />
                       </v-col>
-                      <v-col cols="12" class="py-0">
-                        <v-btn
-                          :disabled="getEditLoading"
-                          color="success"
-                          type="button"
-                          @click="showSignature"
-                          block
-                          large
-                          rounded
-                          elevation="0"
-                        >
-                          sign
-                          <v-icon right>
-                            mdi-signature
-                          </v-icon>
-                        </v-btn>
+
+                      <v-col cols="12" class="px-0 py-0">
+                        <v-container fluid class="py-0">
+                          <v-subheader>Signees</v-subheader>
+                          <v-divider />
+                        </v-container>
+                      </v-col>
+                      <v-col cols="12">
+                        <v-container fluid class="pt-2 pb-0">
+                          <v-row justify="start" align="start" dense>
+                            <v-col cols="12">
+                              <v-autocomplete
+                                v-model="form.admin.staff_id"
+                                :rules="rules"
+                                small
+                                :items="getAllAdmin"
+                                class="caption"
+                                item-text="name"
+                                item-value="staff_id"
+                                outlined
+                                label="Chief Admin Office"
+                                dense
+                                prepend-inner-icon="mdi-close"
+                                @click:prepend-inner="form.admin.staff_id = ''"
+                              />
+                            </v-col>
+                            <v-col cols="12">
+                              <v-autocomplete
+                                v-model="form.service_provider.staff_id"
+                                :items="getAllServiceProviders"
+                                class="caption"
+                                item-text="text"
+                                item-value="staff_id"
+                                outlined
+                                label="Service Provider (optional)"
+                                hint="(optional)"
+                                dense
+                                prepend-inner-icon="mdi-close"
+                                @click:prepend-inner="
+                                  form.service_provider.staff_id = ''
+                                "
+                              />
+                            </v-col>
+                            <v-col cols="12" class="pt-0">
+                              <v-btn
+                                :disabled="getEditLoading"
+                                color="success"
+                                type="button"
+                                @click="showSignature"
+                                block
+                                large
+                                elevation="0"
+                              >
+                                Your Signature
+                                <v-icon right>
+                                  mdi-signature
+                                </v-icon>
+                              </v-btn>
+                            </v-col>
+                          </v-row>
+                        </v-container>
+                      </v-col>
+                      <v-col cols="12" class="hidden-sm-and-up">
+                        <v-divider />
                       </v-col>
                     </v-row>
                   </v-col>
                   <v-divider class="hidden-sm-and-down" vertical />
-                  <component
-                    :options="form.options"
-                    :rules="rules"
-                    :is="getOptionalComponent()"
-                  />
-                  <v-col cols="12">
-                    <v-divider />
-                  </v-col>
-                  <v-col cols="12" class="pb-0 pt-0">
-                    <v-container fluid class="pt-0">
-                      <v-subheader>Signees</v-subheader>
-                      <v-divider />
-                    </v-container>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-container fluid class="pt-2 pb-0">
+                  <v-col cols="12" sm="12" md="6" class="py-0">
+                    <component
+                      :options="form.options"
+                      :rules="rules"
+                      :is="getOptionalComponent()"
+                    />
+                    <v-col cols="12" class="py-0">
+                      <v-container fluid class="py-0">
+                        <v-subheader class="px-0">
+                          Save As
+                          <v-subheader
+                            class="caption font-weight-bold py-0 hidden-sm-and-down"
+                          >
+                            (This will set to draft as a default)
+                          </v-subheader>
+                        </v-subheader>
+                        <v-divider />
+                      </v-container>
+                    </v-col>
+
+                    <v-col cols="12">
                       <v-row justify="start" align="start" dense>
-                        <v-col cols="12" sm="6" md="5">
-                          <v-autocomplete
-                            v-model="form.admin.staff_id"
-                            :rules="rules"
-                            small
-                            :items="getAllAdmin"
-                            class="caption"
-                            item-text="name"
-                            item-value="staff_id"
+                        <v-col cols="12" sm="6">
+                          <v-btn
+                            :disabled="getEditLoading"
+                            color="warning"
+                            type="submit"
+                            @click="handleSubmit(0)"
+                            rounded
                             outlined
-                            label="Chief Admin Office"
-                            dense
-                            prepend-inner-icon="mdi-close"
-                            @click:prepend-inner="form.admin.staff_id = ''"
-                          />
+                            block
+                            elevation="0"
+                          >
+                            draft
+                            <v-icon right>
+                              mdi-paperclip
+                            </v-icon>
+                          </v-btn>
                         </v-col>
-                        <v-col cols="12" sm="6" md="5">
-                          <v-autocomplete
-                            v-model="form.service_provider.staff_id"
-                            :items="getAllServiceProviders"
-                            class="caption"
-                            item-text="text"
-                            item-value="staff_id"
+                        <v-col cols="12" sm="6">
+                          <v-btn
+                            :disabled="getEditLoading"
+                            color="primary"
+                            type="button"
+                            @click="handleSubmit(1)"
+                            rounded
                             outlined
-                            label="Service Provider (optional)"
-                            hint="(optional)"
-                            dense
-                            prepend-inner-icon="mdi-close"
-                            @click:prepend-inner="
-                              form.service_provider.staff_id = ''
-                            "
-                          />
+                            block
+                            elevation="0"
+                          >
+                            send
+                            <v-icon right>
+                              mdi-send
+                            </v-icon>
+                          </v-btn>
                         </v-col>
                       </v-row>
-                    </v-container>
+                    </v-col>
                   </v-col>
 
                   <v-col cols="12">
-                    <v-container fluid>
-                      <v-subheader
-                        >Save As
-                        <v-subheader
-                          class="caption font-weight-bold mt-0 hidden-sm-and-down"
-                          >(This will set to draft as a default)</v-subheader
-                        >
-                      </v-subheader>
-                      <v-divider />
-                    </v-container>
-                  </v-col>
-
-                  <v-col cols="12">
-                    <v-row justify="start" align="start" dense>
-                      <v-col cols="12" sm="5" md="3">
-                        <v-btn
-                          :disabled="getEditLoading"
-                          color="warning"
-                          type="submit"
-                          @click="handleSubmit(0)"
-                          rounded
-                          outlined
-                          block
-                          elevation="0"
-                        >
-                          draft
-                          <v-icon right>
-                            mdi-paperclip
-                          </v-icon>
-                        </v-btn>
-                      </v-col>
-                      <v-col cols="12" sm="5" md="3">
-                        <v-btn
-                          :disabled="getEditLoading"
-                          color="primary"
-                          type="button"
-                          @click="handleSubmit(1)"
-                          rounded
-                          outlined
-                          block
-                          elevation="0"
-                        >
-                          send
-                          <v-icon right>
-                            mdi-send
-                          </v-icon>
-                        </v-btn>
-                      </v-col>
-                    </v-row>
+                    <v-divider />
                   </v-col>
                 </v-row>
               </v-container>

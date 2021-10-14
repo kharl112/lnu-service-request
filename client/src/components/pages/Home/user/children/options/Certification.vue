@@ -39,11 +39,11 @@ export default {
 };
 </script>
 <template>
-  <v-col cols="12" sm="12" md="4">
+  <v-col cols="12">
     <v-row justify="start" align="start">
       <v-col cols="12">
-        <v-container fluid class="pt-0 pb-0">
-          <v-subheader class="text-uppercase">
+        <v-container fluid class="py-0">
+          <v-subheader class="text-uppercase px-0">
             Request for Records/Certification
           </v-subheader>
           <v-divider />
@@ -64,7 +64,11 @@ export default {
           <v-col cols="12" class="py-0">
             <v-row justify="start" align="start">
               <v-col cols="12" class="py-0 px-7">
-                <v-radio-group v-model="options.request_for.accounting">
+                <v-radio-group
+                  dense
+                  row
+                  v-model="options.request_for.accounting"
+                >
                   <v-radio
                     v-for="item in sections.accounting"
                     :key="item"
@@ -80,6 +84,7 @@ export default {
                   label="Others/Custom"
                   placeholder="pls specify"
                   class="py-0"
+                  dense
                 />
               </v-col>
             </v-row>
@@ -92,7 +97,7 @@ export default {
           <v-col cols="12" class="py-0">
             <v-row justify="start" align="start">
               <v-col cols="12" class="py-0 px-7">
-                <v-radio-group v-model="options.request_for.records">
+                <v-radio-group dense row v-model="options.request_for.records">
                   <v-radio
                     v-for="item in sections.records_office"
                     :key="item"
@@ -108,6 +113,7 @@ export default {
                   label="Others/Custom"
                   placeholder="pls specify"
                   class="py-0"
+                  dense
                 />
               </v-col>
             </v-row>
@@ -124,7 +130,7 @@ export default {
         <v-col cols="12" class="py-0">
           <v-row justify="start" align="start">
             <v-col cols="12" class="py-0 px-7">
-              <v-radio-group class="py-0" v-model="options.purpose" row>
+              <v-radio-group dense row class="py-0" v-model="options.purpose">
                 <v-container class="px-0 py-0" fluid>
                   <v-subheader class="text-body text-uppercase pt-0 px-0">
                     Hrm/Records Office
@@ -140,7 +146,7 @@ export default {
             </v-col>
 
             <v-col cols="12" class="py-0 px-7">
-              <v-radio-group class="py-0 my-0" v-model="options.purpose">
+              <v-radio-group dense row class="py-0 my-0" v-model="options.purpose">
                 <v-radio
                   v-for="item in purposes.others"
                   :key="item"
@@ -156,6 +162,7 @@ export default {
                 label="Others/Custom"
                 placeholder="pls specify"
                 class="py-0"
+                dense
               />
             </v-col>
           </v-row>
@@ -176,6 +183,7 @@ export default {
                 label="Names"
                 hint="comma separated"
                 class="py-0"
+                dense
               />
             </v-col>
           </v-row>
