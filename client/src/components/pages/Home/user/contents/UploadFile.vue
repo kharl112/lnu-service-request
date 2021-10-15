@@ -23,7 +23,7 @@ export default {
           form_ref: this.$refs.form,
           file: this.file,
           request_id: this.request_obj._id,
-          user_type: "service_provider",
+          user_type: "user",
         });
     },
   },
