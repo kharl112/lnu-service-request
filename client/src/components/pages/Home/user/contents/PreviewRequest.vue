@@ -8,6 +8,7 @@ export default {
     preview: Object,
     user_type: String,
     showPreview: Function,
+    showUpload: Function,
     downloadPDF: Function,
     showSignature: Function,
     markAsCompleted: Function,
@@ -37,11 +38,11 @@ export default {
     },
   },
   mounted() {
-    if (this.preview.data._id) console.log(this.preview.data);
-    this.$store.dispatch("pdf/previewPDF", {
-      user_type: this.user_type || "faculty",
-      id: this.preview.data._id,
-    });
+    if (this.preview.data._id)
+      this.$store.dispatch("pdf/previewPDF", {
+        user_type: this.user_type || "faculty",
+        id: this.preview.data._id,
+      });
   },
 };
 </script>
@@ -97,22 +98,6 @@ export default {
                 <span>Track request</span>
               </v-tooltip>
 
-              <v-tooltip bottom v-if="showSignature">
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    v-bind="attrs"
-                    v-on="on"
-                    color="success"
-                    @click="showSignature(preview.data._id)"
-                  >
-                    <v-icon>
-                      mdi-signature-freehand
-                    </v-icon>
-                  </v-btn>
-                </template>
-                <span>Sign request</span>
-              </v-tooltip>
               <v-tooltip bottom v-if="markAsCompleted">
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -157,6 +142,33 @@ export default {
           <v-col cols="12" v-else>
             <v-skeleton-loader type="article, article, actions" light />
           </v-col>
+          <v-container fluid class="absolute-container">
+            <v-btn
+              v-if="showUpload"
+              class="ma-2"
+              small
+              elevation="0"
+              @click="showUpload"
+            >
+              <v-icon left>
+                mdi-upload
+              </v-icon>
+              Upload a file
+            </v-btn>
+            <v-btn
+              v-if="showSignature"
+              color="primary"
+              @click="showSignature(preview.data._id)"
+              elevation="0"
+              small
+              class="ma-2"
+            >
+              <v-icon left>
+                mdi-signature-freehand
+              </v-icon>
+              Sign this request
+            </v-btn>
+          </v-container>
         </v-row>
       </v-container>
     </v-sheet>
@@ -170,5 +182,14 @@ export default {
 .pdf-mod {
   width: 100%;
   height: content;
+}
+.absolute-container {
+  overflow-x: scroll;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  background-color: white;
+  box-shadow: 1px 1px 10px gray;
+  padding: 15px 5px 5px 5px;
 }
 </style>
