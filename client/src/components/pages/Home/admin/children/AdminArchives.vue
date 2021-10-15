@@ -1,12 +1,14 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
 import PreviewRequest from "../contents/PreviewRequest";
+import UploadFile from "../contents/UploadFile";
 export default {
   name: "AdminArchives",
-  components: { PreviewRequest },
+  components: { PreviewRequest, UploadFile },
   data: () => ({
     show: false,
     preview: false,
+    uploadVisibility: false,
     selected: null,
     table: {
       headers: [
@@ -74,6 +76,9 @@ export default {
     },
     showPreview(request = null) {
       return (this.preview = { show: !this.preview.show, data: request });
+    },
+    showUpload() {
+      this.uploadVisibility = this.uploadVisibility ? false : true;
     },
   },
   created() {
@@ -200,6 +205,12 @@ export default {
       :downloadPDF="downloadPDF"
       :showPreview="showPreview"
       :preview="preview"
+      :showUpload="showUpload"
+    />
+    <UploadFile
+      :uploadVisibility="uploadVisibility"
+      :request_obj="preview.data"
+      :showUpload="showUpload"
     />
   </v-container>
 </template>

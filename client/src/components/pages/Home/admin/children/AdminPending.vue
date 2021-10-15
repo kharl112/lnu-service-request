@@ -1,5 +1,6 @@
 <script>
 import SetSignature from "../contents/SetSignature";
+import UploadFile from "../contents/UploadFile";
 import PreviewRequest from "../contents/PreviewRequest";
 import { formatDistanceToNow } from "date-fns";
 import tableOptions from "./tableOptions";
@@ -9,9 +10,11 @@ export default {
   components: {
     SetSignature,
     PreviewRequest,
+    UploadFile,
   },
   data: () => ({
     signatureVisibility: false,
+    uploadVisibility: false,
     preview: { show: false, data: null },
     table: tableOptions,
     selected: "",
@@ -69,6 +72,9 @@ export default {
       return `${
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+    },
+    showUpload() {
+      this.uploadVisibility = this.uploadVisibility ? false : true;
     },
   },
   created() {
@@ -160,6 +166,7 @@ export default {
       v-if="preview.show"
       :downloadPDF="downloadPDF"
       :showPreview="showPreview"
+      :showUpload="showUpload"
       :preview="preview"
       :showSignature="showSignature"
     />
@@ -167,6 +174,11 @@ export default {
       :signatureVisibility="signatureVisibility"
       :showSignature="showSignature"
       :handleSetSignature="handleSetSignature"
+    />
+    <UploadFile
+      :uploadVisibility="uploadVisibility"
+      :request_obj="preview.data"
+      :showUpload="showUpload"
     />
   </v-container>
 </template>
