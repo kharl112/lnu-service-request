@@ -16,15 +16,17 @@ export default {
     },
   },
   methods: {
-    handleSubmitFile(e) {
+    async handleSubmitFile(e) {
       e.preventDefault();
       if (this.file)
-        this.$store.dispatch("gdrive/UploadFile", {
+        await this.$store.dispatch("gdrive/UploadFile", {
           form_ref: this.$refs.form,
           file: this.file,
           request_id: this.request_obj._id,
           user_type: "admin",
         });
+      this.file = null;
+      this.showUpload();
     },
   },
 };
@@ -45,6 +47,7 @@ export default {
             <v-row justify="center">
               <v-col cols="12" class="pb-0">
                 <v-file-input
+                  :disabled="getUploadLoading"
                   :rules="rules"
                   v-model="file"
                   label="Select File"
@@ -63,6 +66,19 @@ export default {
                 >
                   Upload
                 </v-btn>
+              </v-col>
+              <v-col cols="12" class="pa-0 pl-2">
+                <v-subheader
+                  class="caption pa-0 text-center"
+                  v-if="getUploadLoading"
+                >
+                  <v-icon class="mr-2">mdi-information</v-icon>
+                  Your file is uploading, please wait.
+                </v-subheader>
+                <v-subheader class="caption pa-0 text-center" v-else>
+                  <v-icon class="mr-2">mdi-information</v-icon>
+                  25mb is the recommended file size
+                </v-subheader>
               </v-col>
             </v-row>
           </form>
