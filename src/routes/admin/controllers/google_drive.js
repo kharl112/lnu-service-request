@@ -9,6 +9,7 @@ module.exports = (() => {
       const request_found = await Request.findOne({
         _id: req.body.directory,
         "admin.staff_id": req.locals.staff_id,
+        "admin.signature": { $ne: "" },
       });
 
       if (!request_found)
@@ -57,6 +58,7 @@ module.exports = (() => {
         {
           _id: req.body.directory,
           "admin.staff_id": req.locals.staff_id,
+          "admin.signature": { $ne: "" },
         },
         { options: { ...request_found.options, file } }
       );
