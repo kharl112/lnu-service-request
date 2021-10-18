@@ -1,7 +1,7 @@
 const route = require("express").Router();
 
-const userAuth = require("../../authentication/userAuth");
-const adminAuth = require("../../authentication/adminAuth");
+const userAuth = require("../../middlewares/userAuth");
+const adminAuth = require("../../middlewares/adminAuth");
 
 const Faculty = require("./controllers/faculty");
 const Admin = require("./controllers/admin");

@@ -4,8 +4,8 @@ const path = require("path");
 const pug = require("pug");
 const md = require("markdown-it")();
 
-const userAuth = require("../authentication/userAuth");
-const adminAuth = require("../authentication/adminAuth");
+const userAuth = require("../middlewares/userAuth");
+const adminAuth = require("../middlewares/adminAuth");
 
 const Request = require("../db/models/request_model");
 

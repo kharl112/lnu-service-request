@@ -2,8 +2,8 @@ const route = require("express").Router();
 const multer = require("multer");
 require("dotenv").config();
 
-const userAuth = require("../../authentication/userAuth");
-const adminAuth = require("../../authentication/adminAuth");
+const userAuth = require("../../middlewares/userAuth");
+const adminAuth = require("../../middlewares/adminAuth");
 
 const Mutations = require("./controllers/mutations");
 const Emails = require("./controllers/emails");
