@@ -13,27 +13,24 @@ const GDrive = require("./controllers/google_drive");
 const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
-route.post("/create", (req, res) => Mutations.create(req, res));
-route.post("/update", userAuth, (req, res) => Mutations.update(req, res));
-route.post("/login", (req, res) => Mutations.login(req, res));
-route.post("/reset/password/:_id_token", (req, res) =>
-  Mutations.reset_pass(req, res)
-);
-route.post("/change/password", userAuth, (req, res) =>
-  Mutations.change_pass(req, res)
-);
-route.post("/drive/upload/file", userAuth, upload.single("file"), (req, res) =>
-  GDrive.upload_file(req, res)
+route.post("/create", Mutations.create);
+route.post("/update", userAuth, Mutations.update);
+route.post("/login", Mutations.login);
+route.post("/reset/password/:_id_token", Mutations.reset_pass);
+route.post("/change/password", userAuth, Mutations.change_pass);
+route.post(
+  "/drive/upload/file",
+  userAuth,
+  upload.single("file"),
+  GDrive.upload_file
 );
 
-route.post("/validate/email", (req, res) => Emails.validate(req, res));
-route.post("/send/email/link", (req, res) => Emails.send(req, res));
+route.post("/validate/email", Emails.validate);
+route.post("/send/email/link", Emails.send);
 
-route.get("/profile", userAuth, (req, res) => Views.profile(req, res));
-route.get("/all", adminAuth, (req, res) => Views.all(req, res));
-route.get("/permitted", adminAuth, (req, res) => Views.permitted(req, res));
-route.get("/provider/all", userAuth, (req, res) =>
-  Views.all_providers(req, res)
-);
+route.get("/profile", userAuth, Views.profile);
+route.get("/all", adminAuth, Views.all);
+route.get("/permitted", adminAuth, Views.permitted);
+route.get("/provider/all", userAuth, Views.all_providers);
 
 module.exports = route;
