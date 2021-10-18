@@ -32,12 +32,12 @@ body
             td(class="tb-data")=doc.title
             td(class="tb-data")=doc.copies
             td(class="tb-data")=doc.pages
-            td(class="tb-data")=`${doc.produced === "0" ? doc.produced : parseInt(doc.copies * doc.pages)}`
+            td(class="tb-data")=doc.produced
       tr(class="tb-row")
             td(class="tb-data") TOTAL OUTPUT
             td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies), 0)}`
             td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.pages), 0)}`
-            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies * node.pages), 0)}`
+            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.produced), 0)}`
     div(class="request-body")
       span(class="prefix") PURPOSE:
       | !{form.body}
