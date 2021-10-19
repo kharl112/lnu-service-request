@@ -36,6 +36,27 @@ export default {
         return !!admin.signature && !!service_provider.signature;
       return !!admin.signature;
     },
+    getFullName(name) {
+      const { firstname, lastname, prefix } = name;
+      return `${prefix ? `${prefix}.` : ""} ${firstname} ${lastname} `;
+    },
+    getDate(date) {
+      const new_date = new Date(date);
+      const month = new_date.toLocaleString("default", { month: "long" });
+      return `${month} ${new_date.getDate()}, ${new_date.getFullYear()}`;
+    },
+    getTime(date) {
+      const new_date = new Date(date);
+      return new_date.toLocaleTimeString();
+    },
+    goToDrive(drive_id) {
+      window
+        .open(
+          `https://drive.google.com/drive/u/2/folders/${drive_id}`,
+          "_blank"
+        )
+        .focus();
+    },
   },
   mounted() {
     if (this.preview.data._id)
@@ -142,7 +163,14 @@ export default {
           <v-col cols="12" v-else>
             <v-skeleton-loader type="article, article, actions" light />
           </v-col>
-          <v-container fluid class="absolute-container">
+          <v-container
+            fluid
+            :class="
+              !showSignature && !showUpload && !preview.data.options.file
+                ? 'absolute-container files-unavailable'
+                : 'absolute-container'
+            "
+          >
             <v-btn
               v-if="showUpload"
               class="ma-2"
@@ -168,6 +196,98 @@ export default {
               </v-icon>
               Sign this request
             </v-btn>
+            <v-container
+              fluid
+              v-else-if="
+                !showSignature && !showUpload && preview.data.options.file
+              "
+            >
+              <v-row justify="start" align="center">
+                <v-col cols="3">
+                  <v-img
+                    src="../../../../../assets/images/gdrive_logo.png"
+                    alt="google drive logo"
+                    max-width="80px"
+                    min-width="40px"
+                  />
+                </v-col>
+                <v-col>
+                  <v-container
+                    fluid
+                    class="py-0 google-drive-container"
+                    v-if="preview.data.options.file"
+                    @click="goToDrive(preview.data.options.file.directory_id)"
+                  >
+                    <v-row justify="start">
+                      <v-col cols="12" class="pa-0">
+                        <span class="text--primary body-1">
+                          Your files are ready
+                          <v-icon color="primary" size="20" class="mb-1">
+                            mdi-open-in-new
+                          </v-icon>
+                        </span>
+                      </v-col>
+                      <v-col cols="12" class="pa-0">
+                        <small class="text--secondary caption text-description">
+                          Your files was uploaded by
+                          <span class="font-weight-bold"
+                            >{{
+                              getFullName(
+                                preview.data.options.file.last_uploader.name
+                              )
+                            }}
+                          </span>
+                          in
+                          <span class="font-weight-bold">
+                            {{
+                              getDate(preview.data.options.file.last_modified)
+                            }}
+                          </span>
+                          at
+                          {{
+                            getTime(preview.data.options.file.last_modified)
+                          }}.
+                        </small>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-col>
+              </v-row>
+            </v-container>
+            <v-container
+              fluid
+              v-else-if="
+                !showSignature && !showUpload && !preview.data.options.file
+              "
+            >
+              <v-row justify="start" align="center">
+                <v-col cols="3">
+                  <v-img
+                    src="../../../../../assets/images/gdrive_logo.png"
+                    alt="google drive logo"
+                    max-width="80px"
+                    min-width="40px"
+                  />
+                </v-col>
+                <v-col>
+                  <v-container fluid class="py-0">
+                    <v-row justify="start">
+                      <v-col cols="12" class="pa-0">
+                        <span class="text--primary body-1">
+                          No files available for this request
+                        </span>
+                      </v-col>
+                      <v-col cols="12" class="pa-0">
+                        <small class="text--primary caption text-description">
+                          Stay in touch, your files are not uploaded yet in the
+                          google drive.
+                        </small>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                </v-col>
+              </v-row>
+            </v-container>
           </v-container>
         </v-row>
       </v-container>
@@ -191,5 +311,16 @@ export default {
   background-color: white;
   box-shadow: 1px 1px 10px gray;
   padding: 15px 5px 5px 5px;
+}
+.google-drive-container {
+  width: 100%;
+  cursor: pointer;
+}
+.text-description {
+  line-height: normal;
+}
+.files-unavailable {
+  background-color: #e2e2e2;
+  box-shadow: none;
 }
 </style>
