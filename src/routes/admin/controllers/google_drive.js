@@ -65,6 +65,7 @@ module.exports = (() => {
 
       return res.send({ message: "upload complete" });
     } catch (error) {
+      console.log(error);
       return res
         .status(500)
         .send({ message: "something went wrong pls try again" });
