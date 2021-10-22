@@ -7,9 +7,10 @@ import FacultyArchives from "../../components/pages/Home/user/children/FacultyAr
 import FacultySettings from "../../components/pages/Home/user/children/FacultySettings";
 import Compose from "../../components/pages/Home/user/children/Compose";
 import Edit from "../../components/pages/Home/user/children/Edit";
+import ViewRequest from "../../components/pages/Home/user/children/ViewRequest";
+import NotFound from "../../components/pages/Home/user/children/NotFound";
 
 import store from "../../store/store";
-import axios from "axios";
 
 export const user_routes = {
   path: "/faculty/home",
@@ -28,44 +29,26 @@ export const user_routes = {
     { path: "pending", component: FacultyPending },
     { path: "signed", component: FacultySigned },
     { path: "archives", component: FacultyArchives },
+    { path: "error/404", component: NotFound },
+    {
+      path: "view/:id",
+      component: ViewRequest,
+      beforeEnter: async (to, from, next) => {
+        await store.dispatch("request/viewRequest", { id: to.params.id });
+        console.log(store.getters["request/getLetterInfo"]);
+        if (store.getters["request/getLetterInfo"]) {
+          next();
+        } else next("/faculty/home/error/404");
+      },
+    },
     {
       path: "edit/letter=:id",
       component: Edit,
       beforeEnter: async (to, from, next) => {
-        store.dispatch("message/defaultState", null);
-        store.commit("request/setLoading", {
-          loading: true,
-          type: "letter_info",
-        });
-        try {
-          const { id } = to.params;
-          const { data } = await axios.get(
-            `/api/request/faculty/letter=${id}`,
-            {
-              headers: {
-                Authorization: localStorage.getItem("Authorization"),
-              },
-            }
-          );
-          store.commit("request/setLoading", {
-            loading: false,
-            type: "letter_info",
-          });
-          if (data.form) {
-            store.commit("request/setLetterInfo", data.form);
-            return next();
-          }
-          return next("/faculty/home/drafts");
-        } catch (error) {
-          const { message } = error.response.data || error;
-          store.commit("request/setLoading", {
-            loading: false,
-            type: "letter_info",
-          });
-          store.commit("request/setLetterInfo", {});
-          store.dispatch("message/errorMessage", message);
-          return next("/faculty/home/drafts");
-        }
+        await store.dispatch("request/viewRequest", { id: to.params.id });
+        if (store.getters["request/getLetterInfo"]) {
+          next();
+        } else next("/faculty/home/error/404");
       },
     },
   ],
