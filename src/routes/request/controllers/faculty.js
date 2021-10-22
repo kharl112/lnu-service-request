@@ -261,7 +261,6 @@ const Views = (() => {
       const form = await Request.findOne({
         _id: id,
         "user.staff_id": req.locals.staff_id,
-        save_as: 0,
       }).select({ _id: 0, __v: 0, date: 0, "user.staff_id": 0 });
 
       return res.send({ form });
