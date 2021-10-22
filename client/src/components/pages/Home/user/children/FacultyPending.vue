@@ -9,7 +9,7 @@ export default {
   components: {
     SetSignature,
     PreviewRequest,
-    UploadFile
+    UploadFile,
   },
   data: () => ({
     signatureVisibility: false,
@@ -107,7 +107,9 @@ export default {
         </v-container>
         <v-container fluid v-if="getAllPending[0] && !getLoading.all_pending">
           <v-data-table
-            @click:row="(item) => showPreview(item)"
+            @click:row="
+              (item) => $router.push(`/faculty/home/view/provider/${item._id}`)
+            "
             :headers="table.headers"
             :items="getAllPending"
             :search="table.search"

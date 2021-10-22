@@ -76,7 +76,9 @@ export default {
       <v-col cols="12" sm="12" md="8" class="pa-0">
         <v-container fluid v-if="getAllArchives[0] && !getLoading.all_send">
           <v-data-table
-            @click:row="(item) => showPreview(item)"
+            @click:row="
+              (item) => $router.push(`/faculty/home/view/user/${item._id}`)
+            "
             :headers="table.headers"
             :items="getAllArchives"
             class="elevation-0"
