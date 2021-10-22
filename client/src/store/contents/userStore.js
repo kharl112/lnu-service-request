@@ -165,13 +165,13 @@ const faculty = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "profile" });
-        return commit("setProfile", data);
+        commit("setProfile", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "profile" });
         commit("setProfile", null);
         dispatch("message/errorMessage", message, { root: true });
-        return message === "account not permitted"
+        message === "account not permitted"
           ? router.replace("/faculty/register/step=4")
           : router.replace("/faculty/login");
       }
@@ -183,11 +183,11 @@ const faculty = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_users" });
-        return commit("setAllUsers", data);
+        commit("setAllUsers", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_users" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     allServiceProviders: async ({ commit, dispatch, state }) => {
@@ -202,7 +202,7 @@ const faculty = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_service_providers" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
   },

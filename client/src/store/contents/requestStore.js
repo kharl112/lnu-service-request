@@ -83,11 +83,11 @@ const request = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_draft" });
-        return commit("setAllDraft", data);
+        commit("setAllDraft", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_draft" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     allSend: async ({ commit, dispatch }, { filter, type }) => {
@@ -278,6 +278,23 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "mark" });
         return dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    viewRequest: async ({ commit, dispatch }, { id }) => {
+      try {
+        commit("setLoading", { loading: true, type: "letter_info" });
+        const { data } = await axios.get(`/api/request/faculty/letter=${id}`, {
+          headers: {
+            Authorization: localStorage.getItem("Authorization"),
+          },
+        });
+        commit("setLoading", { loading: false, type: "letter_info" });
+        commit("setLetterInfo", data.form);
+      } catch (error) {
+        console.log(error);
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "letter_info" });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
   },
