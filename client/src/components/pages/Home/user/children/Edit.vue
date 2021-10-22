@@ -96,7 +96,6 @@ export default {
           );
         return this.$store.dispatch("request/editRequest", this.form);
       }
-      return;
     },
   },
   created() {
