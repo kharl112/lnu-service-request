@@ -26,18 +26,26 @@ export const user_routes = {
     { path: "sent", component: Sent },
     { path: "compose", component: Compose },
     { path: "settings", component: FacultySettings },
-    { path: "pending", component: FacultyPending },
+    {
+      path: "pending",
+      component: FacultyPending,
+    },
     { path: "signed", component: FacultySigned },
     { path: "archives", component: FacultyArchives },
     { path: "error/404", component: NotFound },
     {
-      path: "view/:id",
+      path: "view/:user_type/:id",
       component: ViewRequest,
       beforeEnter: async (to, from, next) => {
-        await store.dispatch("request/viewRequest", { id: to.params.id });
-        console.log(store.getters["request/getLetterInfo"]);
-        if (store.getters["request/getLetterInfo"]) {
-          next();
+        if (
+          ["user", "provider"].filter(
+            (user_type) => to.params.user_type === user_type
+          )[0]
+        ) {
+          await store.dispatch("request/viewRequest", { id: to.params.id });
+          if (store.getters["request/getLetterInfo"]) {
+            next();
+          } else next("/faculty/home/error/404");
         } else next("/faculty/home/error/404");
       },
     },
