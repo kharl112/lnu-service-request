@@ -12,9 +12,7 @@ export const register_routes = {
   beforeEnter: (to, from, next) => {
     store.dispatch("message/defaultState", null);
     const { user_type } = to.params;
-    return user_type === "faculty" || user_type === "admin"
-      ? next()
-      : next(false);
+    user_type === "faculty" || user_type === "admin" ? next() : next(false);
   },
   children: [
     { path: "step=1", component: Step1 },
@@ -22,8 +20,7 @@ export const register_routes = {
       path: "step=2",
       component: Step2,
       beforeEnter: (to, from, next) => {
-        return store.getters["faculty/getEmail"] ||
-          store.getters["admin/getEmail"]
+        store.getters["faculty/getEmail"] || store.getters["admin/getEmail"]
           ? next()
           : next(`/${to.params.user_type}/register/step=1`);
       },
@@ -32,8 +29,7 @@ export const register_routes = {
       path: "step=3",
       component: Step3,
       beforeEnter: (to, from, next) => {
-        return store.getters["faculty/getEmail"] ||
-          store.getters["admin/getEmail"]
+        store.getters["faculty/getEmail"] || store.getters["admin/getEmail"]
           ? next()
           : next(`/${to.params.user_type}/register/step=1`);
       },
@@ -42,7 +38,7 @@ export const register_routes = {
       path: "step=4",
       component: Step4,
       beforeEnter: (to, from, next) => {
-        return localStorage.getItem("Authorization")
+        localStorage.getItem("Authorization")
           ? next()
           : next(`/${to.params.user_type}/register/step=1`);
       },

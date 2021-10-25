@@ -8,8 +8,6 @@ export const login_routes = {
   beforeEnter: (to, from, next) => {
     store.dispatch("message/defaultState", null);
     const { user_type } = to.params;
-    return user_type === "faculty" || user_type === "admin"
-      ? next()
-      : next(false);
+    user_type === "faculty" || user_type === "admin" ? next() : next(false);
   },
 };
