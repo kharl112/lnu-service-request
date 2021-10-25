@@ -6,7 +6,6 @@ import Risograph from "./options/Risograph";
 import Default from "./options/Default";
 import Certification from "./options/Certification";
 import form from "./options/form";
-import changeServices from "./options/changeServices";
 export default {
   name: "Compose",
   components: {
@@ -24,12 +23,6 @@ export default {
     items: ["A4", "Letter"],
     timeout: 3000,
     form,
-    optionalComponents: [
-      { id: "60f62de769f7dd1017e2ba4b", component: "Mailing" },
-      { id: "60f62dd969f7dd1017e2ba4a", component: "Risograph" },
-      { id: "60f62dcb69f7dd1017e2ba49", component: "PassSlip" },
-      { id: "60f62e6169f7dd1017e2ba51", component: "Certification" },
-    ],
   }),
   computed: {
     getFacultyProfile() {
@@ -58,8 +51,8 @@ export default {
   },
   methods: {
     getOptionalComponent() {
-      const [optionalComponent] = this.optionalComponents.filter(
-        ({ id }) => id === this.form.service_id
+      const [optionalComponent] = this.getAllServices.filter(
+        ({ _id }) => _id === this.form.service_id
       );
       return optionalComponent ? optionalComponent.component : "Default";
     },
@@ -68,11 +61,19 @@ export default {
     },
     customService(bool) {
       this.others = bool;
-      if (bool) return (this.form.service_id = "");
+      if (bool) {
+        this.form.service_id = "";
+        this.form.options = { persons_involved: [] };
+      }
       this.form.other_service = "";
     },
     handleChangeService(e) {
-      this.form.options = changeServices(e);
+      const [selectedOption] = this.getAllServices.filter(
+        ({ _id }) => _id === e
+      );
+      this.form.options = selectedOption
+        ? selectedOption.options
+        : { persons_involved: [] };
       localStorage.setItem("compose", JSON.stringify(this.form));
     },
     handleSetSignature(signatureId) {

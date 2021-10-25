@@ -5,7 +5,6 @@ import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
 import Certification from "./options/Certification";
 import Default from "./options/Default";
-import changeServices from "./options/changeServices";
 
 export default {
   name: "Edit",
@@ -24,12 +23,6 @@ export default {
     others: false,
     timeout: 3000,
     form: null,
-    optionalComponents: [
-      { id: "60f62de769f7dd1017e2ba4b", component: "Mailing" },
-      { id: "60f62dd969f7dd1017e2ba4a", component: "Risograph" },
-      { id: "60f62dcb69f7dd1017e2ba49", component: "PassSlip" },
-      { id: "60f62e6169f7dd1017e2ba51", component: "Certification" },
-    ],
   }),
   computed: {
     getAllServiceProviders() {
@@ -55,8 +48,8 @@ export default {
   },
   methods: {
     getOptionalComponent() {
-      const [optionalComponent] = this.optionalComponents.filter(
-        ({ id }) => id === this.form.service_id
+      const [optionalComponent] = this.getAllServices.filter(
+        ({ _id }) => _id === this.form.service_id
       );
       return optionalComponent ? optionalComponent.component : "Default";
     },
@@ -66,10 +59,19 @@ export default {
     },
     customService(bool) {
       this.others = bool;
-      return (this.form.other_service = "");
+      if (bool) {
+        this.form.service_id = "";
+        this.form.options = { persons_involved: [] };
+      }
+      this.form.other_service = "";
     },
     handleChangeService(e) {
-      return (this.form.options = changeServices(e));
+      const [selectedOption] = this.getAllServices.filter(
+        ({ _id }) => _id === e
+      );
+      this.form.options = selectedOption
+        ? selectedOption.options
+        : { persons_involved: [] };
     },
     handleSetSignature(signatureId) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
@@ -94,7 +96,7 @@ export default {
             "message/errorMessage",
             "You must sign this document to proceed"
           );
-        return this.$store.dispatch("request/editRequest", this.form);
+        this.$store.dispatch("request/editRequest", this.form);
       }
     },
   },
