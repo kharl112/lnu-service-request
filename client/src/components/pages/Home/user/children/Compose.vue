@@ -69,16 +69,17 @@ export default {
     customService(bool) {
       this.others = bool;
       if (bool) return (this.form.service_id = "");
-      return (this.form.other_service = "");
+      this.form.other_service = "";
     },
     handleChangeService(e) {
-      return (this.form.options = changeServices(e));
+      this.form.options = changeServices(e);
+      localStorage.setItem("compose", JSON.stringify(this.form));
     },
     handleSetSignature(signatureId) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
-      return (this.form.user.signature = signatureElement
+      this.form.user.signature = signatureElement
         .toString()
-        .replace('height="300"', 'height="175" viewBox="0 0 300 175"'));
+        .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
     },
     handleSubmit(save_as) {
       (e) => {
@@ -98,9 +99,11 @@ export default {
             "message/errorMessage",
             "You must sign this document to proceed"
           );
-        return this.$store.dispatch("request/createRequest", this.form);
+        this.$store.dispatch("request/createRequest", this.form);
       }
-      return;
+    },
+    handleSetLocalStorage() {
+      localStorage.setItem("compose", JSON.stringify(this.form));
     },
   },
   created() {
@@ -112,9 +115,6 @@ export default {
     this.$store.dispatch("faculty/allServiceProviders");
     this.$store.dispatch("admin/allAdmin");
     this.$store.dispatch("service/allServices");
-  },
-  updated() {
-    localStorage.setItem("compose", JSON.stringify(this.form));
   },
 };
 </script>
@@ -182,6 +182,7 @@ export default {
                       <v-col cols="12" class="pb-0">
                         <v-text-field
                           v-model="form.subject"
+                          @change="handleSetLocalStorage"
                           autofocus
                           outlined
                           :rules="rules"
@@ -196,6 +197,7 @@ export default {
                           rows="10"
                           class="body-2"
                           v-model="form.body"
+                          @change="handleSetLocalStorage"
                           outlined
                           height="100%"
                           :rules="rules"
@@ -215,6 +217,7 @@ export default {
                             <v-col cols="12">
                               <v-autocomplete
                                 v-model="form.admin.staff_id"
+                                @change="handleSetLocalStorage"
                                 :rules="rules"
                                 small
                                 :items="getAllAdmin"
@@ -231,6 +234,7 @@ export default {
                             <v-col cols="12">
                               <v-autocomplete
                                 v-model="form.service_provider.staff_id"
+                                @change="handleSetLocalStorage"
                                 :items="getAllServiceProviders"
                                 class="caption"
                                 item-text="text"
