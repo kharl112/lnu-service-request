@@ -35,23 +35,19 @@ export default {
   <v-container fluid class="pa-0">
     <v-row justify="end" align="center">
       <v-col cols="12" align="center">
-        <v-row
-          justify="space-between"
-          align="end"
-          class="pa-2"
-        >
+        <v-row justify="space-between" align="end" class="pa-2">
           <div v-if="isMobile">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
-                  color="gray"
-                  class="mr-3"
+                  color="primary"
+                  class="mr-3 ml-3"
                   @click="drawer = true"
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="45">
+                  <v-icon size="50">
                     mdi-menu
                   </v-icon>
                 </v-btn>
@@ -60,26 +56,9 @@ export default {
             </v-tooltip>
           </div>
           <div class="ml-5 hidden-sm-and-down">
-              <span>Chief Administration Office </span>
+            <span>Chief Administration Office </span>
           </div>
           <div class="sm-ml-5">
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  color="primary"
-                  class="mr-3"
-                  @click="$router.push('/track/none')"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon size="25">
-                    mdi-map-marker-distance
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span>Track a request</span>
-            </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn

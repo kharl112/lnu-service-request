@@ -57,13 +57,13 @@ export default {
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
-                  color="gray"
-                  class="mr-3"
+                  color="primary"
+                  class="mr-3 ml-3"
                   @click="drawer = true"
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="45">
+                  <v-icon size="50">
                     mdi-menu
                   </v-icon>
                 </v-btn>
@@ -72,23 +72,6 @@ export default {
             </v-tooltip>
           </div>
           <div>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  icon
-                  color="primary"
-                  class="mr-3"
-                  @click="$router.push('/track/none')"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-icon size="25">
-                    mdi-map-marker-distance
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span>Track a request</span>
-            </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
