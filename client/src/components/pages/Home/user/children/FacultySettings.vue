@@ -3,13 +3,6 @@ export default {
   name: "FacultySettings",
   data: () => ({
     form: null,
-    selectedLink: 1,
-    hash_links: [
-      { link: "name", text: "Name" },
-      { link: "department", text: "Department" },
-      { link: "contact", text: "Contact" },
-      { link: "password", text: "Password" },
-    ],
     show_pass: false,
     password: {
       old: "",
@@ -134,7 +127,7 @@ export default {
                 <v-divider />
               </v-container>
             </v-col>
-            <v-col cols="12" class="pt-0 pb-0" id="name">
+            <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
                 <v-subheader class="pa-0 mr-0">Name</v-subheader>
                 <v-divider />
@@ -211,7 +204,7 @@ export default {
                 </v-row>
               </v-container>
             </v-col>
-            <v-col cols="12" class="pt-0 pb-0" id="department">
+            <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
                 <v-subheader class="pa-0 mr-0">Department</v-subheader>
                 <v-divider />
@@ -249,7 +242,7 @@ export default {
                 </v-row>
               </v-container>
             </v-col>
-            <v-col cols="12" class="pt-0 pb-0" id="contact">
+            <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
                 <v-subheader class="pa-0 mr-0">Contact Information</v-subheader>
                 <v-divider />
@@ -270,7 +263,7 @@ export default {
                 </v-row>
               </v-container>
             </v-col>
-            <v-col cols="12" class="pt-0 pb-0" id="password">
+            <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
                 <v-row justify="start" align="center">
                   <v-col cols="6">
@@ -356,27 +349,7 @@ export default {
         </v-form>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
-      <v-col sm="2" md="4">
-        <v-row justify="start">
-          <v-col cols="12">
-            <v-list dense>
-              <v-subheader>Contents</v-subheader>
-              <v-list-item-group v-model="selectedLink" color="primary">
-                <v-list-item v-for="({ link, text }, i) in hash_links" :key="i">
-                  <v-list-item-content>
-                    <a
-                      :href="`#${link}`"
-                      class="text--secondary text-decoration-none body-2"
-                    >
-                      {{ text }}
-                    </a>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-list-item-group>
-            </v-list>
-          </v-col>
-        </v-row>
-      </v-col>
+      <v-col sm="2" md="4" class="hidden-sm-and-down"> </v-col>
     </v-row>
     <v-row justify="start" align="start" v-else>
       <v-col cols="12" sm="12" md="8">
