@@ -26,7 +26,7 @@ const token = {
           { headers: { Authorization: localStorage.getItem("Authorization") } }
         );
         commit("setLoading", false);
-        return router.replace(
+        router.replace(
           user_type === "faculty"
             ? "/faculty/home/drafts"
             : "/admin/home/pending"
@@ -34,7 +34,7 @@ const token = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     resendToken: async ({ commit, dispatch }, { userType }) => {
@@ -47,13 +47,13 @@ const token = {
           { headers: { Authorization: localStorage.getItem("Authorization") } }
         );
         commit("setLoading", false);
-        return dispatch("message/successMessage", "code resent to your email", {
+        dispatch("message/successMessage", "code resent to your email", {
           root: true,
         });
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
   },

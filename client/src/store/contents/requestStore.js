@@ -66,13 +66,13 @@ const request = {
         dispatch("message/successMessage", "request letter created", {
           root: true,
         });
-        return router.push(
+        router.push(
           form.save_as === 0 ? "/faculty/home/drafts" : "/faculty/home/sent"
         );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "compose" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     allDraft: async ({ commit, dispatch, state }) => {
@@ -100,11 +100,11 @@ const request = {
           }
         );
         commit("setLoading", { loading: false, type: "all_send" });
-        return commit("setAllSend", data);
+        commit("setAllSend", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_send" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     allPending: async ({ commit, dispatch, state }, type) => {
@@ -115,11 +115,11 @@ const request = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_pending" });
-        return commit("setAllPending", data);
+        commit("setAllPending", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_pending" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     allSigned: async ({ commit, dispatch, state }, type) => {
@@ -130,11 +130,11 @@ const request = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_signed" });
-        return commit("setAllSigned", data);
+        commit("setAllSigned", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_signed" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     trackRequest: async ({ commit, dispatch }, request_id) => {
@@ -144,12 +144,12 @@ const request = {
       try {
         const { data } = await axios.get(`/api/request/track/${request_id}`);
         commit("setLoading", { loading: false, type: "tracked_request" });
-        return commit("setTrackedRequest", data);
+        commit("setTrackedRequest", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "tracked_request" });
         commit("setTrackedRequest", {});
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     deleteSelected: async ({ commit, getters, dispatch }) => {
@@ -168,12 +168,12 @@ const request = {
         dispatch("message/successMessage", "selected request letter deleted", {
           root: true,
         });
-        return dispatch("allDraft");
+        dispatch("allDraft");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "selected" });
         commit("setSelected", []);
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     editRequest: async ({ commit, dispatch }, form) => {
@@ -192,13 +192,13 @@ const request = {
           root: true,
         });
         commit("setLoading", { loading: false, type: "edit" });
-        return router.push(
+        router.push(
           form.save_as === 0 ? "/faculty/home/drafts" : "/faculty/home/sent"
         );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "edit" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     sendRequest: async ({ commit, dispatch }, { _id }) => {
@@ -216,11 +216,11 @@ const request = {
           root: true,
         });
         commit("setLoading", { loading: false, type: "send" });
-        return dispatch("allDraft");
+        dispatch("allDraft");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "send" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     signRequest: async (
@@ -247,7 +247,7 @@ const request = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "sign" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     markRequest: async (
@@ -270,14 +270,13 @@ const request = {
         });
 
         commit("setLoading", { loading: false, type: "mark" });
-
-        return user_type === "provider"
+        user_type === "provider"
           ? dispatch("allSigned", user_type)
           : router.push("/faculty/home/archives");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "mark" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     viewRequest: async ({ commit, dispatch }, { id }) => {

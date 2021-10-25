@@ -47,11 +47,11 @@ const faculty = {
         commit("setLoading", { loading: false, type: "login" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
-        return router.replace("/faculty/home/drafts");
+        router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     userRegister: async ({ commit, dispatch }, form) => {
@@ -64,11 +64,11 @@ const faculty = {
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
-        return router.replace("/faculty/register/step=4");
+        router.replace("/faculty/register/step=4");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     userUpdate: async ({ commit, dispatch }, form) => {
@@ -82,11 +82,11 @@ const faculty = {
         dispatch("message/successMessage", "updated successfully", {
           root: true,
         });
-        return dispatch("userProfile");
+        dispatch("userProfile");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "update" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     validateEmail: async ({ commit, dispatch }, form) => {
@@ -96,12 +96,12 @@ const faculty = {
         const { data } = await axios.post("/api/user/validate/email", form);
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", data.email);
-        return router.replace("/faculty/register/step=2");
+        router.replace("/faculty/register/step=2");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", null);
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     changePassword: async ({ commit, dispatch }, form) => {
@@ -115,11 +115,11 @@ const faculty = {
         dispatch("message/successMessage", "password changed", {
           root: true,
         });
-        return router.replace("/faculty/home/drafts");
+        router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "change_password" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     resetPassword: async ({ commit, dispatch }, form) => {
@@ -135,11 +135,11 @@ const faculty = {
         commit("setLoading", { loading: false, type: "reset_password" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
-        return router.replace("/faculty/home/drafts");
+        router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "reset_password" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     sendEmailLink: async ({ commit, dispatch }, form) => {
@@ -151,11 +151,11 @@ const faculty = {
         dispatch("message/successMessage", "E-mail sent", {
           root: true,
         });
-        return router.replace("/faculty/forgot/password/step=2");
+        router.replace("/faculty/forgot/password/step=2");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "send_email_link" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     userProfile: async ({ commit, dispatch }) => {
@@ -198,7 +198,7 @@ const faculty = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_service_providers" });
-        return commit("setAllServiceProviders", data);
+        commit("setAllServiceProviders", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_service_providers" });

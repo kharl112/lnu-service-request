@@ -22,11 +22,11 @@ const unit = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", false);
-        return commit("setAllUnits", data);
+        commit("setAllUnits", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
   },

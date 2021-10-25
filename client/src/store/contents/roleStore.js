@@ -22,11 +22,11 @@ const role = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", false);
-        return commit("setAllRoles", data);
+        commit("setAllRoles", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", false);
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
   },

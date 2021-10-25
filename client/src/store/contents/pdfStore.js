@@ -43,14 +43,14 @@ const pdf = {
         });
         commit("setLoading", { type: "download", loading: false });
         const date = new Date();
-        return fileDownload(
+        fileDownload(
           data,
           `${id}_${date.getMonth()}${date.getDate()}${date.getFullYear()}.pdf`
         );
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { type: "download", loading: false });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     previewPDF: async ({ commit, dispatch }, { user_type, id }) => {
@@ -64,7 +64,7 @@ const pdf = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { type: "preview", loading: false });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
   },

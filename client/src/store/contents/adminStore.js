@@ -41,11 +41,11 @@ const admin = {
         commit("setLoading", { loading: false, type: "login" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        return router.replace("/admin/home/pending");
+        router.replace("/admin/home/pending");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     adminRegister: async ({ commit, dispatch }, form) => {
@@ -59,11 +59,11 @@ const admin = {
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        return router.replace("/admin/register/step=4");
+        router.replace("/admin/register/step=4");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     adminUpdate: async ({ commit, dispatch }, form) => {
@@ -77,11 +77,11 @@ const admin = {
         dispatch("message/successMessage", "updated successfully", {
           root: true,
         });
-        return dispatch("adminProfile");
+        dispatch("adminProfile");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "update" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     validateEmail: async ({ commit, dispatch }, form) => {
@@ -91,12 +91,12 @@ const admin = {
         const { data } = await axios.post("/api/admin/validate/email", form);
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", data.email);
-        return router.replace("/admin/register/step=2");
+        router.replace("/admin/register/step=2");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", null);
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     changePassword: async ({ commit, dispatch }, form) => {
@@ -110,11 +110,11 @@ const admin = {
         dispatch("message/successMessage", "password changed", {
           root: true,
         });
-        return router.replace("/admin/home/pending");
+        router.replace("/admin/home/pending");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "change_password" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     resetPassword: async ({ commit, dispatch }, form) => {
@@ -130,11 +130,11 @@ const admin = {
         commit("setLoading", { loading: false, type: "reset_password" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        return router.replace("/admin/home/pending");
+        router.replace("/admin/home/pending");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "reset_password" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     sendEmailLink: async ({ commit, dispatch }, form) => {
@@ -146,11 +146,11 @@ const admin = {
         dispatch("message/successMessage", "E-mail sent", {
           root: true,
         });
-        return router.replace("/admin/forgot/password/step=2");
+        router.replace("/admin/forgot/password/step=2");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "send_email_link" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     adminProfile: async ({ commit, dispatch }) => {
@@ -162,7 +162,7 @@ const admin = {
       } catch (error) {
         const { message } = error.response.data || error;
         dispatch("message/errorMessage", message, { root: true });
-        return message === "account is not permitted"
+        message === "account is not permitted"
           ? router.replace("/admin/register/step=4")
           : router.replace("/admin/login");
       }
@@ -176,11 +176,11 @@ const admin = {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_admin" });
-        return commit("setAllAdmin", data);
+        commit("setAllAdmin", data);
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "all_admin" });
-        return dispatch("message/errorMessage", message, { root: true });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
   },
