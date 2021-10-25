@@ -31,9 +31,13 @@ const Mutations = (() => {
       if (service_found) {
         req.body.service_id = service_found._id.toString();
       } else {
-        const new_service = new Service({ type: req.body.other_service });
-        const service = await new_service.save();
+        const new_service = new Service({
+          type: req.body.other_service,
+          component: "Default",
+          options: { persons_involved: [] },
+        });
 
+        const service = await new_service.save();
         req.body.service_id = service._id.toString();
       }
 
@@ -101,9 +105,13 @@ const Mutations = (() => {
       if (service_found) {
         req.body.form.service_id = service_found._id.toString();
       } else {
-        const new_service = new Service({ type: req.body.form.other_service });
-        const service = await new_service.save();
+        const new_service = new Service({
+          type: req.body.form.other_service,
+          component: "Default",
+          options: { persons_involved: [] },
+        });
 
+        const service = await new_service.save();
         req.body.form.service_id = service._id.toString();
       }
 
