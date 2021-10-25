@@ -108,7 +108,7 @@ export default {
                 dense
               />
             </v-col>
-            <v-col cols="12" sm="6" md="6">
+            <v-col cols="12" sm="6" md="6" v-if="getAllSend[0]">
               <v-text-field
                 v-model="table.search"
                 append-icon="mdi-magnify"

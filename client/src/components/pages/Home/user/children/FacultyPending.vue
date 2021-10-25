@@ -92,7 +92,7 @@ export default {
                 Pending Requests
               </span>
             </v-col>
-            <v-col cols="12" sm="6" md="7">
+            <v-col cols="12" sm="6" md="7" v-if="getAllPending[0]">
               <v-text-field
                 v-model="table.search"
                 append-icon="mdi-magnify"

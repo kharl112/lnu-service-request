@@ -80,7 +80,7 @@ export default {
                 Signed Requests
               </span>
             </v-col>
-            <v-col cols="12" sm="6" md="7">
+            <v-col cols="12" sm="6" md="7" v-if="getAllSigned[0]">
               <v-text-field
                 v-model="table.search"
                 append-icon="mdi-magnify"
