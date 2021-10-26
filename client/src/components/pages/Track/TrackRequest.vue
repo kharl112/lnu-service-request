@@ -1,5 +1,6 @@
 <script>
 import QRCodeBox from "./contents/QRCodeBox";
+import getTimeLine from "./contents/getTimeLine";
 export default {
   name: "TrackRequest",
   components: {
@@ -22,6 +23,9 @@ export default {
     },
     getTrackedRequest() {
       return this.$store.getters["request/getTrackedRequest"];
+    },
+    fixTimeLine() {
+      return getTimeLine(this.$store.getters["request/getTrackedRequest"]);
     },
     snackbar: {
       get() {
@@ -56,14 +60,16 @@ export default {
     },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
-      return `${
-        prefix ? `${prefix}.` : ""
-      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+      if (typeof name === "object")
+        return `${
+          prefix ? `${prefix}.` : ""
+        } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
+      return name;
     },
-    getSignatures(service_request) {
-      const { admin, service_provider, user } = service_request;
-      if (service_provider.staff_id) return [user, admin, service_provider];
-      return [user, admin];
+    fixDepartment(department) {
+      if (typeof department === "string") return department;
+      const { unit, role } = department;
+      return `${role[0].name} at ${unit[0].name} department`;
     },
     showQR() {
       return (this.show = !this.show);
@@ -185,47 +191,31 @@ export default {
               <v-divider />
             </v-col>
             <v-col cols="12" class="pa-0">
-              <v-stepper v-model="step" vertical outlined>
-                <v-stepper-step
-                  v-for="(signee, index) in getSignatures(getTrackedRequest)"
-                  :key="signee._id"
-                  :complete="signee.signature"
-                  :step="index + 1"
+              <v-timeline align-top dense>
+                <v-timeline-item
+                  v-for="node in fixTimeLine"
+                  :key="node.staff_id"
+                  :color="node.status ? 'primary' : 'grey'"
+                  :icon="node.status ? 'mdi-check' : 'mdi-dots-horizontal'"
+                  small
+                  fill-dot
+                  class="text-left"
                 >
-                  {{ getFullname(signee.profile[0].name) }}
-                  <small>
-                    {{
-                      signee.department
-                        ? signee.department.unit[0].name
-                        : "Chief Admin Office"
-                    }}
-                  </small>
-                </v-stepper-step>
-
-                <v-stepper-step
-                  :complete="getTrackedRequest.status >= 1"
-                  color="success"
-                  complete-icon="mdi-hammer-wrench"
-                  :step="getTrackedRequest.service_provider.staff_id ? 4 : 3"
-                >
-                  Rendered
-                  <small>
-                    Service providers or the requesters marked the request as
-                    completed
-                  </small>
-                </v-stepper-step>
-                <v-stepper-step
-                  :complete="getTrackedRequest.status === 2"
-                  color="warning"
-                  complete-icon="mdi-archive"
-                  :step="getTrackedRequest.service_provider.staff_id ? 5 : 4"
-                >
-                  Archived
-                  <small>
-                    Requesters already archived this request
-                  </small>
-                </v-stepper-step>
-              </v-stepper>
+                  <span class="pa-0 body-2">
+                    {{ getFullname(node.name) }}
+                    <small class="font-weight-bold ml-1">
+                      {{
+                        node.status
+                          ? "[signed / completed]"
+                          : "[unsigned / uncomplete]"
+                      }}</small
+                    >
+                  </span>
+                  <p class="pa-0 caption">
+                    {{ fixDepartment(node.description) }}
+                  </p>
+                </v-timeline-item>
+              </v-timeline>
             </v-col>
             <v-col cols="12">
               <v-divider />
@@ -354,8 +344,8 @@ export default {
   </div>
 </template>
 <style scoped>
-  .row-container {
-    height: 95vh;
-    overflow-y: auto;
-  }
+.row-container {
+  height: 95vh;
+  overflow-y: auto;
+}
 </style>
