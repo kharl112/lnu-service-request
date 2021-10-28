@@ -60,7 +60,23 @@ const Views = (() => {
     return res.send(admin_archived);
   };
 
-  return { pendings, signeds, archiveds };
+  const info = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const form = await Request.findOne({
+        _id: id,
+        "admin.staff_id": req.locals.staff_id,
+      }).select({ _id: 0, __v: 0, "user.staff_id": 0, date: 0 });
+
+      return res.send({ form });
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again." });
+    }
+  };
+
+  return { pendings, signeds, archiveds, info };
 })();
 
 module.exports = { Mutations, Views };

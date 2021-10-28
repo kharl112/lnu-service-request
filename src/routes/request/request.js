@@ -43,6 +43,7 @@ route.post("/admin/sign", adminAuth, Admin.Mutations.sign);
 route.get("/admin/pending", adminAuth, Admin.Views.pendings);
 route.get("/admin/signed", adminAuth, Admin.Views.signeds);
 route.get("/admin/sent/archived", adminAuth, Admin.Views.archiveds);
+route.get("/admin/letter=:id", adminAuth, Admin.Views.info);
 
 route.get("/track/:_id", Track.Views.track);
 
