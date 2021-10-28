@@ -265,7 +265,7 @@ const request = {
         dispatch("message/successMessage", `request letter mark as ${type}`, {
           root: true,
         });
-        dispatch("viewRequest", { id: request_id });
+        dispatch("viewRequest", { id: request_id, user_type: "faculty" });
         commit("setLoading", { loading: false, type: "mark" });
       } catch (error) {
         const { message } = error.response.data || error;
