@@ -1,21 +1,11 @@
 <script>
-import SetSignature from "../contents/SetSignature";
-import PreviewRequest from "../contents/PreviewRequest";
 import { formatDistanceToNow } from "date-fns";
 import tableOptions from "./tableOptions";
 
 export default {
   name: "AdminPending",
-  components: {
-    SetSignature,
-    PreviewRequest,
-  },
   data: () => ({
-    signatureVisibility: false,
-    preview: { show: false, data: null },
     table: tableOptions,
-    selected: "",
-    selectedRequest: "",
     colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
@@ -28,40 +18,11 @@ export default {
     getAllPending() {
       return this.$store.getters["request/getAllPending"];
     },
-    getPDFLoading() {
-      return this.$store.getters["pdf/getLoading"];
-    },
   },
   methods: {
     getTimeOrDate(date) {
       return formatDistanceToNow(new Date(date), {
         includeSeconds: true,
-      });
-    },
-    showSignature(request_id = "") {
-      this.selectedRequest = request_id;
-      this.signatureVisibility = !this.signatureVisibility;
-    },
-    showPreview(request = null) {
-      return (this.preview = { show: !this.preview.show, data: request });
-    },
-    handleSetSignature(signatureId) {
-      const signature = document
-        .getElementById(signatureId)
-        .innerHTML.toString()
-        .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
-
-      return this.$store.dispatch("request/signRequest", {
-        request_id: this.selectedRequest,
-        signature,
-        type: "admin",
-      });
-    },
-    downloadPDF(id) {
-      this.selected = id;
-      return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "admin",
-        id,
       });
     },
     getFullname(name) {
@@ -100,7 +61,7 @@ export default {
         </v-container>
         <v-container fluid v-if="getAllPending[0] && !getLoading.all_pending">
           <v-data-table
-            @click:row="(item) => showPreview(item)"
+            @click:row="(item) => $router.push(`/admin/home/view/${item._id}`)"
             :headers="table.headers"
             :items="getAllPending"
             :items-per-page="5"
@@ -157,17 +118,5 @@ export default {
         <v-progress-circular :size="50" indeterminate color="primary" />
       </v-col>
     </v-row>
-    <PreviewRequest
-      v-if="preview.show"
-      :downloadPDF="downloadPDF"
-      :showPreview="showPreview"
-      :preview="preview"
-      :showSignature="showSignature"
-    />
-    <SetSignature
-      :signatureVisibility="signatureVisibility"
-      :showSignature="showSignature"
-      :handleSetSignature="handleSetSignature"
-    />
   </v-container>
 </template>

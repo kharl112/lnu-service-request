@@ -40,7 +40,7 @@ export default {
         this.$store.dispatch("request/signRequest", {
           request_id: this.$route.params.id,
           signature,
-          type: "admin",
+          type: "provider",
         });
 
         this.hideAndSeekSignature();

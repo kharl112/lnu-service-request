@@ -1,20 +1,10 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import UploadFile from "../contents/UploadFile";
-import PreviewRequest from "../contents/PreviewRequest";
 import tableOptions from "./tableOptions";
 export default {
   name: "AdminSigned",
-  components: {
-    PreviewRequest,
-    UploadFile,
-  },
   data: () => ({
-    show: false,
-    uploadVisibility: false,
-    preview: { show: false, data: null },
     table: tableOptions,
-    selected: "",
     colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
@@ -35,24 +25,11 @@ export default {
         addSuffix: true,
       });
     },
-    showPreview(request = null) {
-      return (this.preview = { show: !this.preview.show, data: request });
-    },
-    downloadPDF(id) {
-      this.selected = id;
-      return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "admin",
-        id,
-      });
-    },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
       return `${
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
-    },
-    showUpload() {
-      this.uploadVisibility = this.uploadVisibility ? false : true;
     },
   },
   created() {
@@ -84,7 +61,7 @@ export default {
         </v-container>
         <v-container fluid v-if="getAllSigned[0] && !getLoading.all_signed">
           <v-data-table
-            @click:row="(item) => showPreview(item)"
+            @click:row="(item) => $router.push(`/admin/home/view/${item._id}`)"
             :headers="table.headers"
             :items="getAllSigned"
             :items-per-page="5"
@@ -131,17 +108,5 @@ export default {
         </v-container>
       </v-col>
     </v-row>
-    <PreviewRequest
-      v-if="preview.show"
-      :downloadPDF="downloadPDF"
-      :showUpload="showUpload"
-      :showPreview="showPreview"
-      :preview="preview"
-    />
-    <UploadFile
-      :uploadVisibility="uploadVisibility"
-      :request_obj="preview.data"
-      :showUpload="showUpload"
-    />
   </v-container>
 </template>

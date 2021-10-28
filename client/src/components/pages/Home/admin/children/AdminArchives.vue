@@ -1,15 +1,9 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import PreviewRequest from "../contents/PreviewRequest";
-import UploadFile from "../contents/UploadFile";
 export default {
   name: "AdminArchives",
-  components: { PreviewRequest, UploadFile },
   data: () => ({
     show: false,
-    preview: false,
-    uploadVisibility: false,
-    selected: null,
     table: {
       headers: [
         {
@@ -57,13 +51,7 @@ export default {
         includeSeconds: true,
       }).replace("about ", "");
     },
-    downloadPDF(id) {
-      this.selected = id;
-      return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "admin",
-        id,
-      });
-    },
+
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
       return `${
@@ -73,12 +61,6 @@ export default {
     getSignatures(service_request) {
       const { admin, service_provider } = service_request;
       return [admin, service_provider];
-    },
-    showPreview(request = null) {
-      return (this.preview = { show: !this.preview.show, data: request });
-    },
-    showUpload() {
-      this.uploadVisibility = this.uploadVisibility ? false : true;
     },
   },
   created() {
@@ -95,7 +77,7 @@ export default {
       <v-col cols="12" sm="12" md="8" class="pa-0">
         <v-container fluid v-if="getAllArchives[0] && !getLoading.all_send">
           <v-data-table
-            @click:row="(item) => showPreview(item)"
+            @click:row="(item) => $router.push(`/admin/home/view/${item._id}`)"
             :headers="table.headers"
             :items="getAllArchives"
             :items-per-page="5"
@@ -178,9 +160,9 @@ export default {
                   </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn icon @click="show = !show">
-                    <v-icon>{{
-                      show ? "mdi-chevron-up" : "mdi-chevron-down"
-                    }}</v-icon>
+                    <v-icon>
+                      {{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}
+                    </v-icon>
                   </v-btn>
                 </v-card-actions>
 
@@ -201,18 +183,6 @@ export default {
         </v-row>
       </v-col>
     </v-row>
-    <PreviewRequest
-      v-if="preview.show"
-      :downloadPDF="downloadPDF"
-      :showPreview="showPreview"
-      :preview="preview"
-      :showUpload="showUpload"
-    />
-    <UploadFile
-      :uploadVisibility="uploadVisibility"
-      :request_obj="preview.data"
-      :showUpload="showUpload"
-    />
   </v-container>
 </template>
 <style scoped lang="scss">
