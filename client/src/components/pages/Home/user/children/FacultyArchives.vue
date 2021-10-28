@@ -1,15 +1,8 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import PreviewRequest from "../contents/PreviewRequest";
 export default {
   name: "FacultyArchives",
-  components: {
-    PreviewRequest,
-  },
   data: () => ({
-    show: false,
-    preview: false,
-    selected: null,
     table: {
       headers: [
         {
@@ -50,16 +43,6 @@ export default {
         addSuffix: true,
         includeSeconds: true,
       }).replace("about ", "");
-    },
-    showPreview(request = null) {
-      return (this.preview = { show: !this.preview.show, data: request });
-    },
-    downloadPDF(id) {
-      this.selected = id;
-      return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "faculty",
-        id,
-      });
     },
   },
   created() {
@@ -157,12 +140,6 @@ export default {
         </v-row>
       </v-col>
     </v-row>
-    <PreviewRequest
-      v-if="preview.show"
-      :downloadPDF="downloadPDF"
-      :showPreview="showPreview"
-      :preview="preview"
-    />
   </v-container>
 </template>
 <style scoped lang="scss">
