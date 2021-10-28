@@ -250,10 +250,7 @@ const request = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
-    markRequest: async (
-      { commit, dispatch },
-      { request_id, type, user_type }
-    ) => {
+    markRequest: async ({ commit, dispatch }, { request_id, type }) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "mark" });
       try {
@@ -268,11 +265,8 @@ const request = {
         dispatch("message/successMessage", `request letter mark as ${type}`, {
           root: true,
         });
-
+        dispatch("viewRequest", { id: request_id });
         commit("setLoading", { loading: false, type: "mark" });
-        user_type === "provider"
-          ? dispatch("allSigned", user_type)
-          : router.push("/faculty/home/archives");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "mark" });
@@ -290,7 +284,6 @@ const request = {
         commit("setLoading", { loading: false, type: "letter_info" });
         commit("setLetterInfo", data.form);
       } catch (error) {
-        console.log(error);
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "letter_info" });
         dispatch("message/errorMessage", message, { root: true });

@@ -17,7 +17,7 @@ export default {
     Risograph,
   },
   data: () => ({
-    signatureVisibility: false,
+    signature_view: { shown: false },
     rules: [(v) => !!v || "This field is not allowed to be empty"],
     items: ["A4", "Letter"],
     others: false,
@@ -53,9 +53,8 @@ export default {
       );
       return optionalComponent ? optionalComponent.component : "Default";
     },
-
-    showSignature() {
-      this.signatureVisibility = !this.signatureVisibility;
+    hideAndSeekSignature() {
+      this.signature_view.shown = !this.signature_view.shown;
     },
     customService(bool) {
       this.others = bool;
@@ -244,7 +243,7 @@ export default {
                                 :disabled="getEditLoading"
                                 color="success"
                                 type="button"
-                                @click="showSignature"
+                                @click="hideAndSeekSignature"
                                 block
                                 large
                                 elevation="0"
@@ -336,8 +335,9 @@ export default {
       </v-col>
     </v-row>
     <SetSignature
-      :signatureVisibility="signatureVisibility"
-      :showSignature="showSignature"
+      v-if="signature_view.shown"
+      :data="signature_view"
+      :hideAndSeekSignature="hideAndSeekSignature"
       :handleSetSignature="handleSetSignature"
     />
   </v-container>

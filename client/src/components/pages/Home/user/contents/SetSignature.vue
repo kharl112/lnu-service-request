@@ -3,9 +3,9 @@ import svgSketch from "vue-svg-sketch";
 export default {
   name: "SetSignature",
   props: {
-    signatureVisibility: Boolean,
+    data: Object,
+    hideAndSeekSignature: Function,
     handleSetSignature: Function,
-    showSignature: Function,
   },
   components: {
     svgSketch,
@@ -26,23 +26,41 @@ export default {
     clean() {
       this.$refs.sketch.clean();
     },
-    handleSubmit(signatureId) {
+    handleSubmit() {
       if (this.$refs.sketch.getJSON().paths[0]) {
-        this.handleSetSignature(signatureId);
-        return this.showSignature();
+        if (this.handleSetSignature) {
+          this.handleSetSignature("signature");
+          return this.hideAndSeekSignature();
+        }
+        const signature = document
+          .getElementById("signature")
+          .innerHTML.toString()
+          .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
+
+        this.$store.dispatch("request/signRequest", {
+          request_id: this.$route.params.id,
+          signature,
+          type: "provider",
+        });
+
+        this.hideAndSeekSignature();
       }
-      return;
     },
   },
 };
 </script>
 <template>
-  <v-overlay :value="signatureVisibility" :z-index="100">
+  <v-overlay :value="data.shown" :z-index="100">
     <v-card class="pa-4" light outlined>
       <v-row dense no-gutters justify="start" justify-sm="center">
         <v-col cols="12">
           <v-row justify="end">
-            <v-btn @click="showSignature" icon color="error" class="mb-2">
+            <v-btn
+              @click="hideAndSeekSignature"
+              icon
+              color="error"
+              class="mb-2"
+            >
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-row>
@@ -50,7 +68,7 @@ export default {
         <v-col cols="12" class="ma-1">
           <svg-sketch
             ref="sketch"
-            id="sketch"
+            id="signature"
             :disabled="signature.disabled"
             :size="signature.size"
             :color="signature.color"
@@ -83,7 +101,7 @@ export default {
                     small
                     class="pl-4 pr-4"
                     color="primary"
-                    @click="handleSubmit('sketch')"
+                    @click="handleSubmit"
                   >
                     Confirm
                   </v-btn>
@@ -97,7 +115,7 @@ export default {
   </v-overlay>
 </template>
 <style lang="scss" scope>
-#sketch {
+#signature {
   border: 1px solid gray;
   svg {
     border: none;

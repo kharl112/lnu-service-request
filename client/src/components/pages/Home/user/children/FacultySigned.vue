@@ -1,21 +1,11 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import PreviewRequest from "../contents/PreviewRequest";
-import UploadFile from "../contents/UploadFile";
 import tableOptions from "./tableOptions";
 
 export default {
   name: "FacultySigned",
-  components: {
-    PreviewRequest,
-    UploadFile,
-  },
   data: () => ({
-    show: false,
-    uploadVisibility: false,
-    preview: { show: false, data: null },
     table: tableOptions,
-    selected: "",
     colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
@@ -36,32 +26,11 @@ export default {
         addSuffix: true,
       });
     },
-    showPreview(request = null) {
-      return (this.preview = { show: !this.preview.show, data: request });
-    },
-    markAsCompleted(request_id) {
-      this.selected = request_id;
-      return this.$store.dispatch("request/markRequest", {
-        request_id,
-        type: "complete",
-        user_type: "provider",
-      });
-    },
-    downloadPDF(id) {
-      this.selected = id;
-      return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "provider",
-        id,
-      });
-    },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
       return `${
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
-    },
-    showUpload() {
-      this.uploadVisibility = this.uploadVisibility ? false : true;
     },
   },
   created() {
@@ -144,19 +113,5 @@ export default {
         </v-container>
       </v-col>
     </v-row>
-    <PreviewRequest
-      v-if="preview.show"
-      :downloadPDF="downloadPDF"
-      :showPreview="showPreview"
-      :showUpload="showUpload"
-      :preview="preview"
-      :markAsCompleted="markAsCompleted"
-      :user_type="'provider'"
-    />
-    <UploadFile
-      :uploadVisibility="uploadVisibility"
-      :request_obj="preview.data"
-      :showUpload="showUpload"
-    />
   </v-container>
 </template>

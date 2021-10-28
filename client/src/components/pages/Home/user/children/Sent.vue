@@ -1,16 +1,9 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
-import PreviewRequest from "../contents/PreviewRequest";
 import tableOptions from "./tableOptions";
 export default {
   name: "Sent",
-  components: {
-    PreviewRequest,
-  },
   data: () => ({
-    show: false,
-    preview: { show: false, data: null },
-    selected: "",
     table: tableOptions,
     filter: [
       { text: "All", value: "all" },
@@ -25,9 +18,6 @@ export default {
     getAllSend() {
       return this.$store.getters["request/getAllSend"];
     },
-    getPDFLoading() {
-      return this.$store.getters["pdf/getLoading"];
-    },
   },
   methods: {
     getTimeOrDate(date) {
@@ -36,18 +26,8 @@ export default {
         includeSeconds: true,
       }).replace("about ", "");
     },
-    showPreview(request = null) {
-      return (this.preview = { show: !this.preview.show, data: request });
-    },
     gotoCreate() {
       return this.$router.push(`/faculty/home/compose`);
-    },
-    downloadPDF(id) {
-      this.selected = id;
-      return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "faculty",
-        id,
-      });
     },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
@@ -55,31 +35,10 @@ export default {
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
     },
-    getSignatures(service_request) {
-      const { admin, service_provider } = service_request;
-      if (service_provider.staff_id) return [admin, service_provider];
-      return [admin];
-    },
     handleFilter(filter) {
       return this.$store.dispatch("request/allSend", {
         filter,
         type: "faculty",
-      });
-    },
-    markAsArchive(request_id) {
-      this.selected = request_id;
-      return this.$store.dispatch("request/markRequest", {
-        request_id,
-        type: "archive",
-        user_type: "faculty",
-      });
-    },
-    markAsCompleted(request_id) {
-      this.selected = request_id;
-      return this.$store.dispatch("request/markRequest", {
-        request_id,
-        type: "complete",
-        user_type: "faculty",
       });
     },
   },
@@ -174,14 +133,6 @@ export default {
         </v-container>
       </v-col>
     </v-row>
-    <PreviewRequest
-      v-if="preview.show"
-      :downloadPDF="downloadPDF"
-      :showPreview="showPreview"
-      :preview="preview"
-      :markAsArchive="markAsArchive"
-      :markAsCompleted="markAsCompleted"
-    />
   </v-container>
 </template>
 <style scoped lang="scss">

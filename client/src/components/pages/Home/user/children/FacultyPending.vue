@@ -1,23 +1,10 @@
 <script>
-import SetSignature from "../contents/SetSignature";
-import PreviewRequest from "../contents/PreviewRequest";
-import UploadFile from "../contents/UploadFile";
 import { formatDistanceToNow } from "date-fns";
 import tableOptions from "./tableOptions";
 export default {
   name: "FacultyPending",
-  components: {
-    SetSignature,
-    PreviewRequest,
-    UploadFile,
-  },
   data: () => ({
-    signatureVisibility: false,
-    uploadVisibility: false,
-    preview: { show: false, data: null },
-    selected: "",
     table: tableOptions,
-    selectedRequest: "",
     colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
@@ -40,40 +27,11 @@ export default {
         includeSeconds: true,
       });
     },
-    showSignature(request_id = "") {
-      this.selectedRequest = request_id;
-      this.signatureVisibility = !this.signatureVisibility;
-    },
-    showPreview(request = null) {
-      return (this.preview = { show: !this.preview.show, data: request });
-    },
-    handleSetSignature(signatureId) {
-      const signature = document
-        .getElementById(signatureId)
-        .innerHTML.toString()
-        .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
-
-      return this.$store.dispatch("request/signRequest", {
-        request_id: this.selectedRequest,
-        signature,
-        type: "provider",
-      });
-    },
-    downloadPDF(id) {
-      this.selected = id;
-      return this.$store.dispatch("pdf/generatePDF", {
-        user_type: "provider",
-        id,
-      });
-    },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
       return `${
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
-    },
-    showUpload() {
-      this.uploadVisibility = this.uploadVisibility ? false : true;
     },
   },
   created() {
@@ -166,24 +124,5 @@ export default {
         <v-progress-circular :size="50" indeterminate color="primary" />
       </v-col>
     </v-row>
-    <PreviewRequest
-      v-if="preview.show"
-      :downloadPDF="downloadPDF"
-      :showPreview="showPreview"
-      :preview="preview"
-      :showUpload="showUpload"
-      :showSignature="showSignature"
-      :user_type="'provider'"
-    />
-    <SetSignature
-      :signatureVisibility="signatureVisibility"
-      :showSignature="showSignature"
-      :handleSetSignature="handleSetSignature"
-    />
-    <UploadFile
-      :uploadVisibility="uploadVisibility"
-      :request_obj="preview.data"
-      :showUpload="showUpload"
-    />
   </v-container>
 </template>
