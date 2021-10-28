@@ -94,7 +94,7 @@ export default {
     <v-list>
       <v-list-item class="px-2">
         <v-list-item-avatar>
-          <v-avatar color="#e78a00" size="40">
+          <v-avatar color="primary" size="40">
             <span class="white--text headline">{{ getFacultyInitials }}</span>
           </v-avatar>
         </v-list-item-avatar>
@@ -125,7 +125,7 @@ export default {
 
     <v-list dense>
       <v-subheader>Requests</v-subheader>
-      <v-list-item-group color="primary" v-model="route">
+      <v-list-item-group color="grey" v-model="route">
         <v-list-item
           v-for="(child, i) in request_items"
           :key="i"
@@ -133,27 +133,17 @@ export default {
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
-            <v-badge
-              v-if="
-                child.getter &&
-                  $store.getters[`request/getAll${child.getter}`].length
-              "
-              color="primary"
-              dot
-            />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
+            color="primary"
+            dot
             v-if="
               child.getter &&
                 $store.getters[`request/getAll${child.getter}`].length
             "
-            color="primary"
-            :content="$store.getters[`request/getAll${child.getter}`].length"
-            offset-x="10"
-            offset-y="7"
           />
         </v-list-item>
       </v-list-item-group>
@@ -161,7 +151,7 @@ export default {
 
     <v-list dense>
       <v-subheader>Received</v-subheader>
-      <v-list-item-group color="primary" v-model="route">
+      <v-list-item-group color="grey" v-model="route">
         <v-list-item
           v-for="(child, i) in received_items"
           :key="i"
@@ -169,11 +159,6 @@ export default {
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
-            <v-badge
-              v-if="$store.getters[`request/getAll${child.getter}`].length"
-              color="primary"
-              dot
-            />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="child.title" />
@@ -181,9 +166,7 @@ export default {
           <v-badge
             v-if="$store.getters[`request/getAll${child.getter}`].length"
             color="primary"
-            :content="$store.getters[`request/getAll${child.getter}`].length"
-            offset-x="10"
-            offset-y="7"
+            dot
           />
         </v-list-item>
       </v-list-item-group>
@@ -191,7 +174,7 @@ export default {
 
     <v-list dense>
       <v-subheader>Account</v-subheader>
-      <v-list-item-group color="primary" v-model="route">
+      <v-list-item-group color="grey" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
@@ -203,10 +186,10 @@ export default {
       </v-list-item-group>
       <v-list-item @click="showLogout" link>
         <v-list-item-icon>
-          <v-icon color="warning">mdi-logout</v-icon>
+          <v-icon color="primary">mdi-logout</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
-          <v-list-item-title class="warning--text">Logout</v-list-item-title>
+          <v-list-item-title class="primary--text">Logout</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>

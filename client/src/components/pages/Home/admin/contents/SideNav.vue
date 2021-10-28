@@ -92,7 +92,7 @@ export default {
 
     <v-list dense>
       <v-subheader>Requests</v-subheader>
-      <v-list-item-group v-model="route" color="warning">
+      <v-list-item-group v-model="route" color="grey">
         <v-list-item
           v-for="(child, i) in items"
           :key="i"
@@ -100,27 +100,17 @@ export default {
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
-            <v-badge
-              v-if="
-                child.getter &&
-                  $store.getters[`request/getAll${child.getter}`].length
-              "
-              dot
-              color="warning"
-            />
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
+            dot
+            color="primary"
             v-if="
               child.getter &&
                 $store.getters[`request/getAll${child.getter}`].length
             "
-            color="warning"
-            :content="$store.getters[`request/getAll${child.getter}`].length"
-            offset-x="10"
-            offset-y="7"
           />
         </v-list-item>
       </v-list-item-group>
@@ -130,7 +120,7 @@ export default {
 
     <v-list dense>
       <v-subheader>Account</v-subheader>
-      <v-list-item-group color="warning" v-model="route">
+      <v-list-item-group color="grey" v-model="route">
         <v-list-item value="settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
