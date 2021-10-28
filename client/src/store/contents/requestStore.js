@@ -273,14 +273,17 @@ const request = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
-    viewRequest: async ({ commit, dispatch }, { id }) => {
+    viewRequest: async ({ commit, dispatch }, { id, user_type }) => {
       try {
         commit("setLoading", { loading: true, type: "letter_info" });
-        const { data } = await axios.get(`/api/request/faculty/letter=${id}`, {
-          headers: {
-            Authorization: localStorage.getItem("Authorization"),
-          },
-        });
+        const { data } = await axios.get(
+          `/api/request/${user_type}/letter=${id}`,
+          {
+            headers: {
+              Authorization: localStorage.getItem("Authorization"),
+            },
+          }
+        );
         commit("setLoading", { loading: false, type: "letter_info" });
         commit("setLetterInfo", data.form);
       } catch (error) {
