@@ -42,12 +42,9 @@ export const user_routes = {
             (user_type) => to.params.user_type === user_type
           )[0]
         ) {
-          const user_type =
-            to.params.user_type === "user" ? "faculty" : to.params.user_type;
-
           await store.dispatch("request/viewRequest", {
             id: to.params.id,
-            user_type,
+            user_type: "faculty",
           });
           if (store.getters["request/getLetterInfo"]) {
             next();
