@@ -42,7 +42,13 @@ export const user_routes = {
             (user_type) => to.params.user_type === user_type
           )[0]
         ) {
-          await store.dispatch("request/viewRequest", { id: to.params.id });
+          const user_type =
+            to.params.user_type === "user" ? "faculty" : to.params.user_type;
+
+          await store.dispatch("request/viewRequest", {
+            id: to.params.id,
+            user_type,
+          });
           if (store.getters["request/getLetterInfo"]) {
             next();
           } else next("/faculty/home/error/404");
@@ -53,7 +59,10 @@ export const user_routes = {
       path: "edit/letter=:id",
       component: Edit,
       beforeEnter: async (to, from, next) => {
-        await store.dispatch("request/viewRequest", { id: to.params.id });
+        await store.dispatch("request/viewRequest", {
+          id: to.params.id,
+          user_type: "faculty",
+        });
         if (store.getters["request/getLetterInfo"]) {
           next();
         } else next("/faculty/home/error/404");
