@@ -98,6 +98,7 @@ export default {
             @click:row="(item) => showPreview(item)"
             :headers="table.headers"
             :items="getAllArchives"
+            :items-per-page="5"
             class="elevation-0"
           >
             <template v-slot:item.date="{ item }">
