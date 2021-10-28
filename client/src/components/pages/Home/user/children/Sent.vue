@@ -129,6 +129,7 @@ export default {
             :headers="table.headers"
             :items="getAllSend"
             :search="table.search"
+            :items-per-page="5"
             class="elevation-0"
           >
             <template v-slot:item.date="{ item }">

@@ -100,6 +100,7 @@ export default {
             "
             :headers="table.headers"
             :items="getAllSigned"
+            :items-per-page="5"
             :search="table.search"
             class="elevation-0"
           >
