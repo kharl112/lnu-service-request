@@ -71,7 +71,7 @@ export default {
         <v-container fluid>
           <v-row justify="start" align="center">
             <v-col cols="6">
-              <v-subheader class="text-h6 pa-0">
+              <v-subheader class="text-h6 text-no-wrap">
                 Account Settings
               </v-subheader>
             </v-col>
@@ -87,16 +87,16 @@ export default {
                         v-on="on"
                         @click="resetForm(!edit_mode)"
                         :disabled="isUnitLoading"
-                        :color="edit_mode ? 'error' : 'primary'"
+                        color="primary"
                       >
-                        <v-icon size="30">{{
-                          edit_mode ? "mdi-pencil-off" : "mdi-pencil"
-                        }}</v-icon>
+                        <v-icon size="30">
+                          {{ edit_mode ? "mdi-pencil-off" : "mdi-pencil" }}
+                        </v-icon>
                       </v-btn>
                     </template>
-                    <span>{{
-                      edit_mode ? "disable edit mode" : "enable edit mode"
-                    }}</span>
+                    <span>
+                      {{ edit_mode ? "disable edit mode" : "enable edit mode" }}
+                    </span>
                   </v-tooltip>
 
                   <v-tooltip bottom>
@@ -107,7 +107,7 @@ export default {
                         v-on="on"
                         icon
                         class="mr-4"
-                        color="primary"
+                        color="gray"
                         :disabled="isUnitLoading"
                         @click="handleSubmit()"
                       >
@@ -305,7 +305,7 @@ export default {
             </v-container>
           </v-col>
           <v-col cols="12">
-            <v-container fluid class="pt-2 pb-0">
+            <v-container fluid class="py-0">
               <v-form ref="change_password">
                 <v-row justify="start" align="start" dense>
                   <v-col cols="12">

@@ -75,16 +75,16 @@ export default {
                         v-bind="attrs"
                         v-on="on"
                         @click="resetForm(!edit_mode)"
-                        :color="edit_mode ? 'error' : 'primary'"
+                        color="primary"
                       >
-                        <v-icon size="30">{{
-                          edit_mode ? "mdi-pencil-off" : "mdi-pencil"
-                        }}</v-icon>
+                        <v-icon size="30">
+                          {{ edit_mode ? "mdi-pencil-off" : "mdi-pencil" }}
+                        </v-icon>
                       </v-btn>
                     </template>
-                    <span>{{
-                      edit_mode ? "disable edit mode" : "enable edit mode"
-                    }}</span>
+                    <span>
+                      {{ edit_mode ? "disable edit mode" : "enable edit mode" }}
+                    </span>
                   </v-tooltip>
 
                   <v-tooltip bottom>
@@ -95,7 +95,7 @@ export default {
                         v-on="on"
                         icon
                         class="mr-4"
-                        color="primary"
+                        color="gray"
                         @click="handleSubmit()"
                       >
                         <v-icon size="30">mdi-update</v-icon>
@@ -215,13 +215,13 @@ export default {
         </v-form>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
-      <v-col cols="12" sm="6" md="5">
-        <v-col cols="12" class="pt-0 pb-0">
+      <v-col cols="12" sm="6" md="5" class="py-0">
+        <v-col cols="12" class="pa-0">
           <v-container fluid>
             <v-row justify="start" align="center">
               <v-col cols="6">
                 <v-container fluid class="pa-0">
-                  <v-subheader class="pa-0 mr-0 error--text">
+                  <v-subheader class="mr-0 error--text">
                     Change Password
                   </v-subheader>
                 </v-container>
@@ -252,7 +252,7 @@ export default {
             <v-divider />
           </v-container>
         </v-col>
-        <v-col cols="12">
+        <v-col cols="12" class="px-0">
           <v-container fluid class="pt-2 pb-0">
             <v-form ref="change_password">
               <v-row justify="start" align="start" dense>
