@@ -15,17 +15,6 @@ export default {
         email: "",
         password: "",
       },
-      rules: {
-        checkBox: [(v) => !!v || "This is required"],
-        email: [
-          (v) => !!v || "E-mail is required",
-          (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
-        ],
-        password: [
-          (v) => !!v || "Password is required",
-          (v) => (!!v && v.length >= 8) || "Password must be 8 characters long",
-        ],
-      },
     };
   },
   components: {
@@ -115,43 +104,35 @@ export default {
             <v-row>
               <v-col cols="12">
                 <h3
-                  :class="
-                    `text-h5 text-sm-h4 text-md-h4 text-center text-md-left ${
-                      $vuetify.theme.dark ? 'primary--text' : ''
-                    }`
-                  "
+                  :class="`text-h5 text-sm-h4 text-center ${
+                    $vuetify.theme.dark ? 'primary--text' : ''
+                  }`"
                 >
-                  <strong class="warning--text">LNU</strong>
-                  Service Request System
+                  Sign In to LNUSR
                 </h3>
               </v-col>
               <v-col cols="12" class="pa-2"><v-divider /></v-col>
-              <v-col cols="11" class="pa-2 pb-0">
+              <v-col cols="12" class="pa-2 pb-0">
                 <h4
                   v-if="userType === 'faculty'"
-                  :class="
-                    ` overline font-weight-bold text-center ${
-                      $vuetify.theme.dark ? 'primary--text' : ''
-                    }`
-                  "
+                  :class="` overline font-weight-bold text-center ${
+                    $vuetify.theme.dark ? 'primary--text' : ''
+                  }`"
                 >
                   Faculty Personnel Login
                 </h4>
                 <h4
                   v-else
-                  :class="
-                    ` overline font-weight-bold text-center ${
-                      $vuetify.theme.dark ? 'warning--text' : ''
-                    }`
-                  "
+                  :class="` overline font-weight-bold text-center ${
+                    $vuetify.theme.dark ? 'warning--text' : ''
+                  }`"
                 >
                   Chief Admin Office Login
                 </h4>
               </v-col>
-              <v-col cols="12" md="11" sm="12" class="pb-0">
+              <v-col cols="12" class="pb-0">
                 <v-select
                   @change="(e) => $router.push(`/${e}/login`)"
-                  dense
                   outlined
                   :items="selections"
                   label="Select user type"
@@ -166,10 +147,10 @@ export default {
           <v-col cols="12">
             <v-form ref="form" @submit="handleSubmit">
               <v-row no-gutters>
-                <v-col cols="12" md="11" sm="12">
+                <v-col cols="12">
                   <v-text-field
-                    :rules="rules.email"
                     :disabled="getLoading.login"
+                    prepend-inner-icon="mdi-email"
                     dense
                     class="input"
                     label="E-mail"
@@ -180,10 +161,10 @@ export default {
                   />
                 </v-col>
 
-                <v-col cols="12" md="11" sm="12">
+                <v-col cols="12">
                   <v-text-field
                     :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
-                    :rules="rules.password"
+                    prepend-inner-icon="mdi-lock"
                     :type="show ? 'text' : 'password'"
                     :disabled="getLoading.login"
                     dense
@@ -194,12 +175,12 @@ export default {
                     outlined
                   />
                 </v-col>
-                <v-col cols="12" md="11" sm="12" class="pa-0">
+                <v-col cols="12" class="pa-0">
                   <v-alert class="alert" v-if="getError" dense type="error">
                     {{ getError }}
                   </v-alert>
                 </v-col>
-                <v-col cols="12" md="11" sm="12">
+                <v-col cols="12">
                   <v-btn
                     type="submit"
                     bottom
@@ -213,7 +194,7 @@ export default {
                     Login
                   </v-btn>
                 </v-col>
-                <v-col cols="12" md="11" sm="12" class="pa-6">
+                <v-col cols="12" class="pa-6">
                   <v-row justify="center" align="center">
                     <v-col cols="5">
                       <v-divider />
@@ -230,7 +211,7 @@ export default {
                 </v-col>
 
                 <v-row dense>
-                  <v-col cols="12" md="11" sm="12" class="links-container">
+                  <v-col cols="12">
                     <v-btn
                       type="none"
                       bottom
@@ -244,9 +225,9 @@ export default {
                     </v-btn>
                   </v-col>
                   <v-col cols="12">
-                    <v-container fluid class="pa-0 pt-2">
+                    <v-container fluid class="pa-0 mt-4">
                       <router-link
-                        class="caption"
+                        class="body-2"
                         :to="`/${userType}/forgot/password/step=1`"
                       >
                         Forgot your password?
@@ -276,9 +257,7 @@ export default {
             <v-icon>mdi-map-marker-distance</v-icon>
           </v-btn>
         </template>
-        <span>
-          Track request
-        </span>
+        <span> Track request </span>
       </v-tooltip>
       <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">

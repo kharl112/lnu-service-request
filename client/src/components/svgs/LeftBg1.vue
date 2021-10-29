@@ -5,13 +5,13 @@ export default {
 </script>
 <template>
   <svg width="331" height="1024" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="2" width="283" height="100%" fill="#E78A00" />
+    <rect x="2" width="283" height="100%" fill="#fb8c00" />
     <g filter="url(#filter0_d)">
       <rect
         width="69.3611"
         height="590.111"
         transform="matrix(0.533261 -0.845951 0.47735 0.878713 0 332.031)"
-        fill="#0C0996"
+        fill="#2d54a1"
       />
     </g>
     <g filter="url(#filter1_d)">
@@ -19,7 +19,7 @@ export default {
         width="66.6108"
         height="557.591"
         transform="matrix(0.593487 0.804843 -0.42119 0.906972 237.219 51.1569)"
-        fill="#0C0996"
+        fill="#2d54a1"
       />
     </g>
     <g filter="url(#filter2_d)">
@@ -27,7 +27,7 @@ export default {
         width="74.014"
         height="466.851"
         transform="matrix(-0.431647 0.902043 -0.581957 -0.81322 326.648 379.653)"
-        fill="#0C0996"
+        fill="#2d54a1"
       />
     </g>
     <g filter="url(#filter3_dd)">
@@ -35,7 +35,7 @@ export default {
         width="61.569"
         height="680.566"
         transform="matrix(0.713373 0.700784 -0.31884 0.947809 243.893 335.807)"
-        fill="#0C0996"
+        fill="#2d54a1"
       />
     </g>
     <defs>
