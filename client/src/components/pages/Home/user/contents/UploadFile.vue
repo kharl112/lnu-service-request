@@ -7,7 +7,9 @@ export default {
   },
   data: () => ({
     file: null,
-    rules: [(v) => !!v || "you must attached a file here"],
+    rules: [
+      (v) => !v || v.size < 250000000 || "File size should be less than 25mb",
+    ],
   }),
   computed: {
     getUploadLoading() {
@@ -47,29 +49,36 @@ export default {
             </v-btn>
           </v-row>
         </v-col>
-        <v-col cols="12" class="ma-1">
+        <v-col cols="12" class="ma-1 mt-4">
           <form ref="form" @submit="handleSubmitFile">
             <v-row justify="center">
               <v-col cols="12" class="pb-0">
                 <v-file-input
                   :disabled="getUploadLoading"
+                  prepend-icon=""
+                  prepend-inner-icon="mdi-download-outline"
                   :rules="rules"
                   v-model="file"
                   label="Select File"
                   show-size
+                  large
+                  outlined
                 />
               </v-col>
-              <v-col cols="12" align="center" class="pt-2">
+              <v-col cols="12" align="center" class="py-0">
                 <v-btn
                   color="primary"
                   :loading="getUploadLoading"
                   elevation="0"
                   block
-                  small
+                  large
                   @click="handleSubmitFile"
                   type="submit"
                 >
-                  Upload
+                  <v-icon left>
+                    mdi-google-drive
+                  </v-icon>
+                  Upload to Google Drive
                 </v-btn>
               </v-col>
               <v-col cols="12" class="pa-0 pl-2">
@@ -78,7 +87,8 @@ export default {
                   v-if="getUploadLoading"
                 >
                   <v-icon class="mr-2">mdi-information</v-icon>
-                  Your file is uploading, please wait.
+                  Your file is uploading, please wait. This might take a while
+                  depending on your file size.
                 </v-subheader>
                 <v-subheader class="caption pa-0 text-center" v-else>
                   <v-icon class="mr-2">mdi-information</v-icon>
