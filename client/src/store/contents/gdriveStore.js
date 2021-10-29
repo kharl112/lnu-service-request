@@ -32,8 +32,15 @@ const gdrive = {
             Authorization: localStorage.getItem("Authorization"),
           },
         });
-
         commit("setLoading", { type: "upload", loading: false });
+        dispatch(
+          "request/viewRequest",
+          {
+            id: request_id,
+            user_type: user_type === "user" ? "faculty" : user_type,
+          },
+          { root: true }
+        );
         dispatch("message/successMessage", data.message, {
           root: true,
         });
