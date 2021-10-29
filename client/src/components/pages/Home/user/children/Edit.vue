@@ -195,14 +195,13 @@ export default {
                           auto-grow
                         />
                       </v-col>
-
-                      <v-col cols="12" class="px-0 py-0">
+                      <v-col cols="12" class="pa-0">
                         <v-container fluid class="py-0">
                           <v-subheader>Signees</v-subheader>
                           <v-divider />
                         </v-container>
                       </v-col>
-                      <v-col cols="12">
+                      <v-col cols="12" class="px-0 px-md-3">
                         <v-container fluid class="pt-2 pb-0">
                           <v-row justify="start" align="start" dense>
                             <v-col cols="12">
@@ -263,14 +262,14 @@ export default {
                     </v-row>
                   </v-col>
                   <v-divider class="hidden-sm-and-down" vertical />
-                  <v-col cols="12" sm="12" md="6" class="py-0">
+                  <v-col cols="12" sm="12" md="6" class="pa-0 pa-md-3 py-0">
                     <component
                       :options="form.options"
                       :rules="rules"
                       :is="getOptionalComponent()"
                     />
-                    <v-col cols="12" class="py-0">
-                      <v-container fluid class="py-0">
+                    <v-col cols="12" class="pa-0 pa-md-3">
+                      <v-container fluid>
                         <v-subheader class="px-0">
                           Save As
                           <v-subheader
@@ -282,8 +281,7 @@ export default {
                         <v-divider />
                       </v-container>
                     </v-col>
-
-                    <v-col cols="12">
+                    <v-col cols="12" >
                       <v-row justify="start" align="start" dense>
                         <v-col cols="12" sm="6">
                           <v-btn
@@ -321,10 +319,6 @@ export default {
                         </v-col>
                       </v-row>
                     </v-col>
-                  </v-col>
-
-                  <v-col cols="12">
-                    <v-divider />
                   </v-col>
                 </v-row>
               </v-container>
