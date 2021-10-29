@@ -15,7 +15,7 @@ export default {
       shown: false,
     },
     doc_view: {
-      currentPage: 0,
+      currentPage: 1,
       pageCount: 0,
       shown: true,
     },
@@ -126,6 +126,7 @@ export default {
               v-if="!getPDFLoading.preview && getBlobURL"
               :src="getBlobURL"
               class="pdf-mod"
+              :page="doc_view.currentPage"
               @num-pages="doc_view.pageCount = $event"
               @page-loaded="doc_view.currentPage = $event"
             />
@@ -133,6 +134,11 @@ export default {
               type="article, article, article, actions"
               light
               v-else
+            />
+            <v-pagination
+              v-if="!getPDFLoading.preview && getBlobURL"
+              v-model="doc_view.currentPage"
+              :length="doc_view.pageCount"
             />
           </v-col>
         </v-row>
