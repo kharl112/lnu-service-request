@@ -289,7 +289,7 @@ export default {
                   Track Request
                 </router-link>
               </v-col>
-              <v-col class="py-1" v-if="req_info.status !== 2">
+              <v-col class="py-1" v-if="req_info.status !== 2 && getSignatureLevel >= 2">
                 <span
                   @click="hideAndSeekUpload"
                   class="caption text-no-wrap clickable-text primary--text"
