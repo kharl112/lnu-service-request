@@ -353,9 +353,8 @@ export default {
       </v-col>
       <UploadFile
         v-if="upload_view.shown"
-        :uploadVisibility="upload_view.shown"
-        :request_obj="req_info"
-        :showUpload="hideAndSeekUpload"
+        :data="upload_view"
+        :hideAndSeekUpload="hideAndSeekUpload"
       />
       <SetSignature
         v-if="signature_view.shown"

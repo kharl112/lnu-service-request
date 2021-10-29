@@ -2,9 +2,8 @@
 export default {
   name: "UploadFile",
   props: {
-    uploadVisibility: Boolean,
-    showUpload: Function,
-    request_obj: Object,
+    data: Object,
+    hideAndSeekUpload: Function,
   },
   data: () => ({
     file: null,
@@ -22,22 +21,28 @@ export default {
         await this.$store.dispatch("gdrive/UploadFile", {
           form_ref: this.$refs.form,
           file: this.file,
-          request_id: this.request_obj._id,
+          request_id: this.$route.params.id,
           user_type: "admin",
         });
       this.file = null;
-      this.showUpload();
+      this.hideAndSeekUpload();
     },
   },
 };
 </script>
 <template>
-  <v-overlay :value="uploadVisibility" :z-index="100">
+  <v-overlay :value="data.shown" :z-index="100">
     <v-card class="pa-4 mx-5" min-width="350" max-width="550" light outlined>
       <v-row dense no-gutters justify="start" justify-sm="center">
         <v-col cols="12">
           <v-row justify="end">
-            <v-btn @click="showUpload" large icon color="error" class="mb-2">
+            <v-btn
+              @click="hideAndSeekUpload"
+              large
+              icon
+              color="error"
+              class="mb-2"
+            >
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-row>
