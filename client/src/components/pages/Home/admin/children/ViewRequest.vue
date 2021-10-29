@@ -118,9 +118,6 @@ export default {
             </v-icon>
             {{ doc_view.shown ? "hide document" : "unhide document" }}
           </v-btn>
-          <v-col cols="12" class="hidden-sm-and-up">
-            <v-divider />
-          </v-col>
           <v-col cols="12" v-if="doc_view.shown">
             <pdf
               v-if="!getPDFLoading.preview && getBlobURL"
@@ -140,6 +137,9 @@ export default {
               v-model="doc_view.currentPage"
               :length="doc_view.pageCount"
             />
+          </v-col>
+          <v-col cols="12" class="hidden-sm-and-up">
+            <v-divider />
           </v-col>
         </v-row>
       </v-col>
