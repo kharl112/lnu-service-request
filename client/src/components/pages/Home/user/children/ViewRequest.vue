@@ -168,7 +168,7 @@ export default {
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" sm="5" md="6">
+      <v-col cols="12" sm="5" md="6" class="px-7 px-md-3">
         <v-row justify="start">
           <v-col cols="12">
             <v-subheader class="subtitle-1 pl-0 my-3 font-weight-bold">
