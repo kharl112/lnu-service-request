@@ -83,6 +83,13 @@ export default {
       }
       this.modify_view.shown = !this.modify_view.shown;
     },
+    goToDrive() {
+      if (this.req_info.options.file)
+        return window.open(
+          `https://drive.google.com/drive/u/4/folders/${this.req_info.options.file.directory_id}`,
+          "_blank"
+        ).location;
+    },
     copyToClipBoard() {
       var copy_id = document.getElementById("directory_id");
       console.log(copy_id);
@@ -263,16 +270,16 @@ export default {
               </v-col>
               <v-col cols="12" sm="12" md="6">
                 <v-chip
-                  small
                   :disabled="!req_info.options.file"
                   color="green"
                   label
                   text-color="white"
+                  @click="goToDrive()"
                 >
                   <v-icon left>
                     mdi-google-drive
                   </v-icon>
-                  View Files
+                  View Files in Google Drive
                 </v-chip>
               </v-col>
             </v-row>
