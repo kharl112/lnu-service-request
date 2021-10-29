@@ -8,8 +8,14 @@ module.exports = (() => {
     try {
       const request_found = await Request.findOne({
         _id: req.body.directory,
-        "service_provider.staff_id": req.locals.staff_id,
-        "admin.signature": { $ne: "" },
+        $or: [
+          {
+            "user.staff_id": req.locals.staff_id,
+          },
+          {
+            "service_provider.staff_id": req.locals.staff_id,
+          },
+        ],
       });
 
       if (!request_found)
@@ -57,8 +63,14 @@ module.exports = (() => {
       await Request.findOneAndUpdate(
         {
           _id: req.body.directory,
-          "admin.staff_id": req.locals.staff_id,
-          "admin.signature": { $ne: "" },
+          $or: [
+            {
+              "user.staff_id": req.locals.staff_id,
+            },
+            {
+              "service_provider.staff_id": req.locals.staff_id,
+            },
+          ],
         },
         { options: { ...request_found.options, file } }
       );
@@ -68,7 +80,6 @@ module.exports = (() => {
       return res
         .status(500)
         .send({ message: "something went wrong pls try again" });
-      return console.error(error);
     }
   };
   return { upload_file };
