@@ -37,8 +37,6 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
-    console.log(form);
-
     const html = pug.renderFile(
       path.join(
         __dirname +
@@ -56,7 +54,6 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
       return res.send(buffer);
     });
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again" });
