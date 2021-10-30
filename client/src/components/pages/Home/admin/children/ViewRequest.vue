@@ -21,6 +21,10 @@ export default {
     },
   }),
   computed: {
+    isMobile() {
+      const mobile = window.matchMedia("(max-width: 600px)");
+      return mobile.matches;
+    },
     req_info() {
       return this.$store.getters["request/getLetterInfo"];
     },
@@ -96,6 +100,8 @@ export default {
       user_type: "admin",
       id: this.$route.params.id,
     });
+
+    if (this.isMobile) this.doc_view.shown = false;
   },
 };
 </script>
