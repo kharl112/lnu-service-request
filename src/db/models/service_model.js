@@ -11,6 +11,11 @@ const Service = new mongoose.Schema({
     maxLength: 255,
     required: true,
   },
+  paper_size: {
+    type: String,
+    required: true,
+    default: "Letter"
+  },
   options: {
     type: Object,
     required: true,
