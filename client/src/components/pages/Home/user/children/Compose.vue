@@ -90,11 +90,6 @@ export default {
       localStorage.removeItem("compose");
       if (!this.form.other_service) delete this.form.other_service;
       if (this.$refs.form.validate()) {
-        if (this.form.options.documents && !this.form.options.documents[0])
-          return this.$store.dispatch(
-            "message/errorMessage",
-            "You need to add atleast 1 document for Risograph"
-          );
         if (!this.form.user.signature)
           return this.$store.dispatch(
             "message/errorMessage",

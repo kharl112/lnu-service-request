@@ -5,7 +5,7 @@ export default {
     options: Object,
   },
   data: () => ({
-    idle: { title: "", copies: 0, pages: 0, produced: 0 },
+    idle: { title: "", copies: 1, pages: 1, produced: 0 },
     rules: {
       isNumber: (v) =>
         (/\d/gi.test(v) && parseInt(v) >= 0) || "a valid number is required",
@@ -19,30 +19,26 @@ export default {
         (node, count) => count !== index
       );
     },
-    reset() {
-      return ([
-        this.options.with_paper,
-        this.options.back_to_back,
-        this.options.documents,
-      ] = [false, false, []]);
-    },
-    saveIdle() {
-      const { documents } = this.options;
+    newDocument() {
       this.options.documents = [
-        ...documents,
+        ...this.options.documents,
         JSON.parse(JSON.stringify(this.idle)),
       ];
-      this.idle = { title: "", copies: 0, pages: 0, produced: 0 };
     },
+  },
+  mounted() {
+    if (this.options.documents.length < 1) this.newDocument();
   },
 };
 </script>
 <template>
-  <v-col cols="12" >
+  <v-col cols="12">
     <v-row justify="start" align="start">
       <v-col cols="12">
         <v-container fluid class="py-0">
-          <v-subheader class="px-0">Job Order for Risograph Options</v-subheader>
+          <v-subheader class="px-0"
+            >Job Order for Risograph Options</v-subheader
+          >
           <v-divider />
         </v-container>
       </v-col>
@@ -148,47 +144,13 @@ export default {
                           />
                         </td>
                         <td class="text-center">
-                          <v-btn icon color="error" @click="deleteIndex(index)">
-                            <v-icon>mdi-delete</v-icon>
-                          </v-btn>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <v-text-field v-model="idle.title" dense />
-                        </td>
-                        <td class="text-center">
-                          <v-text-field
-                            class="body-2"
-                            v-model="idle.copies"
-                            type="number"
-                            dense
-                          />
-                        </td>
-                        <td class="text-center">
-                          <v-text-field
-                            class="body-2"
-                            v-model="idle.pages"
-                            type="number"
-                            dense
-                          />
-                        </td>
-                        <td class="text-center">
-                          <v-text-field
-                            class="body-2"
-                            v-model="idle.produced"
-                            type="number"
-                            dense
-                          />
-                        </td>
-                        <td class="text-center">
                           <v-btn
-                            type="submit"
                             icon
-                            color="primary"
-                            @click="saveIdle"
+                            color="error"
+                            :disabled="options.documents.length === 1"
+                            @click="deleteIndex(index)"
                           >
-                            <v-icon>mdi-content-save</v-icon>
+                            <v-icon>mdi-delete</v-icon>
                           </v-btn>
                         </td>
                       </tr>
@@ -200,8 +162,8 @@ export default {
                 <v-divider />
               </v-col>
               <v-col cols="12">
-                <v-btn block color="primary" elevation="0" @click="reset">
-                  RESET
+                <v-btn block color="primary" elevation="0" @click="newDocument">
+                  Create New
                 </v-btn>
               </v-col>
             </v-row>

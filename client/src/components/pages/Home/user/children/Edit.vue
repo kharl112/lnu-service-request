@@ -85,11 +85,6 @@ export default {
       this.form.save_as = save_as;
       if (!this.form.other_service) delete this.form.other_service;
       if (this.$refs.form.validate()) {
-        if (this.form.options.documents && !this.form.options.documents[0])
-          return this.$store.dispatch(
-            "message/errorMessage",
-            "You need to add atleast 1 document for Risograph"
-          );
         if (!this.form.user.signature)
           return this.$store.dispatch(
             "message/errorMessage",
@@ -281,7 +276,7 @@ export default {
                         <v-divider />
                       </v-container>
                     </v-col>
-                    <v-col cols="12" >
+                    <v-col cols="12">
                       <v-row justify="start" align="start" dense>
                         <v-col cols="12" sm="6">
                           <v-btn
