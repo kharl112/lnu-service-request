@@ -11,8 +11,6 @@ const Request = require("../db/models/request_model");
 
 const requestQuery = require("../functions/requestQuery");
 const { Name, _Date, Department } = require("../functions/generateProfile");
-const getTemplateType = require("../functions/getTemplateType");
-const getTemplateOptions = require("../functions/getTemplateOptions");
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
@@ -39,17 +37,26 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
-    const temp = getTemplateType(form.service_id);
+    console.log(form);
+
     const html = pug.renderFile(
-      path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
+      path.join(
+        __dirname +
+          `/../../public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+      ),
       { form }
     );
 
-    const options = getTemplateOptions(temp);
+    const options = {
+      format: form.service[0].paper_size,
+      border: "0.8in",
+    };
+
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
   } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .send({ message: "something went wrong, please try again" });
@@ -84,13 +91,19 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
-    const temp = getTemplateType(form.service_id);
     const html = pug.renderFile(
-      path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
+      path.join(
+        __dirname +
+          `/../../public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+      ),
       { form }
     );
 
-    const options = getTemplateOptions(temp);
+    const options = {
+      format: form.service[0].paper_size,
+      border: "0.8in",
+    };
+
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
@@ -126,13 +139,19 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.date);
     form.service_type = form.service[0].type;
 
-    const temp = getTemplateType(form.service_id);
     const html = pug.renderFile(
-      path.join(__dirname + `/../../public/views/pdf/${temp}.pug`),
+      path.join(
+        __dirname +
+          `/../../public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+      ),
       { form }
     );
 
-    const options = getTemplateOptions(temp);
+    const options = {
+      format: form.options.paper_size,
+      border: "0.8in",
+    };
+
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
     });
