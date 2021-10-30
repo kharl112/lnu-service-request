@@ -34,6 +34,7 @@ const Mutations = (() => {
         const new_service = new Service({
           type: req.body.other_service,
           component: "Default",
+          paper_size: "A4",
           options: { persons_involved: [] },
         });
 
@@ -108,6 +109,7 @@ const Mutations = (() => {
         const new_service = new Service({
           type: req.body.form.other_service,
           component: "Default",
+          paper_size: "A4",
           options: { persons_involved: [] },
         });
 
@@ -272,7 +274,7 @@ const Views = (() => {
           { "user.staff_id": req.locals.staff_id },
           { "service_provider.staff_id": req.locals.staff_id },
         ],
-      }).select({ _id: 0, __v: 0,  date: 0 });
+      }).select({ _id: 0, __v: 0, date: 0 });
 
       return res.send({ form });
     } catch (error) {
