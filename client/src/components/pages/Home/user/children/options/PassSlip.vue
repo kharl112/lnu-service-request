@@ -22,13 +22,6 @@ export default {
             <v-list-item-content>
               <v-text-field
                 outlined
-                v-model="options.name"
-                :rules="rules"
-                dense
-                label="Name"
-              />
-              <v-text-field
-                outlined
                 v-model="options.timeout"
                 :rules="rules"
                 dense
