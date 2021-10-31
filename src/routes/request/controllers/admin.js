@@ -3,20 +3,22 @@ const requestQuery = require("../../../functions/requestQuery");
 
 const Mutations = (() => {
   const sign = async (req, res) => {
-    await Request.findByIdAndUpdate(
-      req.body.request_id,
-      {
+    try {
+      await Request.findOneAndUpdate(req.body._id, {
         "admin.signature": req.body.signature,
-      },
-      {},
-      (error) => {
-        if (error)
-          return res
-            .status(500)
-            .send({ message: "something went wrong, please try again." });
-        return res.send({ message: "signing complete" });
-      }
-    );
+        "admin.reports.status": "sent",
+        "admin.reports": {
+          ...req.body.reports,
+          date: new Date(),
+        },
+      });
+
+      return res.send({ message: "signing complete" });
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again." });
+    }
   };
 
   return { sign };
@@ -27,33 +29,31 @@ const Views = (() => {
     const admin_pending = await Request.aggregate(
       requestQuery({
         "admin.staff_id": req.locals.staff_id,
-        "user.signature": { $ne: "" },
-        "admin.signature": "",
-        save_as: 1,
+        "user.signature": { $ne: null },
+        "admin.signature": null,
+        "reports.status": "sent",
       })
     );
     return res.send(admin_pending);
   };
 
-  const signeds = async (req, res) => {
+  const signed = async (req, res) => {
     const admin_signed = await Request.aggregate(
       requestQuery({
         "admin.staff_id": req.locals.staff_id,
-        "user.signature": { $ne: "" },
-        "admin.signature": { $ne: "" },
-        status: { $ne: 2 },
-        save_as: 1,
+        "user.signature": { $ne: null },
+        "admin.signature": { $ne: null },
+        "reports.status": "sent",
       })
     );
     return res.send(admin_signed);
   };
 
-  const archiveds = async (req, res) => {
+  const archives = async (req, res) => {
     const admin_archived = await Request.aggregate(
       requestQuery({
         "admin.staff_id": req.locals.staff_id,
-        save_as: 1,
-        status: 2,
+        "reports.status": "archived",
       })
     );
 
@@ -61,14 +61,19 @@ const Views = (() => {
   };
 
   const info = async (req, res) => {
-    const { id } = req.params;
+    const { _id } = req.params;
     try {
       const form = await Request.findOne({
-        _id: id,
+        _id,
         "admin.staff_id": req.locals.staff_id,
-      }).select({ _id: 0, __v: 0, "user.staff_id": 0, date: 0 });
+      }).select({
+        _id: 0,
+        __v: 0,
+        "admin.reports": 0,
+        "service_provider.reports": 0,
+      });
 
-      return res.send({ form });
+      return res.send(form);
     } catch (error) {
       return res
         .status(500)
@@ -76,7 +81,7 @@ const Views = (() => {
     }
   };
 
-  return { pendings, signeds, archiveds, info };
+  return { pendings, signed, archives, info };
 })();
 
 module.exports = { Mutations, Views };

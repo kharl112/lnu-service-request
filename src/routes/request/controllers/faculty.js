@@ -1,6 +1,5 @@
 const validate = require("../../../validation/request_validation");
 const { nanoid } = require("nanoid");
-const Joi = require("joi");
 
 const User = require("../../../db/models/user_model");
 const Admin = require("../../../db/models/admin_model");
@@ -11,37 +10,6 @@ const { Name } = require("../../../functions/generateProfile");
 
 const Mutations = (() => {
   const create = async (req, res) => {
-    if (req.body.other_service) {
-      const schema = Joi.string().max(255);
-      const { error } = schema.validate(req.body.other_service);
-      if (error) return res.status(400).send(error.details[0]);
-
-      req.body.other_service = req.body.other_service
-        .split(" ")
-        .map((node) => Name.getFixedName(node))
-        .join(" ")
-        .trim();
-
-      const service_found = await Service.findOne({
-        type: req.body.other_service,
-      });
-
-      if (service_found) {
-        req.body.service_id = service_found._id.toString();
-      } else {
-        const new_service = new Service({
-          type: req.body.other_service,
-          component: "Default",
-          paper_size: "A4",
-          options: { persons_involved: [] },
-        });
-
-        const service = await new_service.save();
-        req.body.service_id = service._id.toString();
-      }
-      delete req.body.other_service;
-    }
-
     const { error } = validate.create(req.body);
     if (error) return res.status(400).send(error.details[0]);
 
@@ -49,6 +17,7 @@ const Mutations = (() => {
       staff_id: req.body.admin.staff_id,
       permitted: true,
     });
+
     if (!admin_found)
       return res.status(400).send({ message: "admin not found" });
 
@@ -57,6 +26,7 @@ const Mutations = (() => {
         staff_id: req.body.service_provider.staff_id,
         permitted: true,
       });
+
       if (!service_provider_found)
         return res.status(400).send({ message: "service provider not found" });
     }
@@ -89,9 +59,7 @@ const Mutations = (() => {
     try {
       await request.save();
       return res.send({
-        message: `request ${
-          req.body.save_as === 0 ? "saved as draft" : "sent"
-        }`,
+        message: `request ${req.body.reports.status}`,
       });
     } catch (error) {
       return res
@@ -104,122 +72,107 @@ const Mutations = (() => {
     const { _id } = req.params;
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
-    if (req.body.form.other_service) {
-      const schema = Joi.string().max(255);
-      const { error } = schema.validate(req.body.form.other_service);
-      if (error) return res.status(400).send(error.details[0]);
-
-      req.body.form.other_service = req.body.form.other_service
-        .split(" ")
-        .map((node) => Name.getFixedName(node))
-        .join(" ")
-        .trim();
-
-      const service_found = await Service.findOne({
-        type: req.body.form.other_service,
-      });
-
-      if (service_found) {
-        req.body.form.service_id = service_found._id.toString();
-      } else {
-        const new_service = new Service({
-          type: req.body.form.other_service,
-          component: "Default",
-          paper_size: "A4",
-          options: { persons_involved: [] },
-        });
-
-        const service = await new_service.save();
-        req.body.form.service_id = service._id.toString();
-      }
-
-      delete req.body.form.other_service;
-    }
-
     const { error } = validate.edit(req.body.form);
     if (error) return res.status(400).send(error.details[0]);
 
-    await Request.findByIdAndUpdate(_id, req.body.form, {}, (error) => {
-      if (error)
-        return res
-          .status(500)
-          .send({ message: "something went wrong, please try again" });
+    try {
+      await Request.findByIdAndUpdate(_id, req.body.form);
       return res.send({ message: "request letter updated" });
-    });
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again" });
+    }
   };
 
   const delete_drafts = async (req, res) => {
     const { error } = validate.deleteSelected(req.body);
     if (error) return res.status(400).send(error.details[0]);
 
-    await Request.find({
-      "user.staff_id": req.locals.staff_id,
-      _id: { $in: req.body.selected },
-    }).deleteMany({}, (error) => {
-      if (error)
-        return res
-          .status(500)
-          .send({ message: "something went wrong, please try again." });
+    try {
+      await Request.deleteMany({
+        "user.staff_id": req.locals.staff_id,
+        _id: { $in: req.body.delete_selected },
+      });
       return res.send({ message: "selected requests deleted" });
-    });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "something went wrong, please try again." });
+    }
   };
 
   const send = async (req, res) => {
     const { _id } = req.params;
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
-    await Request.findByIdAndUpdate(_id, { save_as: 1 }, {}, (error) => {
-      if (error)
-        return res
-          .status(500)
-          .send({ message: "something went wrong, please try again" });
+    try {
+      await Request.findByIdAndUpdate(
+        { _id, "reports.status": "created" },
+        { "reports.status": "sent" }
+      );
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again" });
+    } catch (error) {
       return res.send({ message: "request letter sent" });
-    });
+    }
   };
 
-  const mark_completed = async (req, res) => {
+  const mark_as_completed = async (req, res) => {
     const { _id } = req.params;
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
-    await Request.findOneAndUpdate(
-      {
-        _id: _id,
-        $or: [
-          { "service_provider.staff_id": req.locals.staff_id },
-          { "user.staff_id": req.locals.staff_id },
-        ],
-      },
-      { status: 1 },
-      {},
-      (error) => {
-        if (error)
-          return res
-            .status(500)
-            .send({ message: "something went wrong, please try again" });
-        return res.send({ message: "request letter marked as completed" });
-      }
-    );
+    try {
+      await Request.findOneAndUpdate(
+        {
+          _id,
+          "reports.status": "sent",
+          "admin.signature": { $ne: null },
+          $or: [
+            { "service_provider.staff_id": req.locals.staff_id },
+            { "user.staff_id": req.locals.staff_id },
+          ],
+        },
+        { "reports.status": "completed" }
+      );
+
+      return res.send({ message: "request letter marked as completed" });
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again" });
+    }
   };
 
-  const mark_archived = async (req, res) => {
+  const mark_as_archived = async (req, res) => {
     const { _id } = req.params;
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
-    await Request.findOneAndUpdate(
-      { _id: _id, "user.staff_id": req.locals.staff_id },
-      { status: 2 },
-      {},
-      (error) => {
-        if (error)
-          return res
-            .status(500)
-            .send({ message: "something went wrong, please try again" });
-        return res.send({ message: "request letter marked as completed" });
-      }
-    );
+    try {
+      await Request.findOneAndUpdate(
+        {
+          _id,
+          "reports.status": "completed",
+        },
+        { "reports.status": "archived" }
+      );
+      return res.send({ message: "request letter marked as archived" });
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again" });
+    }
   };
 
-  return { create, update, delete_drafts, send, mark_completed, mark_archived };
+  return {
+    create,
+    update,
+    delete_drafts,
+    send,
+    mark_as_completed,
+    mark_as_archived,
+  };
 })();
 
 const Views = (() => {
@@ -227,61 +180,57 @@ const Views = (() => {
     const faculty_drafts = await Request.aggregate(
       requestQuery({
         "user.staff_id": req.locals.staff_id,
-        save_as: 0,
+        "reports.status": "created",
       })
     );
     return res.send(faculty_drafts);
   };
 
-  const sents = async (req, res) => {
+  const sent = async (req, res) => {
     const faculty_sent = await Request.aggregate(
       requestQuery({
         "user.staff_id": req.locals.staff_id,
-        save_as: 1,
-        status: { $ne: 2 },
+        "reports.status": { $ne: "created" },
       })
     );
     return res.send(faculty_sent);
   };
 
   const pendings = async (req, res) => {
-    const faculty_sent = await Request.aggregate(
+    const faculty_pendings = await Request.aggregate(
       requestQuery({
         "user.staff_id": req.locals.staff_id,
-        save_as: 1,
-        status: 0,
+        "reports.status": "sent",
       })
     );
-    return res.send(faculty_sent);
+    return res.send(faculty_pendings);
   };
 
-  const completeds = async (req, res) => {
-    const faculty_sent = await Request.aggregate(
+  const completed = async (req, res) => {
+    const faculty_completed = await Request.aggregate(
       requestQuery({
         "user.staff_id": req.locals.staff_id,
-        save_as: 1,
-        status: 1,
+        "reports.status": "completed",
       })
     );
-    return res.send(faculty_sent);
+    return res.send(faculty_completed);
   };
 
-  const archiveds = async (req, res) => {
-    const faculty_sent = await Request.aggregate(
+  const archives = async (req, res) => {
+    const faculty_archives = await Request.aggregate(
       requestQuery({
         "user.staff_id": req.locals.staff_id,
-        save_as: 1,
-        status: 2,
+        "reports.status": "archived",
       })
     );
-    return res.send(faculty_sent);
+    return res.send(faculty_archives);
   };
 
   const info = async (req, res) => {
-    const { id } = req.params;
+    const { _id } = req.params;
     try {
       const form = await Request.findOne({
-        _id: id,
+        _id,
         $or: [
           { "user.staff_id": req.locals.staff_id },
           { "service_provider.staff_id": req.locals.staff_id },
@@ -289,12 +238,11 @@ const Views = (() => {
       }).select({
         _id: 0,
         __v: 0,
-        date: 0,
         "admin.reports": 0,
         "service_provider.reports": 0,
       });
 
-      return res.send({ form });
+      return res.send(form);
     } catch (error) {
       return res
         .status(500)
@@ -302,7 +250,7 @@ const Views = (() => {
     }
   };
 
-  return { drafts, sents, pendings, completeds, archiveds, info };
+  return { drafts, sent, pendings, completed, archives, info };
 })();
 
 module.exports = { Mutations, Views };

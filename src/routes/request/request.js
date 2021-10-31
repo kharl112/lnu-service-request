@@ -2,48 +2,63 @@ const route = require("express").Router();
 
 const userAuth = require("../../middlewares/userAuth");
 const adminAuth = require("../../middlewares/adminAuth");
+const createService = require("../../middlewares/createService");
+const requestUsersNotFound = require("../../middlewares/requestUsersNotFound");
 
 const Faculty = require("./controllers/faculty");
 const Admin = require("./controllers/admin");
 const Provider = require("./controllers/service_provider");
 const Track = require("./controllers/track");
 
-route.post("/create", userAuth, Faculty.Mutations.create);
 route.post(
-  "/faculty/draft/delete/selected",
+  "/create",
+  userAuth,
+  createService,
+  requestUsersNotFound,
+  Faculty.Mutations.create
+);
+route.post(
+  "/faculty/delete/selected",
   userAuth,
   Faculty.Mutations.delete_drafts
 );
-route.post("/faculty/update/letter=:_id", userAuth, Faculty.Mutations.update);
+route.post(
+  "/faculty/update/:_id",
+  userAuth,
+  createService,
+  requestUsersNotFound,
+  Faculty.Mutations.update
+);
 route.post("/faculty/send/letter=:_id", userAuth, Faculty.Mutations.send);
 route.post(
-  "/mark/complete/letter=:_id",
+  "/mark/as/completed/:_id",
   userAuth,
-  Faculty.Mutations.mark_completed
+  Faculty.Mutations.mark_as_completed
 );
 route.post(
-  "/mark/archive/letter=:_id",
+  "/mark/as/archived/:_id",
   userAuth,
-  Faculty.Mutations.mark_archived
+  Faculty.Mutations.mark_as_archived
 );
 
-route.get("/faculty/draft", userAuth, Faculty.Views.drafts);
-route.get("/faculty/sent/all", userAuth, Faculty.Views.sents);
-route.get("/faculty/sent/pending", userAuth, Faculty.Views.pendings);
-route.get("/faculty/sent/completed", userAuth, Faculty.Views.completeds);
-route.get("/faculty/sent/archived", userAuth, Faculty.Views.archiveds);
-route.get("/faculty/letter=:id", userAuth, Faculty.Views.info);
+route.get("/faculty/drafts", userAuth, Faculty.Views.drafts);
+route.get("/faculty/all", userAuth, Faculty.Views.sent);
+route.get("/faculty/pendings", userAuth, Faculty.Views.pendings);
+route.get("/faculty/completed", userAuth, Faculty.Views.completed);
+route.get("/faculty/archives", userAuth, Faculty.Views.archives);
+route.get("/faculty/info/:_id", userAuth, Faculty.Views.info);
 
 route.post("/provider/sign", userAuth, Provider.Mutations.sign);
+
 route.get("/provider/pending", userAuth, Provider.Views.pendings);
-route.get("/provider/signed", userAuth, Provider.Views.signeds);
+route.get("/provider/signed", userAuth, Provider.Views.signed);
 
 route.post("/admin/sign", adminAuth, Admin.Mutations.sign);
 
 route.get("/admin/pending", adminAuth, Admin.Views.pendings);
-route.get("/admin/signed", adminAuth, Admin.Views.signeds);
-route.get("/admin/sent/archived", adminAuth, Admin.Views.archiveds);
-route.get("/admin/letter=:id", adminAuth, Admin.Views.info);
+route.get("/admin/signed", adminAuth, Admin.Views.signed);
+route.get("/admin/archives", adminAuth, Admin.Views.archives);
+route.get("/admin/info/:_id", adminAuth, Admin.Views.info);
 
 route.get("/track/:_id", Track.Views.track);
 
