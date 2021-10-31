@@ -11,8 +11,6 @@ const { Name } = require("../../../functions/generateProfile");
 
 const Mutations = (() => {
   const create = async (req, res) => {
-    req.body.status = 0;
-
     if (req.body.other_service) {
       const schema = Joi.string().max(255);
       const { error } = schema.validate(req.body.other_service);
@@ -41,7 +39,6 @@ const Mutations = (() => {
         const service = await new_service.save();
         req.body.service_id = service._id.toString();
       }
-
       delete req.body.other_service;
     }
 
@@ -68,6 +65,25 @@ const Mutations = (() => {
       _id: nanoid(9),
       ...req.body,
       user: { staff_id: req.locals.staff_id, ...req.body.user },
+      service_provider: {
+        ...req.body.service_provider,
+        signature: null,
+        reports: { date: null, remarks: null },
+      },
+      admin: {
+        ...req.body.admin,
+        signature: null,
+        reports: { date: null, remarks: null },
+      },
+      reports: {
+        ...req.body.reports,
+        dates: {
+          created: new Date(),
+          sent: null,
+          completed: null,
+          archived: null,
+        },
+      },
     });
 
     try {
@@ -120,10 +136,8 @@ const Mutations = (() => {
       delete req.body.form.other_service;
     }
 
-    const { error } = validate.create(req.body.form);
+    const { error } = validate.edit(req.body.form);
     if (error) return res.status(400).send(error.details[0]);
-
-    req.body.form.user.staff_id = req.locals.staff_id;
 
     await Request.findByIdAndUpdate(_id, req.body.form, {}, (error) => {
       if (error)
@@ -137,8 +151,6 @@ const Mutations = (() => {
   const delete_drafts = async (req, res) => {
     const { error } = validate.deleteSelected(req.body);
     if (error) return res.status(400).send(error.details[0]);
-
-    delete req.body.status;
 
     await Request.find({
       "user.staff_id": req.locals.staff_id,
@@ -274,7 +286,13 @@ const Views = (() => {
           { "user.staff_id": req.locals.staff_id },
           { "service_provider.staff_id": req.locals.staff_id },
         ],
-      }).select({ _id: 0, __v: 0, date: 0 });
+      }).select({
+        _id: 0,
+        __v: 0,
+        date: 0,
+        "admin.reports": 0,
+        "service_provider.reports": 0,
+      });
 
       return res.send({ form });
     } catch (error) {

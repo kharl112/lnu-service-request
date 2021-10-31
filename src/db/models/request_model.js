@@ -30,10 +30,26 @@ const Request = new mongoose.Schema({
     staff_id: {
       type: String,
       required: false,
+      default: null,
     },
     signature: {
       type: String,
       required: false,
+      default: null,
+    },
+    reports: {
+      type: Object,
+      required: true,
+      date: {
+        type: Date,
+        required: false,
+        default: null,
+      },
+      remarks: {
+        type: String,
+        required: false,
+        default: null,
+      },
     },
   },
   admin: {
@@ -46,6 +62,21 @@ const Request = new mongoose.Schema({
     signature: {
       type: String,
       required: false,
+      default: null,
+    },
+    reports: {
+      type: Object,
+      required: true,
+      date: {
+        type: Date,
+        required: false,
+        default: null,
+      },
+      remarks: {
+        type: String,
+        required: false,
+        default: null,
+      },
     },
   },
   user: {
@@ -53,29 +84,45 @@ const Request = new mongoose.Schema({
     required: true,
     staff_id: {
       type: String,
-      required: false,
+      required: true,
     },
     signature: {
       type: String,
       required: true,
     },
   },
-  date: {
-    type: Date,
-    default: new Date(),
+  reports: {
+    type: Object,
     required: true,
-  },
-  save_as: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 1,
-  },
-  status: {
-    type: Number,
-    required: true,
-    min: 0,
-    max: 2,
+    status: {
+      type: String,
+      required: true,
+      default: "created",
+    },
+    dates: {
+      type: Object,
+      required: true,
+      created: {
+        type: Date,
+        required: false,
+        default: Date.now,
+      },
+      sent: {
+        type: Date,
+        required: false,
+        default: null,
+      },
+      completed: {
+        type: Date,
+        required: false,
+        default: null,
+      },
+      archived: {
+        type: Date,
+        required: false,
+        default: null,
+      },
+    },
   },
 });
 
