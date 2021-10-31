@@ -62,7 +62,7 @@ const edit = (body) => {
 };
 const deleteSelected = (body) => {
   const schema = Joi.object({
-    selected: Joi.array().min(1).required(),
+    delete_selected: Joi.array().min(1).required(),
   }).required();
   return schema.validate(body);
 };
