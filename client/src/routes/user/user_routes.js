@@ -34,33 +34,30 @@ export const user_routes = {
     { path: "archives", component: FacultyArchives },
     { path: "error/404", component: NotFound },
     {
-      path: "view/:user_type/:id",
+      path: "view/:user_type/:_id",
       component: ViewRequest,
       beforeEnter: async (to, from, next) => {
-        if (
-          ["user", "provider"].filter(
-            (user_type) => to.params.user_type === user_type
-          )[0]
-        ) {
-          await store.dispatch("request/viewRequest", {
-            id: to.params.id,
+        const { user_type, _id } = to.params;
+        if (["user", "provider"].filter((user) => user_type === user)[0]) {
+          await store.dispatch("request/Info", {
+            _id,
             user_type: "faculty",
           });
-          if (store.getters["request/getLetterInfo"]) {
+          if (store.getters["request/getInfo"]) {
             next();
           } else next("/faculty/home/error/404");
         } else next("/faculty/home/error/404");
       },
     },
     {
-      path: "edit/letter=:id",
+      path: "edit/:_id",
       component: Edit,
       beforeEnter: async (to, from, next) => {
-        await store.dispatch("request/viewRequest", {
-          id: to.params.id,
+        await store.dispatch("request/Info", {
+          _id: to.params._id,
           user_type: "faculty",
         });
-        if (store.getters["request/getLetterInfo"]) {
+        if (store.getters["request/getInfo"]) {
           next();
         } else next("/faculty/home/error/404");
       },
