@@ -76,7 +76,7 @@ const Mutations = (() => {
     if (error) return res.status(400).send(error.details[0]);
 
     try {
-      await Request.findByIdAndUpdate(_id, req.body.form);
+      await Request.findByIdAndUpdate(_id, req.body);
       return res.send({ message: "request letter updated" });
     } catch (error) {
       return res

@@ -29,7 +29,7 @@ route.post(
   requestUsersNotFound,
   Faculty.Mutations.update
 );
-route.post("/faculty/send/letter=:_id", userAuth, Faculty.Mutations.send);
+route.post("/faculty/send/:_id", userAuth, Faculty.Mutations.send);
 route.post(
   "/mark/as/completed/:_id",
   userAuth,
@@ -42,7 +42,7 @@ route.post(
 );
 
 route.get("/faculty/drafts", userAuth, Faculty.Views.drafts);
-route.get("/faculty/all", userAuth, Faculty.Views.sent);
+route.get("/faculty/sent", userAuth, Faculty.Views.sent);
 route.get("/faculty/pendings", userAuth, Faculty.Views.pendings);
 route.get("/faculty/completed", userAuth, Faculty.Views.completed);
 route.get("/faculty/archives", userAuth, Faculty.Views.archives);
