@@ -65,7 +65,7 @@ export default {
           >
             <template v-slot:item.reports.dates.created="{ item }">
               <v-chip small color="primary" class="text-center text-caption">
-                {{ getTimeOrDate(item.date.reports.dates.created) }}
+                {{ getTimeOrDate(item.reports.dates.created) }}
               </v-chip>
             </template>
           </v-data-table>

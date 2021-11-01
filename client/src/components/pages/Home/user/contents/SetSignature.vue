@@ -11,6 +11,7 @@ export default {
     svgSketch,
   },
   data: () => ({
+    remarks: null,
     signature: {
       disabled: false,
       size: 1,
@@ -54,7 +55,7 @@ export default {
 </script>
 <template>
   <v-overlay :value="data.shown" :z-index="100">
-    <v-card class="pa-4" light outlined>
+    <v-card class="pa-4" max-width="400" light outlined>
       <v-row dense no-gutters justify="start" justify-sm="center">
         <v-col cols="12">
           <v-row justify="end">
@@ -75,6 +76,14 @@ export default {
             :disabled="signature.disabled"
             :size="signature.size"
             :color="signature.color"
+          />
+        </v-col>
+        <v-col cols="12" class="ma-1" v-if="!handleSetSignature">
+          <v-textarea
+            rows="2"
+            v-model="remarks"
+            outlined
+            label="Remarks (optional)"
           />
         </v-col>
         <v-col cols="12" class="pa-0">

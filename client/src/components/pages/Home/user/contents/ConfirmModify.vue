@@ -7,9 +7,9 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      await this.$store.dispatch("request/markRequest", {
-        request_id: this.$route.params.id,
-        type: this.data.type,
+      await this.$store.dispatch("request/Mark", {
+        _id: this.$route.params._id,
+        mark_type: this.data.type,
       });
       this.hideAndSeekModify();
     },

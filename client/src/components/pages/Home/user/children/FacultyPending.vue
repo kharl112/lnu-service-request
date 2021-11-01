@@ -72,7 +72,7 @@ export default {
             :search="table.search"
             class="elevation-0"
           >
-            <template v-slot:item.reports.dates.status="{ item }">
+            <template v-slot:item.reports.dates.created="{ item }">
               <v-chip
                 small
                 color="primary"
@@ -91,7 +91,7 @@ export default {
                   }`
                 "
               >
-                {{ item.reports.status }}
+                {{ item.reports.status.toUpperCase() }}
               </small>
             </template>
           </v-data-table>

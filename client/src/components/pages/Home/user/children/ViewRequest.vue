@@ -349,7 +349,9 @@ export default {
               </v-col>
               <v-col
                 class="py-1"
-                v-if="req_info.reports.status === 0 && getSignatureLevel === 3"
+                v-if="
+                  req_info.reports.status === 'sent' && getSignatureLevel === 3
+                "
               >
                 <span
                   @click="hideAndSeekModify('complete')"
@@ -360,7 +362,7 @@ export default {
               </v-col>
               <v-col
                 class="py-1"
-                v-if="req_info.reports.status === 1 && isUser"
+                v-if="req_info.reports.status === 'completed' && isUser"
               >
                 <span
                   @click="hideAndSeekModify('archive')"
