@@ -2,20 +2,20 @@ const form = {
   subject: "",
   service_id: "",
   body: "",
-  options: {},
   user: {
-    signature: "",
+    signature: null,
   },
   admin: {
-    staff_id: "",
-    signature: "",
+    staff_id: null,
   },
   service_provider: {
-    staff_id: "",
-    signature: "",
+    staff_id: null,
   },
-  save_as: 0,
   other_service: "",
+  options: {},
+  reports: {
+    status: "created",
+  },
 };
 
 export default form;

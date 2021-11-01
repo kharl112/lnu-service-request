@@ -37,10 +37,13 @@ export default {
           .innerHTML.toString()
           .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
 
-        this.$store.dispatch("request/signRequest", {
-          request_id: this.$route.params.id,
-          signature,
-          type: "provider",
+        this.$store.dispatch("request/Sign", {
+          _id: this.$route.params._id,
+          form: {
+            signature,
+            remarks: this.remarks,
+          },
+          user_type: "provider",
         });
 
         this.hideAndSeekSignature();

@@ -38,7 +38,7 @@ export default {
       return this.$store.getters["service/getAllServices"];
     },
     getComposeLoading() {
-      return this.$store.getters["request/getLoading"].compose;
+      return this.$store.getters["request/getLoading"].create;
     },
     isLoading() {
       const { getters } = this.$store;
@@ -74,7 +74,6 @@ export default {
       this.form.options = selectedOption
         ? selectedOption.options
         : { persons_involved: [] };
-      localStorage.setItem("compose", JSON.stringify(this.form));
     },
     handleSetSignature(signatureId) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
@@ -82,20 +81,20 @@ export default {
         .toString()
         .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
     },
-    handleSubmit(save_as) {
+    handleSubmit(status) {
       (e) => {
         e.preventDefault();
       };
-      this.form.save_as = save_as;
       localStorage.removeItem("compose");
-      if (!this.form.other_service) delete this.form.other_service;
+      this.form.reports.status = status || "created";
+      if (this.form.service_id) delete this.form.other_service;
       if (this.$refs.form.validate()) {
         if (!this.form.user.signature)
           return this.$store.dispatch(
             "message/errorMessage",
             "You must sign this document to proceed"
           );
-        this.$store.dispatch("request/createRequest", this.form);
+        this.$store.dispatch("request/Create", this.form);
       }
     },
     handleSetLocalStorage() {
@@ -297,7 +296,7 @@ export default {
                             :disabled="getComposeLoading"
                             color="warning"
                             type="submit"
-                            @click="handleSubmit(0)"
+                            @click="handleSubmit()"
                             rounded
                             outlined
                             block
@@ -314,7 +313,7 @@ export default {
                             :disabled="getComposeLoading"
                             color="primary"
                             type="button"
-                            @click="handleSubmit(1)"
+                            @click="handleSubmit('sent')"
                             rounded
                             outlined
                             block

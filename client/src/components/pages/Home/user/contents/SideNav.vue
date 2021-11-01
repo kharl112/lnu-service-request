@@ -10,12 +10,12 @@ export default {
       {
         title: "Drafts",
         icon: "mdi-email-edit",
-        getter: "Draft",
+        getter: "Drafts",
       },
       {
         title: "Sent",
         icon: "mdi-send-check",
-        getter: "Send",
+        getter: "Sent",
       },
       { title: "Archives", icon: "mdi-archive" },
     ],
@@ -23,7 +23,7 @@ export default {
       {
         title: "Pending",
         icon: "mdi-email-receive",
-        getter: "Pending",
+        getter: "Pendings",
       },
       {
         title: "Signed",
@@ -142,7 +142,7 @@ export default {
             dot
             v-if="
               child.getter &&
-                $store.getters[`request/getAll${child.getter}`].length
+                $store.getters[`request/get${child.getter}`].length
             "
           />
         </v-list-item>
@@ -164,7 +164,7 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
-            v-if="$store.getters[`request/getAll${child.getter}`].length"
+            v-if="$store.getters[`request/get${child.getter}`].length"
             color="primary"
             dot
           />

@@ -17,13 +17,13 @@ const tableOptions = {
       text: "Date Created",
       align: "center",
       sortable: true,
-      value: "date",
+      value: "reports.dates.created",
     },
     {
       text: "Status",
       align: "center",
-      sortable: false,
-      value: "status",
+      sortable: true,
+      value: "reports.status",
     },
   ],
 };

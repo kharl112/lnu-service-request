@@ -6,17 +6,13 @@ export default {
   name: "FacultySigned",
   data: () => ({
     table: tableOptions,
-    colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
-    getLoading() {
+    loading() {
       return this.$store.getters["request/getLoading"];
     },
-    getAllSigned() {
-      return this.$store.getters["request/getAllSigned"];
-    },
-    getPDFLoading() {
-      return this.$store.getters["pdf/getLoading"];
+    signed() {
+      return this.$store.getters["request/getSigned"];
     },
   },
   methods: {
@@ -32,9 +28,12 @@ export default {
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
     },
+    goToView(item) {
+      this.$router.push(`/faculty/home/view/provider/${item._id}`);
+    },
   },
   created() {
-    return this.$store.dispatch("request/allSigned", "provider");
+    return this.$store.dispatch("request/Signed", "provider");
   },
 };
 </script>
@@ -49,7 +48,7 @@ export default {
                 Signed Requests
               </span>
             </v-col>
-            <v-col cols="12" sm="6" md="7" v-if="getAllSigned[0]">
+            <v-col cols="12" sm="6" md="7" v-if="signed[0]">
               <v-text-field
                 v-model="table.search"
                 append-icon="mdi-magnify"
@@ -62,44 +61,43 @@ export default {
           </v-row>
           <v-divider />
         </v-container>
-        <v-container fluid v-if="getAllSigned[0] && !getLoading.all_signed">
+        <v-container fluid v-if="signed[0] && !loading.signed">
           <v-data-table
-            @click:row="
-              (item) => $router.push(`/faculty/home/view/provider/${item._id}`)
-            "
+            @click:row="goToView"
             :headers="table.headers"
-            :items="getAllSigned"
+            :items="signed"
             :items-per-page="5"
             :search="table.search"
             class="elevation-0"
           >
-            <template v-slot:item.date="{ item }">
+            <template v-slot:item.reports.dates.created="{ item }">
               <v-chip
                 small
                 color="primary"
                 class="pa-0 pr-2 pl-2 text-center text-caption"
               >
-                {{ getTimeOrDate(item.date) }}
+                {{ getTimeOrDate(item.reports.dates.created) }}
               </v-chip>
             </template>
-            <template v-slot:item.status="{ item }">
+            <template v-slot:item.reports.status="{ item }">
               <small
                 :class="
-                  `${item.status === 0 ? 'primary--text' : 'success--text'}`
+                  `${
+                    item.reports.status === 'completed'
+                      ? 'success--text'
+                      : 'primary--text'
+                  }`
                 "
               >
-                {{ item.status === 0 ? "Pending" : "Completed" }}
+                {{ item.reports.status }}
               </small>
             </template>
           </v-data-table>
         </v-container>
-        <v-container fluid v-else-if="getLoading.all_signed">
+        <v-container fluid v-else-if="loading.signed">
           <v-skeleton-loader type="table" />
         </v-container>
-        <v-container
-          fluid
-          v-else-if="!getAllSigned[0] && !getLoading.all_signed"
-        >
+        <v-container fluid v-else-if="!signed[0] && !loading.signed">
           <v-row justify="start">
             <v-col cols="12">
               <v-banner single-line>

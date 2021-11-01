@@ -2,8 +2,8 @@
 export default {
   name: "Header",
   computed: {
-    getSelected() {
-      return this.$store.getters["request/getSelected"];
+    getDeleteSelected() {
+      return this.$store.getters["request/getDeleteSelected"];
     },
     getLoading() {
       return this.$store.getters["request/getLoading"];
@@ -35,7 +35,7 @@ export default {
   },
   methods: {
     handleDeleteSelected() {
-      return this.$store.dispatch("request/deleteSelected");
+      return this.$store.dispatch("request/DeleteSelected");
     },
     handleRefresh() {
       return location.reload();
@@ -100,7 +100,7 @@ export default {
               @click="handleDeleteSelected"
               icon
               color="error"
-              :disabled="!getSelected[0] && !getLoading.selected"
+              :disabled="!getDeleteSelected[0] && !getLoading.delete_selected"
               class="mr-3"
             >
               <v-badge
@@ -108,7 +108,7 @@ export default {
                 offset-x="-18"
                 offset-y="-10"
                 dot
-                v-if="getSelected[0]"
+                v-if="getDeleteSelected[0]"
               />
               <v-icon size="25">mdi-trash-can</v-icon>
             </v-btn>

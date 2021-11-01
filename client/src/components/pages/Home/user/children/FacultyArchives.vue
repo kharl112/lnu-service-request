@@ -3,6 +3,7 @@ import { formatDistanceToNow } from "date-fns";
 export default {
   name: "FacultyArchives",
   data: () => ({
+    show: false,
     table: {
       headers: [
         {
@@ -21,20 +22,17 @@ export default {
           text: "Date Created",
           align: "left",
           sortable: true,
-          value: "date",
+          value: "reports.dates.created",
         },
       ],
     },
   }),
   computed: {
-    getLoading() {
+    loading() {
       return this.$store.getters["request/getLoading"];
     },
-    getAllArchives() {
-      return this.$store.getters["request/getAllSend"];
-    },
-    getPDFLoading() {
-      return this.$store.getters["pdf/getLoading"];
+    archives() {
+      return this.$store.getters["request/getArchives"];
     },
   },
   methods: {
@@ -44,12 +42,12 @@ export default {
         includeSeconds: true,
       }).replace("about ", "");
     },
+    goToView(item) {
+      this.$router.push(`/faculty/home/view/user/${item._id}`);
+    },
   },
   created() {
-    this.$store.dispatch("request/allSend", {
-      filter: "archived",
-      type: "faculty",
-    });
+    this.$store.dispatch("request/Archives", "faculty");
   },
 };
 </script>
@@ -57,30 +55,25 @@ export default {
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8" class="pa-0">
-        <v-container fluid v-if="getAllArchives[0] && !getLoading.all_send">
+        <v-container fluid v-if="archives[0] && !loading.archives">
           <v-data-table
-            @click:row="
-              (item) => $router.push(`/faculty/home/view/user/${item._id}`)
-            "
+            @click:row="goToView"
             :headers="table.headers"
-            :items="getAllArchives"
+            :items="archives"
             :items-per-page="5"
             class="elevation-0"
           >
-            <template v-slot:item.date="{ item }">
+            <template v-slot:item.reports.dates.created="{ item }">
               <v-chip small color="primary" class="text-center text-caption">
-                {{ getTimeOrDate(item.date) }}
+                {{ getTimeOrDate(item.date.reports.dates.created) }}
               </v-chip>
             </template>
           </v-data-table>
         </v-container>
-        <v-container fluid v-else-if="getLoading.all_send">
+        <v-container fluid v-else-if="loading.archives">
           <v-skeleton-loader type="table" />
         </v-container>
-        <v-container
-          fluid
-          v-else-if="!getAllArchives[0] && !getLoading.all_send"
-        >
+        <v-container fluid v-else-if="!archives[0] && !loading.archives">
           <v-row justify="start">
             <v-col cols="12">
               <v-banner single-line>
@@ -117,9 +110,9 @@ export default {
                   </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn icon @click="show = !show">
-                    <v-icon>{{
-                      show ? "mdi-chevron-up" : "mdi-chevron-down"
-                    }}</v-icon>
+                    <v-icon>
+                      {{ show ? "mdi-chevron-up" : "mdi-chevron-down" }}
+                    </v-icon>
                   </v-btn>
                 </v-card-actions>
 
