@@ -7,13 +7,13 @@ export default {
   data: () => ({
     dialog: false,
     items: [
-      { title: "Pending", icon: "mdi-email-alert", getter: "Pending" },
+      { title: "Pending", icon: "mdi-email-alert", getter: "Pendings" },
       { title: "Signed", icon: "mdi-email-edit", getter: "Signed" },
       { title: "Archives", icon: "mdi-archive" },
     ],
   }),
   computed: {
-    getAdminProfile() {
+    adminProfile() {
       return this.$store.getters["admin/getProfile"];
     },
     getAdminFullName() {
@@ -23,7 +23,7 @@ export default {
         middle_initial,
         prefix,
         suffixes,
-      } = this.getAdminProfile.name;
+      } = this.adminProfile.name;
       return `${
         prefix ? prefix + "." : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
@@ -31,7 +31,7 @@ export default {
       }`;
     },
     getAdminInitials() {
-      const { firstname, lastname } = this.getAdminProfile.name;
+      const { firstname, lastname } = this.adminProfile.name;
       return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
     },
     route: {
@@ -82,7 +82,7 @@ export default {
         <v-list-item-content>
           <v-list-item-title>{{ getAdminFullName }}</v-list-item-title>
           <v-list-item-subtitle>{{
-            this.getAdminProfile.email
+            this.adminProfile.email
           }}</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -109,7 +109,7 @@ export default {
             color="primary"
             v-if="
               child.getter &&
-                $store.getters[`request/getAll${child.getter}`].length
+                $store.getters[`request/get${child.getter}`].length
             "
           />
         </v-list-item>

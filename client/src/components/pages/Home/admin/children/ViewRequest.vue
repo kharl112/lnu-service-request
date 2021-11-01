@@ -26,17 +26,17 @@ export default {
       return mobile.matches;
     },
     req_info() {
-      return this.$store.getters["request/getLetterInfo"];
+      return this.$store.getters["request/getInfo"];
     },
-    getPDFLoading() {
+    pdfLoading() {
       return this.$store.getters["pdf/getLoading"];
     },
-    getBlobURL() {
+    blobUrl() {
       return this.$store.getters["pdf/getBlobURL"];
     },
     getSignatureLevel() {
       const { admin, service_provider } = this.$store.getters[
-        "request/getLetterInfo"
+        "request/getInfo"
       ];
       let level = 1;
       if (admin.signature) level++;
@@ -91,14 +91,14 @@ export default {
     downloadPDF() {
       return this.$store.dispatch("pdf/generatePDF", {
         user_type: "admin",
-        id: this.$route.params.id,
+        id: this.$route.params._id,
       });
     },
   },
   mounted() {
     this.$store.dispatch("pdf/previewPDF", {
       user_type: "admin",
-      id: this.$route.params.id,
+      id: this.$route.params._id,
     });
 
     if (this.isMobile) this.doc_view.shown = false;
@@ -117,7 +117,7 @@ export default {
             small
             @click="hideAndSeekDoc"
             class="hidden-sm-and-up"
-            v-if="!getPDFLoading.preview && getBlobURL"
+            v-if="!pdfLoading.preview && blobUrl"
           >
             <v-icon left>
               {{ doc_view.shown ? "mdi-eye-off" : "mdi-eye" }}
@@ -126,8 +126,8 @@ export default {
           </v-btn>
           <v-col cols="12" v-if="doc_view.shown">
             <pdf
-              v-if="!getPDFLoading.preview && getBlobURL"
-              :src="getBlobURL"
+              v-if="!pdfLoading.preview && blobUrl"
+              :src="blobUrl"
               class="pdf-mod"
               :page="doc_view.currentPage"
               @num-pages="doc_view.pageCount = $event"
@@ -139,7 +139,7 @@ export default {
               v-else
             />
             <v-pagination
-              v-if="!getPDFLoading.preview && getBlobURL"
+              v-if="!pdfLoading.preview && blobUrl"
               v-model="doc_view.currentPage"
               :length="doc_view.pageCount"
             />
@@ -156,16 +156,16 @@ export default {
               Request Information
             </v-subheader>
             <v-row justify="start">
-              <v-col cols="12" class="py-1">
+              <v-col cols="12" sm="6" class="py-1">
                 <span class="caption">
                   Status:
-                  {{
-                    req_info.status === 0
-                      ? "Pending"
-                      : req_info.status === 1
-                      ? "Completed"
-                      : "Archived"
-                  }}
+                  {{ req_info.reports.status }}
+                </span>
+              </v-col>
+              <v-col cols="12" sm="6" class="py-1">
+                <span class="caption">
+                  Date created:
+                  {{ getDate(req_info.reports.dates.created) }}
                 </span>
               </v-col>
               <v-col cols="12" class="py-1">
@@ -287,7 +287,7 @@ export default {
               </v-col>
               <v-col class="py-1">
                 <span
-                  v-if="!getPDFLoading.download"
+                  v-if="!pdfLoading.download"
                   @click="downloadPDF"
                   class="caption text-no-wrap clickable-text primary--text"
                 >
@@ -302,7 +302,7 @@ export default {
               </v-col>
               <v-col class="py-1">
                 <router-link
-                  :to="`/track/${$route.params.id}`"
+                  :to="`/track/${$route.params._id}`"
                   class="caption text-no-wrap clickable-text primary--text"
                 >
                   Track Request
@@ -310,7 +310,9 @@ export default {
               </v-col>
               <v-col
                 class="py-1"
-                v-if="req_info.status !== 2 && getSignatureLevel >= 2"
+                v-if="
+                  req_info.reports.status === 'sent' && getSignatureLevel >= 2
+                "
               >
                 <span
                   @click="hideAndSeekUpload"

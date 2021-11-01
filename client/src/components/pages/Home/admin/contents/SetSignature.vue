@@ -11,6 +11,7 @@ export default {
     svgSketch,
   },
   data: () => ({
+    remarks: null,
     signature: {
       disabled: false,
       size: 1,
@@ -18,7 +19,6 @@ export default {
       json: "",
     },
   }),
-  computed: {},
   methods: {
     revert() {
       this.$refs.sketch.revert();
@@ -37,10 +37,10 @@ export default {
           .innerHTML.toString()
           .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
 
-        this.$store.dispatch("request/signRequest", {
-          request_id: this.$route.params.id,
-          signature,
-          type: "admin",
+        this.$store.dispatch("request/Sign", {
+          _id: this.$route.params._id,
+          form: { signature, remarks: this.remarks },
+          user_type: "admin",
         });
 
         this.hideAndSeekSignature();
@@ -51,7 +51,7 @@ export default {
 </script>
 <template>
   <v-overlay :value="data.shown" :z-index="100">
-    <v-card class="pa-4" light outlined>
+    <v-card class="pa-4" max-width="450" light outlined>
       <v-row dense no-gutters justify="start" justify-sm="center">
         <v-col cols="12">
           <v-row justify="end">
@@ -72,6 +72,14 @@ export default {
             :disabled="signature.disabled"
             :size="signature.size"
             :color="signature.color"
+          />
+        </v-col>
+        <v-col cols="12" class="ma-1">
+          <v-textarea
+            rows="2"
+            v-model="remarks"
+            outlined
+            label="Remarks (optional)"
           />
         </v-col>
         <v-col cols="12" class="pa-0">

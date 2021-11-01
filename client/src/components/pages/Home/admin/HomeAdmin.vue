@@ -14,7 +14,7 @@ export default {
     timeout: 2000,
   }),
   computed: {
-    getAdminProfile() {
+    adminProfile() {
       return this.$store.getters["admin/getProfile"];
     },
     getSuccess() {
@@ -44,7 +44,7 @@ export default {
 </script>
 <template>
   <v-container fluid class="home-container">
-    <v-row no-gutters dense class="home-row1" v-if="getAdminProfile">
+    <v-row no-gutters dense class="home-row1" v-if="adminProfile">
       <SideNav :showLogout="showLogout" />
       <v-col class="home-col1">
         <v-container fluid class="home-container2">

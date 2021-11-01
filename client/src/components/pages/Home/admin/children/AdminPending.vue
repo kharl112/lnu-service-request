@@ -9,14 +9,14 @@ export default {
     colors: ["primary", "warning", "error", "success"],
   }),
   computed: {
-    getLoading() {
+    loading() {
       return this.$store.getters["request/getLoading"];
     },
     getProfileLoading() {
       return this.$store.getters["admin/getLoading"].profile;
     },
-    getAllPending() {
-      return this.$store.getters["request/getAllPending"];
+    pendings() {
+      return this.$store.getters["request/getPendings"];
     },
   },
   methods: {
@@ -31,9 +31,12 @@ export default {
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
     },
+    goToView(item) {
+      this.$router.push(`/admin/home/view/${item._id}`);
+    },
   },
   created() {
-    return this.$store.dispatch("request/allPending", "admin");
+    return this.$store.dispatch("request/Pendings", "admin");
   },
 };
 </script>
@@ -46,7 +49,7 @@ export default {
             <v-col cols="12" sm="6" md="4">
               <span class="h4 primary--text"> Pending Requests </span>
             </v-col>
-            <v-col cols="12" sm="6" md="7" v-if="getAllPending[0]">
+            <v-col cols="12" sm="6" md="7" v-if="pendings[0]">
               <v-text-field
                 v-model="table.search"
                 append-icon="mdi-magnify"
@@ -59,42 +62,43 @@ export default {
           </v-row>
           <v-divider />
         </v-container>
-        <v-container fluid v-if="getAllPending[0] && !getLoading.all_pending">
+        <v-container fluid v-if="pendings[0] && !loading.pendings">
           <v-data-table
-            @click:row="(item) => $router.push(`/admin/home/view/${item._id}`)"
+            @click:row="goToView"
             :headers="table.headers"
-            :items="getAllPending"
+            :items="pendings"
             :items-per-page="5"
             :search="table.search"
             class="elevation-0"
           >
-            <template v-slot:item.date="{ item }">
+            <template v-slot:item.reports.dates.created="{ item }">
               <v-chip
                 small
                 color="primary"
                 class="pa-0 pr-2 pl-2 text-center text-caption"
               >
-                {{ getTimeOrDate(item.date) }}
+                {{ getTimeOrDate(item.reports.dates.created) }}
               </v-chip>
             </template>
-            <template v-slot:item.status="{ item }">
+            <template v-slot:item.reports.status="{ item }">
               <small
                 :class="
-                  `${item.status === 0 ? 'primary--text' : 'success--text'}`
+                  `${
+                    item.reports.status === 'completed'
+                      ? 'success--text'
+                      : 'primary--text'
+                  }`
                 "
               >
-                {{ item.status === 0 ? "Pending" : "Completed" }}
+                {{ item.reports.status.toUpperCase() }}
               </small>
             </template>
           </v-data-table>
         </v-container>
-        <v-container fluid v-else-if="getLoading.all_pending">
+        <v-container fluid v-else-if="loading.pendings">
           <v-skeleton-loader type="table" />
         </v-container>
-        <v-container
-          fluid
-          v-else-if="!getAllPending[0] && !getLoading.all_pending"
-        >
+        <v-container fluid v-else-if="!pendings[0] && !loading.pendings">
           <v-row justify="start">
             <v-col cols="12">
               <v-banner single-line>

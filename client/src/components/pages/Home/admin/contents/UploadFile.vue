@@ -23,7 +23,7 @@ export default {
         await this.$store.dispatch("gdrive/UploadFile", {
           form_ref: this.$refs.form,
           file: this.file,
-          request_id: this.$route.params.id,
+          request_id: this.$route.params._id,
           user_type: "admin",
         });
       this.file = null;
