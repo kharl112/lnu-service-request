@@ -4,7 +4,7 @@ import tableOptions from "./tableOptions";
 export default {
   name: "Sent",
   data: () => ({
-    table: tableOptions,
+    table: tableOptions("reports.dates.sent", "Date Sent"),
   }),
   computed: {
     loading() {
@@ -67,26 +67,26 @@ export default {
             :items-per-page="5"
             class="elevation-0"
           >
-            <template v-slot:item.reports.dates.created="{ item }">
+            <template v-slot:item.reports.dates.sent="{ item }">
               <v-chip
                 small
                 color="primary"
                 class="pa-0 pr-2 pl-2 text-center text-caption"
               >
-                {{ getTimeOrDate(item.reports.dates.created) }}
+                {{ getTimeOrDate(item.reports.dates.sent) }}
               </v-chip>
             </template>
             <template v-slot:item.reports.status="{ item }">
               <small
                 :class="
-                  `${
+                  `text-capitalize ${
                     item.reports.status === 'completed'
                       ? 'success--text'
                       : 'primary--text'
                   }`
                 "
               >
-                {{ item.reports.status.toUpperCase() }}
+                {{ item.reports.status }}
               </small>
             </template>
           </v-data-table>

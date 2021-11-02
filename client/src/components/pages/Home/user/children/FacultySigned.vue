@@ -5,7 +5,7 @@ import tableOptions from "./tableOptions";
 export default {
   name: "FacultySigned",
   data: () => ({
-    table: tableOptions,
+    table: tableOptions("service_provider.reports.date", "Date Signed"),
   }),
   computed: {
     loading() {
@@ -70,19 +70,19 @@ export default {
             :search="table.search"
             class="elevation-0"
           >
-            <template v-slot:item.reports.dates.created="{ item }">
+            <template v-slot:item.service_provider.reports.date="{ item }">
               <v-chip
                 small
                 color="primary"
                 class="pa-0 pr-2 pl-2 text-center text-caption"
               >
-                {{ getTimeOrDate(item.reports.dates.created) }}
+                {{ getTimeOrDate(item.service_provider.reports.date) }}
               </v-chip>
             </template>
             <template v-slot:item.reports.status="{ item }">
               <small
                 :class="
-                  `${
+                  `text-capitalize ${
                     item.reports.status === 'completed'
                       ? 'success--text'
                       : 'primary--text'

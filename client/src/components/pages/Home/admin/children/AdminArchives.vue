@@ -25,10 +25,10 @@ export default {
           value: "service[0].type",
         },
         {
-          text: "Date Created",
+          text: "Date Archived",
           align: "left",
           sortable: true,
-          value: "reports.dates.created",
+          value: "reports.dates.archived",
         },
       ],
     },
@@ -76,9 +76,9 @@ export default {
             :items-per-page="5"
             class="elevation-0"
           >
-            <template v-slot:item.date="{ item }">
+            <template v-slot:item.reports.dates.archived="{ item }">
               <v-chip small color="primary" class="text-center text-caption">
-                {{ getTimeOrDate(item.date) }}
+                {{ getTimeOrDate(item.reports.dates.archived) }}
               </v-chip>
             </template>
             <template v-slot:item.service_provider.profile[0]="{ item }">

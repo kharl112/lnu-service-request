@@ -157,7 +157,7 @@ export default {
             </v-subheader>
             <v-row justify="start">
               <v-col cols="12" sm="6" class="py-1">
-                <span class="caption">
+                <span class="caption text-capitalize">
                   Status:
                   {{ req_info.reports.status }}
                 </span>
@@ -311,7 +311,7 @@ export default {
               <v-col
                 class="py-1"
                 v-if="
-                  req_info.reports.status === 'sent' && getSignatureLevel >= 2
+                  req_info.reports.status !== 'archived' && getSignatureLevel >= 2
                 "
               >
                 <span

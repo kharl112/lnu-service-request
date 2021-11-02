@@ -34,9 +34,9 @@ const gdrive = {
         });
         commit("setLoading", { type: "upload", loading: false });
         dispatch(
-          "request/viewRequest",
+          "request/Info",
           {
-            id: request_id,
+            _id: request_id,
             user_type: user_type === "user" ? "faculty" : user_type,
           },
           { root: true }

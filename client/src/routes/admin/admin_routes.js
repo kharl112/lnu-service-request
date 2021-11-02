@@ -22,15 +22,15 @@ export const admin_routes = {
     { path: "archives", component: AdminArchives },
     { path: "error/404", component: NotFound },
     {
-      path: "view/:id",
+      path: "view/:_id",
       component: ViewRequest,
       beforeEnter: async (to, from, next) => {
-        await store.dispatch("request/viewRequest", {
-          id: to.params.id,
+        await store.dispatch("request/Info", {
+          _id: to.params._id,
           user_type: "admin",
         });
 
-        if (store.getters["request/getLetterInfo"]) {
+        if (store.getters["request/getInfo"]) {
           next();
         } else next("/admin/home/error/404");
       },

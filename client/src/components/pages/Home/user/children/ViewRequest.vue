@@ -188,9 +188,9 @@ export default {
             </v-subheader>
             <v-row justify="start">
               <v-col cols="12" sm="6" class="py-1">
-                <span class="caption">
+                <span class="caption text-capitalize">
                   Status:
-                  {{ req_info.reports.status.toUpperCase() }}
+                  {{ req_info.reports.status }}
                 </span>
               </v-col>
               <v-col cols="12" sm="6" class="py-1">
@@ -333,13 +333,13 @@ export default {
               </v-col>
               <v-col class="py-1">
                 <router-link
-                  :to="`/track/${$route.params.id}`"
+                  :to="`/track/${$route.params._id}`"
                   class="caption text-no-wrap clickable-text primary--text"
                 >
                   Track Request
                 </router-link>
               </v-col>
-              <v-col class="py-1" v-if="req_info.reports.status !== 2">
+              <v-col class="py-1" v-if="req_info.reports.status !== 'archived'">
                 <span
                   @click="hideAndSeekUpload"
                   class="caption text-no-wrap clickable-text primary--text"

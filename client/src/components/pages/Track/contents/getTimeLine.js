@@ -1,31 +1,41 @@
 module.exports = (request) => {
-  const { user, service_provider, admin, status } = request;
+  const { user, service_provider, admin } = request;
   const timeline = [user, admin, service_provider]
-    .map(({ profile, department, signature, staff_id }) =>
-      staff_id
+    .map((node) =>
+      node.staff_id
         ? {
-            name: profile[0].name,
-            status: signature || false,
-            description: department || "Chief Administration Officer",
+            name: node.profile[0].name,
+            status: node.signature || false,
+            description: node.department || "Chief Administration Officer",
+            reports: node.reports || { date: request.reports.dates.created },
           }
         : null
     )
     .filter((node) => node);
 
-  const createObj = (name, status, description) => ({
+  const createObj = (name, status, reports) => ({
     name,
     status,
-    description,
+    reports,
   });
 
   return [
-    createObj("Created", true, "Request was created sent"),
+    createObj("This request created.", true, {
+      date: request.reports.dates.created,
+    }),
+    createObj("This request was sent.", !!request.reports.dates.sent, {
+      date: request.reports.dates.sent,
+    }),
     ...timeline,
-    createObj("Rendered", status >= 1, "Request was rendered"),
     createObj(
-      "Archived",
-      status === 2,
-      "Request was archived by the requester"
+      "This request was completed.",
+      !!request.reports.dates.completed,
+      {
+        date: request.reports.dates.completed,
+      }
     ),
+    createObj("This request was archived", !!request.reports.dates.archived, {
+      date: request.reports.dates.archived,
+    }),
   ];
 };

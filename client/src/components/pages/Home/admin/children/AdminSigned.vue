@@ -4,8 +4,7 @@ import tableOptions from "./tableOptions";
 export default {
   name: "AdminSigned",
   data: () => ({
-    table: tableOptions,
-    colors: ["primary", "warning", "error", "success"],
+    table: tableOptions("admin.reports.date", "Date Signed"),
   }),
   computed: {
     loading() {
@@ -68,13 +67,13 @@ export default {
             :search="table.search"
             class="elevation-0"
           >
-            <template v-slot:item.reports.dates.created="{ item }">
+            <template v-slot:item.admin.reports.date="{ item }">
               <v-chip
                 small
                 color="primary"
                 class="pa-0 pr-2 pl-2 text-center text-caption"
               >
-                {{ getTimeOrDate(item.reports.dates.created) }}
+                {{ getTimeOrDate(item.admin.reports.date) }}
               </v-chip>
             </template>
             <template v-slot:item.reports.status="{ item }">

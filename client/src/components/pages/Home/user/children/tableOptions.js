@@ -1,4 +1,4 @@
-const tableOptions = {
+const tableOptions = (value, text) => ({
   search: "",
   headers: [
     {
@@ -14,10 +14,10 @@ const tableOptions = {
       value: "service[0].type",
     },
     {
-      text: "Date Created",
+      text,
       align: "center",
       sortable: true,
-      value: "reports.dates.created",
+      value,
     },
     {
       text: "Status",
@@ -26,6 +26,6 @@ const tableOptions = {
       value: "reports.status",
     },
   ],
-};
+});
 
 export default tableOptions;

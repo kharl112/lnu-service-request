@@ -1,5 +1,5 @@
 import axios from "axios";
-import { router } from "../../../main";
+import { router } from "../../main";
 
 const request = {
   namespaced: true,
@@ -48,7 +48,7 @@ const request = {
     setTracked: (state, tracked) => (state.tracked = tracked),
     setInfo: (state, info) => (state.info = info),
     setDeleteSelected: (state, delete_selected) =>
-      (state.selected = delete_selected),
+      (state.delete_selected = delete_selected),
     setLoading: (state, { loading, type }) => (state.loading[type] = loading),
   },
   actions: {
@@ -71,7 +71,9 @@ const request = {
           root: true,
         });
         router.push(
-          form.save_as === 0 ? "/faculty/home/drafts" : "/faculty/home/sent"
+          form.reports.status === "created"
+            ? "/faculty/home/drafts"
+            : "/faculty/home/sent"
         );
       } catch (error) {
         const { message } = error.response.data || error;
@@ -120,7 +122,7 @@ const request = {
     Sent: async ({ commit, dispatch, state }) => {
       if (!state.sent[0]) commit("setLoading", { loading: true, type: "sent" });
       try {
-        const { data } = await axios.get("/api/request/sent/", {
+        const { data } = await axios.get("/api/request/faculty/sent", {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "sent" });
@@ -161,11 +163,11 @@ const request = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
-    Signed: async ({ commit, dispatch, state }, type) => {
+    Signed: async ({ commit, dispatch, state }, user_type) => {
       if (!state.signed[0])
         commit("setLoading", { loading: true, type: "signed" });
       try {
-        const { data } = await axios.get(`/api/request/${type}/signed`, {
+        const { data } = await axios.get(`/api/request/${user_type}/signed`, {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "signed" });
@@ -239,17 +241,14 @@ const request = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
-    Sign: async (
-      { commit, dispatch },
-      { _id, signature, reports },
-      user_type
-    ) => {
+    Sign: async ({ commit, dispatch }, { _id, form, user_type }) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "sign" });
       try {
+        const { signature, remarks } = form;
         await axios.post(
           `/api/request/${user_type}/sign`,
-          { _id, signature, reports },
+          { _id, signature, remarks },
           {
             headers: { Authorization: localStorage.getItem("Authorization") },
           }
@@ -272,7 +271,7 @@ const request = {
       commit("setLoading", { loading: true, type: "mark" });
       try {
         await axios.post(
-          `/api/request/mark/as/${mark_type}/${_id}`,
+          `/api/request/faculty/mark/as/${mark_type}/${_id}`,
           {},
           {
             headers: { Authorization: localStorage.getItem("Authorization") },
@@ -286,7 +285,7 @@ const request = {
             root: true,
           }
         );
-        dispatch("Info", { _id }, "faculty");
+        dispatch("Info", { _id, user_type: "faculty" });
         commit("setLoading", { loading: false, type: "mark" });
       } catch (error) {
         const { message } = error.response.data || error;
@@ -296,7 +295,6 @@ const request = {
     },
     Info: async ({ commit, dispatch }, { _id, user_type }) => {
       try {
-        console.log(_id, user_type);
         commit("setLoading", { loading: true, type: "info" });
         const { data } = await axios.get(
           `/api/request/${user_type}/info/${_id}`,
