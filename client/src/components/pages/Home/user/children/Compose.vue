@@ -111,6 +111,9 @@ export default {
     this.$store.dispatch("admin/allAdmin");
     this.$store.dispatch("service/allServices");
   },
+  unmounted() {
+    this.form.user.signature = "";
+  },
 };
 </script>
 <template>
@@ -255,9 +258,7 @@ export default {
                                 elevation="0"
                               >
                                 Your signature
-                                <v-icon right>
-                                  mdi-signature
-                                </v-icon>
+                                <v-icon right> mdi-signature </v-icon>
                               </v-btn>
                             </v-col>
                           </v-row>
@@ -280,7 +281,12 @@ export default {
                         <v-subheader class="px-0">
                           Save As
                           <v-subheader
-                            class="caption font-weight-bold py-0 hidden-sm-and-down"
+                            class="
+                              caption
+                              font-weight-bold
+                              py-0
+                              hidden-sm-and-down
+                            "
                           >
                             (This will set to draft as a default)
                           </v-subheader>
@@ -303,9 +309,7 @@ export default {
                             elevation="0"
                           >
                             draft
-                            <v-icon right>
-                              mdi-paperclip
-                            </v-icon>
+                            <v-icon right> mdi-paperclip </v-icon>
                           </v-btn>
                         </v-col>
                         <v-col cols="12" sm="12" md="6">
@@ -320,9 +324,7 @@ export default {
                             elevation="0"
                           >
                             send
-                            <v-icon right>
-                              mdi-send
-                            </v-icon>
+                            <v-icon right> mdi-send </v-icon>
                           </v-btn>
                         </v-col>
                       </v-row>
