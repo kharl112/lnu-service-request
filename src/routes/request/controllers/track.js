@@ -11,11 +11,14 @@ const Views = (() => {
         requestQuery({
           _id,
           "user.signature": { $ne: "" },
-          save_as: 1,
+          "reports.status": { $ne: "created" },
         })
       );
 
-      const { user, service_provider, admin, service, status } =
+      if (!tracked_request)
+        return res.status(404).send({ message: "Request not found" });
+
+      const { user, service_provider, admin, service, reports } =
         tracked_request;
 
       if (service_provider.staff_id) {
@@ -25,8 +28,9 @@ const Views = (() => {
       user.signature = user.signature ? true : false;
       admin.signature = admin.signature ? true : false;
 
-      return res.send({ user, service_provider, admin, service, status });
+      return res.send({ user, service_provider, admin, service, reports });
     } catch (error) {
+      console.log(error);
       return res
         .status(500)
         .send({ message: "something went wrong, please try again." });

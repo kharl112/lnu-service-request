@@ -31,12 +31,12 @@ route.post(
 );
 route.post("/faculty/send/:_id", userAuth, Faculty.Mutations.send);
 route.post(
-  "/mark/as/completed/:_id",
+  "/faculty/mark/as/complete/:_id",
   userAuth,
   Faculty.Mutations.mark_as_completed
 );
 route.post(
-  "/mark/as/archived/:_id",
+  "/faculty/mark/as/archive/:_id",
   userAuth,
   Faculty.Mutations.mark_as_archived
 );
@@ -50,12 +50,12 @@ route.get("/faculty/info/:_id", userAuth, Faculty.Views.info);
 
 route.post("/provider/sign", userAuth, Provider.Mutations.sign);
 
-route.get("/provider/pending", userAuth, Provider.Views.pendings);
+route.get("/provider/pendings", userAuth, Provider.Views.pendings);
 route.get("/provider/signed", userAuth, Provider.Views.signed);
 
 route.post("/admin/sign", adminAuth, Admin.Mutations.sign);
 
-route.get("/admin/pending", adminAuth, Admin.Views.pendings);
+route.get("/admin/pendings", adminAuth, Admin.Views.pendings);
 route.get("/admin/signed", adminAuth, Admin.Views.signed);
 route.get("/admin/archives", adminAuth, Admin.Views.archives);
 route.get("/admin/info/:_id", adminAuth, Admin.Views.info);

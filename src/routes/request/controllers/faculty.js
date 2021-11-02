@@ -49,7 +49,7 @@ const Mutations = (() => {
         ...req.body.reports,
         dates: {
           created: new Date(),
-          sent: null,
+          sent: req.body.reports.status === "sent" ? new Date() : null,
           completed: null,
           archived: null,
         },
@@ -76,7 +76,14 @@ const Mutations = (() => {
     if (error) return res.status(400).send(error.details[0]);
 
     try {
-      await Request.findByIdAndUpdate(_id, req.body);
+      await Request.findOneAndUpdate(
+        { _id, "reports.status": "created" },
+        {
+          ...req.body,
+          "reports.dates.sent":
+            req.body.reports.status === "sent" ? new Date() : null,
+        }
+      );
       return res.send({ message: "request letter updated" });
     } catch (error) {
       return res
@@ -107,15 +114,15 @@ const Mutations = (() => {
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
     try {
-      await Request.findByIdAndUpdate(
+      await Request.findOneAndUpdate(
         { _id, "reports.status": "created" },
-        { "reports.status": "sent" }
+        { "reports.status": "sent", "reports.dates.sent": new Date() }
       );
+      return res.send({ message: "request letter sent" });
+    } catch (error) {
       return res
         .status(500)
         .send({ message: "something went wrong, please try again" });
-    } catch (error) {
-      return res.send({ message: "request letter sent" });
     }
   };
 
@@ -134,7 +141,7 @@ const Mutations = (() => {
             { "user.staff_id": req.locals.staff_id },
           ],
         },
-        { "reports.status": "completed" }
+        { "reports.status": "completed", "reports.dates.completed": new Date() }
       );
 
       return res.send({ message: "request letter marked as completed" });
@@ -155,7 +162,7 @@ const Mutations = (() => {
           _id,
           "reports.status": "completed",
         },
-        { "reports.status": "archived" }
+        { "reports.status": "archived", "reports.dates.archived": new Date() }
       );
       return res.send({ message: "request letter marked as archived" });
     } catch (error) {
@@ -191,6 +198,7 @@ const Views = (() => {
       requestQuery({
         "user.staff_id": req.locals.staff_id,
         "reports.status": { $ne: "created" },
+        "reports.status": { $ne: "archived" },
       })
     );
     return res.send(faculty_sent);

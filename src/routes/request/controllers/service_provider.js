@@ -5,12 +5,15 @@ const Mutations = (() => {
   const sign = async (req, res) => {
     try {
       await Request.findOneAndUpdate(
-        { _id: req.body._id, "admin.signature": { $ne: null } },
+        {
+          _id: req.body._id,
+          "reports.status": "sent",
+          "admin.signature": { $ne: null },
+        },
         {
           "service_provider.signature": req.body.signature,
-          "service_provider.reports.status": "sent",
           "service_provider.reports": {
-            ...req.body.reports,
+            remarks: req.body.remarks,
             date: new Date(),
           },
         }
@@ -32,8 +35,9 @@ const Views = (() => {
     const service_provider_pending = await Request.aggregate(
       requestQuery({
         "service_provider.staff_id": req.locals.staff_id,
+        "admin.signature": { $ne: null },
         "service_provider.signature": null,
-        "reports.status": { $ne: "created" },
+        "reports.status": "sent",
       })
     );
     return res.send(service_provider_pending);

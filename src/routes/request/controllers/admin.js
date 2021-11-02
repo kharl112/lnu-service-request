@@ -4,14 +4,20 @@ const requestQuery = require("../../../functions/requestQuery");
 const Mutations = (() => {
   const sign = async (req, res) => {
     try {
-      await Request.findOneAndUpdate(req.body._id, {
-        "admin.signature": req.body.signature,
-        "admin.reports.status": "sent",
-        "admin.reports": {
-          ...req.body.reports,
-          date: new Date(),
+      await Request.findOneAndUpdate(
+        {
+          _id: req.body._id,
+          "reports.status": "sent",
+          "admin.staff_id": req.locals.staff_id,
         },
-      });
+        {
+          "admin.signature": req.body.signature,
+          "admin.reports": {
+            remarks: req.body.remarks,
+            date: new Date(),
+          },
+        }
+      );
 
       return res.send({ message: "signing complete" });
     } catch (error) {
@@ -50,14 +56,14 @@ const Views = (() => {
   };
 
   const archives = async (req, res) => {
-    const admin_archived = await Request.aggregate(
+    const admin_archives = await Request.aggregate(
       requestQuery({
         "admin.staff_id": req.locals.staff_id,
         "reports.status": "archived",
       })
     );
 
-    return res.send(admin_archived);
+    return res.send(admin_archives);
   };
 
   const info = async (req, res) => {
