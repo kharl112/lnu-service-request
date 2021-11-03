@@ -259,7 +259,7 @@ const request = {
         });
 
         commit("setLoading", { loading: false, type: "sign" });
-        dispatch("Pendings", user_type);
+        dispatch("Info", { _id, user_type });
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "sign" });
