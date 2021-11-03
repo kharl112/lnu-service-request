@@ -40,10 +40,7 @@ export default {
 
         this.$store.dispatch("request/Sign", {
           _id: this.$route.params._id,
-          form: {
-            signature,
-            remarks: this.remarks,
-          },
+          form: { signature, remarks: this.remarks },
           user_type: "provider",
         });
 

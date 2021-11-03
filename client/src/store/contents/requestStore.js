@@ -259,7 +259,10 @@ const request = {
         });
 
         commit("setLoading", { loading: false, type: "sign" });
-        dispatch("Info", { _id, user_type });
+        dispatch("Info", {
+          _id,
+          user_type: user_type === "provider" ? "faculty" : user_type,
+        });
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "sign" });

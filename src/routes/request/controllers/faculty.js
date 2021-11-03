@@ -75,17 +75,31 @@ const Mutations = (() => {
     const { error } = validate.edit(req.body.form);
     if (error) return res.status(400).send(error.details[0]);
 
+    const isSent = req.body.reports.status === "sent";
+    delete req.body.reports;
+
     try {
       await Request.findOneAndUpdate(
         { _id, "reports.status": "created" },
         {
           ...req.body,
-          "reports.dates.sent":
-            req.body.reports.status === "sent" ? new Date() : null,
+          service_provider: {
+            ...req.body.service_provider,
+            signature: null,
+            reports: { date: null, remarks: null },
+          },
+          admin: {
+            ...req.body.admin,
+            signature: null,
+            reports: { date: null, remarks: null },
+          },
+          "reports.status": isSent ? "sent" : "created",
+          "reports.dates.sent": isSent ? new Date() : null,
         }
       );
       return res.send({ message: "request letter updated" });
     } catch (error) {
+      console.log(error);
       return res
         .status(500)
         .send({ message: "something went wrong, please try again" });
