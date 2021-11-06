@@ -37,7 +37,7 @@ const faculty = {
     setAllUsers: (state, all_users) => (state.all_users = [...all_users]),
   },
   actions: {
-    userLogin: async ({ commit, dispatch }, form) => {
+    Login: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
       dispatch("request/defaultState", null, { root: true });
       commit("setProfile", null);

@@ -31,7 +31,7 @@ const admin = {
     setAllAdmin: (state, all_admins) => (state.all_admins = [...all_admins]),
   },
   actions: {
-    adminLogin: async ({ commit, dispatch }, form) => {
+    Login: async ({ commit, dispatch }, form) => {
       dispatch("message/defaultState", null, { root: true });
       dispatch("request/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "login" });

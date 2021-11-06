@@ -7,6 +7,7 @@ export default {
     return {
       show: false,
       deferredPrompt: null,
+      user: "faculty",
       selections: [
         { value: "admin", text: "Chief Administration Officer" },
         { value: "faculty", text: "Employee/Faculty/Personnel" },
@@ -28,14 +29,14 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate()) {
-        return this.userType === "faculty"
-          ? this.$store.dispatch("faculty/userLogin", this.form)
-          : this.$store.dispatch("admin/adminLogin", this.form);
+        return this.user === "faculty"
+          ? this.$store.dispatch("faculty/Login", this.form)
+          : this.$store.dispatch("admin/Login", this.form);
       }
     },
     gotoRegister(e) {
       e.preventDefault();
-      return this.$router.push(`/${this.userType}/register/step=1`);
+      return this.$router.push(`/register/step=1`);
     },
     async install() {
       if (this.deferredPrompt) this.deferredPrompt.prompt();
@@ -45,19 +46,11 @@ export default {
     },
   },
   computed: {
-    userType: {
-      get() {
-        return this.$route.params.user_type;
-      },
-      set(user_type) {
-        return (this.$route.params.user_type = user_type);
-      },
-    },
     getError() {
       return this.$store.getters["message/getError"];
     },
     getLoading() {
-      return this.userType === "faculty"
+      return this.user === "faculty"
         ? this.$store.getters["faculty/getLoading"]
         : this.$store.getters["admin/getLoading"];
     },
@@ -86,7 +79,7 @@ export default {
       class="pt-6 pa-sm-0"
     >
       <v-col sm="2" md="3" class="d-none d-sm-flex pa-0 ma-0">
-        <LeftBg1 v-if="userType === 'faculty'" />
+        <LeftBg1 v-if="user === 'faculty'" />
         <LeftBg2 v-else />
       </v-col>
       <v-col cols="12" sm="7" md="5" lg="4" id="login-col2">
@@ -104,9 +97,11 @@ export default {
             <v-row>
               <v-col cols="12">
                 <h3
-                  :class="`text-h5 text-sm-h4 text-center ${
-                    $vuetify.theme.dark ? 'primary--text' : ''
-                  }`"
+                  :class="
+                    `text-h5 text-sm-h4 text-center ${
+                      $vuetify.theme.dark ? 'primary--text' : ''
+                    }`
+                  "
                 >
                   Sign In to LNUSR
                 </h3>
@@ -114,31 +109,35 @@ export default {
               <v-col cols="12" class="pa-2"><v-divider /></v-col>
               <v-col cols="12" class="pa-2 pb-0">
                 <h4
-                  v-if="userType === 'faculty'"
-                  :class="` overline font-weight-bold text-center ${
-                    $vuetify.theme.dark ? 'primary--text' : ''
-                  }`"
+                  v-if="user === 'faculty'"
+                  :class="
+                    ` overline font-weight-bold text-center ${
+                      $vuetify.theme.dark ? 'primary--text' : ''
+                    }`
+                  "
                 >
                   Faculty Personnel Login
                 </h4>
                 <h4
                   v-else
-                  :class="` overline font-weight-bold text-center ${
-                    $vuetify.theme.dark ? 'warning--text' : ''
-                  }`"
+                  :class="
+                    ` overline font-weight-bold text-center ${
+                      $vuetify.theme.dark ? 'warning--text' : ''
+                    }`
+                  "
                 >
                   Chief Admin Office Login
                 </h4>
               </v-col>
               <v-col cols="12" class="pb-0">
                 <v-select
-                  @change="(e) => $router.push(`/${e}/login`)"
+                  @change="() => $store.dispatch('message/defaultState', null)"
                   outlined
                   :items="selections"
                   label="Select user type"
                   item-text="text"
                   item-value="value"
-                  v-model="userType"
+                  v-model="user"
                 />
               </v-col>
               <v-col cols="12" class="pb-5 pt-0"><v-divider /></v-col>
@@ -228,7 +227,7 @@ export default {
                     <v-container fluid class="pa-0 mt-4">
                       <router-link
                         class="body-2"
-                        :to="`/${userType}/forgot/password/step=1`"
+                        :to="`/forgot/password/step=1`"
                       >
                         Forgot your password?
                       </router-link>
