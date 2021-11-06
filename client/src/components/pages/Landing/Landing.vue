@@ -14,7 +14,7 @@ export default {
     window.addEventListener("appinstalled", () => {
       this.deferredPrompt = null;
     });
-    return this.$router.replace("/faculty/login");
+    this.$router.replace("/login");
   },
   methods: {
     async install() {

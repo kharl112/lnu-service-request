@@ -8,10 +8,9 @@ export const landing_routes = {
       !!localStorage.getItem("Authorization") &&
       !!localStorage.getItem("UserType")
     ) {
-      return localStorage.getItem("UserType") === "admin"
+      localStorage.getItem("UserType") === "admin"
         ? next("/admin/home/pending")
         : next("/faculty/home/drafts");
-    }
-    next();
+    } else next();
   },
 };

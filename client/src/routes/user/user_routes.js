@@ -17,9 +17,7 @@ export const user_routes = {
   component: HomeUser,
   beforeEnter: async (to, from, next) => {
     store.dispatch("message/defaultState", null);
-    return localStorage.getItem("Authorization")
-      ? next()
-      : next("/faculty/login");
+    localStorage.getItem("Authorization") ? next() : next(false);
   },
   children: [
     { path: "drafts", component: Drafts },

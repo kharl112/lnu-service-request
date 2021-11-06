@@ -171,9 +171,7 @@ const faculty = {
         commit("setLoading", { loading: false, type: "profile" });
         commit("setProfile", null);
         dispatch("message/errorMessage", message, { root: true });
-        message === "account not permitted"
-          ? router.replace("/faculty/register/step=4")
-          : router.replace("/faculty/login");
+        router.replace("/login");
       }
     },
     allUsers: async ({ commit, dispatch }, { type }) => {

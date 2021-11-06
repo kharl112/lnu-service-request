@@ -5,16 +5,11 @@ export default {
     logout: Boolean,
     showLogout: Function,
   },
-  computed: {
-    getUserType() {
-      return this.$route.fullPath.split("/")[1];
-    },
-  },
   methods: {
     handleLogout() {
       localStorage.removeItem("Authorization");
       localStorage.removeItem("compose");
-      return this.$router.replace(`/${this.getUserType}/login`);
+      return this.$router.replace(`/login`);
     },
   },
 };
