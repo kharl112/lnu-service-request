@@ -56,9 +56,12 @@ export default {
       e.preventDefault();
       this.deferredPrompt = e;
     });
+
     window.addEventListener("appinstalled", () => {
       this.deferredPrompt = null;
     });
+
+    this.$store.dispatch("message/defaultState", null);
   },
 };
 </script>

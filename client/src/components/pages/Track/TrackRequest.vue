@@ -14,7 +14,7 @@ export default {
     timeout: 3000,
   }),
   computed: {
-    trackLoading() {
+    trackedLoading() {
       return this.$store.getters["request/getLoading"].tracked_request;
     },
     success() {
@@ -48,7 +48,7 @@ export default {
   methods: {
     handleSubmit(e) {
       if (e) e.preventDefault();
-      if (this.track_id) {
+      if (this.track_id || this.track_id !== "none") {
         return this.$store.dispatch("request/Track", this.track_id);
       }
     },
@@ -137,7 +137,7 @@ export default {
                   prepend-inner-icon="mdi-content-copy"
                   @click:append="handleSubmit"
                   @click:prepend-inner="copyTrackId"
-                  :loading="trackLoading"
+                  :loading="trackedLoading"
                   dense
                   outlined
                   id="track_id"
@@ -160,7 +160,7 @@ export default {
         sm="8"
         md="7"
         align="center"
-        v-if="tracked.user && !trackLoading"
+        v-if="tracked.user && !trackedLoading"
       >
         <v-card
           outlined
@@ -260,9 +260,11 @@ export default {
           </v-row>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="8" md="7" align="center" v-else>
+      <v-col cols="12" sm="8" md="7" align="center" v-else-if="trackedLoading">
         <v-card min-width="250" max-width="600" outlined>
-          <v-skeleton-loader type="card-heading, card-heading, article, article" />
+          <v-skeleton-loader
+            type="card-heading, card-heading, article, article"
+          />
         </v-card>
       </v-col>
       <v-col cols="12" sm="8" md="7" align="center">
@@ -286,22 +288,6 @@ export default {
                 <router-link to="/" class="caption primary--text ma-2">
                   <v-icon color="primary">mdi-home</v-icon>
                   Home
-                </router-link>
-
-                <router-link
-                  to="/admin/login"
-                  class="caption primary--text ma-2"
-                >
-                  <v-icon color="primary">mdi-account</v-icon>
-                  Chief Admin Office
-                </router-link>
-
-                <router-link
-                  to="/faculty/login"
-                  class="caption primary--text ma-2 text-center"
-                >
-                  <v-icon color="primary">mdi-account-supervisor</v-icon>
-                  Employee & Service Provider
                 </router-link>
               </v-row>
             </v-col>
