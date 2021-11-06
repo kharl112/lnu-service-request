@@ -19,9 +19,6 @@ export default {
     getLoading() {
       return this.$store.getters["token/getLoading"];
     },
-    getUserType() {
-      return this.$route.params.user_type;
-    },
   },
   methods: {
     handleSubmit(e) {
@@ -29,17 +26,17 @@ export default {
       if (this.$refs.form.validate())
         return this.$store.dispatch("token/claimToken", {
           token: this.token,
-          userType: this.getUserType,
+          userType: this.form.user,
         });
     },
     handleResendCode() {
       return this.$store.dispatch("token/resendToken", {
-        userType: this.getUserType,
+        userType: this.form.user,
       });
     },
     handleGoBack() {
       localStorage.removeItem("Authorization");
-      return this.$router.replace(`/${this.getUserType}/login`);
+      return this.$router.replace("/login");
     },
   },
 };

@@ -7,13 +7,8 @@ import Step4 from "../../components/pages/Register/contents/Step4";
 import store from "../../store/store";
 
 export const register_routes = {
-  path: "/:user_type/register",
+  path: "/register",
   component: Register,
-  beforeEnter: (to, from, next) => {
-    store.dispatch("message/defaultState", null);
-    const { user_type } = to.params;
-    user_type === "faculty" || user_type === "admin" ? next() : next(false);
-  },
   children: [
     { path: "step=1", component: Step1 },
     {
@@ -22,7 +17,7 @@ export const register_routes = {
       beforeEnter: (to, from, next) => {
         store.getters["faculty/getEmail"] || store.getters["admin/getEmail"]
           ? next()
-          : next(`/${to.params.user_type}/register/step=1`);
+          : next(`/register/step=1`);
       },
     },
     {
@@ -31,7 +26,7 @@ export const register_routes = {
       beforeEnter: (to, from, next) => {
         store.getters["faculty/getEmail"] || store.getters["admin/getEmail"]
           ? next()
-          : next(`/${to.params.user_type}/register/step=1`);
+          : next(`/register/step=1`);
       },
     },
     {
@@ -40,7 +35,7 @@ export const register_routes = {
       beforeEnter: (to, from, next) => {
         localStorage.getItem("Authorization")
           ? next()
-          : next(`/${to.params.user_type}/register/step=1`);
+          : next(`/register/step=1`);
       },
     },
   ],

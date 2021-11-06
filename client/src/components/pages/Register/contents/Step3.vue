@@ -19,14 +19,11 @@ export default {
     };
   },
   computed: {
-    getUserType() {
-      return this.$route.params.user_type;
-    },
     getError() {
       return this.$store.getters["message/getError"];
     },
     getLoading() {
-      return this.$store.getters[`${this.getUserType}/getLoading`];
+      return this.$store.getters[`${this.form.user}/getLoading`];
     },
     getAllUnits() {
       return this.$store.getters["unit/getAllUnits"];
@@ -43,14 +40,14 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate()) {
-        return this.getUserType === "faculty"
+        return this.form.user === "faculty"
           ? this.$store.dispatch(`faculty/userRegister`, this.form)
           : this.$store.dispatch(`admin/adminRegister`, this.form);
       }
     },
   },
   created() {
-    if (this.getUserType === "faculty") {
+    if (this.form.user === "faculty") {
       this.$store.dispatch("unit/allUnits");
       this.$store.dispatch("role/allRoles");
     }
@@ -75,7 +72,7 @@ export default {
         outlined
       />
       <v-autocomplete
-        v-if="getUserType === 'faculty'"
+        v-if="form.user === 'faculty'"
         :disabled="getLoading.register"
         class="input"
         label="Unit/Department"
@@ -88,7 +85,7 @@ export default {
         outlined
       />
       <v-autocomplete
-        v-if="getUserType === 'faculty'"
+        v-if="form.user === 'faculty'"
         :disabled="getLoading.register"
         class="input"
         label="Role/Position"

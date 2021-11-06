@@ -55,11 +55,12 @@ const admin = {
       commit("setLoading", { loading: true, type: "register" });
       try {
         delete form.department;
+        delete form.user;
         const { data } = await axios.post("/api/admin/create", form);
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        router.replace("/admin/register/step=4");
+        router.replace("/register/step=4");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
@@ -91,7 +92,7 @@ const admin = {
         const { data } = await axios.post("/api/admin/validate/email", form);
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", data.email);
-        router.replace("/admin/register/step=2");
+        router.replace("/register/step=2");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "email" });

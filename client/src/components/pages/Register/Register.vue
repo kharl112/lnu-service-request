@@ -4,6 +4,7 @@ export default {
   data: () => {
     return {
       form: {
+        user: "faculty",
         staff_id: "",
         email: "",
         password: "",
@@ -22,10 +23,7 @@ export default {
     };
   },
   computed: {
-    getUserType() {
-      return this.$route.params.user_type;
-    },
-    getStepIndex() {
+    stepIndex() {
       return this.$route.path[this.$route.path.length - 1];
     },
     getDarkmode() {
@@ -65,12 +63,12 @@ export default {
             <h5
               :class="
                 `caption pa-0 pt-2 font-weight-bold text-center text-md-left ${
-                  getUserType === 'faculty' ? 'primary--text' : 'warning--text'
+                  form.user === 'faculty' ? 'primary--text' : 'warning--text'
                 }`
               "
             >
               {{
-                getUserType === "faculty"
+                form.user === "faculty"
                   ? "Faculty & Personnel Registration"
                   : "Chief Admin Office Registration"
               }}
@@ -84,19 +82,19 @@ export default {
         <v-row justify="space-between" class="footer-row">
           <router-link
             class="subtitle-2"
-            v-show="getStepIndex !== '1' && getStepIndex !== '4'"
-            :to="`/${this.getUserType}/register/step=${getStepIndex - 1}`"
+            v-show="stepIndex !== '1' && stepIndex !== '4'"
+            :to="`/register/step=${stepIndex - 1}`"
           >
             Go back
           </router-link>
           <router-link
             class="subtitle-2 primary--text"
-            v-show="getStepIndex === '1'"
-            :to="`/${getUserType}/login`"
+            v-show="stepIndex === '1'"
+            :to="`/login`"
           >
             I have an account
           </router-link>
-          <small> Step {{ getStepIndex }} of 4 of creating an account. </small>
+          <small> Step {{ stepIndex }} of 4 of creating an account. </small>
         </v-row>
       </v-col>
     </v-row>
