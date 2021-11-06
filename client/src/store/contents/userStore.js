@@ -60,7 +60,7 @@ const faculty = {
       commit("setProfile", null);
       commit("setLoading", { loading: true, type: "register" });
       try {
-        delete form.user
+        delete form.user;
         const { data } = await axios.post("/api/user/create", form);
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
@@ -83,7 +83,7 @@ const faculty = {
         dispatch("message/successMessage", "updated successfully", {
           root: true,
         });
-        dispatch("userProfile");
+        dispatch("Profile");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "update" });
@@ -159,7 +159,7 @@ const faculty = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
-    userProfile: async ({ commit, dispatch }) => {
+    Profile: async ({ commit, dispatch }) => {
       commit("setLoading", { loading: true, type: "profile" });
       try {
         const { data } = await axios.get("/api/user/profile", {

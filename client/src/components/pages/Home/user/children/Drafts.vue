@@ -51,7 +51,7 @@ export default {
 </script>
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
-    <v-row dense justify="start" v-if="!getLoading.info">
+    <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8">
         <v-container fluid v-if="drafts[0] && !getLoading.drafts">
           <v-simple-table>
@@ -222,20 +222,6 @@ export default {
             </v-container>
           </v-col>
         </v-row>
-      </v-col>
-    </v-row>
-    <v-row
-      id="spinner-container"
-      justify="center"
-      align="center"
-      v-else-if="getLoading.info"
-    >
-      <v-col cols="12" align="center">
-        <v-progress-circular
-          :size="50"
-          indeterminate
-          color="primary"
-        ></v-progress-circular>
       </v-col>
     </v-row>
   </v-container>

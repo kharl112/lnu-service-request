@@ -29,9 +29,7 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate()) {
-        return this.user === "faculty"
-          ? this.$store.dispatch("faculty/Login", this.form)
-          : this.$store.dispatch("admin/Login", this.form);
+        this.$store.dispatch(`${this.user}/Login`, this.form);
       }
     },
     gotoRegister(e) {
@@ -50,9 +48,7 @@ export default {
       return this.$store.getters["message/getError"];
     },
     getLoading() {
-      return this.user === "faculty"
-        ? this.$store.getters["faculty/getLoading"]
-        : this.$store.getters["admin/getLoading"];
+      return this.$store.getters[`${this.user}/getLoading`];
     },
   },
   created() {
@@ -148,7 +144,7 @@ export default {
               <v-row no-gutters>
                 <v-col cols="12">
                   <v-text-field
-                    :disabled="getLoading.login"
+                    :disabled="getLoading.login && getLoading.profile"
                     prepend-inner-icon="mdi-email"
                     dense
                     class="input"
@@ -165,7 +161,7 @@ export default {
                     :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
                     prepend-inner-icon="mdi-lock"
                     :type="show ? 'text' : 'password'"
-                    :disabled="getLoading.login"
+                    :disabled="getLoading.login && getLoading.profile"
                     dense
                     class="input"
                     label="Password"

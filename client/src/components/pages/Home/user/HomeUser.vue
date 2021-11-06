@@ -14,9 +14,6 @@ export default {
     timeout: 2000,
   }),
   computed: {
-    getUserProfile() {
-      return this.$store.getters["faculty/getProfile"];
-    },
     getSuccess() {
       return this.$store.getters["message/getSuccess"];
     },
@@ -37,14 +34,11 @@ export default {
       return (this.logout = !this.logout);
     },
   },
-  created() {
-    return this.$store.dispatch("faculty/userProfile");
-  },
 };
 </script>
 <template>
   <v-container fluid class="home-container">
-    <v-row no-gutters dense class="home-row1" v-if="getUserProfile">
+    <v-row no-gutters dense class="home-row1">
       <SideNav :showLogout="showLogout" />
       <v-col class="home-col1">
         <v-container fluid class="home-container2">
@@ -64,11 +58,6 @@ export default {
             </v-col>
           </v-row>
         </v-container>
-      </v-col>
-    </v-row>
-    <v-row justify="center" v-else>
-      <v-col cols="12" align="center" class="pt-16">
-        <v-progress-circular :size="50" indeterminate color="primary" />
       </v-col>
     </v-row>
     <ConfirmLogout :logout="logout" :showLogout="showLogout" />

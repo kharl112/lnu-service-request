@@ -78,7 +78,7 @@ const admin = {
         dispatch("message/successMessage", "updated successfully", {
           root: true,
         });
-        dispatch("adminProfile");
+        dispatch("Profile");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "update" });
@@ -154,7 +154,7 @@ const admin = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
-    adminProfile: async ({ commit, dispatch }) => {
+    Profile: async ({ commit, dispatch }) => {
       try {
         const { data } = await axios.get("/api/admin/profile", {
           headers: { Authorization: localStorage.getItem("Authorization") },

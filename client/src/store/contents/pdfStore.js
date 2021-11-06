@@ -1,5 +1,6 @@
 import axios from "axios";
 import fileDownload from "js-file-download";
+import { router } from "../../main";
 
 const downloadPDF = async (user_type, id) => {
   const { data } = await axios.post(
@@ -51,6 +52,8 @@ const pdf = {
         const { message } = error.response.data || error;
         commit("setLoading", { type: "download", loading: false });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
     previewPDF: async ({ commit, dispatch }, { user_type, id }) => {
@@ -65,6 +68,8 @@ const pdf = {
         const { message } = error.response.data || error;
         commit("setLoading", { type: "preview", loading: false });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
   },

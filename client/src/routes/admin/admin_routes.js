@@ -13,7 +13,12 @@ export const admin_routes = {
   component: HomeAdmin,
   beforeEnter: async (to, from, next) => {
     store.dispatch("message/defaultState", null);
-    localStorage.getItem("Authorization") ? next() : next(false);
+    if (localStorage.getItem("Authorization")) {
+      await store.dispatch("admin/Profile");
+      if (store.getters["admin/getProfile"]) {
+        next();
+      } else next(false);
+    } else next(false);
   },
   children: [
     { path: "settings", component: AdminSettings },

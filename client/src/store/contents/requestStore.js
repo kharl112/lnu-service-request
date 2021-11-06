@@ -79,6 +79,8 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "create" });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
     Edit: async ({ commit, dispatch }, form) => {
@@ -102,6 +104,8 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "edit" });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
     Drafts: async ({ commit, dispatch, state }) => {
@@ -117,10 +121,13 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "drafts" });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
     Sent: async ({ commit, dispatch, state }) => {
       if (!state.sent[0]) commit("setLoading", { loading: true, type: "sent" });
+      console.log();
       try {
         const { data } = await axios.get("/api/request/faculty/sent", {
           headers: { Authorization: localStorage.getItem("Authorization") },
@@ -131,6 +138,8 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "sent" });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
     Archives: async ({ commit, dispatch, state }, user_type) => {
@@ -146,6 +155,8 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "archives" });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
     Pendings: async ({ commit, dispatch, state }, user_type) => {
@@ -161,6 +172,8 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "pendings" });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
     Signed: async ({ commit, dispatch, state }, user_type) => {
@@ -176,6 +189,8 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "signed" });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
     Track: async ({ commit, dispatch }, _id) => {
@@ -313,6 +328,8 @@ const request = {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "info" });
         dispatch("message/errorMessage", message, { root: true });
+        const user = router.history.current.fullPath.split("/")[1];
+        dispatch(`${user}/Profile`, null, { root: true });
       }
     },
   },

@@ -11,9 +11,6 @@ export default {
     loading() {
       return this.$store.getters["request/getLoading"];
     },
-    getProfileLoading() {
-      return this.$store.getters["admin/getLoading"].profile;
-    },
     pendings() {
       return this.$store.getters["request/getPendings"];
     },
@@ -41,7 +38,7 @@ export default {
 </script>
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
-    <v-row dense justify="start" v-if="!getProfileLoading">
+    <v-row dense justify="start">
       <v-col cols="12">
         <v-container fluid>
           <v-row justify="space-between" align="start" class="pa-4">
@@ -109,16 +106,6 @@ export default {
             </v-col>
           </v-row>
         </v-container>
-      </v-col>
-    </v-row>
-    <v-row
-      id="spinner-container"
-      justify="center"
-      align="center"
-      v-else-if="getProfileLoading"
-    >
-      <v-col cols="12" align="center">
-        <v-progress-circular :size="50" indeterminate color="primary" />
       </v-col>
     </v-row>
   </v-container>
