@@ -4,6 +4,11 @@ export default {
   data: () => {
     return {
       email: "",
+      user: "faculty",
+      selections: [
+        { value: "faculty", text: "Faculty/Employee/Personnels" },
+        { value: "admin", text: "Chief Admin Officer" },
+      ],
       rules: {
         email: [
           (v) => !!v || "E-mail is required",
@@ -16,18 +21,15 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate()) {
-        return this.$store.dispatch(`${this.getUserType}/sendEmailLink`, {
+        return this.$store.dispatch(`${this.user}/sendEmailLink`, {
           email: this.email,
         });
       }
     },
   },
   computed: {
-    getUserType() {
-      return this.$route.params.user_type;
-    },
     getLoading() {
-      return this.$store.getters[`${this.getUserType}/getLoading`];
+      return this.$store.getters[`${this.user}/getLoading`];
     },
     getError() {
       return this.$store.getters["message/getError"];
@@ -57,6 +59,15 @@ export default {
           <v-subheader class="pa-0 text-left">
             Please enter your email to search for your account.
           </v-subheader>
+          <v-select
+            outlined
+            :items="selections"
+            label="Select user type"
+            item-text="text"
+            item-value="value"
+            v-model="user"
+            hide-details
+          />
           <v-text-field
             label="Type your E-mail"
             type="email"
@@ -66,7 +77,7 @@ export default {
             :disabled="getLoading.send_email_link"
             autofocus
             outlined
-            hint="Example: johndoe123@yahoo.com"
+            dense
           />
         </v-col>
         <v-col cols="12" v-if="getError" class="pa-0 pr-4 pl-4">
@@ -85,7 +96,7 @@ export default {
               text
               outlined
               :disabled="getLoading.send_email_link"
-              @click="$router.replace(`/${getUserType}/login`)"
+              @click="$router.replace('/login')"
             >
               Cancel
             </v-btn>

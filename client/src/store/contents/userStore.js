@@ -152,7 +152,7 @@ const faculty = {
         dispatch("message/successMessage", "E-mail sent", {
           root: true,
         });
-        router.replace("/faculty/forgot/password/step=2");
+        router.replace("/forgot/password/step=2");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "send_email_link" });
