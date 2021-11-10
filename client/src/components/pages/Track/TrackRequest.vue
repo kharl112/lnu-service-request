@@ -190,7 +190,7 @@ export default {
                 <v-timeline-item
                   v-for="node in fixTimeLine"
                   :key="node.staff_id"
-                  :color="node.description === fixTimeLine[0].description ? 'primary' : 'grey'"
+                  :color="node.reports.date === fixTimeLine[0].reports.date ? 'primary' : 'grey'"
                   :icon="node.status ? 'mdi-check' : 'mdi-dots-horizontal'"
                   small
                   fill-dot
