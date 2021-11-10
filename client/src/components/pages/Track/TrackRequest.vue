@@ -27,7 +27,9 @@ export default {
       return this.$store.getters["request/getTracked"];
     },
     fixTimeLine() {
-      return getTimeLine(this.$store.getters["request/getTracked"]);
+      return getTimeLine(this.$store.getters["request/getTracked"])
+        .filter(({ status }) => status)
+        .reduce((arr, node) => [node, ...arr], []);
     },
     track_id: {
       get() {
@@ -91,8 +93,7 @@ export default {
           "something went wrong"
         );
       }
-    },
-  },
+    }, },
   created() {
     if (this.track_id !== "none") {
       return this.handleSubmit(null);
@@ -189,7 +190,7 @@ export default {
                 <v-timeline-item
                   v-for="node in fixTimeLine"
                   :key="node.staff_id"
-                  :color="node.status ? 'primary' : 'grey'"
+                  :color="node.description === fixTimeLine[0].description ? 'primary' : 'grey'"
                   :icon="node.status ? 'mdi-check' : 'mdi-dots-horizontal'"
                   small
                   fill-dot
@@ -211,11 +212,15 @@ export default {
                       <v-col
                         cols="12"
                         sm="4"
-                        class="py-0 text-left text-sm-right"
+                        class="py-2 py-md-0 text-left text-sm-right"
                       >
                         <small v-if="node.reports.date">
-                          {{ getTimeOrDate(node.reports.date) }}
+                          {{ getTimeOrDate(node.reports.date).split(" ")[0] }}
                         </small>
+                        <p class="pa-0 caption" v-if="node.reports.date">
+                          {{ getTimeOrDate(node.reports.date).split(" ")[1] }}
+                        </p>
+
                       </v-col>
                     </v-row>
                   </v-container>
