@@ -49,7 +49,7 @@ module.exports = (() => {
       const new_token = await generateToken(null, new_admin.staff_id);
 
       const html = pug.renderFile(
-        path.join(__dirname + "/../../public/views/request_permission.pug"),
+        path.join(__dirname + "../../../../../public/views/request_permission.pug"),
         {
           form: {
             link: `https://lnusr.herokuapp.com/admin/login`,
