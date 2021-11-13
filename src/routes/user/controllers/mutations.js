@@ -18,6 +18,7 @@ const { Name } = require("../../../functions/generateProfile");
 module.exports = (() => {
   const create = async (req, res) => {
     const form = { ...req.body };
+    delete form.user;
     const { error } = validate.create(form);
     if (error) return res.status(400).send(error.details[0]);
 

@@ -60,7 +60,6 @@ const faculty = {
       commit("setProfile", null);
       commit("setLoading", { loading: true, type: "register" });
       try {
-        delete form.user;
         const { data } = await axios.post("/api/user/create", form);
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);

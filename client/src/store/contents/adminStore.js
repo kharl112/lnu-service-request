@@ -55,7 +55,6 @@ const admin = {
       commit("setLoading", { loading: true, type: "register" });
       try {
         delete form.department;
-        delete form.user;
         const { data } = await axios.post("/api/admin/create", form);
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
