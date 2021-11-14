@@ -15,7 +15,7 @@ module.exports = {
     appleMobileWebAppCapable: "yes",
     appleMobileWebAppStatusBarStyle: "default",
     manifestOptions: {
-      start_url: "/",
+      start_url: ".",
       display: "standalone",
     },
   },
