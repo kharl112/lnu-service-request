@@ -9,13 +9,13 @@ module.exports = {
     },
   },
   pwa: {
-    name: "LnuSR",
+    name: "LSR",
     themeColor: "#ffffff",
     msTileColor: "#ffffff",
     appleMobileWebAppCapable: "yes",
-    appleMobileWebAppStatusBarStyle: "black",
+    appleMobileWebAppStatusBarStyle: "default",
     manifestOptions: {
-      start_url: "/faculty/login",
+      start_url: "/login",
       display: "standalone",
     },
   },
