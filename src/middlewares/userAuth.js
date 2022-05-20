@@ -17,9 +17,6 @@ const userAuth = async (req, res, next) => {
     if (!user_found)
       return res.status(404).send({ message: "account not found" });
 
-    if (!user_found.permitted)
-      return res.status(400).send({ message: "account not permitted" });
-
     req.locals = user_found;
 
     next();

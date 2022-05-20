@@ -57,7 +57,9 @@ module.exports = (() => {
       const new_token = await generateToken(null, new_user.staff_id);
 
       const html = pug.renderFile(
-        path.join(__dirname + "../../../../../public/views/request_permission.pug"),
+        path.join(
+          __dirname + "../../../../../public/views/request_permission.pug"
+        ),
         {
           form: {
             link: `https://lnusr.herokuapp.com/user/login`,
@@ -133,7 +135,11 @@ module.exports = (() => {
       const token = jwt.sign({ _id: user_found._id }, process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
-      return res.send({ token });
+
+      let permitted = true;
+      if (!user_found.permitted) permitted = false;
+
+      return res.send({ token, permitted });
     } catch (error) {
       return res
         .status(500)
