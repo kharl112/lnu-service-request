@@ -7,7 +7,7 @@ import Step4 from "../../components/pages/Register/contents/Step4";
 import store from "../../store/store";
 
 export const register_routes = {
-  path: "/register",
+  path: "/register/:user_type",
   component: Register,
   children: [
     { path: "step=1", component: Step1 },
