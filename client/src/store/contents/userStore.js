@@ -47,6 +47,8 @@ const faculty = {
         commit("setLoading", { loading: false, type: "login" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
+
+        if (!data.permitted) return router.replace("/register/faculty/step=4");
         router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
@@ -64,7 +66,7 @@ const faculty = {
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
-        router.replace("/register/step=4");
+        router.replace("/register/faculty/step=4");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
@@ -96,7 +98,7 @@ const faculty = {
         const { data } = await axios.post("/api/user/validate/email", form);
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", data.email);
-        router.replace("/register/step=2");
+        router.replace("/register/faculty/step=2");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "email" });

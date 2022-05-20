@@ -41,6 +41,8 @@ const admin = {
         commit("setLoading", { loading: false, type: "login" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
+
+        if (!data.permitted) return router.replace("/register/admin/step=4");
         router.replace("/admin/home/pending");
       } catch (error) {
         const { message } = error.response.data || error;
@@ -59,7 +61,7 @@ const admin = {
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        router.replace("/register/step=4");
+        router.replace("/register/admin/step=4");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
@@ -91,7 +93,7 @@ const admin = {
         const { data } = await axios.post("/api/admin/validate/email", form);
         commit("setLoading", { loading: false, type: "email" });
         commit("setEmail", data.email);
-        router.replace("/register/step=2");
+        router.replace("/register/admin/step=2");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "email" });
