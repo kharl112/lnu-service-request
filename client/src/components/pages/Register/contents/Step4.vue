@@ -26,12 +26,12 @@ export default {
       if (this.$refs.form.validate())
         return this.$store.dispatch("token/claimToken", {
           token: this.token,
-          userType: this.form.user,
+          userType: this.$route.params.user_type,
         });
     },
     handleResendCode() {
       return this.$store.dispatch("token/resendToken", {
-        userType: this.form.user,
+        userType: this.$route.params.user_type,
       });
     },
     handleGoBack() {
