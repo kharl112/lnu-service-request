@@ -29,6 +29,9 @@ export default {
     getDarkmode() {
       return this.$vuetify.theme.dark;
     },
+    isUserFaculty() {
+      return this.$route.params.user_type === "faculty";
+    },
   },
 };
 </script>
@@ -63,12 +66,12 @@ export default {
             <h5
               :class="
                 `caption pa-0 pt-2 font-weight-bold text-center text-md-left ${
-                  form.user === 'faculty' ? 'primary--text' : 'warning--text'
+                  isUserFaculty ? 'primary--text' : 'warning--text'
                 }`
               "
             >
               {{
-                form.user === "faculty"
+                isUserFaculty
                   ? "Faculty & Personnel Registration"
                   : "Chief Admin Office Registration"
               }}
