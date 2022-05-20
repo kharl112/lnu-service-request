@@ -17,7 +17,7 @@ export const register_routes = {
       beforeEnter: (to, from, next) => {
         store.getters["faculty/getEmail"] || store.getters["admin/getEmail"]
           ? next()
-          : next(`/register/step=1`);
+          : next(`/register/${to.params.user_type}/step=1`);
       },
     },
     {
@@ -26,7 +26,7 @@ export const register_routes = {
       beforeEnter: (to, from, next) => {
         store.getters["faculty/getEmail"] || store.getters["admin/getEmail"]
           ? next()
-          : next(`/register/step=1`);
+          : next(`/register/${to.params.user_type}/step=1`);
       },
     },
     {
@@ -35,7 +35,7 @@ export const register_routes = {
       beforeEnter: (to, from, next) => {
         localStorage.getItem("Authorization")
           ? next()
-          : next(`/register/step=1`);
+          : next(`/register/${to.params.user_type}/step=1`);
       },
     },
   ],
