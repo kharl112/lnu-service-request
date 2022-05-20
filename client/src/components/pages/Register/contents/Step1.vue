@@ -26,6 +26,11 @@ export default {
           email: this.form.email,
         });
     },
+    changeUserType() {
+      const user_type =
+        this.$route.params.user_type === "faculty" ? "admin" : "faculty";
+      this.$router.replace(`/register/${user_type}/step=1`);
+    },
   },
   computed: {
     getError() {
@@ -44,12 +49,13 @@ export default {
         NOTE: Please use your active email to validate your account
       </v-subheader>
       <v-select
+        @change="changeUserType()"
         outlined
         :items="selections"
+        :value="this.$route.params.user_type"
         label="Select user type"
         item-text="text"
         item-value="value"
-        v-model="form.user"
         hide-messages
       />
       <v-text-field
