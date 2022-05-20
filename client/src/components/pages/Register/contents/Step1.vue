@@ -43,6 +43,15 @@ export default {
       <v-subheader class="pa-0 ma-0 mb-3 mb-sm-0 caption font-weight-bold">
         NOTE: Please use your active email to validate your account
       </v-subheader>
+      <v-select
+        outlined
+        :items="selections"
+        label="Select user type"
+        item-text="text"
+        item-value="value"
+        v-model="form.user"
+        hide-messages
+      />
       <v-text-field
         class="input"
         label="Type your email first"
