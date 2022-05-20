@@ -34,7 +34,7 @@ export default {
     },
     gotoRegister(e) {
       e.preventDefault();
-      return this.$router.push(`/register/step=1`);
+      return this.$router.push(`/register/${this.user}/step=1`);
     },
     async install() {
       if (this.deferredPrompt) this.deferredPrompt.prompt();
