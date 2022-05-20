@@ -86,7 +86,9 @@ export default {
           <router-link
             class="subtitle-2"
             v-show="stepIndex !== '1' && stepIndex !== '4'"
-            :to="`/register/step=${stepIndex - 1}`"
+            :to="
+              `/register/${this.$route.params.user_type}/step=${stepIndex - 1}`
+            "
           >
             Go back
           </router-link>
