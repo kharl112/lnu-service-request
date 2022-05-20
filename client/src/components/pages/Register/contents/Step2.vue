@@ -43,7 +43,9 @@ export default {
     handleNext(e) {
       e.preventDefault();
       if (this.$refs.form.validate())
-        return this.$router.replace(`/register/step=3`);
+        return this.$router.replace(
+          `/register/${this.$route.params.user_type}/step=3`
+        );
     },
   },
 };
