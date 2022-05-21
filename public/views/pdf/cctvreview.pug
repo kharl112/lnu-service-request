@@ -1,0 +1,47 @@
+doctype html 
+html 
+    head 
+        style
+            include ../styles/cctvreview.css
+body
+    header
+        img(class="university-logo" src="https://www.lnu.edu.ph/images/logo.png")
+        div(class="header-info")
+            p(class="header-info-p1") LEYTE NORMAL UNIVERSITY
+            p(class="header-info-p2") Tacloban City
+    div(class="main")
+        h4(class="subject") REQUEST FOR CCTV REVIEW
+    div(class="container-2" style="font-weight: bold")
+        span(class="item-1") Date:
+        span(class="item-2")= "12/09/22"
+    div(class="container-2" style="margin-top: 20px; font-weight: bold")
+        span(class="item-1") Location for review :
+        span(class="item-1" style="text-decoration: underline") HRDC Gym
+    div(class="container-3" style="font-weight: bold; margin-top: 5px")
+        span(class="item-1") Date & Time of Incident:
+        span(class="item-1" style="text-decoration: underline") 09/11/2001
+    div(class="container-4" style="margin-top: 5px; font-weight: bold")
+        span(class="item-1") Purpose:
+        span(class="item-1" style="text-decoration: underline") Someone burged in
+    div(class="recipients")
+        div(class="signature")
+            p(class="user-name")=form.user.profile
+            p(class="admin-dept-title") (Signature over Printed Name)
+            | !{form.user.signature}
+        if form.service_provider.staff_id
+        div(class="signature")
+            span(class="fixer") Job done by:
+            p(class="dept-head")=form.service_provider.profile
+            p(class="dept-head-title")=form.service_provider.department
+        | !{form.service_provider.signature}
+        div(class="signature")
+            span(class="fixer") Approved by:
+            p(class="admin-dept")=form.admin.profile
+            p(class="admin-dept-title") Chief Administrative Officer-Admin
+        | !{form.admin.signature}
+    div(class="container-4" style="margin-top: 5px; font-weight: bold")
+        span(class="item-1") Reviewed by:
+        span(class="item-1" style="text-decoration: underline") Test Account
+    div(class="container-4" style="margin-top: 5px; font-weight: bold")
+        span(class="item-1") Remarks:
+        span(class="item-1" style="text-decoration: underline") Test remarks
