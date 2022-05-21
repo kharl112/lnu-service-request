@@ -2,7 +2,7 @@ doctype html
 html 
   head 
     style
-        include ../styles/issueslip.css
+      include ../styles/issueslip.css
 body
   header
     div(class="header-info")
@@ -15,22 +15,37 @@ body
     span(class="item-1") Date:
     span(class="item-2")= "12/09/22"
   div(class="container-2")
-   span(class="item-1") To:
-   span(class="item-1" style="text-transform: uppercase; font-weight: bold") Shell Cetric Gasoline Station Tacloban City
+    span(class="item-1") To:
+    span(class="item-1" style="text-transform: uppercase; font-weight: bold") Shell Cetric Gasoline Station Tacloban City
   div(class="container-3" style="margin-top: 20px; font-weight: bold")
-   span(class="item-1") Please Issue to
-   span(class="item-1" style="text-decoration: underline;") Kharl Yumul
+    span(class="item-1") Please Issue to
+    span(class="item-1" style="text-decoration: underline;") Kharl Yumul
   div(class="container-4" style="margin-top: 0px")
-   span(class="item-1" style="font-weight: bold; text-decoration: underline") 25
-   span(class="item-1") Liters of Diesel for the LNU generator
+    span(class="item-1" style="font-weight: bold; text-decoration: underline") 25
+    span(class="item-1") Liters of Diesel for the LNU generator
+  div(class="recipients")
+    div(class="signature")
+      p(class="user-name")=form.user.profile
+      p(class="admin-dept-title") (Signature over Printed Name Of the Recipient)
+      | !{form.user.signature}
+    if form.service_provider.staff_id
+    div(class="signature")
+      span(class="fixer") Job done by:
+      p(class="dept-head")=form.service_provider.profile
+      p(class="dept-head-title")=form.service_provider.department
+    | !{form.service_provider.signature}
+    div(class="signature")
+      span(class="fixer") Approved by:
+      p(class="admin-dept")=form.admin.profile
+      p(class="admin-dept-title") Chief Administrative Officer-Admin
+    | !{form.admin.signature}
   div(class="container-5" style="margin-top: 20px; font-weight: bold")
-   span(class="item-1") Amount: P
-   span(class="item-1" style="text-decoration: underline") 4920
-   span(class="checkbox-label") ( CASH
-   input(checked = "true" type="checkbox" style="width: 10px")
-   span(class="checkbox-label") / CREDIT
-   input(type="checkbox" style="width: 10px") 
-   span(class="checkbox-label") )
+    span(class="item-1") Amount: P
+    span(class="item-1" style="text-decoration: underline") 4920
+    span(class="checkbox-label") ( CASH
+    input(checked = "true" type="checkbox" style="width: 10px")
+    span(class="checkbox-label") / CREDIT
+    input(type="checkbox" style="width: 10px") 
+    span(class="checkbox-label") )
   div(class="container-5" style="margin-top: 20px; font-weight: bold")
-   span(class="item-1") Issued by: test 
-  
+    span(class="item-1") Issued by: test 
