@@ -13,35 +13,38 @@ body
         h4(class="subject") REQUEST FOR CCTV REVIEW
     div(class="container-2" style="font-weight: bold")
         span(class="item-1") Date:
-        span(class="item-2")= "12/09/22"
+        span(class="item-2")=form.date
     div(class="container-2" style="margin-top: 20px; font-weight: bold")
         span(class="item-1") Location for review :
-        span(class="item-1" style="text-decoration: underline") HRDC Gym
+        span(class="item-1" style="text-decoration: underline")=form.options.location
     div(class="container-3" style="font-weight: bold; margin-top: 5px")
         span(class="item-1") Date & Time of Incident:
-        span(class="item-1" style="text-decoration: underline") 09/11/2001
+        span(class="item-1" style="text-decoration: underline")=form.options.incident_date
+        span(class="item-1" style="text-decoration: underline")=form.options.incident_time
     div(class="container-4" style="margin-top: 5px; font-weight: bold")
         span(class="item-1") Purpose:
-        span(class="item-1" style="text-decoration: underline") Someone burged in
-    div(class="recipients")
+        span(class="item-1" style="text-decoration: underline")
+        | !{form.body}
+    div(class="recipients" style="margin-top: 25px")
         div(class="signature")
-            p(class="user-name")=form.user.profile
-            p(class="admin-dept-title") (Signature over Printed Name)
+            span(class="fixer") Requested By:
+            p(class="user-name" style="margin-top: 15px")=form.user.profile
+            p(class="admin-dept-title") Requestor 
             | !{form.user.signature}
-        if form.service_provider.staff_id
-        div(class="signature")
-            span(class="fixer") Job done by:
-            p(class="dept-head")=form.service_provider.profile
-            p(class="dept-head-title")=form.service_provider.department
-        | !{form.service_provider.signature}
-        div(class="signature")
-            span(class="fixer") Approved by:
-            p(class="admin-dept")=form.admin.profile
-            p(class="admin-dept-title") Chief Administrative Officer-Admin
-        | !{form.admin.signature}
+        div(class="signature" style="margin-bottom: 25px")
+            span(class="fixer") Approved By:
+            p(class="dept-head" style="margin-top: 15px")=form.service_provider.profile
+            p(class="dept-head-title") VP for Administration & Finance
+            | !{form.service_provider.signature}
     div(class="container-4" style="margin-top: 5px; font-weight: bold")
         span(class="item-1") Reviewed by:
-        span(class="item-1" style="text-decoration: underline") Test Account
+        if(form.options.reviewed_by)
+            span(class="item-1" style="text-decoration: underline")=form.options.reviewed_by
+        else 
+            span(class="item-1") _________________
     div(class="container-4" style="margin-top: 5px; font-weight: bold")
         span(class="item-1") Remarks:
-        span(class="item-1" style="text-decoration: underline") Test remarks
+        if(form.options.remarks)
+            span(class="item-1" style="text-decoration: underline")=form.options.remarks
+        else 
+            span(class="item-1") _________________

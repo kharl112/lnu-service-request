@@ -26,6 +26,7 @@ p {
   width: 75px;
   height: auto;
   margin-left: 20px;
+  margin-bottom: -60px;
 }
 .header-info-p1 {
   text-align: center;
