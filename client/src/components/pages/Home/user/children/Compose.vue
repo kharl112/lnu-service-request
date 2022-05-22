@@ -5,6 +5,8 @@ import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
 import Default from "./options/Default";
 import Certification from "./options/Certification";
+import IssueSlip from "./options/IssueSlip";
+
 import form from "./options/form";
 export default {
   name: "Compose",
@@ -15,6 +17,7 @@ export default {
     Default,
     Risograph,
     Certification,
+    IssueSlip,
   },
   data: () => ({
     signature_view: { shown: false },
@@ -281,12 +284,7 @@ export default {
                         <v-subheader class="px-0">
                           Save As
                           <v-subheader
-                            class="
-                              caption
-                              font-weight-bold
-                              py-0
-                              hidden-sm-and-down
-                            "
+                            class="caption font-weight-bold py-0 hidden-sm-and-down"
                           >
                             (This will set to draft as a default)
                           </v-subheader>

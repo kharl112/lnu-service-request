@@ -4,6 +4,7 @@ import Mailing from "./options/Mailing";
 import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
 import Certification from "./options/Certification";
+import IssueSlip from "./options/IssueSlip.vue";
 import Default from "./options/Default";
 
 export default {
@@ -15,6 +16,7 @@ export default {
     Default,
     Certification,
     Risograph,
+    IssueSlip,
   },
   data: () => ({
     signature_view: { shown: false },
@@ -245,9 +247,7 @@ export default {
                                 elevation="0"
                               >
                                 Your Signature
-                                <v-icon right>
-                                  mdi-signature
-                                </v-icon>
+                                <v-icon right> mdi-signature </v-icon>
                               </v-btn>
                             </v-col>
                           </v-row>
@@ -292,9 +292,7 @@ export default {
                             elevation="0"
                           >
                             draft
-                            <v-icon right>
-                              mdi-paperclip
-                            </v-icon>
+                            <v-icon right> mdi-paperclip </v-icon>
                           </v-btn>
                         </v-col>
                         <v-col cols="12" sm="6">
@@ -309,9 +307,7 @@ export default {
                             elevation="0"
                           >
                             send
-                            <v-icon right>
-                              mdi-send
-                            </v-icon>
+                            <v-icon right> mdi-send </v-icon>
                           </v-btn>
                         </v-col>
                       </v-row>
