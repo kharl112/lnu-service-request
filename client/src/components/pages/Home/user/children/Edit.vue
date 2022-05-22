@@ -4,7 +4,8 @@ import Mailing from "./options/Mailing";
 import PassSlip from "./options/PassSlip";
 import Risograph from "./options/Risograph";
 import Certification from "./options/Certification";
-import IssueSlip from "./options/IssueSlip.vue";
+import IssueSlip from "./options/IssueSlip";
+import CctvReview from "./options/CctvReview";
 import Default from "./options/Default";
 
 export default {
@@ -17,6 +18,7 @@ export default {
     Certification,
     Risograph,
     IssueSlip,
+    CctvReview,
   },
   data: () => ({
     signature_view: { shown: false },

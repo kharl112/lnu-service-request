@@ -6,6 +6,7 @@ import Risograph from "./options/Risograph";
 import Default from "./options/Default";
 import Certification from "./options/Certification";
 import IssueSlip from "./options/IssueSlip";
+import CctvReview from "./options/CctvReview";
 
 import form from "./options/form";
 export default {
@@ -18,6 +19,7 @@ export default {
     Risograph,
     Certification,
     IssueSlip,
+    CctvReview,
   },
   data: () => ({
     signature_view: { shown: false },
