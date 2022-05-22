@@ -39,6 +39,16 @@ const changeServices = (id) => {
         type: "Credit",
       },
     },
+    {
+      id: "6289b551a3c6361acbe41a66",
+      obj: {
+        location: "",
+        incident_date: "",
+        incident_time: "",
+        reviewed_by: "",
+        remarks: "",
+      },
+    },
   ];
 
   const [selected] = services.filter((service) => service.id === id);
