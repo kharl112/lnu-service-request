@@ -30,6 +30,15 @@ const changeServices = (id) => {
         released_date: "",
       },
     },
+    {
+      id: "617e687287cd8b37a31133dc",
+      obj: {
+        liters: 0,
+        issue_to: "",
+        amount: 0,
+        type: "Credit",
+      },
+    },
   ];
 
   const [selected] = services.filter((service) => service.id === id);
