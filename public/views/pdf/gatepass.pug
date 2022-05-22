@@ -1,0 +1,47 @@
+doctype html 
+html 
+    head 
+        style
+            include ../styles/gatepass.css
+body
+    header
+        img(class="university-logo" src="https://www.lnu.edu.ph/images/logo.png")
+        div(class="header-info")
+            p(class="header-info-p1") Republic of the Philippines
+            p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
+            p(class="header-info-p3") P. Paterno Street, Tacloban City
+    div(class="main")
+        h4(class="subject" style="text-decoration: underline; font-size: 18px") GATE PASS
+    div(class="container-2" style="font-weight: bold; margin-bottom: 10px")
+        span(class="item-1") Date:
+        span(class="item-1" style="text-decoration: underline")=form.date
+    table(class="data-table")
+        tr(class="tb-row")
+            th(class="tb-data")
+            th(class="tb-data") Name
+            th(class="tb-data") Contact Number
+        each passer, index in form.options.passers
+            tr(class="tb-row")
+                td(class="tb-number")=`${index + 1 }.`
+                td(class="tb-data")=passer.name
+                td(class="tb-data")=passer.contact_number
+    div(class="container-2" style="font-weight: bold; margin-bottom: 10px")
+        span(class="item-1") DURATION / DATE OF USE:
+        span(class="item-1" style="text-decoration: underline")=`${form.options.duration} / ${form.options.use_date}`
+    div(class="container-2" style="font-weight: bold; margin-bottom: 10px")
+        span(class="item-1") LOCATION:
+        span(class="item-1" style="text-decoration: underline")=form.options.location
+    div(class="container-2" style="font-weight: bold; margin-bottom: 10px")
+        span(class="item-1") PURPOSE:
+        span(class="item-1" style="text-decoration: underline")
+        | !{form.body}
+    div(class="container-3")
+        div(class="recipient-1")
+            span(style="font-weight: bold; text-transform: uppercase;")=form.options.security_name
+            br
+            span(class="r-dept") Chief Security
+        div(class="recipient-2")
+            span(style="font-weight: bold; text-transform: uppercase;")=form.admin.profile
+            br
+            span(class="r-dept") OIC CAO - Administration
+            | !{form.admin.signature}
