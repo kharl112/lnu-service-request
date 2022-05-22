@@ -7,6 +7,7 @@ import Default from "./options/Default";
 import Certification from "./options/Certification";
 import IssueSlip from "./options/IssueSlip";
 import CctvReview from "./options/CctvReview";
+import GatePass from "./options/GatePass";
 
 import form from "./options/form";
 export default {
@@ -20,6 +21,7 @@ export default {
     Certification,
     IssueSlip,
     CctvReview,
+    GatePass,
   },
   data: () => ({
     signature_view: { shown: false },

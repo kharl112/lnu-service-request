@@ -49,6 +49,16 @@ const changeServices = (id) => {
         remarks: "",
       },
     },
+    {
+      id: "6289f4829d7eb32a7b74035c",
+      obj: {
+        passers: [],
+        duration: "",
+        use_date: "",
+        location: "",
+        security_name: "",
+      },
+    },
   ];
 
   const [selected] = services.filter((service) => service.id === id);
