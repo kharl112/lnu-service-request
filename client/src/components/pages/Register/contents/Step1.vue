@@ -22,9 +22,12 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate())
-        return this.$store.dispatch(`${this.form.user}/validateEmail`, {
-          email: this.form.email,
-        });
+        return this.$store.dispatch(
+          `${this.$route.params.user_type}/validateEmail`,
+          {
+            email: this.form.email,
+          }
+        );
     },
     changeUserType() {
       const user_type =

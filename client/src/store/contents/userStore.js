@@ -48,7 +48,6 @@ const faculty = {
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
 
-        if (!data.permitted) return router.replace("/register/faculty/step=4");
         router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
@@ -66,7 +65,7 @@ const faculty = {
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
-        router.replace("/register/faculty/step=4");
+        router.replace("/faculty/home/drafts");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });

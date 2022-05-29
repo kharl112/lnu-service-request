@@ -42,7 +42,6 @@ const admin = {
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
 
-        if (!data.permitted) return router.replace("/register/admin/step=4");
         router.replace("/admin/home/pending");
       } catch (error) {
         const { message } = error.response.data || error;
@@ -61,7 +60,8 @@ const admin = {
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        router.replace("/register/admin/step=4");
+
+        router.replace("/admin/home/pending");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
