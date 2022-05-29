@@ -49,30 +49,12 @@ module.exports = (() => {
     const user = new User({
       ...form,
       password: hash,
-      permitted: false,
+      permitted: true,
     });
 
     try {
       const new_user = await user.save();
       const new_token = await generateToken(null, new_user.staff_id);
-
-      const html = pug.renderFile(
-        path.join(
-          __dirname + "../../../../../public/views/request_permission.pug"
-        ),
-        {
-          form: {
-            link: `https://lnusr.herokuapp.com/user/login`,
-            user: new_user.name,
-            token: new_token,
-          },
-        }
-      );
-
-      const mail = nodemailer.createTransport(generateEmail.transport);
-      await mail.sendMail(
-        generateEmail.options(new_user.email, "Account permission code", html)
-      );
 
       const token = jwt.sign({ _id: new_user._id }, process.env.JWT_SECRET, {
         expiresIn: "7d",
@@ -136,10 +118,7 @@ module.exports = (() => {
         expiresIn: "7d",
       });
 
-      let permitted = true;
-      if (!user_found.permitted) permitted = false;
-
-      return res.send({ token, permitted });
+      return res.send({ token });
     } catch (error) {
       return res
         .status(500)
