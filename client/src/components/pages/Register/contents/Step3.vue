@@ -35,19 +35,24 @@ export default {
       const { getters } = this.$store;
       return getters["unit/getLoading"] && getters["role/getLoading"];
     },
+
+    isFaculty() {
+      return this.$route.params.user_type === "faculty";
+    },
   },
   methods: {
     handleSubmit(e) {
       e.preventDefault();
       if (this.$refs.form.validate()) {
-        return this.form.user === "faculty"
-          ? this.$store.dispatch(`faculty/userRegister`, this.form)
-          : this.$store.dispatch(`admin/adminRegister`, this.form);
+        const { user_type } = this.$route.params;
+        const modified_user_type = user_type === "admin" ? user_type : "user";
+        this.$store.dispatch(`${user_type}/${modified_user_type}Register`, this.form);
       }
     },
   },
   created() {
-    if (this.form.user === "faculty") {
+    const { user_type } = this.$route.params;
+    if (user_type === "faculty") {
       this.$store.dispatch("unit/allUnits");
       this.$store.dispatch("role/allRoles");
     }
@@ -57,9 +62,10 @@ export default {
 <template>
   <v-card class="card-container" outlined v-if="!isUnitandRoleLoading">
     <v-form ref="form" @submit="handleSubmit">
-      <v-card-title class="px-0">
+      <v-card-title class="px-0" v-if="isFaculty">
         Department Unit/Workstation
       </v-card-title>
+      <v-card-title class="px-0" v-else> Additional Information </v-card-title>
       <v-text-field
         :disabled="getLoading.register"
         class="input"
@@ -72,7 +78,7 @@ export default {
         outlined
       />
       <v-autocomplete
-        v-if="form.user === 'faculty'"
+        v-if="isFaculty"
         :disabled="getLoading.register"
         class="input"
         label="Unit/Department"
@@ -85,7 +91,7 @@ export default {
         outlined
       />
       <v-autocomplete
-        v-if="form.user === 'faculty'"
+        v-if="isFaculty"
         :disabled="getLoading.register"
         class="input"
         label="Role/Position"
