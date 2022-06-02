@@ -2,14 +2,14 @@ const tableOptions = (value, text) => ({
   search: "",
   headers: [
     {
-      text: "Description",
-      align: "center",
+      text: "Requestor Name",
+      align: "left",
       sortable: false,
-      value: "subject",
+      value: "user.profile",
     },
     {
       text: "Service type",
-      align: "center",
+      align: "left",
       sortable: false,
       value: "service[0].type",
     },
@@ -21,7 +21,7 @@ const tableOptions = (value, text) => ({
     },
     {
       text: "Status",
-      align: "center",
+      align: "left",
       sortable: true,
       value: "reports.status",
     },
