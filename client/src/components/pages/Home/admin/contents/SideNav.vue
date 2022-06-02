@@ -8,7 +8,7 @@ export default {
     dialog: false,
     items: [
       { title: "Pending", icon: "mdi-email-alert", getter: "Pendings" },
-      { title: "Signed", icon: "mdi-email-edit", getter: "Signed" },
+      { title: "Signed", icon: "mdi-email-edit" },
       { title: "Archives", icon: "mdi-archive" },
     ],
   }),
@@ -17,13 +17,8 @@ export default {
       return this.$store.getters["admin/getProfile"];
     },
     getAdminFullName() {
-      const {
-        firstname,
-        lastname,
-        middle_initial,
-        prefix,
-        suffixes,
-      } = this.adminProfile.name;
+      const { firstname, lastname, middle_initial, prefix, suffixes } =
+        this.adminProfile.name;
       return `${
         prefix ? prefix + "." : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
@@ -56,6 +51,12 @@ export default {
       set(bool) {
         return this.$store.commit("navigation/setDrawer", bool);
       },
+    },
+  },
+  methods: {
+    getLength(getter) {
+      if (!getter) return 0;
+      return this.$store.getters[`request/get${getter}`].length;
     },
   },
   destroyed() {
@@ -105,12 +106,9 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
-            dot
             color="primary"
-            v-if="
-              child.getter &&
-                $store.getters[`request/get${child.getter}`].length
-            "
+            v-if="getLength(child.getter)"
+            :content="getLength(child.getter)"
           />
         </v-list-item>
       </v-list-item-group>

@@ -10,12 +10,10 @@ export default {
       {
         title: "Drafts",
         icon: "mdi-email-edit",
-        getter: "Drafts",
       },
       {
         title: "Sent",
         icon: "mdi-send-check",
-        getter: "Sent",
       },
       { title: "Archives", icon: "mdi-archive" },
     ],
@@ -28,7 +26,6 @@ export default {
       {
         title: "Signed",
         icon: "mdi-signature-freehand",
-        getter: "Signed",
       },
     ],
   }),
@@ -49,13 +46,8 @@ export default {
       },
     },
     getFacultyFullName() {
-      const {
-        firstname,
-        lastname,
-        middle_initial,
-        prefix,
-        suffixes,
-      } = this.getFacultyProfile.name;
+      const { firstname, lastname, middle_initial, prefix, suffixes } =
+        this.getFacultyProfile.name;
       return `${
         prefix ? prefix + "." : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
@@ -76,6 +68,12 @@ export default {
             return this.$router.push(`/faculty/home/${link}`);
         return;
       },
+    },
+  },
+  methods: {
+    getLength(getter) {
+      if (!getter) return 0;
+      return this.$store.getters[`request/get${getter}`].length;
     },
   },
   destroyed() {
@@ -139,11 +137,8 @@ export default {
           </v-list-item-content>
           <v-badge
             color="primary"
-            dot
-            v-if="
-              child.getter &&
-                $store.getters[`request/get${child.getter}`].length
-            "
+            v-if="getLength(child.getter)"
+            :content="getLength(child.getter)"
           />
         </v-list-item>
       </v-list-item-group>
@@ -164,9 +159,9 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
-            v-if="$store.getters[`request/get${child.getter}`].length"
+            v-if="getLength(child.getter)"
             color="primary"
-            dot
+            :content="getLength(child.getter)"
           />
         </v-list-item>
       </v-list-item-group>

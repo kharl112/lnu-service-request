@@ -16,6 +16,7 @@ export const admin_routes = {
     if (localStorage.getItem("Authorization")) {
       await store.dispatch("admin/Profile");
       if (store.getters["admin/getProfile"]) {
+        store.dispatch("request/Pendings", "admin");
         next();
       } else next(false);
     } else next(false);
