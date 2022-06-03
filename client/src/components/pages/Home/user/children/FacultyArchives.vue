@@ -7,13 +7,13 @@ export default {
     table: {
       headers: [
         {
-          text: "From",
+          text: "Description",
           align: "left",
           sortable: false,
-          value: "user.profile[0].name.lastname",
+          value: "subject",
         },
         {
-          text: "Service type",
+          text: "Type",
           align: "left",
           sortable: false,
           value: "service[0].type",
@@ -63,7 +63,7 @@ export default {
             :items-per-page="5"
             class="elevation-0"
           >
-            <template v-slot:item.reports.dates.archived="{ item }">
+            <template v-slot:[`item.reports.dates.archived`]="{ item }">
               <v-chip small color="primary" class="text-center text-caption">
                 {{ getTimeOrDate(item.reports.dates.archived) }}
               </v-chip>
@@ -99,15 +99,11 @@ export default {
                   width="720px"
                   height="auto"
                 >
-                  <v-card-title>
-                    Requesting Services in LNU
-                  </v-card-title>
+                  <v-card-title> Requesting Services in LNU </v-card-title>
                 </v-img>
 
                 <v-card-actions>
-                  <v-btn color="warning" text>
-                    Contact Us
-                  </v-btn>
+                  <v-btn color="warning" text> Contact Us </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn icon @click="show = !show">
                     <v-icon>
