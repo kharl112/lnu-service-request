@@ -4,13 +4,25 @@ const tableOptions = (value, text) => ({
     {
       text: "Requestor Name",
       align: "left",
-      sortable: false,
+      sortable: true,
       value: "user.profile",
+    },
+    {
+      text: "Position/Role",
+      align: "left",
+      sortable: true,
+      value: "user.department.role",
+    },
+    {
+      text: "Department",
+      align: "left",
+      sortable: true,
+      value: "user.department.unit",
     },
     {
       text: "Service type",
       align: "left",
-      sortable: false,
+      sortable: true,
       value: "service[0].type",
     },
     {

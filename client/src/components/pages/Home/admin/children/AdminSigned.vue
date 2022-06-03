@@ -67,7 +67,17 @@ export default {
             :search="table.search"
             class="elevation-0"
           >
-            <template v-slot:item.admin.reports.date="{ item }">
+            <template v-slot:[`item.user.profile`]="{ item }">
+              {{ getFullname(item.user.profile[0].name) }}
+              <v-spacer />
+            </template>
+            <template v-slot:[`item.user.department.role`]="{ item }">
+              {{ item.user.department.role[0].name }}
+            </template>
+            <template v-slot:[`item.user.department.unit`]="{ item }">
+              {{ item.user.department.unit[0].name }}
+            </template>
+            <template v-slot:[`item.admin.reports.date`]="{ item }">
               <v-chip
                 small
                 color="primary"
@@ -76,15 +86,11 @@ export default {
                 {{ getTimeOrDate(item.admin.reports.date) }}
               </v-chip>
             </template>
-            <template v-slot:item.reports.status="{ item }">
+            <template v-slot:[`item.reports.status`]="{ item }">
               <small
-                :class="
-                  `${
-                    item.reports.status === 0
-                      ? 'success--text'
-                      : 'primary--text'
-                  }`
-                "
+                :class="`${
+                  item.reports.status === 0 ? 'success--text' : 'primary--text'
+                }`"
               >
                 {{ item.reports.status }}
               </small>
