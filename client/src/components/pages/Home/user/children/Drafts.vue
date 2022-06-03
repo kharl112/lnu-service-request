@@ -37,11 +37,7 @@ export default {
       return this.$store.dispatch("request/Send", _id);
     },
     limitText(text) {
-      return text
-        .split("")
-        .slice(0, 30)
-        .concat("...")
-        .join("");
+      return text.split("").slice(0, 30).concat("...").join("");
     },
   },
   created() {
@@ -59,12 +55,9 @@ export default {
               <thead>
                 <tr>
                   <th class="text-left" />
-                  <th class="text-left">
-                    Subject
-                  </th>
-                  <th class="text-center">
-                    Created
-                  </th>
+                  <th class="text-left">Type</th>
+                  <th class="text-left">Subject</th>
+                  <th class="text-center">Created</th>
                   <th />
                 </tr>
               </thead>
@@ -74,12 +67,18 @@ export default {
                     <v-checkbox v-model="selected" :value="draft._id" />
                   </td>
                   <td @click="goToEdit(draft._id)">
+                    <v-list-item-subtitle>
+                      {{ limitText(draft.service[0].type) }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td @click="goToEdit(draft._id)">
                     <v-list-item-subtitle
-                      class="pa-0 text-caption text-left text-wrap text-sm-body-2 "
+                      class="pa-0 text-caption text-left text-wrap text-sm-body-2"
                     >
                       {{ limitText(draft.subject) }}
                     </v-list-item-subtitle>
                   </td>
+
                   <td @click="goToEdit(draft._id)" class="text-center">
                     <v-chip
                       small
@@ -102,9 +101,7 @@ export default {
                           v-bind="attrs"
                           v-on="on"
                         >
-                          <v-icon>
-                            mdi-send
-                          </v-icon>
+                          <v-icon> mdi-send </v-icon>
                         </v-btn>
                       </template>
                       <span>Send Instantly</span>
@@ -149,9 +146,7 @@ export default {
                   width="720px"
                   height="auto"
                 >
-                  <v-card-title>
-                    Leyte Normal University
-                  </v-card-title>
+                  <v-card-title> Leyte Normal University </v-card-title>
                   <v-subheader class="white--text">
                     Pamantasang Normal ng Leyte
                   </v-subheader>
@@ -166,13 +161,9 @@ export default {
                       readonly
                       size="14"
                     />
-                    <div class="grey--text ms-4">
-                      4.2 (81 reviews)
-                    </div>
+                    <div class="grey--text ms-4">4.2 (81 reviews)</div>
                   </v-row>
-                  <div class="my-4 subtitle-1">
-                    Public University
-                  </div>
+                  <div class="my-4 subtitle-1">Public University</div>
                 </v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-actions>
@@ -180,9 +171,7 @@ export default {
                     <v-row justify="start" align="start">
                       <v-col cols="12" class="pa-2 pt-0 pb-0">
                         <v-list-item>
-                          <v-icon color="primary">
-                            mdi-google-maps
-                          </v-icon>
+                          <v-icon color="primary"> mdi-google-maps </v-icon>
                           <v-subheader>
                             <a
                               href="https://www.google.com/maps/place/Leyte+Normal+University/@11.2380362,124.9995256,17z/data=!4m9!1m2!2m1!1slnu!3m5!1s0x3308772c87c4c367:0xa5e5c080ec6a88ef!8m2!3d11.2381879!4d125.001328!15sCgNsbnWSARFwdWJsaWNfdW5pdmVyc2l0eQ"
@@ -195,9 +184,7 @@ export default {
                       </v-col>
                       <v-col cols="12" class="pa-2 pt-0 pb-0">
                         <v-list-item>
-                          <v-icon color="primary">
-                            mdi-web
-                          </v-icon>
+                          <v-icon color="primary"> mdi-web </v-icon>
                           <v-subheader>
                             <a href="http://www.lnu.edu.ph/" color="primary">
                               lnu.edu.ph
@@ -207,12 +194,8 @@ export default {
                       </v-col>
                       <v-col cols="12" class="pa-2 pt-0 pb-0">
                         <v-list-item>
-                          <v-icon color="primary">
-                            mdi-phone
-                          </v-icon>
-                          <v-subheader>
-                            +63538880855
-                          </v-subheader>
+                          <v-icon color="primary"> mdi-phone </v-icon>
+                          <v-subheader> +63538880855 </v-subheader>
                         </v-list-item>
                       </v-col>
                     </v-row>
