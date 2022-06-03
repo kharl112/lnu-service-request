@@ -70,7 +70,10 @@ export default {
             :search="table.search"
             class="elevation-0"
           >
-            <template v-slot:item.service_provider.reports.date="{ item }">
+            <template v-slot:[`item.user.profile`]="{ item }">
+              {{ getFullname(item.user.profile[0].name) }}
+            </template>
+            <template v-slot:[`item.service_provider.reports.date`]="{ item }">
               <v-chip
                 small
                 color="primary"
@@ -79,15 +82,13 @@ export default {
                 {{ getTimeOrDate(item.service_provider.reports.date) }}
               </v-chip>
             </template>
-            <template v-slot:item.reports.status="{ item }">
+            <template v-slot:[`item.reports.status`]="{ item }">
               <small
-                :class="
-                  `text-capitalize ${
-                    item.reports.status === 'completed'
-                      ? 'success--text'
-                      : 'primary--text'
-                  }`
-                "
+                :class="`text-capitalize ${
+                  item.reports.status === 'completed'
+                    ? 'success--text'
+                    : 'primary--text'
+                }`"
               >
                 {{ item.reports.status }}
               </small>
