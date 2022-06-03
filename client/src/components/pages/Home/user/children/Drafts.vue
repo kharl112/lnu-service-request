@@ -7,6 +7,9 @@ export default {
     getLoading() {
       return this.$store.getters["request/getLoading"];
     },
+    pendingLength() {
+      return this.$store.getters["request/getPendings"].length;
+    },
     drafts() {
       return this.$store.getters["request/getDrafts"];
     },
@@ -49,6 +52,24 @@ export default {
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8">
+        <v-container fluid class="py-0" v-if="pendingLength">
+          <v-alert prominent type="primary" outlined>
+            <v-row align="center">
+              <v-col class="grow">
+                You have
+                <strong> {{ pendingLength }} </strong>
+                {{
+                  pendingLength > 1
+                    ? " received pending requests"
+                    : " received pending request"
+                }}
+              </v-col>
+              <v-col class="shrink">
+                <v-btn color="primary" text>View Pendings</v-btn>
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-container>
         <v-container fluid v-if="drafts[0] && !getLoading.drafts">
           <v-simple-table>
             <template v-slot:default>
@@ -115,7 +136,10 @@ export default {
         <v-container fluid v-else-if="getLoading.drafts">
           <v-skeleton-loader type="table" />
         </v-container>
-        <v-container fluid v-else-if="!drafts[0] && !getLoading.drafts">
+        <v-container
+          fluid
+          v-else-if="!drafts[0] && !getLoading.drafts && !pendingLength"
+        >
           <v-row justify="start">
             <v-col cols="12">
               <v-banner single-line>
