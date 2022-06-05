@@ -63,21 +63,15 @@ export default {
           </v-col>
           <v-col cols="12" class="py-0">
             <v-row justify="start" align="start">
-              <v-col cols="12" class="py-0 px-7">
-                <v-radio-group
+              <v-col cols="12" class="pt-2 pb-0 px-7">
+                <v-select
                   dense
-                  row
+                  outlined
                   v-model="options.request_for.accounting"
-                >
-                  <v-radio
-                    v-for="item in sections.accounting"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  />
-                </v-radio-group>
+                  :items="sections.accounting"
+                />
               </v-col>
-              <v-col cols="12" class="py-0 pb-4 px-7">
+              <v-col cols="12" class="pb-4 pt-0 px-7">
                 <v-text-field
                   v-model="options.request_for.accounting"
                   :rules="rules"
@@ -96,17 +90,15 @@ export default {
           </v-col>
           <v-col cols="12" class="py-0">
             <v-row justify="start" align="start">
-              <v-col cols="12" class="py-0 px-7">
-                <v-radio-group dense row v-model="options.request_for.records">
-                  <v-radio
-                    v-for="item in sections.records_office"
-                    :key="item"
-                    :label="item"
-                    :value="item"
-                  />
-                </v-radio-group>
+              <v-col cols="12" class="pt-2 px-7">
+                <v-select
+                  dense
+                  outlined
+                  v-model="options.request_for.records"
+                  :items="sections.records_office"
+                />
               </v-col>
-              <v-col cols="12" class="py-0 pb-4 px-7">
+              <v-col cols="12" class="pb-2 pt-0 px-7">
                 <v-text-field
                   v-model="options.request_for.records"
                   :rules="rules"
@@ -123,39 +115,27 @@ export default {
           <v-divider />
         </v-col>
         <v-col cols="12" class="py-0">
-          <v-subheader class="py-0 font-weight-black text-uppercase">
+          <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
             Purpose:
           </v-subheader>
         </v-col>
         <v-col cols="12" class="py-0">
           <v-row justify="start" align="start">
-            <v-col cols="12" class="py-0 px-7">
-              <v-radio-group dense row class="py-0" v-model="options.purpose">
-                <v-container class="px-0 py-0" fluid>
-                  <v-subheader class="text-body text-uppercase pt-0 px-0">
-                    Hrm/Records Office
-                  </v-subheader>
-                </v-container>
-                <v-radio
-                  v-for="item in purposes.loans"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                />
-              </v-radio-group>
+            <v-col cols="12" class="py-0">
+              <v-container class="px-0 py-0" fluid>
+                <v-subheader class="text-body text-uppercase pt-0 px-0">
+                  Hrm/Records Office
+                </v-subheader>
+              </v-container>
+              <v-select
+                outlined
+                dense
+                class="py-0"
+                v-model="options.purpose"
+                :items="[...purposes.loans, ...purposes.others]"
+              />
             </v-col>
-
-            <v-col cols="12" class="py-0 px-7">
-              <v-radio-group dense row class="py-0 my-0" v-model="options.purpose">
-                <v-radio
-                  v-for="item in purposes.others"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                />
-              </v-radio-group>
-            </v-col>
-            <v-col cols="12" class="py-0 pb-4 px-7">
+            <v-col cols="12" class="pt-2 pb-4">
               <v-text-field
                 v-model="options.purpose"
                 :rules="rules"
@@ -171,13 +151,13 @@ export default {
           <v-divider />
         </v-col>
         <v-col cols="12" class="py-0">
-          <v-subheader class="py-0 font-weight-black text-uppercase">
+          <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
             Co Makers
           </v-subheader>
         </v-col>
-        <v-col cols="12">
+        <v-col cols="12" class="py-0">
           <v-row justify="start" align="start">
-            <v-col cols="12" class="py-0 pb-4 px-7">
+            <v-col cols="12" class="py-0 pb-4">
               <v-text-field
                 v-model="co_makers"
                 label="Names"

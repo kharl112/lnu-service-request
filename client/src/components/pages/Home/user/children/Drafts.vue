@@ -7,6 +7,9 @@ export default {
     getLoading() {
       return this.$store.getters["request/getLoading"];
     },
+    pendingLength() {
+      return this.$store.getters["request/getPendings"].length;
+    },
     drafts() {
       return this.$store.getters["request/getDrafts"];
     },
@@ -27,21 +30,20 @@ export default {
       }).replace("about ", "");
     },
     goToEdit(_id) {
-      return this.$router.push(`/faculty/home/edit/${_id}`);
+      this.$router.push(`/faculty/home/edit/${_id}`);
     },
     goToCreate() {
-      return this.$router.push(`/faculty/home/compose`);
+      this.$router.push(`/faculty/home/compose`);
+    },
+    goPending() {
+      this.$router.push(`/faculty/home/pending`);
     },
     send(_id) {
       this.selected_id = _id;
       return this.$store.dispatch("request/Send", _id);
     },
     limitText(text) {
-      return text
-        .split("")
-        .slice(0, 30)
-        .concat("...")
-        .join("");
+      return text.split("").slice(0, 30).concat("...").join("");
     },
   },
   created() {
@@ -53,18 +55,35 @@ export default {
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8">
+        <v-container fluid class="py-0" v-if="pendingLength">
+          <v-alert prominent color="primary" outlined>
+            <v-row align="center">
+              <v-col class="grow">
+                You have
+                <strong> {{ pendingLength }} </strong>
+                {{
+                  pendingLength > 1
+                    ? " received pending requests"
+                    : " received pending request"
+                }}
+              </v-col>
+              <v-col class="shrink">
+                <v-btn color="warning" text @click="goPending()"
+                  >View Pendings</v-btn
+                >
+              </v-col>
+            </v-row>
+          </v-alert>
+        </v-container>
         <v-container fluid v-if="drafts[0] && !getLoading.drafts">
           <v-simple-table>
             <template v-slot:default>
               <thead>
                 <tr>
                   <th class="text-left" />
-                  <th class="text-left">
-                    Subject
-                  </th>
-                  <th class="text-center">
-                    Created
-                  </th>
+                  <th class="text-left">Type</th>
+                  <th class="text-left">Subject</th>
+                  <th class="text-center">Created</th>
                   <th />
                 </tr>
               </thead>
@@ -74,12 +93,18 @@ export default {
                     <v-checkbox v-model="selected" :value="draft._id" />
                   </td>
                   <td @click="goToEdit(draft._id)">
+                    <v-list-item-subtitle>
+                      {{ limitText(draft.service[0].type) }}
+                    </v-list-item-subtitle>
+                  </td>
+                  <td @click="goToEdit(draft._id)">
                     <v-list-item-subtitle
-                      class="pa-0 text-caption text-left text-wrap text-sm-body-2 "
+                      class="pa-0 text-caption text-left text-wrap text-sm-body-2"
                     >
                       {{ limitText(draft.subject) }}
                     </v-list-item-subtitle>
                   </td>
+
                   <td @click="goToEdit(draft._id)" class="text-center">
                     <v-chip
                       small
@@ -102,9 +127,7 @@ export default {
                           v-bind="attrs"
                           v-on="on"
                         >
-                          <v-icon>
-                            mdi-send
-                          </v-icon>
+                          <v-icon> mdi-send </v-icon>
                         </v-btn>
                       </template>
                       <span>Send Instantly</span>
@@ -118,7 +141,10 @@ export default {
         <v-container fluid v-else-if="getLoading.drafts">
           <v-skeleton-loader type="table" />
         </v-container>
-        <v-container fluid v-else-if="!drafts[0] && !getLoading.drafts">
+        <v-container
+          fluid
+          v-else-if="!drafts[0] && !getLoading.drafts && !pendingLength"
+        >
           <v-row justify="start">
             <v-col cols="12">
               <v-banner single-line>
@@ -149,9 +175,7 @@ export default {
                   width="720px"
                   height="auto"
                 >
-                  <v-card-title>
-                    Leyte Normal University
-                  </v-card-title>
+                  <v-card-title> Leyte Normal University </v-card-title>
                   <v-subheader class="white--text">
                     Pamantasang Normal ng Leyte
                   </v-subheader>
@@ -166,13 +190,9 @@ export default {
                       readonly
                       size="14"
                     />
-                    <div class="grey--text ms-4">
-                      4.2 (81 reviews)
-                    </div>
+                    <div class="grey--text ms-4">4.2 (81 reviews)</div>
                   </v-row>
-                  <div class="my-4 subtitle-1">
-                    Public University
-                  </div>
+                  <div class="my-4 subtitle-1">Public University</div>
                 </v-card-text>
                 <v-divider class="mx-4"></v-divider>
                 <v-card-actions>
@@ -180,9 +200,7 @@ export default {
                     <v-row justify="start" align="start">
                       <v-col cols="12" class="pa-2 pt-0 pb-0">
                         <v-list-item>
-                          <v-icon color="primary">
-                            mdi-google-maps
-                          </v-icon>
+                          <v-icon color="primary"> mdi-google-maps </v-icon>
                           <v-subheader>
                             <a
                               href="https://www.google.com/maps/place/Leyte+Normal+University/@11.2380362,124.9995256,17z/data=!4m9!1m2!2m1!1slnu!3m5!1s0x3308772c87c4c367:0xa5e5c080ec6a88ef!8m2!3d11.2381879!4d125.001328!15sCgNsbnWSARFwdWJsaWNfdW5pdmVyc2l0eQ"
@@ -195,9 +213,7 @@ export default {
                       </v-col>
                       <v-col cols="12" class="pa-2 pt-0 pb-0">
                         <v-list-item>
-                          <v-icon color="primary">
-                            mdi-web
-                          </v-icon>
+                          <v-icon color="primary"> mdi-web </v-icon>
                           <v-subheader>
                             <a href="http://www.lnu.edu.ph/" color="primary">
                               lnu.edu.ph
@@ -207,12 +223,8 @@ export default {
                       </v-col>
                       <v-col cols="12" class="pa-2 pt-0 pb-0">
                         <v-list-item>
-                          <v-icon color="primary">
-                            mdi-phone
-                          </v-icon>
-                          <v-subheader>
-                            +63538880855
-                          </v-subheader>
+                          <v-icon color="primary"> mdi-phone </v-icon>
+                          <v-subheader> +63538880855 </v-subheader>
                         </v-list-item>
                       </v-col>
                     </v-row>

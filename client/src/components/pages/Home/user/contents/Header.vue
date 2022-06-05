@@ -63,9 +63,7 @@ export default {
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="50">
-                    mdi-menu
-                  </v-icon>
+                  <v-icon size="50"> mdi-menu </v-icon>
                 </v-btn>
               </template>
               <span>Menu</span>
@@ -106,9 +104,10 @@ export default {
               <v-badge
                 color="error"
                 offset-x="-18"
-                offset-y="-10"
-                dot
+                offset-y="-1"
                 v-if="getDeleteSelected[0]"
+                :content="getDeleteSelected.length"
+                size="small"
               />
               <v-icon size="25">mdi-trash-can</v-icon>
             </v-btn>

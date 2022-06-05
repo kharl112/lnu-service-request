@@ -20,6 +20,7 @@ export const user_routes = {
     if (localStorage.getItem("Authorization")) {
       await store.dispatch("faculty/Profile");
       if (store.getters["faculty/getProfile"]) {
+        store.dispatch("request/Pendings", "provider");
         next();
       } else next(false);
     } else next(false);

@@ -21,7 +21,10 @@ export default {
     },
     newDocument() {
       this.options.documents = [
-        ...this.options.documents,
+        ...this.options.documents.map((doc) => ({
+          ...doc,
+          produced: parseInt(doc.copies) * parseInt(doc.pages),
+        })),
         JSON.parse(JSON.stringify(this.idle)),
       ];
     },
@@ -90,21 +93,11 @@ export default {
                   <template v-slot:default>
                     <thead>
                       <tr>
-                        <th class="text-left">
-                          Document Title
-                        </th>
-                        <th class="text-center">
-                          No. of copies
-                        </th>
-                        <th class="text-center">
-                          No. of pages
-                        </th>
-                        <th class="text-center">
-                          Total copies produced
-                        </th>
-                        <th class="text-center">
-                          Actions
-                        </th>
+                        <th class="text-left">Document Title</th>
+                        <th class="text-center">No. of copies</th>
+                        <th class="text-center">No. of pages</th>
+                        <th class="text-center">Total copies produced</th>
+                        <th class="text-center">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -141,6 +134,7 @@ export default {
                             type="number"
                             dense
                             v-model="doc.produced"
+                            disabled
                           />
                         </td>
                         <td class="text-center">

@@ -27,6 +27,10 @@ export default {
         prefix ? `${prefix}.` : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
     },
+    getDepartment(department) {
+      const { unit, role } = department;
+      return `${role[0].name} at ${unit[0].name}`;
+    },
     goToView(item) {
       this.$router.push(`/admin/home/view/${item._id}`);
     },
@@ -67,7 +71,16 @@ export default {
             :search="table.search"
             class="elevation-0"
           >
-            <template v-slot:item.reports.dates.sent="{ item }">
+            <template v-slot:[`item.user.profile`]="{ item }">
+              {{ getFullname(item.user.profile[0].name) }}
+            </template>
+            <template v-slot:[`item.user.department.role`]="{ item }">
+              {{ item.user.department.role[0].name }}
+            </template>
+            <template v-slot:[`item.user.department.unit`]="{ item }">
+              {{ item.user.department.unit[0].name }}
+            </template>
+            <template v-slot:[`item.reports.dates.sent`]="{ item }">
               <v-chip
                 small
                 color="primary"
@@ -76,15 +89,13 @@ export default {
                 {{ getTimeOrDate(item.reports.dates.sent) }}
               </v-chip>
             </template>
-            <template v-slot:item.reports.status="{ item }">
+            <template v-slot:[`item.reports.status`]="{ item }">
               <small
-                :class="
-                  `${
-                    item.reports.status === 'completed'
-                      ? 'success--text'
-                      : 'primary--text'
-                  }`
-                "
+                :class="`${
+                  item.reports.status === 'completed'
+                    ? 'success--text'
+                    : 'primary--text'
+                }`"
               >
                 {{ item.reports.status.toUpperCase() }}
               </small>

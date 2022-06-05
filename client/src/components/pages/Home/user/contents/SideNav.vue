@@ -10,25 +10,35 @@ export default {
       {
         title: "Drafts",
         icon: "mdi-email-edit",
-        getter: "Drafts",
+        path: "/faculty/home/drafts",
       },
       {
         title: "Sent",
         icon: "mdi-send-check",
-        getter: "Sent",
+        path: "/faculty/home/sent",
       },
-      { title: "Archives", icon: "mdi-archive" },
+      {
+        title: "Archives",
+        icon: "mdi-archive",
+        path: "/faculty/home/archives",
+      },
+      {
+        title: "Track",
+        icon: "mdi-map-marker-distance",
+        path: "/track/none",
+      },
     ],
     received_items: [
       {
         title: "Pending",
         icon: "mdi-email-receive",
         getter: "Pendings",
+        path: "/faculty/home/pending",
       },
       {
         title: "Signed",
         icon: "mdi-signature-freehand",
-        getter: "Signed",
+        path: "/faculty/home/signed",
       },
     ],
   }),
@@ -49,13 +59,8 @@ export default {
       },
     },
     getFacultyFullName() {
-      const {
-        firstname,
-        lastname,
-        middle_initial,
-        prefix,
-        suffixes,
-      } = this.getFacultyProfile.name;
+      const { firstname, lastname, middle_initial, prefix, suffixes } =
+        this.getFacultyProfile.name;
       return `${
         prefix ? prefix + "." : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
@@ -68,14 +73,19 @@ export default {
     },
     route: {
       get() {
-        return this.$route.fullPath.split("/")[3];
+        return this.$route.fullPath;
       },
       set(link) {
         if (link)
-          if (this.$route.fullPath !== `/faculty/home/${link}`)
-            return this.$router.push(`/faculty/home/${link}`);
+          if (this.$route.fullPath !== link) return this.$router.push(link);
         return;
       },
+    },
+  },
+  methods: {
+    getLength(getter) {
+      if (!getter) return 0;
+      return this.$store.getters[`request/get${getter}`].length;
     },
   },
   destroyed() {
@@ -110,7 +120,7 @@ export default {
 
     <v-list shaped>
       <v-list-item-group v-model="route">
-        <v-list-item value="compose">
+        <v-list-item value="/faculty/home/compose">
           <v-list-item-icon>
             <v-icon color="primary">mdi-plus</v-icon>
           </v-list-item-icon>
@@ -129,7 +139,7 @@ export default {
         <v-list-item
           v-for="(child, i) in request_items"
           :key="i"
-          :value="child.title.toLowerCase()"
+          :value="child.path"
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
@@ -139,11 +149,8 @@ export default {
           </v-list-item-content>
           <v-badge
             color="primary"
-            dot
-            v-if="
-              child.getter &&
-                $store.getters[`request/get${child.getter}`].length
-            "
+            v-if="getLength(child.getter)"
+            :content="getLength(child.getter)"
           />
         </v-list-item>
       </v-list-item-group>
@@ -155,7 +162,7 @@ export default {
         <v-list-item
           v-for="(child, i) in received_items"
           :key="i"
-          :value="child.title.toLowerCase()"
+          :value="child.path"
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
@@ -164,9 +171,9 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
-            v-if="$store.getters[`request/get${child.getter}`].length"
+            v-if="getLength(child.getter)"
             color="primary"
-            dot
+            :content="getLength(child.getter)"
           />
         </v-list-item>
       </v-list-item-group>
@@ -175,7 +182,7 @@ export default {
     <v-list dense>
       <v-subheader>Account</v-subheader>
       <v-list-item-group color="grey" v-model="route">
-        <v-list-item value="settings">
+        <v-list-item value="/faculty/home/settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
           </v-list-item-icon>

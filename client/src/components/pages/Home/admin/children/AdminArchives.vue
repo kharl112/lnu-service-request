@@ -7,21 +7,21 @@ export default {
     table: {
       headers: [
         {
-          text: "From",
+          text: "Requestor",
           align: "left",
-          sortable: false,
-          value: "user.profile[0].name.lastname",
+          sortable: true,
+          value: "user.profile",
         },
         {
           text: "Service Provider",
           align: "left",
-          sortable: false,
+          sortable: true,
           value: "service_provider.profile[0]",
         },
         {
           text: "Service type",
           align: "left",
-          sortable: false,
+          sortable: true,
           value: "service[0].type",
         },
         {
@@ -67,7 +67,7 @@ export default {
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
-      <v-col cols="12" sm="12" md="8" class="pa-0">
+      <v-col cols="12" sm="12" md="9" class="pa-0">
         <v-container fluid v-if="archives[0] && !loading.archives">
           <v-data-table
             @click:row="(item) => $router.push(`/admin/home/view/${item._id}`)"
@@ -76,15 +76,22 @@ export default {
             :items-per-page="5"
             class="elevation-0"
           >
-            <template v-slot:item.reports.dates.archived="{ item }">
+            <template v-slot:[`item.user.profile`]="{ item }">
+              {{ getFullname(item.user.profile[0].name) }}
+              <v-spacer />
+              <span class="caption">
+                {{ item.user.department.unit[0].name }}
+              </span>
+            </template>
+            <template v-slot:[`item.reports.dates.archived`]="{ item }">
               <v-chip small color="primary" class="text-center text-caption">
                 {{ getTimeOrDate(item.reports.dates.archived) }}
               </v-chip>
             </template>
-            <template v-slot:item.service_provider.profile[0]="{ item }">
+            <template v-slot:[`item.service_provider.profile[0]`]="{ item }">
               <div v-if="item.service_provider.staff_id">
                 <span>
-                  {{ item.service_provider.profile[0].name.lastname }}
+                  {{ getFullname(item.service_provider.profile[0].name) }}
                 </span>
                 <v-spacer />
                 <span class="caption">
@@ -110,21 +117,9 @@ export default {
             </v-col>
           </v-row>
         </v-container>
-        <v-container fluid v-else-if="!archives[0] && !loading.archives">
-          <v-row justify="start">
-            <v-col cols="12">
-              <v-banner single-line>
-                <v-icon slot="icon" color="warning" size="36">
-                  mdi-exclamation-thick
-                </v-icon>
-                No archived requests found
-              </v-banner>
-            </v-col>
-          </v-row>
-        </v-container>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
-      <v-col md="4" class="hidden-sm-and-down">
+      <v-col md="3" class="hidden-sm-and-down">
         <v-row>
           <v-col cols="12">
             <v-container fluid>
@@ -136,15 +131,11 @@ export default {
                   width="720px"
                   height="auto"
                 >
-                  <v-card-title>
-                    Requesting Services in LNU
-                  </v-card-title>
+                  <v-card-title> Requesting Services in LNU </v-card-title>
                 </v-img>
 
                 <v-card-actions>
-                  <v-btn color="warning" text>
-                    Contact Us
-                  </v-btn>
+                  <v-btn color="warning" text> Contact Us </v-btn>
                   <v-spacer></v-spacer>
                   <v-btn icon @click="show = !show">
                     <v-icon>

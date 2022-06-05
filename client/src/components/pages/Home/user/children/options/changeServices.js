@@ -1,6 +1,9 @@
 const changeServices = (id) => {
   const services = [
-    { id: "60f62dcb69f7dd1017e2ba49", obj: { name: "", timeout: "" } },
+    {
+      id: "60f62dcb69f7dd1017e2ba49",
+      obj: { name: "", timeout: "", date: "" },
+    },
     {
       id: "60f62dd969f7dd1017e2ba4a",
       obj: {
@@ -57,6 +60,13 @@ const changeServices = (id) => {
         use_date: "",
         location: "",
         security_name: "",
+      },
+    },
+    {
+      id: "629c8b230db34e279582a537",
+      obj: {
+        persons_involved: [],
+        type: "",
       },
     },
   ];

@@ -7,9 +7,23 @@ export default {
   data: () => ({
     dialog: false,
     items: [
-      { title: "Pending", icon: "mdi-email-alert", getter: "Pendings" },
-      { title: "Signed", icon: "mdi-email-edit", getter: "Signed" },
-      { title: "Archives", icon: "mdi-archive" },
+      {
+        title: "Pending",
+        icon: "mdi-email-alert",
+        getter: "Pendings",
+        path: "/admin/home/pending",
+      },
+      {
+        title: "Signed",
+        icon: "mdi-email-edit",
+        path: "/admin/home/signed",
+      },
+      { title: "Archives", icon: "mdi-archive", path: "/admin/home/archives" },
+      {
+        title: "Track",
+        icon: "mdi-map-marker-distance",
+        path: "/track/none",
+      },
     ],
   }),
   computed: {
@@ -17,13 +31,8 @@ export default {
       return this.$store.getters["admin/getProfile"];
     },
     getAdminFullName() {
-      const {
-        firstname,
-        lastname,
-        middle_initial,
-        prefix,
-        suffixes,
-      } = this.adminProfile.name;
+      const { firstname, lastname, middle_initial, prefix, suffixes } =
+        this.adminProfile.name;
       return `${
         prefix ? prefix + "." : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
@@ -36,12 +45,11 @@ export default {
     },
     route: {
       get() {
-        return this.$route.fullPath.split("/")[3];
+        return this.$route.fullPath;
       },
-      set(link) {
-        if (link)
-          if (this.$route.fullPath !== `/admin/home/${link}`)
-            return this.$router.push(`/admin/home/${link}`);
+      set(path) {
+        if (path)
+          if (this.$route.fullPath !== path) return this.$router.push(path);
         return;
       },
     },
@@ -56,6 +64,12 @@ export default {
       set(bool) {
         return this.$store.commit("navigation/setDrawer", bool);
       },
+    },
+  },
+  methods: {
+    getLength(getter) {
+      if (!getter) return 0;
+      return this.$store.getters[`request/get${getter}`].length;
     },
   },
   destroyed() {
@@ -93,11 +107,7 @@ export default {
     <v-list dense>
       <v-subheader>Requests</v-subheader>
       <v-list-item-group v-model="route" color="grey">
-        <v-list-item
-          v-for="(child, i) in items"
-          :key="i"
-          :value="child.title.toLowerCase()"
-        >
+        <v-list-item v-for="(child, i) in items" :key="i" :value="child.path">
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
           </v-list-item-icon>
@@ -105,12 +115,9 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
-            dot
             color="primary"
-            v-if="
-              child.getter &&
-                $store.getters[`request/get${child.getter}`].length
-            "
+            v-if="getLength(child.getter)"
+            :content="getLength(child.getter)"
           />
         </v-list-item>
       </v-list-item-group>
@@ -121,7 +128,7 @@ export default {
     <v-list dense>
       <v-subheader>Account</v-subheader>
       <v-list-item-group color="grey" v-model="route">
-        <v-list-item value="settings">
+        <v-list-item value="/admin/home/settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
           </v-list-item-icon>
