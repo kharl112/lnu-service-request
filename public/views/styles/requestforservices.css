@@ -1,0 +1,185 @@
+body {
+  font-size: 13px;
+  margin: 0px;
+  padding: 20px;
+  border: 2px solid black;
+}
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+p {
+  text-align: justify;
+  text-decoration: underline;
+}
+.header-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 25px 10px 25px;
+}
+.university-logo {
+  width: 75px;
+  height: auto;
+  margin-bottom: -65px;
+}
+.header-info-p1 {
+  text-align: center;
+  text-decoration: none;
+  margin: 2px;
+}
+.header-info-p2 {
+  text-align: center;
+  text-decoration: none;
+  margin: 2px;
+}
+.header-info-p3 {
+  text-align: center;
+  text-decoration: none;
+  margin: 2px;
+  font-size: 12px;
+}
+.subject {
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+}
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center;
+  margin-top: 35px;
+}
+.prefix {
+  margin: 25px 0px;
+}
+
+.prefix-body {
+  width: 70%;
+  border-bottom: 1px solid black;
+  margin-left: 5px;
+  margin-bottom: 5px;
+}
+
+.fixer {
+  font-size: 12px;
+  margin-bottom: -5px;
+}
+
+.request-type {
+  margin-top: 30px;
+}
+
+.type {
+  margin-top: 5px;
+  margin-left: 45px;
+  padding-bottom: 2px;
+}
+
+.type-form {
+  margin: 5px;
+  margin-left: 45px;
+  width: 80%;
+}
+
+.check-box {
+  margin-right: 2px;
+}
+
+.other-type-label {
+  border-bottom: 1px solid black;
+  text-transform: capitalize;
+}
+
+.date {
+  text-decoration: underline;
+  font-size: 13px;
+  text-align: end;
+}
+
+.persons-involved {
+  margin-left: 45px;
+  margin-top: 30px;
+}
+
+.involved {
+  text-decoration: none;
+  border-bottom: 1px solid black;
+  width: 85%;
+  margin: 2px;
+}
+.request-body {
+  margin-top: 30px;
+}
+.recipients {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  grid-row-start: 1;
+}
+.dept-head {
+  font-size: 11px;
+  text-decoration: none;
+  width: 40%;
+  margin: 0px;
+  margin-top: 10px;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+}
+.dept-head-title {
+  font-size: 9px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+  margin: 0px;
+  width: 40%;
+}
+.admin-dept {
+  font-size: 11px;
+  text-decoration: none;
+  width: 40%;
+  margin: 0px;
+  margin-left: 100px;
+  margin-top: 5px;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+}
+.admin-dept-title {
+  font-size: 9px;
+  text-decoration: none;
+  font-weight: bold;
+  text-align: center;
+  margin: 0px;
+  margin-left: 100px;
+  width: 40%;
+}
+.user-name {
+  font-size: 11px;
+  text-decoration: none;
+  width: 40%;
+  margin: 0px;
+  margin-left: 100px;
+  margin-top: 5px;
+  text-align: center;
+  padding-bottom: 5px;
+  border-bottom: 1px solid black;
+}
+.signature {
+  margin: 15px 0px 0px 0px;
+}
+svg {
+  height: 50px;
+  width: 40%;
+  position: absolute;
+  margin: -65px 0px 0px 90px;
+}
