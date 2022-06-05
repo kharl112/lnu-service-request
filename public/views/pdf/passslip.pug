@@ -2,7 +2,7 @@ doctype html
 html 
   head 
     style
-        include ../styles/passslip.css
+      include ../styles/passslip.css
 body
   header
     img(class="university-logo" src="https://www.lnu.edu.ph/images/logo.png")
@@ -18,21 +18,15 @@ body
       span(class="name")=form.user.profile
     div(class="timeout-container")
       span(class="prefix") TIMEOUT:
-      span(class="timeout")=form.options.timeout
+      span(class="timeout")=`${form.options.date} ${form.options.timeout}`
     div(class="request-body")
       span(class="prefix") PURPOSE:
-      | !{form.body}
+      span(class="prefix-body")=form.body
   div(class="recipients")
-    div(class="signature")
+    div(class="signature user-signee")
       p(class="user-name")=form.user.profile
       p(class="admin-dept-title") (Signature over Printed Name)
     | !{form.user.signature}
-    if form.service_provider.staff_id
-      div(class="signature")
-        span(class="fixer") Job done by:
-        p(class="dept-head")=form.service_provider.profile
-        p(class="dept-head-title")=form.service_provider.department
-      | !{form.service_provider.signature}
     div(class="signature")
       span(class="fixer") Approved by:
       p(class="admin-dept")=form.admin.profile

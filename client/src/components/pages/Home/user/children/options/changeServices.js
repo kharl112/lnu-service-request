@@ -1,6 +1,9 @@
 const changeServices = (id) => {
   const services = [
-    { id: "60f62dcb69f7dd1017e2ba49", obj: { name: "", timeout: "" } },
+    {
+      id: "60f62dcb69f7dd1017e2ba49",
+      obj: { name: "", timeout: "", date: "" },
+    },
     {
       id: "60f62dd969f7dd1017e2ba4a",
       obj: {

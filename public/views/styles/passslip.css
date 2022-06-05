@@ -83,16 +83,19 @@ p {
   font-weight: bold;
   text-transform: uppercase;
 }
-.request-body {
+.prefix {
   margin: 5px 0px 18px;
   font-size: 18px;
 }
-.request-body p {
-  margin-left: 10px;
-  display: inline;
-  text-decoration: none;
-  text-align: justify;
+
+.prefix-body {
+  width: 70%;
+  border-bottom: 1px solid black;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  font-size: 18px;
 }
+
 .recipients {
   display: flex;
   flex-direction: row;
@@ -103,6 +106,7 @@ p {
   width: 100%;
   grid-row-start: 1;
 }
+
 .dept-head {
   font-size: 11px;
   text-decoration: none;
@@ -113,6 +117,7 @@ p {
   padding-bottom: 5px;
   border-bottom: 1px solid black;
 }
+
 .dept-head-title {
   font-size: 9px;
   text-decoration: none;
@@ -120,6 +125,7 @@ p {
   margin: 2px;
   width: 40%;
 }
+
 .admin-dept {
   font-size: 11px;
   text-decoration: none;
@@ -130,6 +136,7 @@ p {
   padding-bottom: 5px;
   border-bottom: 1px solid black;
 }
+
 .admin-dept-title {
   font-size: 9px;
   text-decoration: none;
@@ -137,6 +144,7 @@ p {
   margin: 2px;
   width: 40%;
 }
+
 .user-name {
   font-size: 11px;
   text-decoration: none;
