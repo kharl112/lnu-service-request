@@ -2,7 +2,7 @@ doctype html
 html 
   head 
     style
-        include ../styles/risograph.css
+      include ../styles/risograph.css
 body
   header
     div(class="header-info")
@@ -29,18 +29,18 @@ body
         th(class="tb-data") Total No. of Copies Produced
       each doc in form.options.documents
         tr(class="tb-row")
-            td(class="tb-data")=doc.title
-            td(class="tb-data")=doc.copies
-            td(class="tb-data")=doc.pages
-            td(class="tb-data")=`${doc.produced === "0" ? doc.produced : parseInt(doc.copies * doc.pages)}`
+          td(class="tb-data")=doc.title
+          td(class="tb-data")=doc.copies
+          td(class="tb-data")=doc.pages
+          td(class="tb-data")=`${doc.produced === "0" ? doc.produced : parseInt(doc.copies * doc.pages)}`
       tr(class="tb-row")
-            td(class="tb-data") TOTAL OUTPUT
-            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies), 0)}`
-            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.pages), 0)}`
-            td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies * node.pages), 0)}`
+        td(class="tb-data total-output") TOTAL OUTPUT
+        td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies), 0)}`
+        td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.pages), 0)}`
+        td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies * node.pages), 0)}`
     div(class="request-body")
       span(class="prefix") PURPOSE:
-      | !{form.body}
+      span(class="prefix-body")=form.body
   div(class="recipients")
     div(class="signature")
       span(class="prefix") Requested by:
@@ -56,8 +56,8 @@ body
       div(class="signature")
         span(class="prefix") Job done by:
         p(class="dept-head")=form.service_provider.profile
-        p(class="dept-head-title")=form.service_provider.department
+        p(class="dept-head-title") Reproduction Center
       | !{form.service_provider.signature}
 
-    
+
 

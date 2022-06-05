@@ -93,6 +93,7 @@ p {
   border: 1px solid black;
   width: 100%;
   margin: 10px 0px 25px;
+  border-collapse: collapse;
 }
 .tb-row {
   border: 1px solid black;
@@ -101,9 +102,24 @@ p {
   text-align: center;
   border: 1px solid black;
 }
+
+.total-output {
+  font-weight: bold;
+  white-space: nowrap;
+  font-size: 9px;
+  padding: 2px;
+}
+
 .request-body {
   margin: 5px 0px 0px;
 }
+
+.prefix-body {
+  width: 70%;
+  margin-left: 5px;
+  border-bottom: 1px solid black;
+}
+
 .recipients {
   display: flex;
   flex-direction: row;
