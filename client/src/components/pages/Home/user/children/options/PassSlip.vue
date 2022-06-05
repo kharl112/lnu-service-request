@@ -10,9 +10,9 @@ export default {
 <template>
   <v-col cols="12">
     <v-row justify="start" align="start">
-      <v-col cols="12" class="px-0">
-        <v-container fluid class="py-0">
-          <v-subheader class="px-0">Pass Slip Options</v-subheader>
+      <v-col cols="12" class="py-0 px-0">
+        <v-container fluid>
+          <v-subheader class="px-0">PASS SLIP OPTIONS</v-subheader>
           <v-divider />
         </v-container>
       </v-col>

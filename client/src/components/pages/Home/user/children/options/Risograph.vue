@@ -28,6 +28,15 @@ export default {
         JSON.parse(JSON.stringify(this.idle)),
       ];
     },
+    handleProduce() {
+      this.options.documents = [
+        ...this.options.documents.map((doc) => ({
+          ...doc,
+          produced: parseInt(doc.copies) * parseInt(doc.pages),
+        })),
+      ];
+      console.log(JSON.parse(JSON.stringify(this.options.documents)));
+    },
   },
   mounted() {
     if (this.options.documents.length < 1) this.newDocument();
@@ -38,10 +47,10 @@ export default {
   <v-col cols="12">
     <v-row justify="start" align="start">
       <v-col cols="12">
-        <v-container fluid class="py-0">
-          <v-subheader class="px-0"
-            >Job Order for Risograph Options</v-subheader
-          >
+        <v-container fluid class="py-0 px-0">
+          <v-subheader class="px-0">
+            JOB ORDER FOR RISOGRAPH OPTIONS
+          </v-subheader>
           <v-divider />
         </v-container>
       </v-col>
@@ -115,6 +124,7 @@ export default {
                         <td class="text-center">
                           <v-text-field
                             :rules="[rules.isNumber, rules.isRequiredNumber]"
+                            @change="handleProduce()"
                             type="number"
                             dense
                             v-model="doc.copies"
@@ -123,6 +133,7 @@ export default {
                         <td class="text-center">
                           <v-text-field
                             :rules="[rules.isNumber, rules.isRequiredNumber]"
+                            @change="handleProduce()"
                             type="number"
                             dense
                             v-model="doc.pages"

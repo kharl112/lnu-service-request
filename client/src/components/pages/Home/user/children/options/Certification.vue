@@ -150,8 +150,8 @@ export default {
         <v-col cols="12" class="pt-0">
           <v-divider />
         </v-col>
-        <v-col cols="12" class="py-0">
-          <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
+        <v-col cols="12">
+          <v-subheader class="px-0 font-weight-black text-uppercase">
             Co Makers
           </v-subheader>
         </v-col>
