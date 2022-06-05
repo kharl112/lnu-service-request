@@ -33,10 +33,12 @@ export default {
         title: "Pending",
         icon: "mdi-email-receive",
         getter: "Pendings",
+        path: "/faculty/home/pending",
       },
       {
         title: "Signed",
         icon: "mdi-signature-freehand",
+        path: "/faculty/home/signed",
       },
     ],
   }),
@@ -160,7 +162,7 @@ export default {
         <v-list-item
           v-for="(child, i) in received_items"
           :key="i"
-          :value="child.title.toLowerCase()"
+          :value="child.path"
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
@@ -180,7 +182,7 @@ export default {
     <v-list dense>
       <v-subheader>Account</v-subheader>
       <v-list-item-group color="grey" v-model="route">
-        <v-list-item value="settings">
+        <v-list-item value="/faculty/home/settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
           </v-list-item-icon>
