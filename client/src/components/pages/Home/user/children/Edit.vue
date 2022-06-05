@@ -8,6 +8,7 @@ import IssueSlip from "./options/IssueSlip";
 import CctvReview from "./options/CctvReview";
 import GatePass from "./options/GatePass";
 import Default from "./options/Default";
+import RequestForServices from "./options/RequestForServices";
 
 export default {
   name: "Edit",
@@ -21,6 +22,7 @@ export default {
     IssueSlip,
     CctvReview,
     GatePass,
+    RequestForServices,
   },
   data: () => ({
     signature_view: { shown: false },
