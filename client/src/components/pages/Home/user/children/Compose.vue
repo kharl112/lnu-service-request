@@ -8,6 +8,7 @@ import Certification from "./options/Certification";
 import IssueSlip from "./options/IssueSlip";
 import CctvReview from "./options/CctvReview";
 import GatePass from "./options/GatePass";
+import RequestForServices from "./options/RequestForServices";
 
 import form from "./options/form";
 export default {
@@ -22,6 +23,7 @@ export default {
     IssueSlip,
     CctvReview,
     GatePass,
+    RequestForServices,
   },
   data: () => ({
     signature_view: { shown: false },
