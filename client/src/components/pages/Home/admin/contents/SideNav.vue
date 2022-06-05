@@ -128,7 +128,7 @@ export default {
     <v-list dense>
       <v-subheader>Account</v-subheader>
       <v-list-item-group color="grey" v-model="route">
-        <v-list-item value="settings">
+        <v-list-item value="/admin/home/settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
           </v-list-item-icon>
