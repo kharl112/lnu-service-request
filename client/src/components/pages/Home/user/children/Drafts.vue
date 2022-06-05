@@ -56,7 +56,7 @@ export default {
     <v-row dense justify="start">
       <v-col cols="12" sm="12" md="8">
         <v-container fluid class="py-0" v-if="pendingLength">
-          <v-alert prominent type="primary" outlined>
+          <v-alert prominent color="primary" outlined>
             <v-row align="center">
               <v-col class="grow">
                 You have
@@ -68,7 +68,7 @@ export default {
                 }}
               </v-col>
               <v-col class="shrink">
-                <v-btn color="primary" text @click="goPending()"
+                <v-btn color="warning" text @click="goPending()"
                   >View Pendings</v-btn
                 >
               </v-col>
