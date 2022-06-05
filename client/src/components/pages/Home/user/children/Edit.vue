@@ -20,7 +20,7 @@ export default {
     Risograph,
     IssueSlip,
     CctvReview,
-    GatePass
+    GatePass,
   },
   data: () => ({
     signature_view: { shown: false },
@@ -132,6 +132,61 @@ export default {
             <v-col cols="12">
               <v-container fluid>
                 <v-row justify="start">
+                  <v-col cols="12" sm="12" md="6" class="pa-0 pa-md-3 py-0">
+                    <component
+                      :options="form.options"
+                      :rules="rules"
+                      :is="getOptionalComponent()"
+                    />
+                    <v-col cols="12" class="pa-0 pa-md-3">
+                      <v-container fluid>
+                        <v-subheader class="px-0">
+                          Save As
+                          <v-subheader
+                            class="caption font-weight-bold py-0 hidden-sm-and-down"
+                          >
+                            (This will set to draft as a default)
+                          </v-subheader>
+                        </v-subheader>
+                        <v-divider />
+                      </v-container>
+                    </v-col>
+                    <v-col cols="12">
+                      <v-row justify="start" align="start" dense>
+                        <v-col cols="12" sm="6">
+                          <v-btn
+                            :disabled="getEditLoading"
+                            color="warning"
+                            type="submit"
+                            @click="handleSubmit()"
+                            rounded
+                            outlined
+                            block
+                            elevation="0"
+                          >
+                            draft
+                            <v-icon right> mdi-paperclip </v-icon>
+                          </v-btn>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-btn
+                            :disabled="getEditLoading"
+                            color="primary"
+                            type="button"
+                            @click="handleSubmit('sent')"
+                            rounded
+                            outlined
+                            block
+                            elevation="0"
+                          >
+                            send
+                            <v-icon right> mdi-send </v-icon>
+                          </v-btn>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-col>
+
                   <v-col cols="12" sm="12" md="6">
                     <v-row justify="start">
                       <v-col cols="12" class="pb-3">
@@ -263,60 +318,6 @@ export default {
                     </v-row>
                   </v-col>
                   <v-divider class="hidden-sm-and-down" vertical />
-                  <v-col cols="12" sm="12" md="6" class="pa-0 pa-md-3 py-0">
-                    <component
-                      :options="form.options"
-                      :rules="rules"
-                      :is="getOptionalComponent()"
-                    />
-                    <v-col cols="12" class="pa-0 pa-md-3">
-                      <v-container fluid>
-                        <v-subheader class="px-0">
-                          Save As
-                          <v-subheader
-                            class="caption font-weight-bold py-0 hidden-sm-and-down"
-                          >
-                            (This will set to draft as a default)
-                          </v-subheader>
-                        </v-subheader>
-                        <v-divider />
-                      </v-container>
-                    </v-col>
-                    <v-col cols="12">
-                      <v-row justify="start" align="start" dense>
-                        <v-col cols="12" sm="6">
-                          <v-btn
-                            :disabled="getEditLoading"
-                            color="warning"
-                            type="submit"
-                            @click="handleSubmit()"
-                            rounded
-                            outlined
-                            block
-                            elevation="0"
-                          >
-                            draft
-                            <v-icon right> mdi-paperclip </v-icon>
-                          </v-btn>
-                        </v-col>
-                        <v-col cols="12" sm="6">
-                          <v-btn
-                            :disabled="getEditLoading"
-                            color="primary"
-                            type="button"
-                            @click="handleSubmit('sent')"
-                            rounded
-                            outlined
-                            block
-                            elevation="0"
-                          >
-                            send
-                            <v-icon right> mdi-send </v-icon>
-                          </v-btn>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                  </v-col>
                 </v-row>
               </v-container>
             </v-col>
