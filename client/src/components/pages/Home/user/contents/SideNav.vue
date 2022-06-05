@@ -120,7 +120,7 @@ export default {
 
     <v-list shaped>
       <v-list-item-group v-model="route">
-        <v-list-item value="compose">
+        <v-list-item value="/faculty/home/compose">
           <v-list-item-icon>
             <v-icon color="primary">mdi-plus</v-icon>
           </v-list-item-icon>
