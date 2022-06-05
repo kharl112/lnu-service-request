@@ -10,12 +10,23 @@ export default {
       {
         title: "Drafts",
         icon: "mdi-email-edit",
+        path: "/faculty/home/drafts",
       },
       {
         title: "Sent",
         icon: "mdi-send-check",
+        path: "/faculty/home/sent",
       },
-      { title: "Archives", icon: "mdi-archive" },
+      {
+        title: "Archives",
+        icon: "mdi-archive",
+        path: "/faculty/home/archives",
+      },
+      {
+        title: "Track",
+        icon: "mdi-map-marker-distance",
+        path: "/track/none",
+      },
     ],
     received_items: [
       {
@@ -60,12 +71,11 @@ export default {
     },
     route: {
       get() {
-        return this.$route.fullPath.split("/")[3];
+        return this.$route.fullPath;
       },
       set(link) {
         if (link)
-          if (this.$route.fullPath !== `/faculty/home/${link}`)
-            return this.$router.push(`/faculty/home/${link}`);
+          if (this.$route.fullPath !== link) return this.$router.push(link);
         return;
       },
     },
@@ -127,7 +137,7 @@ export default {
         <v-list-item
           v-for="(child, i) in request_items"
           :key="i"
-          :value="child.title.toLowerCase()"
+          :value="child.path"
         >
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
