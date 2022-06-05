@@ -59,6 +59,13 @@ const changeServices = (id) => {
         security_name: "",
       },
     },
+    {
+      id: "629c8b230db34e279582a537",
+      obj: {
+        persons_involved: [],
+        type: "",
+      },
+    },
   ];
 
   const [selected] = services.filter((service) => service.id === id);
