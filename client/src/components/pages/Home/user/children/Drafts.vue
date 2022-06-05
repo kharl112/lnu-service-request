@@ -30,10 +30,13 @@ export default {
       }).replace("about ", "");
     },
     goToEdit(_id) {
-      return this.$router.push(`/faculty/home/edit/${_id}`);
+      this.$router.push(`/faculty/home/edit/${_id}`);
     },
     goToCreate() {
-      return this.$router.push(`/faculty/home/compose`);
+      this.$router.push(`/faculty/home/compose`);
+    },
+    goPending() {
+      this.$router.push(`/faculty/home/pending`);
     },
     send(_id) {
       this.selected_id = _id;
@@ -65,7 +68,9 @@ export default {
                 }}
               </v-col>
               <v-col class="shrink">
-                <v-btn color="primary" text>View Pendings</v-btn>
+                <v-btn color="primary" text @click="goPending()"
+                  >View Pendings</v-btn
+                >
               </v-col>
             </v-row>
           </v-alert>
