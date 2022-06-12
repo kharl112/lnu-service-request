@@ -1,10 +1,11 @@
 const Request = require("../../../db/models/request_model");
 const requestQuery = require("../../../functions/requestQuery");
+const pusher = require("../../../functions/pusher");
 
 const Mutations = (() => {
   const sign = async (req, res) => {
     try {
-      await Request.findOneAndUpdate(
+      const request_service = await Request.findOneAndUpdate(
         {
           _id: req.body._id,
           "reports.status": "sent",
@@ -18,6 +19,15 @@ const Mutations = (() => {
           },
         }
       );
+
+      //trigger notification to user requestor
+      pusher.trigger(request_service.user.staff_id, "signed", {
+        request_id: req.body._id,
+        initiator: req.locals.name,
+        user_type: "user",
+        message: "Signed and approved your request",
+        date: new Date(),
+      });
 
       return res.send({ message: "signing complete" });
     } catch (error) {

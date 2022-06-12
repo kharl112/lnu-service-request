@@ -148,6 +148,7 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
+            offset-x="15"
             color="primary"
             v-if="getLength(child.getter)"
             :content="getLength(child.getter)"
@@ -171,6 +172,7 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
+            offset-x="15"
             v-if="getLength(child.getter)"
             color="primary"
             :content="getLength(child.getter)"

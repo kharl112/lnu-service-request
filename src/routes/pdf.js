@@ -83,7 +83,6 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
 
     form.admin.profile = Name.getFullName(form.admin.profile[0].name);
 
-    form.body = md.render(form.body).toString();
     form.date = _Date.getFullDate(form.reports.dates.created);
     form.service_type = form.service[0].type;
 

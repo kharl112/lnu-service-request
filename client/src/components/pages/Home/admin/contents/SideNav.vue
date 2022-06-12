@@ -115,6 +115,7 @@ export default {
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
+            offset-x="15"
             color="primary"
             v-if="getLength(child.getter)"
             :content="getLength(child.getter)"

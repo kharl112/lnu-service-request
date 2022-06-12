@@ -31,7 +31,8 @@
     "multer": "^1.4.3",
     "nanoid": "^3.1.23",
     "nodemailer": "^6.6.1",
-    "pug": "^3.0.2"
+    "pug": "^3.0.2",
+    "pusher": "^5.1.0-beta"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"
