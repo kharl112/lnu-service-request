@@ -46,6 +46,11 @@ export default {
     showLogout() {
       return (this.logout = !this.logout);
     },
+    viewRequest(request_id) {
+      this.notif_bar = false;
+      const path = `/admin/home/view/${request_id}`;
+      this.$router.push(path);
+    },
     getUserInitials(name) {
       const { firstname, lastname } = name;
       return firstname.toUpperCase()[0] + lastname.toUpperCase()[0];
@@ -168,7 +173,7 @@ export default {
           text
           v-bind="attrs"
           color="primary"
-          @click="notif_bar = false"
+          @click="viewRequest(getNotif.request_id)"
           class="ma-2"
         >
           View

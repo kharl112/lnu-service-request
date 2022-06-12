@@ -49,7 +49,6 @@ export default {
     viewRequest(request_id, user_type = "user") {
       this.notif_bar = false;
       const path = `/faculty/home/view/${user_type}/${request_id}`;
-      console.log(path);
       this.$router.push(path);
     },
     getUserInitials(name) {
