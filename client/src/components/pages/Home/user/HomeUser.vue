@@ -33,10 +33,24 @@ export default {
         return this.$store.commit("message/setSnackbar", flag);
       },
     },
+    notif_bar: {
+      get() {
+        return this.$store.getters["message/getNotifBar"];
+      },
+      set(flag) {
+        return this.$store.commit("message/setNotifBar", flag);
+      },
+    },
   },
   methods: {
     showLogout() {
       return (this.logout = !this.logout);
+    },
+    viewRequest(request_id, user_type = "user") {
+      this.notif_bar = false;
+      const path = `/faculty/home/view/${user_type}/${request_id}`;
+      console.log(path);
+      this.$router.push(path);
     },
     getUserInitials(name) {
       const { firstname, lastname } = name;
@@ -55,6 +69,23 @@ export default {
     getColorByUserType(user_type = "faculty") {
       return user_type === "provider" ? "warning" : "primary";
     },
+  },
+  mounted() {
+    const profile = this.$store.getters["faculty/getProfile"];
+    if (profile) {
+      const channel = this.$pusher.subscribe(profile.staff_id);
+
+      channel.bind("received", (options) => {
+        this.$store.dispatch("message/detachNotif");
+        this.$store.dispatch("message/notify", options);
+        this.$store.dispatch("request/Pendings", "provider");
+      });
+
+      channel.bind("signed", (options) => {
+        this.$store.dispatch("message/detachNotif");
+        this.$store.dispatch("message/notify", options);
+      });
+    }
   },
 };
 </script>
@@ -111,11 +142,12 @@ export default {
       </template>
     </v-snackbar>
     <v-snackbar
+      v-if="getNotif"
       v-show="getNotif"
       right
       tile
-      v-model="snackbar"
-      :timeout="50000"
+      v-model="notif_bar"
+      :timeout="0"
     >
       <v-container fluid fill-height>
         <v-row justify="start" align="center">
@@ -138,7 +170,7 @@ export default {
           text
           v-bind="attrs"
           color="primary"
-          @click="dialog = false"
+          @click="viewRequest(getNotif.request_id, getNotif.user_type)"
           class="ma-2"
         >
           View
@@ -147,7 +179,7 @@ export default {
           text
           v-bind="attrs"
           color="light"
-          @click="dialog = false"
+          @click="notif_bar = false"
           class="ma-2"
         >
           Dismiss
