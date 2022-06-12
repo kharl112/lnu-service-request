@@ -27,6 +27,10 @@ const message = {
       commit("setSuccess", null);
       commit("setSnackbar", false);
     },
+    detachNotif: ({ commit }) => {
+      commit("setNotification", null);
+      commit("setNotifBar", false);
+    },
     successMessage: ({ commit }, message) => {
       commit("setSuccess", message);
       commit("setSnackbar", true);
