@@ -7,6 +7,7 @@ const Request = require("../../../db/models/request_model");
 const Service = require("../../../db/models/service_model");
 const requestQuery = require("../../../functions/requestQuery");
 const { Name } = require("../../../functions/generateProfile");
+const pusher = require("../../../functions/pusher");
 
 const Mutations = (() => {
   const create = async (req, res) => {
@@ -31,8 +32,10 @@ const Mutations = (() => {
         return res.status(400).send({ message: "service provider not found" });
     }
 
+    const _id = nanoid(9);
+
     const request = new Request({
-      _id: nanoid(9),
+      _id,
       ...req.body,
       user: { staff_id: req.locals.staff_id, ...req.body.user },
       service_provider: {
@@ -55,6 +58,17 @@ const Mutations = (() => {
         },
       },
     });
+
+    //trigger notification to admin
+    if (req.body.reports.status === "sent") {
+      pusher.trigger(req.body.admin.staff_id, "received", {
+        request_id: _id,
+        initiator: req.locals.name,
+        user_type: "admin",
+        message: "Sent you a service request",
+        date: new Date(),
+      });
+    }
 
     try {
       await request.save();
