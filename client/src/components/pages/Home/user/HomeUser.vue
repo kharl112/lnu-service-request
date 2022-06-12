@@ -14,7 +14,6 @@ export default {
   data: () => ({
     logout: false,
     timeout: 2000,
-    dialog: true,
   }),
   computed: {
     getSuccess() {

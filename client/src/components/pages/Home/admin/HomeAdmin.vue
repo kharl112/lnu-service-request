@@ -2,6 +2,8 @@
 import SideNav from "./contents/SideNav";
 import Header from "./contents/Header";
 import ConfirmLogout from "./contents/ConfirmLogout";
+import { formatDistanceToNow } from "date-fns";
+
 export default {
   name: "HomeAdmin",
   components: {
@@ -20,6 +22,9 @@ export default {
     getError() {
       return this.$store.getters["message/getError"];
     },
+    getNotif() {
+      return this.$store.getters["message/getNotification"];
+    },
     snackbar: {
       get() {
         return this.$store.getters["message/getSnackbar"];
@@ -32,6 +37,20 @@ export default {
   methods: {
     showLogout() {
       return (this.logout = !this.logout);
+    },
+    getUserInitials(name) {
+      const { firstname, lastname } = name;
+      return firstname.toUpperCase()[0] + lastname.toUpperCase()[0];
+    },
+    getFullname(name) {
+      const { firstname, lastname, prefix } = name;
+      return `${prefix ? `${prefix}.` : ""} ${firstname} ${lastname} `;
+    },
+    getTimeOrDate(date) {
+      return formatDistanceToNow(new Date(date), {
+        addSuffix: true,
+        includeSeconds: true,
+      }).replace("about ", "");
     },
   },
 };
@@ -84,6 +103,64 @@ export default {
       <template v-slot:action="{ attrs }">
         <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
           Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+
+    <v-snackbar
+      :timeout="timeout"
+      v-show="getError"
+      color="error"
+      v-model="snackbar"
+    >
+      {{ getError }}
+      <template v-slot:action="{ attrs }">
+        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <v-snackbar
+      v-show="getNotif"
+      right
+      tile
+      v-model="snackbar"
+      :timeout="50000"
+    >
+      <v-container fluid fill-height>
+        <v-row justify="start" align="center">
+          <v-avatar color="warning" size="40">
+            {{ getUserInitials(getNotif.initiator) }}
+          </v-avatar>
+          <span class="ml-2 body-2">
+            <strong>
+              {{ getFullname(getNotif.initiator) }}
+            </strong>
+            {{ getNotif.message }}
+            <p class="pa-0 ma-0 caption">
+              {{ getTimeOrDate(getNotif.date) }}
+            </p>
+          </span>
+        </v-row>
+      </v-container>
+      <template v-slot:action="{ attrs }">
+        <v-btn
+          text
+          v-bind="attrs"
+          color="primary"
+          @click="dialog = false"
+          class="ma-2"
+        >
+          View
+        </v-btn>
+        <v-btn
+          text
+          v-bind="attrs"
+          color="light"
+          @click="dialog = false"
+          class="ma-2"
+        >
+          Dismiss
         </v-btn>
       </template>
     </v-snackbar>
