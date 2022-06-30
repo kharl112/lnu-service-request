@@ -15,6 +15,9 @@ export default {
     getUploadLoading() {
       return this.$store.getters["gdrive/getLoading"].upload;
     },
+    getUploadPercent() {
+      return this.$store.getters["gdrive/getUploadPercent"];
+    },
   },
   methods: {
     async handleSubmitFile(e) {
@@ -65,19 +68,22 @@ export default {
                   outlined
                 />
               </v-col>
+              <v-col cols="12" class="pt-0" v-if="getUploadLoading">
+                <v-progress-linear v-model="getUploadPercent" height="20">
+                  <strong>{{ getUploadPercent }}%</strong>
+                </v-progress-linear>
+              </v-col>
               <v-col cols="12" align="center" class="py-0">
                 <v-btn
                   color="primary"
-                  :loading="getUploadLoading"
+                  :disabled="getUploadLoading"
                   elevation="0"
                   block
                   large
                   @click="handleSubmitFile"
                   type="submit"
                 >
-                  <v-icon left>
-                    mdi-google-drive
-                  </v-icon>
+                  <v-icon left> mdi-google-drive </v-icon>
                   Upload to Google Drive
                 </v-btn>
               </v-col>
@@ -92,7 +98,7 @@ export default {
                 </v-subheader>
                 <v-subheader class="caption pa-0 text-center" v-else>
                   <v-icon class="mr-2">mdi-information</v-icon>
-                  25mb is the recommended file size
+                  25mb is the recommended maximum file size
                 </v-subheader>
               </v-col>
             </v-row>
