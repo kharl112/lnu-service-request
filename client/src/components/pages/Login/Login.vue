@@ -96,11 +96,9 @@ export default {
             <v-row>
               <v-col cols="12">
                 <h3
-                  :class="
-                    `text-h5 text-sm-h4 text-center ${
-                      $vuetify.theme.dark ? 'primary--text' : ''
-                    }`
-                  "
+                  :class="`text-h5 text-sm-h4 text-center ${
+                    $vuetify.theme.dark ? 'primary--text' : ''
+                  }`"
                 >
                   Sign In to LNUSR
                 </h3>
@@ -109,21 +107,17 @@ export default {
               <v-col cols="12" class="pa-2 pb-0">
                 <h4
                   v-if="user === 'faculty'"
-                  :class="
-                    ` overline font-weight-bold text-center ${
-                      $vuetify.theme.dark ? 'primary--text' : ''
-                    }`
-                  "
+                  :class="` overline font-weight-bold text-center ${
+                    $vuetify.theme.dark ? 'primary--text' : ''
+                  }`"
                 >
                   Faculty Personnel Login
                 </h4>
                 <h4
                   v-else
-                  :class="
-                    ` overline font-weight-bold text-center ${
-                      $vuetify.theme.dark ? 'warning--text' : ''
-                    }`
-                  "
+                  :class="` overline font-weight-bold text-center ${
+                    $vuetify.theme.dark ? 'warning--text' : ''
+                  }`"
                 >
                   Chief Admin Office Login
                 </h4>
@@ -221,16 +215,6 @@ export default {
                     >
                       Create Account
                     </v-btn>
-                  </v-col>
-                  <v-col cols="12">
-                    <v-container fluid class="pa-0 mt-4">
-                      <router-link
-                        class="body-2"
-                        :to="`/forgot/password/step=1`"
-                      >
-                        Forgot your password?
-                      </router-link>
-                    </v-container>
                   </v-col>
                 </v-row>
               </v-row>
