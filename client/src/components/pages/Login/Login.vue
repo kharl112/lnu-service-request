@@ -105,12 +105,8 @@ export default {
                       <img
                         src="../../../assets/images/lnu-logo.png"
                         class="lnu-logo"
-                        style="
-                          width: 4rem;
-                          height: auto;
-                          margin-bottom: -5px;
-                          margin-right: 5px;
-                        "
+                        alt="LNU logo"
+                        title="Leyte Normal University logo"
                       />
                       <strong class="primary--text">LNU</strong>
                     </v-row>
@@ -398,5 +394,11 @@ export default {
   position: fixed;
   bottom: 12px;
   right: 12px;
+}
+.lnu-logo {
+  width: 4rem;
+  height: auto;
+  margin-bottom: -5px;
+  margin-right: 5px;
 }
 </style>

@@ -71,7 +71,8 @@ export default {
               <img
                 src="../../../../../assets/images/lnu-logo.png"
                 class="lnu-logo"
-                style="width: 3rem; height: auto; margin-right: 10px"
+                alt="LNU logo"
+                title="Leyte Normal University logo"
               />
               <span class="font-weight-bold">LNU SERVICE REQUESTING APP</span>
             </v-row>
@@ -151,3 +152,10 @@ export default {
     </v-row>
   </v-container>
 </template>
+<style scoped>
+.lnu-logo {
+  width: 3rem;
+  height: auto;
+  margin-right: 10px;
+}
+</style>
