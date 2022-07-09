@@ -12,17 +12,27 @@ export default {
         icon: "mdi-email-alert",
         getter: "Pendings",
         path: "/admin/home/pending",
+        tag: "For Approval",
       },
       {
         title: "Signed",
         icon: "mdi-email-edit",
+        getter: "Signed",
         path: "/admin/home/signed",
+        tag: "",
       },
-      { title: "Archives", icon: "mdi-archive", path: "/admin/home/archives" },
+      {
+        title: "Archives",
+        icon: "mdi-archive",
+        getter: "Archives",
+        path: "/admin/home/archives",
+        tag: "",
+      },
       {
         title: "Track",
         icon: "mdi-map-marker-distance",
         path: "/track",
+        tag: "",
       },
     ],
   }),
@@ -71,6 +81,17 @@ export default {
       if (!getter) return 0;
       return this.$store.getters[`request/get${getter}`].length;
     },
+    getTitleDescription(child) {
+      if (child.title === "Track") return "Track Requests";
+      return (
+        "You have " +
+        this.getLength(child.getter) +
+        " " +
+        child.title +
+        " Requests " +
+        child.tag
+      );
+    },
   },
   destroyed() {
     this.drawer = false;
@@ -105,35 +126,21 @@ export default {
     <v-divider />
 
     <v-list dense>
-      <v-subheader>Requests</v-subheader>
+      <v-subheader class="font-weight-bold">Received Requests</v-subheader>
       <v-list-item-group v-model="route" color="grey">
         <v-list-item v-for="(child, i) in items" :key="i" :value="child.path">
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
           </v-list-item-icon>
-          <v-list-item-content
-            :title="
-              'You have ' +
-              getLength(child.getter) +
-              ' ' +
-              child.title +
-              ' Requests For Approval'
-            "
-          >
+          <v-list-item-content :title="getTitleDescription(child)">
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
             offset-x="15"
             color="primary"
-            v-if="getLength(child.getter)"
+            v-if="child.title === 'Pending'"
             :content="getLength(child.getter)"
-            :title="
-              'You have ' +
-              getLength(child.getter) +
-              ' ' +
-              child.title +
-              ' Requests For Approval'
-            "
+            :title="getTitleDescription(child)"
           />
         </v-list-item>
       </v-list-item-group>
@@ -142,9 +149,9 @@ export default {
     <v-divider />
 
     <v-list dense>
-      <v-subheader>Account</v-subheader>
+      <v-subheader class="font-weight-bold">My Account</v-subheader>
       <v-list-item-group color="grey" v-model="route">
-        <v-list-item value="/admin/home/settings">
+        <v-list-item value="/admin/home/settings" title="Sign-out your account">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
           </v-list-item-icon>
@@ -153,7 +160,7 @@ export default {
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
-      <v-list-item @click="showLogout" link>
+      <v-list-item @click="showLogout" link title="Sign-out your account">
         <v-list-item-icon>
           <v-icon color="primary">mdi-logout</v-icon>
         </v-list-item-icon>
