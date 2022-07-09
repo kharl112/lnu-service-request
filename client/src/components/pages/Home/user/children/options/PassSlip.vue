@@ -1,9 +1,19 @@
 <script>
+import { format } from "date-fns";
 export default {
   name: "PassSlip",
   props: {
     options: Object,
     rules: Array,
+  },
+  methods: {
+    formatDatePicker(date) {
+      return format(date, "yyyy-MM-dd").toString();
+    },
+    dateValidate() {
+      console.log("helloworld");
+      this.$store.dispatch("message/errorMessage", "No Selected Date");
+    },
   },
 };
 </script>
@@ -18,11 +28,21 @@ export default {
       </v-col>
       <v-col cols="12" class="py-0">
         <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
-          Date
+          Select Date
         </v-subheader>
       </v-col>
-      <v-col cols="12">
+      <v-col cols="12" class="pa-4 mb-6">
+        <v-row justify="center">
+          <v-date-picker
+            v-model="options.date"
+            class="mt-4"
+            :min="formatDatePicker(new Date())"
+            elevation="1"
+          ></v-date-picker>
+        </v-row>
+        <!-- this is hidden to avoid submitting without date -->
         <v-text-field
+          class="d-none"
           outlined
           v-model="options.date"
           :rules="rules"
