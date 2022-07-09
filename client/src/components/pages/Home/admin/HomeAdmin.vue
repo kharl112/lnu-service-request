@@ -109,6 +109,7 @@ export default {
       v-show="getSuccess"
       color="success"
       v-model="snackbar"
+      class="text-capitalize"
     >
       {{ getSuccess }}
       <template v-slot:action="{ attrs }">
@@ -122,6 +123,7 @@ export default {
       v-show="getError"
       color="error"
       v-model="snackbar"
+      class="text-capitalize"
     >
       {{ getError }}
       <template v-slot:action="{ attrs }">
