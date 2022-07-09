@@ -15,7 +15,7 @@ export default {
   }),
   computed: {
     trackedLoading() {
-      return this.$store.getters["request/getLoading"].tracked_request;
+      return this.$store.getters["request/getLoading"].tracked;
     },
     success() {
       return this.$store.getters["message/getSuccess"];
@@ -37,14 +37,10 @@ export default {
         return this.$route.query.id;
       },
       set(track_id) {
-        return track_id
-          ? track_id !== this.$route.query.id
-            ? this.$router.replace({
-                name: "track",
-                query: { id: track_id },
-              })
-            : null
-          : null;
+        return this.$router.replace({
+          name: "track",
+          query: { id: track_id },
+        });
       },
     },
   },
@@ -141,15 +137,15 @@ export default {
                 <div
                   class="text-caption text-sm-body-1 text-md-h6 primary--text text-center text-sm-left text-md-left pa-5"
                 >
-                  LNU Service Request
+                  LNU Service Requesting App
                   <v-card-subtitle class="caption text-sm-body-1 pa-0 pb-1">
-                    Track Request
+                    Request Tracking
                   </v-card-subtitle>
                   <v-divider />
                 </div>
               </v-row>
             </v-col>
-            <v-col cols="11" class="pt-0 pb-0 mb-n3">
+            <v-col cols="11" class="pt-5 pb-0 mb-n3">
               <v-form @submit="handleSubmit">
                 <v-text-field
                   append-icon="mdi-send"
@@ -167,8 +163,8 @@ export default {
             </v-col>
 
             <v-col cols="11" class="pt-4" v-if="error">
-              <v-alert type="error" class="pt-1 pb-1 text-left">
-                <span class="caption text-capitalize">{{ error }}</span>
+              <v-alert type="error" class="pt-2 pb-2 text-left">
+                <span class="overline text-capitalize">{{ error }}</span>
               </v-alert>
             </v-col>
           </v-row>
@@ -323,6 +319,22 @@ export default {
           />
         </v-card>
       </v-col>
+      <v-col
+        cols="12"
+        sm="8"
+        md="7"
+        align="center"
+        v-else-if="!tracked.user && !trackedLoading"
+      >
+        <v-img
+          src="../../../assets/images/track_progress.png"
+          class="img-placeholder"
+        />
+        <p class="body-1 pa-0">
+          Track your request using <strong>QR Code</strong> or type the
+          <strong>Tracking Code. </strong>
+        </p>
+      </v-col>
       <v-col cols="12" sm="8" md="7" align="center">
         <v-card
           outlined
@@ -371,5 +383,9 @@ export default {
 }
 .table {
   width: 100%;
+}
+
+.img-placeholder {
+  max-width: 300px;
 }
 </style>
