@@ -290,7 +290,7 @@ export default {
                 <v-btn
                   v-bind="attrs"
                   v-on="on"
-                  @click="goToLink('/track/none')"
+                  @click="goToLink('/track')"
                   color="primary"
                   medium
                   class="mr-2"
@@ -354,7 +354,7 @@ export default {
             small
             v-bind="attrs"
             v-on="on"
-            @click="goToLink('/track/none')"
+            @click="goToLink('/track')"
             color="primary"
             medium
             class="ma-2"
