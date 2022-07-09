@@ -111,7 +111,15 @@ export default {
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
           </v-list-item-icon>
-          <v-list-item-content>
+          <v-list-item-content
+            :title="
+              'You have ' +
+              getLength(child.getter) +
+              ' ' +
+              child.title +
+              ' Requests For Approval'
+            "
+          >
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
@@ -119,6 +127,13 @@ export default {
             color="primary"
             v-if="getLength(child.getter)"
             :content="getLength(child.getter)"
+            :title="
+              'You have ' +
+              getLength(child.getter) +
+              ' ' +
+              child.title +
+              ' Requests For Approval'
+            "
           />
         </v-list-item>
       </v-list-item-group>
