@@ -31,16 +31,17 @@ export default {
         .filter(({ status }) => status)
         .reduce((arr, node) => [node, ...arr], []);
     },
+
     track_id: {
       get() {
-        return this.$route.params._id;
+        return this.$route.query.id;
       },
       set(track_id) {
         return track_id
-          ? track_id !== this.$route.params._id
+          ? track_id !== this.$route.query.id
             ? this.$router.replace({
                 name: "track",
-                params: { _id: track_id },
+                query: { id: track_id },
               })
             : null
           : null;
@@ -50,7 +51,7 @@ export default {
   methods: {
     handleSubmit(e) {
       if (e) e.preventDefault();
-      if (this.track_id || this.track_id !== "none") {
+      if (this.track_id) {
         return this.$store.dispatch("request/Track", this.track_id);
       }
     },
@@ -68,6 +69,24 @@ export default {
           representation: "date",
         })} ${formatISO9075(new Date(date), { representation: "time" })}`;
       else return "";
+    },
+
+    tConvert(time) {
+      time = time.match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+      if (time.length > 1) {
+        time = time.slice(1);
+        time[5] = +time[0] < 12 ? " AM" : " PM";
+        time[0] = +time[0] % 12 || 12;
+      }
+
+      return time.join("");
+    },
+    getFullname(name) {
+      const { firstname, lastname, middle_initial, prefix, suffixes } = name;
+      return `${
+        prefix ? `${prefix}.` : ""
+      } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${suffixes.toString()}`;
     },
     getDepartment(department) {
       if (typeof department === "string") return department;
@@ -93,11 +112,10 @@ export default {
           "something went wrong"
         );
       }
-    }, },
+    },
+  },
   created() {
-    if (this.track_id !== "none") {
-      return this.handleSubmit(null);
-    }
+    this.handleSubmit(null);
   },
   destroyed() {
     return this.$store.commit("request/setTracked", {});
@@ -106,7 +124,7 @@ export default {
 </script>
 <template>
   <div class="container">
-    <v-row justify="center" align="center" class="row-container">
+    <v-row justify="center" align-items="center" class="row-container">
       <v-col cols="12" sm="8" md="7" align="center">
         <v-card
           outlined
@@ -142,7 +160,7 @@ export default {
                   dense
                   outlined
                   id="track_id"
-                  label="track id"
+                  label="Enter your tracking code"
                   v-model="track_id"
                 />
               </v-form>
@@ -150,7 +168,7 @@ export default {
 
             <v-col cols="11" class="pt-4" v-if="error">
               <v-alert type="error" class="pt-1 pb-1 text-left">
-                <span class="caption">{{ error }}</span>
+                <span class="caption text-capitalize">{{ error }}</span>
               </v-alert>
             </v-col>
           </v-row>
@@ -177,7 +195,14 @@ export default {
                 >
                   Request Status
                 </v-card-title>
-                <v-btn v-if="!error" icon large color="primary" @click="showQR">
+                <v-btn
+                  v-if="!error"
+                  icon
+                  large
+                  color="primary"
+                  @click="showQR"
+                  title="generate QR Code"
+                >
                   <v-icon>mdi-qrcode</v-icon>
                 </v-btn>
               </v-row>
@@ -190,7 +215,11 @@ export default {
                 <v-timeline-item
                   v-for="node in fixTimeLine"
                   :key="node.staff_id"
-                  :color="node.reports.date === fixTimeLine[0].reports.date ? 'primary' : 'grey'"
+                  :color="
+                    node.reports.date === fixTimeLine[0].reports.date
+                      ? 'primary'
+                      : 'grey'
+                  "
                   :icon="node.status ? 'mdi-check' : 'mdi-dots-horizontal'"
                   small
                   fill-dot
@@ -218,9 +247,12 @@ export default {
                           {{ getTimeOrDate(node.reports.date).split(" ")[0] }}
                         </small>
                         <p class="pa-0 caption" v-if="node.reports.date">
-                          {{ getTimeOrDate(node.reports.date).split(" ")[1] }}
+                          {{
+                            tConvert(
+                              getTimeOrDate(node.reports.date).split(" ")[1]
+                            )
+                          }}
                         </p>
-
                       </v-col>
                     </v-row>
                   </v-container>
@@ -232,34 +264,53 @@ export default {
             </v-col>
             <v-col cols="11">
               <v-row justify="start">
-                <v-card-text class="text-uppercase pa-0 text-left">
-                  Service type:
-                  <span class="text-decoration-underline">
-                    {{ tracked.service[0].type }}
-                  </span>
-                </v-card-text>
-                <v-card-text class="body-2 text-uppercase pa-0 text-left">
-                  Status:
-                  <span class="font-weight-bold">
-                    {{ tracked.reports.status }}
-                  </span>
-                </v-card-text>
-                <v-card-text class="body-2 text-uppercase pa-0 pt-4 text-left">
-                  Requested By:
-                  <span class="font-weight-bold">
-                    {{ tracked.user.profile[0].name.firstname }}
-                  </span>
-                </v-card-text>
-                <v-card-text class="body-2 text-uppercase pa-0 text-left">
-                  Rendered By:
-                  <span
-                    class="font-weight-bold"
-                    v-if="tracked.service_provider.staff_id"
-                  >
-                    {{ tracked.service_provider.profile[0].name.firstname }}
-                  </span>
-                  <span class="font-weight-bold" v-else>NA</span>
-                </v-card-text>
+                <v-simple-table class="table">
+                  <thead>
+                    <tr>
+                      <th class="text-left text-caption font-weight-bold">
+                        Service Type
+                      </th>
+                      <th class="text-left text-caption font-weight-bold">
+                        Requestor
+                      </th>
+                      <th class="text-left text-caption font-weight-bold">
+                        Service Provider
+                      </th>
+                      <th class="text-left text-caption font-weight-bold">
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        {{ tracked.service[0].type }}
+                      </td>
+                      <td>
+                        <span>
+                          {{ getFullname(tracked.user.profile[0].name) }}
+                        </span>
+                      </td>
+                      <td>
+                        <span v-if="tracked.service_provider.staff_id">
+                          {{
+                            getFullname(
+                              tracked.service_provider.profile[0].name
+                            )
+                          }}
+                        </span>
+                        <span class="font-weight-bold danger--text" v-else
+                          >NA</span
+                        >
+                      </td>
+                      <td>
+                        <span class="font-weight-bold text-uppercase">
+                          {{ tracked.reports.status }}
+                        </span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
               </v-row>
             </v-col>
           </v-row>
@@ -281,7 +332,7 @@ export default {
         >
           <v-row justify="center" align="center">
             <v-col cols="12" class="pa-0">
-              <v-card-subtitle class="pa-0 font-weight-bold">
+              <v-card-subtitle class="pa-0 font-weight-bold overline">
                 Quick Links
               </v-card-subtitle>
             </v-col>
@@ -290,9 +341,19 @@ export default {
             </v-col>
             <v-col cols="11">
               <v-row justify="center">
-                <router-link to="/" class="caption primary--text ma-2">
-                  <v-icon color="primary">mdi-home</v-icon>
+                <router-link
+                  to="/"
+                  class="body-2 primary--text ma-2 text-decoration-none"
+                >
+                  <v-icon color="primary" class="mb-2">mdi-home</v-icon>
                   Home
+                </router-link>
+                <router-link
+                  to="/login"
+                  class="body-2 primary--text ma-2 text-decoration-none"
+                >
+                  <v-icon color="primary" class="mb-2">mdi-login</v-icon>
+                  Login
                 </router-link>
               </v-row>
             </v-col>
@@ -307,5 +368,8 @@ export default {
 .row-container {
   height: 95vh;
   overflow-y: auto;
+}
+.table {
+  width: 100%;
 }
 </style>
