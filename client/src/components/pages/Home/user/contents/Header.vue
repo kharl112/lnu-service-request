@@ -47,7 +47,7 @@ export default {
   <v-container fluid class="pa-0">
     <v-row justify="end" align-items="center">
       <v-col cols="12" class="">
-        <v-row justify="space-between" align-items="center" class="mt-2">
+        <v-row justify="space-between" align-items="center" class="mt-4">
           <div v-if="isMobile">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
