@@ -25,7 +25,7 @@ export default {
       {
         title: "Track",
         icon: "mdi-map-marker-distance",
-        path: "/track/none",
+        path: "/track",
       },
     ],
     received_items: [

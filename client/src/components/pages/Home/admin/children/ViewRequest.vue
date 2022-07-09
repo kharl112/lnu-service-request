@@ -302,7 +302,7 @@ export default {
               </v-col>
               <v-col class="py-1">
                 <router-link
-                  :to="`/track/${$route.params._id}`"
+                  :to="`/track?id=${$route.params._id}`"
                   class="caption text-no-wrap clickable-text primary--text"
                 >
                   Track Request
