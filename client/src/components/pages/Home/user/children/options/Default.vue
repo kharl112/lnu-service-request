@@ -38,6 +38,7 @@ export default {
             col="12"
             :rules="rules"
             v-model="persons_involved"
+            title="Enter each person/s involved name (comma separated)"
             outlined
             hint="comma separated for multiple entities"
           />
