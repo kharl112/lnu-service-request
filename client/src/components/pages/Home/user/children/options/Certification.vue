@@ -8,11 +8,13 @@ export default {
     rules: [(v) => !!v || "this field must not be empty"],
     sections: {
       accounting: [
+        "",
         "Not Take Home Pay",
         "Loan Remittances/Payments",
         "Annual Gross Income",
       ],
       records_office: [
+        "",
         "Service Records",
         "Leave Credits/Balance",
         "No Pending Administrative Case",
@@ -20,10 +22,17 @@ export default {
       ],
     },
     purposes: {
-      loans: ["GSIS", "DBP", "LBP", "HDMF"],
+      loans: ["", "GSIS", "DBP", "LBP", "HDMF"],
       others: ["Travel Abroad", "Employment", "Updates"],
     },
   }),
+  methods: {
+    handleCustomInput(event, el_id) {
+      const custom_container = document.getElementById(el_id);
+      if (!event) return custom_container.classList.remove("d-none");
+      return custom_container.classList.add("d-none");
+    },
+  },
   computed: {
     co_makers: {
       get() {
@@ -43,7 +52,9 @@ export default {
     <v-row justify="start" align="start">
       <v-col cols="12">
         <v-container fluid class="py-0">
-          <v-subheader class="text-uppercase px-0">
+          <v-subheader
+            class="text-uppercase px-0 text-subtitle-1 font-weight-bold"
+          >
             Request for Records/Certification
           </v-subheader>
           <v-divider />
@@ -69,9 +80,11 @@ export default {
                   outlined
                   v-model="options.request_for.accounting"
                   :items="sections.accounting"
+                  @change="handleCustomInput($event, 'custom-accounting')"
+                  title="Select one item for Accounting Section (required)"
                 />
               </v-col>
-              <v-col cols="12" class="pb-4 pt-0 px-7">
+              <v-col cols="12" class="pb-4 pt-0 px-7" id="custom-accounting">
                 <v-text-field
                   v-model="options.request_for.accounting"
                   :rules="rules"
@@ -96,9 +109,11 @@ export default {
                   outlined
                   v-model="options.request_for.records"
                   :items="sections.records_office"
+                  @change="handleCustomInput($event, 'custom-records')"
+                  title="Select one item for Hrm/Records Office (required)"
                 />
               </v-col>
-              <v-col cols="12" class="pb-2 pt-0 px-7">
+              <v-col cols="12" class="pb-2 pt-0 px-7" id="custom-records">
                 <v-text-field
                   v-model="options.request_for.records"
                   :rules="rules"
@@ -111,41 +126,31 @@ export default {
             </v-row>
           </v-col>
         </v-row>
-        <v-col cols="12">
-          <v-divider />
-        </v-col>
         <v-col cols="12" class="py-0">
-          <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
-            Purpose:
-          </v-subheader>
+          <v-container class="px-0 py-0" fluid>
+            <v-subheader class="text-body text-uppercase pt-0 px-0">
+              Purpose
+            </v-subheader>
+          </v-container>
+          <v-select
+            outlined
+            dense
+            class="py-0"
+            v-model="options.purpose"
+            :items="[...purposes.loans, ...purposes.others]"
+            @change="handleCustomInput($event, 'custom-purpose')"
+            title="Select one item for Request Purpose (required)"
+          />
         </v-col>
-        <v-col cols="12" class="py-0">
-          <v-row justify="start" align="start">
-            <v-col cols="12" class="py-0">
-              <v-container class="px-0 py-0" fluid>
-                <v-subheader class="text-body text-uppercase pt-0 px-0">
-                  Hrm/Records Office
-                </v-subheader>
-              </v-container>
-              <v-select
-                outlined
-                dense
-                class="py-0"
-                v-model="options.purpose"
-                :items="[...purposes.loans, ...purposes.others]"
-              />
-            </v-col>
-            <v-col cols="12" class="pt-2 pb-4">
-              <v-text-field
-                v-model="options.purpose"
-                :rules="rules"
-                label="Others/Custom"
-                placeholder="pls specify"
-                class="py-0"
-                dense
-              />
-            </v-col>
-          </v-row>
+        <v-col cols="12" class="pt-2 pb-4" id="custom-purpose">
+          <v-text-field
+            v-model="options.purpose"
+            :rules="rules"
+            label="Others/Custom"
+            placeholder="pls specify"
+            class="py-0"
+            dense
+          />
         </v-col>
         <v-col cols="12" class="pt-0">
           <v-divider />
@@ -164,6 +169,7 @@ export default {
                 hint="comma separated"
                 class="py-0"
                 dense
+                title="Enter Co-makers name (comma separated)"
               />
             </v-col>
           </v-row>
