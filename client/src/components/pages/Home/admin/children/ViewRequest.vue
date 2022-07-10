@@ -35,9 +35,8 @@ export default {
       return this.$store.getters["pdf/getBlobURL"];
     },
     getSignatureLevel() {
-      const { admin, service_provider } = this.$store.getters[
-        "request/getInfo"
-      ];
+      const { admin, service_provider } =
+        this.$store.getters["request/getInfo"];
       let level = 1;
       if (admin.signature) level++;
       if (service_provider.signature) level++;
@@ -149,179 +148,186 @@ export default {
           </v-col>
         </v-row>
       </v-col>
-      <v-col cols="12" sm="5" md="6" class="px-7 px-md-3">
+      <v-col cols="12" sm="5" md="7" class="px-7 px-md-3">
         <v-row justify="start">
           <v-col cols="12">
-            <v-subheader class="subtitle-1 pl-0 my-3 font-weight-bold">
-              Request Information
-            </v-subheader>
-            <v-row justify="start">
-              <v-col cols="12" sm="6" class="py-1">
-                <span class="caption text-capitalize">
-                  Status:
-                  {{ req_info.reports.status }}
-                </span>
-              </v-col>
-              <v-col cols="12" sm="6" class="py-1">
-                <span class="caption">
-                  Date created:
-                  {{ getDate(req_info.reports.dates.created) }}
-                </span>
-              </v-col>
-              <v-col cols="12" class="py-1">
-                <span class="caption">
-                  Description:
-                </span>
-                <p class="caption py-0">
-                  {{ req_info.subject }}
-                </p>
-              </v-col>
-              <v-col cols="12" class="py-1">
-                <span class="caption">
-                  Purpose:
-                </span>
-                <p class="caption py-0">
-                  {{ req_info.body }}
-                </p>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" class="py-2 pb-0">
-            <v-divider />
+            <v-card class="mx-auto pb-5 pt-2 px-5 mt-10" outlined>
+              <v-subheader class="text-h6 pl-0 my-3 font-weight-bold">
+                Request Information
+              </v-subheader>
+              <v-row justify="start">
+                <v-simple-table class="table-row">
+                  <thead>
+                    <tr>
+                      <th class="text-left">Description</th>
+                      <th class="text-left">Status</th>
+                      <th class="text-left">Date Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="caption text-sm-body-2">
+                        {{ req_info.subject }}
+                      </td>
+                      <td class="text-capitalize caption text-sm-body-2">
+                        {{ req_info.reports.status }}
+                      </td>
+                      <td class="caption text-sm-body-2">
+                        {{ getDate(req_info.reports.dates.created) }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+                <v-simple-table class="table-row" elevation="1">
+                  <thead>
+                    <tr>
+                      <th class="text-left">PURPOSE</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="caption text-sm-body-2">
+                        {{ req_info.body }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+              </v-row>
+            </v-card>
           </v-col>
         </v-row>
         <v-row justify="start">
           <v-col cols="12">
-            <v-subheader class="subtitle-1 font-weight-bold pl-0 my-3">
-              Files
-            </v-subheader>
-            <v-row>
-              <v-col cols="12" sm="6" class="py-1">
-                <span class="caption">
-                  Directory Status:
-                  {{ req_info.options.file ? "Active" : "Not yet created" }}
-                </span>
-              </v-col>
-              <v-col cols="12" sm="6" class="py-1">
-                <span class="caption">
-                  Last Modified:
-                  {{
-                    req_info.options.file
-                      ? getDate(req_info.options.file.last_modified)
-                      : "NA"
-                  }}
-                </span>
-              </v-col>
+            <v-card class="mx-auto pb-5 pt-2 px-5" outlined>
+              <v-subheader class="text-h6 font-weight-bold pl-0 my-3">
+                Google Drive Files
+              </v-subheader>
+              <v-row>
+                <v-simple-table class="table-row" elevation="1">
+                  <thead>
+                    <tr>
+                      <th class="text-left">ID</th>
+                      <th class="text-left">Directory Status</th>
+                      <th class="text-left">Last Modified</th>
+                      <th class="text-left">Last Person Modified</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <v-text-field
+                          @click="copyToClipBoard"
+                          class="caption"
+                          id="directory_id"
+                          v-if="req_info.options.file"
+                          readonly
+                          :value="req_info.options.file.directory_id"
+                          prepend-inner-icon="mdi-content-copy"
+                        />
+                        <span class="caption text-sm-body-2" v-else> NA </span>
+                      </td>
+                      <td class="caption text-sm-body-2">
+                        {{
+                          req_info.options.file ? "Active" : "Not yet created"
+                        }}
+                      </td>
+                      <td class="caption text-sm-body-2">
+                        {{
+                          req_info.options.file
+                            ? getDate(req_info.options.file.last_modified)
+                            : "NA"
+                        }}
+                      </td>
+                      <td class="caption text-sm-body-2">
+                        {{
+                          req_info.options.file
+                            ? getFullName(
+                                req_info.options.file.last_uploader.name
+                              )
+                            : "NA"
+                        }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+                <v-col cols="12" sm="12" md="6">
+                  <v-chip
+                    :disabled="!req_info.options.file"
+                    color="green"
+                    label
+                    text-color="white"
+                    @click="goToDrive()"
+                  >
+                    <v-icon left> mdi-google-drive </v-icon>
+                    View Files in Google Drive
+                  </v-chip>
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
 
-              <v-col cols="12" sm="12" class="py-1">
-                <span class="caption">
-                  Last modifier:
-                  {{
-                    req_info.options.file
-                      ? getFullName(req_info.options.file.last_uploader.name)
-                      : "NA"
-                  }}
-                </span>
-              </v-col>
-              <v-col cols="12" sm="12" class="py-1">
-                <span class="caption ">
-                  Directory ID:
-                </span>
-                <v-icon
-                  @click="copyToClipBoard"
-                  class="ml-2 mr-1"
-                  color="primary"
-                  v-if="req_info.options.file"
-                >
-                  mdi-content-copy
-                </v-icon>
-                <input
-                  @click="copyToClipBoard"
-                  id="directory_id"
-                  class="caption primary--text clickable-text"
-                  v-if="req_info.options.file"
-                  readonly
-                  :value="req_info.options.file.directory_id"
-                />
-                <span class="caption" v-else>
-                  NA
-                </span>
-              </v-col>
-              <v-col cols="12" sm="12" md="6">
-                <v-chip
-                  :disabled="!req_info.options.file"
-                  color="green"
-                  label
-                  text-color="white"
-                  @click="goToDrive()"
-                >
-                  <v-icon left>
-                    mdi-google-drive
-                  </v-icon>
-                  View Files in Google Drive
-                </v-chip>
-              </v-col>
-            </v-row>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" class="pt-7 pb-0">
-            <v-divider />
-          </v-col>
-        </v-row>
         <v-row justify="start">
           <v-col cols="12" class="pb-7">
-            <v-subheader class="subtitle-1 font-weight-bold pl-0 my-3">
-              Tools
-            </v-subheader>
-            <v-row justify="space-between">
-              <v-col class="py-1" v-if="getSignatureLevel === 1">
-                <span
-                  @click="hideAndSeekSignature"
-                  class="caption text-no-wrap clickable-text primary--text"
+            <v-card class="mx-auto pb-5 pt-2 px-5" outlined>
+              <v-subheader class="text-h6 font-weight-bold pl-0 my-3">
+                Tools
+              </v-subheader>
+
+              <v-row justify="space-between">
+                <v-col class="py-1" v-if="getSignatureLevel === 1">
+                  <v-btn
+                    @click="hideAndSeekSignature"
+                    small
+                    outlined
+                    color="light"
+                  >
+                    <v-icon left> mdi-signature </v-icon>
+                    E-Signature
+                  </v-btn>
+                </v-col>
+                <v-col class="py-1">
+                  <v-btn
+                    :disabled="pdfLoading.download"
+                    @click="downloadPDF"
+                    small
+                    outlined
+                    color="error"
+                  >
+                    <v-icon left>mdi-download</v-icon>
+                    Download PDF
+                  </v-btn>
+                </v-col>
+                <v-col class="py-1">
+                  <v-btn
+                    :to="`/track?id=${$route.params._id}`"
+                    small
+                    outlined
+                    color="primary"
+                  >
+                    <v-icon left> mdi-map-marker-distance </v-icon>
+                    Track Request
+                  </v-btn>
+                </v-col>
+                <v-col
+                  class="py-1"
+                  v-if="
+                    req_info.reports.status !== 'archived' &&
+                    getSignatureLevel >= 2
+                  "
                 >
-                  E-Signature
-                </span>
-              </v-col>
-              <v-col class="py-1">
-                <span
-                  v-if="!pdfLoading.download"
-                  @click="downloadPDF"
-                  class="caption text-no-wrap clickable-text primary--text"
-                >
-                  Download PDF
-                </span>
-                <span
-                  v-else
-                  class="caption text-no-wrap disabled-clickable-text"
-                >
-                  Download PDF
-                </span>
-              </v-col>
-              <v-col class="py-1">
-                <router-link
-                  :to="`/track?id=${$route.params._id}`"
-                  class="caption text-no-wrap clickable-text primary--text"
-                >
-                  Track Request
-                </router-link>
-              </v-col>
-              <v-col
-                class="py-1"
-                v-if="
-                  req_info.reports.status !== 'archived' && getSignatureLevel >= 2
-                "
-              >
-                <span
-                  @click="hideAndSeekUpload"
-                  class="caption text-no-wrap clickable-text primary--text"
-                >
-                  Upload Files
-                </span>
-              </v-col>
-            </v-row>
+                  <v-btn
+                    @click="hideAndSeekUpload"
+                    small
+                    outlined
+                    color="success"
+                  >
+                    <v-icon left> mdi-upload</v-icon>
+                    Upload Files
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-card>
           </v-col>
         </v-row>
       </v-col>
@@ -356,5 +362,8 @@ export default {
 .clickable-text:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+.table-row {
+  width: 100%;
 }
 </style>
