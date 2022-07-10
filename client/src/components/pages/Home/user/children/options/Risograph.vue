@@ -74,6 +74,9 @@ export default {
                       <v-radio label="No" :value="false" />
                     </v-col>
                   </v-row>
+                  <p class="mb-0 mt-7 caption secondary--text">
+                    Choose whether if you want to print out copies
+                  </p>
                 </v-radio-group>
               </v-col>
               <v-col cols="12" class="pa-0">
@@ -92,6 +95,9 @@ export default {
                       <v-radio label="No" :value="false" />
                     </v-col>
                   </v-row>
+                  <p class="mb-0 mt-7 caption secondary--text">
+                    Allow to print copies from front to back
+                  </p>
                 </v-radio-group>
               </v-col>
               <v-col cols="12" class="pa-0">
@@ -106,7 +112,7 @@ export default {
                         <th class="text-center">No. of copies</th>
                         <th class="text-center">No. of pages</th>
                         <th class="text-center">Total copies produced</th>
-                        <th class="text-center">Actions</th>
+                        <th class="text-center">Delete</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -116,6 +122,7 @@ export default {
                       >
                         <td class="text-center">
                           <v-text-field
+                            title="Enter the title of the document"
                             :rules="[rules.isRequired]"
                             dense
                             v-model="doc.title"
