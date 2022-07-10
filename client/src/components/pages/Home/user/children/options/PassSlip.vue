@@ -22,7 +22,9 @@ export default {
     <v-row justify="start" align="start">
       <v-col cols="12" class="py-0 px-0">
         <v-container fluid>
-          <v-subheader class="px-0 text-subtitle-1 font-weight-bold">PASS SLIP OPTIONS</v-subheader>
+          <v-subheader class="px-0 text-subtitle-1 font-weight-bold"
+            >PASS SLIP OPTIONS</v-subheader
+          >
           <v-divider />
         </v-container>
       </v-col>
@@ -38,6 +40,7 @@ export default {
             class="mt-4"
             :min="formatDatePicker(new Date())"
             elevation="1"
+            title="Select date"
           ></v-date-picker>
         </v-row>
         <!-- this is hidden to avoid submitting without date -->
@@ -66,6 +69,9 @@ export default {
           type="time"
           label="Select Timeout"
           prepend-inner-icon="mdi-clock-time-four-outline"
+          title="Choose the time you want to out"
+          hint="Choose the time you want to out"
+          persistent-hint
         />
       </v-col>
     </v-row>
