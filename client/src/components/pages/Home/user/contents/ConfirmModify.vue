@@ -22,21 +22,21 @@ export default {
       :light="!$vuetify.theme.dark"
       min-width="250"
       max-width="400"
-      class="px-4 py-6"
+      class="pa-4"
     >
-      <p class="subtitle px-5">
-        Are you sure you want to mark as {{ data.type }} this request?
-      </p>
-      <v-container fluid class="px-5 mt-2">
-        <v-row justify="space-around" align="center">
-          <v-btn small elevation="0" @click="handleSubmit" color="primary">
-            Confirm
-          </v-btn>
-          <v-btn small outlined @click="hideAndSeekModify" color="primary">
-            Cancel
-          </v-btn>
-        </v-row>
-      </v-container>
+      <v-card-text class="px-3 pb-0">
+        <p class="text-h6">
+          Are you sure you want to mark as {{ data.type }}d this request?
+        </p>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn small elevation="0" @click="handleSubmit" color="primary">
+          Confirm
+        </v-btn>
+        <v-btn small outlined @click="hideAndSeekModify" color="light">
+          Cancel
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-overlay>
 </template>
