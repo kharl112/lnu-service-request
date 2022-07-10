@@ -308,12 +308,15 @@ export default {
                   class="py-1"
                   v-if="isProvider && getSignatureLevel === 2"
                 >
-                  <span
+                  <v-btn
                     @click="hideAndSeekSignature"
-                    class="caption text-no-wrap clickable-text primary--text"
+                    small
+                    outlined
+                    color="light"
                   >
+                    <v-icon left> mdi-signature </v-icon>
                     E-Signature
-                  </span>
+                  </v-btn>
                 </v-col>
                 <v-col class="py-1">
                   <v-btn
@@ -323,7 +326,7 @@ export default {
                     outlined
                     color="error"
                   >
-                    <v-icon>mdi-download</v-icon>
+                    <v-icon left>mdi-download</v-icon>
                     Download PDF
                   </v-btn>
                 </v-col>
@@ -334,7 +337,7 @@ export default {
                     outlined
                     color="primary"
                   >
-                    <v-icon> mdi-map-marker-distance </v-icon>
+                    <v-icon left> mdi-map-marker-distance </v-icon>
                     Track Request
                   </v-btn>
                 </v-col>
@@ -348,7 +351,7 @@ export default {
                     outlined
                     color="success"
                   >
-                    <v-icon> mdi-upload</v-icon>
+                    <v-icon left> mdi-upload</v-icon>
                     Upload Files
                   </v-btn>
                 </v-col>
@@ -363,7 +366,7 @@ export default {
                     @click="hideAndSeekModify('complete')"
                     small
                     outlined
-                    color="secondary"
+                    color="light"
                   >
                     Mark as Completed
                   </v-btn>
