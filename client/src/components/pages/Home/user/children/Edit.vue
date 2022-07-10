@@ -142,7 +142,9 @@ export default {
                     />
                     <v-col cols="12" class="pa-0">
                       <v-container fluid class="py-0">
-                        <v-subheader>Signees</v-subheader>
+                        <v-subheader class="text-h6 px-0">
+                          Authorized Signees
+                        </v-subheader>
                         <v-divider />
                       </v-container>
                     </v-col>
