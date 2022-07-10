@@ -22,7 +22,7 @@ export default {
     <v-row justify="start" align="start">
       <v-col cols="12" class="py-0 px-0">
         <v-container fluid>
-          <v-subheader class="px-0">PASS SLIP OPTIONS</v-subheader>
+          <v-subheader class="px-0 text-subtitle-1 font-weight-bold">PASS SLIP OPTIONS</v-subheader>
           <v-divider />
         </v-container>
       </v-col>
