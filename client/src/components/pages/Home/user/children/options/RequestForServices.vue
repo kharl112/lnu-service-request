@@ -6,8 +6,15 @@ export default {
   },
   data: () => ({
     rules: [(v) => !/\d/gi.test(v) || "this field does not require a number"],
-    services_types: ["Carpenter", "Plumber", "Electrician", "Janitor/s"],
+    services_types: ["", "Carpenter", "Plumber", "Electrician", "Janitor/s"],
   }),
+  methods: {
+    handleCustomInput(event, el_id) {
+      const custom_container = document.getElementById(el_id);
+      if (!event) return custom_container.classList.remove("d-none");
+      return custom_container.classList.add("d-none");
+    },
+  },
   computed: {
     persons_involved: {
       get() {
@@ -45,14 +52,17 @@ export default {
           class="py-0"
           v-model="options.type"
           :items="services_types"
+          title="Select one item for Service Type"
+          @change="handleCustomInput($event, 'custom-service-type')"
         />
       </v-col>
-      <v-col cols="12" class="pt-2">
+      <v-col cols="12" class="pt-2" id="custom-service-type">
         <v-text-field
           v-model="options.type"
           :rules="rules"
           label="Others/Custom"
           placeholder="pls specify"
+          title="Enter Custom Service Type"
           class="py-0"
           dense
         />
@@ -74,6 +84,7 @@ export default {
             v-model="persons_involved"
             outlined
             hint="comma separated for multiple entities"
+            title="Enter each person/s involved name (comma separated)"
           />
         </v-container>
       </v-col>
