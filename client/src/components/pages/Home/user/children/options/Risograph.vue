@@ -48,7 +48,7 @@ export default {
     <v-row justify="start" align="start">
       <v-col cols="12">
         <v-container fluid class="py-0 px-0">
-          <v-subheader class="px-0">
+          <v-subheader class="px-0 text-subtitle-1 font-weight-bold">
             JOB ORDER FOR RISOGRAPH OPTIONS
           </v-subheader>
           <v-divider />
