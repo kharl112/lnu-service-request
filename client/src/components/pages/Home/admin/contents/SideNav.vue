@@ -139,7 +139,7 @@ export default {
             offset-x="15"
             color="primary"
             v-if="child.title === 'Pending'"
-            :content="getLength(child.getter)"
+            :content="getLength(child.getter) || '0'"
             :title="getTitleDescription(child)"
           />
         </v-list-item>
