@@ -19,7 +19,7 @@ export default {
           value: "service_provider.profile[0]",
         },
         {
-          text: "Service type",
+          text: "Service Type",
           align: "left",
           sortable: true,
           value: "service[0].type",
@@ -74,7 +74,7 @@ export default {
             :headers="table.headers"
             :items="archives"
             :items-per-page="5"
-            class="elevation-0"
+            class="elevation-0 data-table"
           >
             <template v-slot:[`item.user.profile`]="{ item }">
               {{ getFullname(item.user.profile[0].name) }}
@@ -176,5 +176,8 @@ export default {
   #main-container {
     padding-left: 25px;
   }
+}
+.data-table {
+  cursor: pointer;
 }
 </style>
