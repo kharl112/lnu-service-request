@@ -53,9 +53,7 @@ export default {
 <template>
   <v-card class="card-container" outlined>
     <v-form ref="form" @submit="handleNext">
-      <v-card-title class="px-0">
-        Personal Information
-      </v-card-title>
+      <v-card-title class="px-0"> Personal Information </v-card-title>
       <v-text-field
         class="input"
         label="Firstname"
@@ -80,6 +78,8 @@ export default {
           <v-text-field
             class="input"
             label="Middle Initial"
+            title="eg: L."
+            persistent-hint
             :rules="[...rules.middle_initial, ...rules.letters]"
             v-model="form.name.middle_initial"
             dense
@@ -87,32 +87,36 @@ export default {
           />
         </v-col>
       </v-row>
-      <v-row dense>
-        <v-col cols="6" class="py-0">
+      <v-row dense class="my-2">
+        <v-col cols="6">
           <v-text-field
             class="input"
             label="Prefix"
+            hint="eg: Dr / Mr"
+            persistent-hint
             v-model="form.name.prefix"
             :rules="[...rules.letters, ...rules.prefix]"
             dense
             outlined
           />
         </v-col>
-        <v-col cols="6" class="py-0">
+        <v-col cols="6">
           <v-text-field
             class="input"
             label="Suffixes"
+            persistent-hint
             v-model="form.name.suffixes"
-            hint="comma separated ex: engr, mit"
+            hint="Comma Separated ex: Engr, Mit, PhD"
             dense
             outlined
           />
         </v-col>
       </v-row>
       <v-text-field
-        class="input"
+        class="input mb-2"
         label="Password"
-        hint="minimum of 8 characters"
+        hint="Minimum of 8 alpha numeric characters"
+        persistent-hint
         v-model="form.password"
         :rules="rules.password"
         :type="show ? 'text' : 'password'"
