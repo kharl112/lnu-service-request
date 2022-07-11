@@ -19,9 +19,7 @@ export default {
   },
   methods: {
     getTimeOrDate(date) {
-      return formatDistanceToNow(new Date(date), {
-        includeSeconds: true,
-      });
+      return formatDistanceToNow(new Date(date)) + " ago";
     },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
@@ -44,13 +42,14 @@ export default {
       <v-col cols="12" class="pa-0">
         <v-container fluid class="pa-0">
           <v-row justify="space-between" align="start" class="pa-4">
-            <v-col cols="8" sm="6" md="4">
-              <span class="h4 warning--text font-weight-bold">
+            <v-col cols="8" sm="6" md="4" align-self="start">
+              <span class="text-h6 warning--text font-weight-bold">
                 Pending Requests
               </span>
             </v-col>
-            <v-col cols="12" sm="6" md="7" v-if="pendings[0]">
+            <v-col cols="12" sm="6" md="5" v-if="pendings[0]" align-self="end">
               <v-text-field
+                outlined
                 v-model="table.search"
                 append-icon="mdi-magnify"
                 label="Search"
@@ -69,7 +68,7 @@ export default {
             :items="pendings"
             :items-per-page="5"
             :search="table.search"
-            class="elevation-0"
+            class="elevation-0 data-table"
           >
             <template v-slot:[`item.user.profile`]="{ item }">
               {{ getFullname(item.user.profile[0].name) }}
@@ -85,15 +84,15 @@ export default {
               </v-chip>
             </template>
             <template v-slot:[`item.reports.status`]="{ item }">
-              <small
-                :class="`text-capitalize ${
+              <span
+                :class="`overline font-weight-bold ${
                   item.reports.status === 'completed'
                     ? 'success--text'
                     : 'primary--text'
                 }`"
               >
                 {{ item.reports.status }}
-              </small>
+              </span>
             </template>
           </v-data-table>
         </v-container>
@@ -126,3 +125,8 @@ export default {
     </v-row>
   </v-container>
 </template>
+<style scoped>
+.data-table {
+  cursor: pointer;
+}
+</style>
