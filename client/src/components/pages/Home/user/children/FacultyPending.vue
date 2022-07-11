@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     getTimeOrDate(date) {
-      return formatDistanceToNow(new Date(date)) + " ago";
+      return formatDistanceToNow(new Date(date), { addSuffix: true });
     },
     getFullname(name) {
       const { firstname, lastname, middle_initial, prefix, suffixes } = name;
