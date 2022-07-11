@@ -20,7 +20,7 @@ const tableOptions = (value, text) => ({
       value: "user.department.unit",
     },
     {
-      text: "Service type",
+      text: "Service Type",
       align: "left",
       sortable: true,
       value: "service[0].type",
