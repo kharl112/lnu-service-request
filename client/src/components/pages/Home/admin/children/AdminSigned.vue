@@ -42,11 +42,12 @@ export default {
       <v-col cols="12">
         <v-container fluid>
           <v-row justify="space-between" align="start" class="pa-4">
-            <v-col cols="12" sm="6" md="4">
-              <span class="h4 primary--text"> Signed Requests </span>
+            <v-col cols="12" sm="6" md="4" align-self="end">
+              <span class="text-h6 primary--text"> Signed Requests </span>
             </v-col>
-            <v-col cols="12" sm="6" md="7" v-if="signed[0]">
+            <v-col cols="12" sm="7" md="5" v-if="signed[0]">
               <v-text-field
+                outlined
                 v-model="table.search"
                 append-icon="mdi-magnify"
                 label="Search"
@@ -65,7 +66,7 @@ export default {
             :items="signed"
             :items-per-page="5"
             :search="table.search"
-            class="elevation-0"
+            class="elevation-0 data-table"
           >
             <template v-slot:[`item.user.profile`]="{ item }">
               {{ getFullname(item.user.profile[0].name) }}
@@ -87,13 +88,13 @@ export default {
               </v-chip>
             </template>
             <template v-slot:[`item.reports.status`]="{ item }">
-              <small
-                :class="`${
+              <span
+                :class="`overline font-weight-bold ${
                   item.reports.status === 0 ? 'success--text' : 'primary--text'
                 }`"
               >
                 {{ item.reports.status }}
-              </small>
+              </span>
             </template>
           </v-data-table>
         </v-container>
@@ -116,3 +117,8 @@ export default {
     </v-row>
   </v-container>
 </template>
+<style scoped>
+.data-table {
+  cursor: pointer;
+}
+</style>
