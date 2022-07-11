@@ -6,7 +6,7 @@ export default {
     table: {
       headers: [
         {
-          text: "Type",
+          text: "Service Type",
           align: "left",
           sortable: true,
           value: "service[0].type",
@@ -70,9 +70,10 @@ export default {
     <v-row dense justify="start">
       <v-col cols="12" class="pa-0">
         <v-container fluid>
-          <v-row justify="start" align="start" class="pa-2">
-            <v-col cols="12" sm="6" md="6" v-if="sent[0]">
+          <v-row justify="start" align="start" class="pb-4">
+            <v-col cols="12" sm="6" md="4" v-if="sent[0]">
               <v-text-field
+              outlined
                 v-model="table.search"
                 append-icon="mdi-magnify"
                 label="Search"
@@ -91,30 +92,34 @@ export default {
             :items="sent"
             :search="table.search"
             :items-per-page="5"
-            class="elevation-0"
+            class="elevation-0 data-table"
           >
             <template v-slot:[`item.user.profile`]="{ item }">
-              {{ getFullname(item.user.profile[0].name) }}
+              <span id="clickable">
+                {{ getFullname(item.user.profile[0].name) }}
+              </span>
             </template>
             <template v-slot:[`item.reports.dates.sent`]="{ item }">
               <v-chip
                 small
                 color="primary"
                 class="pa-0 pr-2 pl-2 text-center text-caption"
+                id="clickable"
               >
                 {{ getTimeOrDate(item.reports.dates.sent) }}
               </v-chip>
             </template>
             <template v-slot:[`item.reports.status`]="{ item }">
-              <small
-                :class="`text-capitalize ${
+              <v-subtitle
+                id="clickable"
+                :class="`text-overline font-weight-bold ${
                   item.reports.status === 'completed'
                     ? 'success--text'
                     : 'primary--text'
                 }`"
               >
                 {{ item.reports.status }}
-              </small>
+              </v-subtitle>
             </template>
           </v-data-table>
         </v-container>
@@ -155,5 +160,8 @@ export default {
   #main-container {
     padding-left: 25px;
   }
+}
+.data-table {
+  cursor: pointer;
 }
 </style>
