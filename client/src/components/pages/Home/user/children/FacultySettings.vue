@@ -10,6 +10,7 @@ export default {
       new_2: "",
     },
     edit_mode: false,
+    edit_mode_password: false,
     rules: {
       password: [
         (v) => (compare_with) => v === compare_with || "Not matched",
@@ -56,6 +57,14 @@ export default {
         return this.$store.dispatch("faculty/changePassword", this.password);
       }
     },
+    handleModified(type) {
+      if (type === "password" && !this.edit_mode_password) {
+        this.edit_mode_password = !this.edit_mode_password;
+      } else if (type === "profile" && !this.edit_mode) {
+        this.edit_mode = !this.edit_mode;
+      }
+      return;
+    },
   },
   created() {
     this.resetForm();
@@ -71,51 +80,24 @@ export default {
         <v-container fluid>
           <v-row justify="start" align="center">
             <v-col cols="6">
-              <v-subheader class="text-h6 text-no-wrap">
+              <v-subheader class="text-h6 px-0 text-no-wrap">
                 Account Settings
               </v-subheader>
             </v-col>
             <v-col cols="6">
               <v-container fluid>
                 <v-row justify="end">
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        icon
-                        class="mr-4"
-                        v-bind="attrs"
-                        v-on="on"
-                        @click="resetForm(!edit_mode)"
-                        :disabled="isUnitLoading"
-                        color="primary"
-                      >
-                        <v-icon size="30">
-                          {{ edit_mode ? "mdi-pencil-off" : "mdi-pencil" }}
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <span>
-                      {{ edit_mode ? "disable edit mode" : "enable edit mode" }}
-                    </span>
-                  </v-tooltip>
-
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        v-show="edit_mode"
-                        v-bind="attrs"
-                        v-on="on"
-                        icon
-                        class="mr-4"
-                        color="gray"
-                        :disabled="isUnitLoading"
-                        @click="handleSubmit()"
-                      >
-                        <v-icon size="30">mdi-update</v-icon>
-                      </v-btn>
-                    </template>
-                    <span> Save changes</span>
-                  </v-tooltip>
+                  <v-btn
+                    :disabled="!edit_mode"
+                    class="mr-4"
+                    color="primary"
+                    @click="handleSubmit()"
+                    elevation="0"
+                    small
+                  >
+                    <v-icon left>mdi-update</v-icon>
+                    Save Changes
+                  </v-btn>
                 </v-row>
               </v-container>
             </v-col>
@@ -128,7 +110,7 @@ export default {
           <v-row>
             <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
-                <v-subheader class="pa-0 mr-0">Name</v-subheader>
+                <v-subheader class="px-0 font-weight-bold">Profile</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
@@ -137,7 +119,7 @@ export default {
                 <v-row justify="start" align="start" dense>
                   <v-col cols="12" sm="4" md="5">
                     <v-text-field
-                      :disabled="!edit_mode"
+                      @input="handleModified('profile')"
                       :rules="[rules.notNull, rules.letters]"
                       v-model="form.name.firstname"
                       outlined
@@ -147,8 +129,8 @@ export default {
                   </v-col>
                   <v-col cols="12" sm="4" md="5">
                     <v-text-field
+                      @input="handleModified('profile')"
                       v-model="form.name.lastname"
-                      :disabled="!edit_mode"
                       :rules="[rules.notNull, rules.letters]"
                       outlined
                       label="Lastname"
@@ -157,8 +139,8 @@ export default {
                   </v-col>
                   <v-col cols="12" sm="4" md="2">
                     <v-text-field
+                      @input="handleModified('profile')"
                       v-model="form.name.middle_initial"
-                      :disabled="!edit_mode"
                       :rules="[
                         rules.notNull,
                         rules.letters,
@@ -171,8 +153,8 @@ export default {
                   </v-col>
                   <v-col cols="12" sm="4">
                     <v-text-field
+                      @input="handleModified('profile')"
                       v-model="form.name.prefix"
-                      :disabled="!edit_mode"
                       :rules="[rules.letters]"
                       outlined
                       label="Prefix"
@@ -181,8 +163,8 @@ export default {
                   </v-col>
                   <v-col cols="12" sm="5">
                     <v-text-field
+                      @input="handleModified('profile')"
                       v-model="form.name.suffixes"
-                      :disabled="!edit_mode"
                       outlined
                       label="Suffixes"
                       hint="comma separated ex: MD,PhD"
@@ -195,7 +177,9 @@ export default {
             </v-col>
             <v-col cols="12" class="pt-0 pb-0">
               <v-container fluid>
-                <v-subheader class="pa-0 mr-0">Department</v-subheader>
+                <v-subheader class="pa-0 mr-0 font-weight-bold"
+                  >Department</v-subheader
+                >
                 <v-divider />
               </v-container>
             </v-col>
@@ -204,8 +188,8 @@ export default {
                 <v-row justify="start" align="start" dense>
                   <v-col cols="12" sm="4" md="5">
                     <v-select
+                      @input="handleModified('profile')"
                       v-model="form.department.unit_id"
-                      :disabled="!edit_mode"
                       :items="getAllUnits"
                       item-text="name"
                       item-value="_id"
@@ -239,7 +223,9 @@ export default {
         <v-row>
           <v-col cols="12" class="pt-0 pb-0">
             <v-container fluid>
-              <v-subheader class="pa-0 mr-0">Contact Information</v-subheader>
+              <v-subheader class="pa-0 mr-0 font-weight-bold">
+                Important Information
+              </v-subheader>
               <v-divider />
             </v-container>
           </v-col>
@@ -273,7 +259,7 @@ export default {
               <v-row justify="start" align="center">
                 <v-col cols="6">
                   <v-container fluid class="pa-0">
-                    <v-subheader class="pa-0 mr-0 error--text">
+                    <v-subheader class="pa-0 mr-0 error--text font-weight-bold">
                       Change Password
                     </v-subheader>
                   </v-container>
@@ -284,18 +270,21 @@ export default {
                       <v-tooltip bottom>
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
-                            v-show="edit_mode"
+                            :disabled="
+                              !edit_mode_password || getLoading.change_password
+                            "
                             v-bind="attrs"
                             v-on="on"
                             @click="handleChangePassword"
-                            icon
-                            class="mr-4"
                             color="primary"
+                            small
+                            elevation="0"
                           >
-                            <v-icon size="30">mdi-content-save</v-icon>
+                            <v-icon left>mdi-content-save</v-icon>
+                            Cofirm
                           </v-btn>
                         </template>
-                        <span> Save changes</span>
+                        <span> Save new password</span>
                       </v-tooltip>
                     </v-row>
                   </v-container>
@@ -310,11 +299,12 @@ export default {
                 <v-row justify="start" align="start" dense>
                   <v-col cols="12">
                     <v-text-field
+                      @input="handleModified('password')"
                       :append-icon="show_pass ? 'mdi-eye-off' : 'mdi-eye'"
                       @click:append="show_pass = !show_pass"
                       :type="show_pass ? 'text' : 'password'"
                       v-model="password.old"
-                      :disabled="!edit_mode || getLoading.change_password"
+                      :disabled="getLoading.change_password"
                       :rules="[rules.password[1]]"
                       outlined
                       label="Type your old password"
@@ -323,8 +313,9 @@ export default {
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
+                      @input="handleModified('password')"
                       v-model="password.new_1"
-                      :disabled="!edit_mode || getLoading.change_password"
+                      :disabled="getLoading.change_password"
                       :rules="[rules.password[1]]"
                       type="password"
                       outlined
@@ -334,8 +325,9 @@ export default {
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
+                      @input="handleModified('password')"
                       v-model="password.new_2"
-                      :disabled="!edit_mode || getLoading.change_password"
+                      :disabled="getLoading.change_password"
                       :rules="[
                         rules.password[0](password.new_1),
                         rules.password[1],
