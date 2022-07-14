@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: "About",
+  name: "Help",
 };
 </script>
 <template>
@@ -20,9 +20,9 @@ export default {
       </v-row>
       <template v-slot:extension>
         <v-tabs align-with-title>
-          <v-tab to="/about">About</v-tab>
-          <v-tab to="/about/tutorials">Tutorials</v-tab>
-          <v-tab to="/about/privacy-and-policy">Privacy and Policy</v-tab>
+          <v-tab to="/help/about">About</v-tab>
+          <v-tab to="/help/tutorials">Tutorials</v-tab>
+          <v-tab to="/help/privacy-and-policy">Privacy and Policy</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>

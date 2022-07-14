@@ -45,7 +45,7 @@ export default {
               <v-list-item
                 v-for="(item, index) in links"
                 :key="index"
-                :value="'/about/privacy-and-policy#' + item.hash"
+                :value="'/help/privacy-and-policy#' + item.hash"
                 dense
               >
                 <v-list-item-content class="py-0">
