@@ -5,20 +5,7 @@ export default {
 </script>
 <template>
   <div>
-    <v-app-bar
-      absolute
-      color="#1976d2"
-      dark
-      src="https://picsum.photos/1920/1080?random"
-      fade-img-on-scroll
-      scroll-target="#scrolling-techniques-3"
-    >
-      <template v-slot:img="{ props }">
-        <v-img
-          v-bind="props"
-          gradient="to top right, #1976d2 , rgba(25,32,72,.7)"
-        ></v-img>
-      </template>
+    <v-app-bar absolute flat light outlined>
       <v-row justify="center" align="center">
         <img
           src="../../../assets/images/logo-512x512.png"
