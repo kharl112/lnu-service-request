@@ -26,7 +26,7 @@ export default {
         </v-tabs>
       </template>
     </v-app-bar>
-    <v-container class="mt-16 ma-0">
+    <v-container class="mt-16 ma-0" fluid>
       <router-view></router-view>
     </v-container>
   </div>
