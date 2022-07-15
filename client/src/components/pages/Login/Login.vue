@@ -320,7 +320,7 @@ export default {
             <v-col sm="12" md="8" class="mt-14">
               <v-row justify="space-between">
                 <a
-                  href="#"
+                  href="/help/privacy-and-policy#privacy_notice"
                   class="text-decoration-underline caption"
                   title="privacy and policy page"
                   >Privacy and Policy</a
