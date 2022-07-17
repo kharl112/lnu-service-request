@@ -69,7 +69,7 @@ export default {
           <div class="ml-5 hidden-sm-and-down">
             <v-row justify="center" align="center">
               <img
-                src="../../../../../assets/images/lnu-logo.png"
+                src="../../../../../assets/images/logo-512x512.png"
                 class="lnu-logo"
                 alt="LNU logo"
                 title="Leyte Normal University logo"

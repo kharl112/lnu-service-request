@@ -57,7 +57,7 @@ export default {
           <div class="ml-5 hidden-sm-and-down">
             <v-row justify="center" align="center">
               <img
-                src="../../../../../assets/images/lnu-logo.png"
+                src="../../../../../assets/images/logo-512x512.png"
                 class="lnu-logo"
                 style=""
                 alt="LNU logo"
