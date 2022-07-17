@@ -6,7 +6,13 @@ export default {
 <template>
   <div>
     <v-app-bar absolute flat light outlined>
-      <v-row justify="center" align="center">
+      <v-row
+        justify="center"
+        align="center"
+        tag="a"
+        href="/login"
+        class="text-decoration-none"
+      >
         <img
           src="../../../assets/images/logo-512x512.png"
           class="lnusr-logo"

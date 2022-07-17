@@ -68,12 +68,12 @@ export default {
         </h4>
         <v-container fluid>
           <v-row justify="center">
-            <!-- <v-img -->
-            <!-- src="../../../../assets/images/lnu-logo.png" -->
-            <!-- class="seal-logo my-7" -->
-            <!-- /> -->
             <v-img
-              class="seal-logo my-7"
+              src="../../../../assets/images/lnu-logo.png"
+              class="seal-logo my-7 mx-5"
+            />
+            <v-img
+              class="seal-logo my-7 mx-5"
               title="Transparency Seal Logo"
               alt="Transparency Seal"
               src="http://lnu.edu.ph/images/transparency_seal/ts.png"

@@ -136,6 +136,30 @@ export default {
           },
         ],
       },
+      {
+        title: "Tracking Request",
+        id: "tracking_request",
+        links: [
+          {
+            hash: "click_track_request",
+            title: "Click on Track Request Button",
+            description: "",
+            img_src: "click_track_request",
+          },
+          {
+            hash: "input_track",
+            title: "Input/paste the tracking code",
+            description: "",
+            img_src: "input_track",
+          },
+          {
+            hash: "click_track",
+            title: "Click the track button",
+            description: "Click the track button to track request",
+            img_src: "click_track",
+          },
+        ],
+      },
     ],
   }),
   computed: {
@@ -157,6 +181,7 @@ export default {
     <v-row justify="start">
       <v-col cols="3" class="main-container">
         <v-navigation-drawer permanent class="nav-drawer">
+          <v-card-title class="my-0 py-2"> Contents </v-card-title>
           <v-list shaped v-for="(section, x) in sections" :key="x">
             <v-subheader class="font-weight-bold text-body-1 mb-2">
               {{ section.title }}
@@ -215,9 +240,10 @@ export default {
       </v-col>
       <v-divider vertical />
       <v-col cols="2">
+        <v-card-title class="my-0 py-2"> Sections </v-card-title>
         <v-list shaped v-for="(section, x) in sections" :key="x">
           <a
-            class="font-weight-bold text-h6 my-5 px-5 text-decoration-none"
+            class="font-weight-bold text-body-1 my-5 px-5 text-decoration-none"
             :href="'/help/tutorials#' + section.id"
           >
             {{ section.title }}
