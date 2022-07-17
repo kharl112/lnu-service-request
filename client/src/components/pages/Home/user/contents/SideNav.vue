@@ -6,6 +6,22 @@ export default {
   },
   data: () => ({
     dialog: false,
+    home: [
+      {
+        title: "Dashboard",
+        icon: "mdi-tablet-dashboard",
+        getter: "",
+        path: "/faculty/home/dashboard",
+        tag: "",
+      },
+      {
+        title: "Activity Log",
+        icon: "mdi-cogs",
+        getter: "",
+        path: "/faculty/home/activity-log",
+        tag: "",
+      },
+    ],
     request_items: [
       {
         title: "Drafts",
@@ -141,7 +157,10 @@ export default {
 
     <v-list shaped>
       <v-list-item-group v-model="route">
-        <v-list-item value="/faculty/home/compose" title="Create, Draft and Send Service Request">
+        <v-list-item
+          value="/faculty/home/compose"
+          title="Create, Draft and Send Service Request"
+        >
           <v-list-item-icon>
             <v-icon color="primary">mdi-plus</v-icon>
           </v-list-item-icon>
@@ -153,6 +172,19 @@ export default {
     </v-list>
 
     <v-divider />
+    <v-list dense>
+      <v-subheader class="font-weight-bold">Home</v-subheader>
+      <v-list-item-group color="grey" v-model="route">
+        <v-list-item v-for="(child, i) in home" :key="i" :value="child.path">
+          <v-list-item-icon>
+            <v-icon v-text="child.icon" />
+          </v-list-item-icon>
+          <v-list-item-content :title="getTitleDescription(child)">
+            <v-list-item-title v-text="child.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
 
     <v-list dense>
       <v-subheader class="font-weight-bold">My Requests</v-subheader>
