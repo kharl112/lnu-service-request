@@ -103,7 +103,7 @@ export default {
                   <v-container fluid class="mb-5">
                     <v-row justify="center" align-items="center">
                       <img
-                        src="../../../assets/images/lnu-logo.png"
+                        src="../../../assets/images/logo-512x512.png"
                         class="lnu-logo"
                         alt="LNU logo"
                         title="Leyte Normal University logo"
@@ -320,23 +320,26 @@ export default {
             <v-col sm="12" md="8" class="mt-14">
               <v-row justify="space-between">
                 <a
+                  href="/help/about"
+                  class="text-decoration-underline caption font-weight-bold"
+                  title="See about page"
+                >
+                  About
+                </a>
+                <a
                   href="/help/privacy-and-policy#privacy_notice"
-                  class="text-decoration-underline caption"
+                  class="text-decoration-underline caption font-weight-bold"
                   title="privacy and policy page"
-                  >Privacy and Policy</a
                 >
+                  Privacy and Policy
+                </a>
                 <a
-                  href="#"
-                  class="text-decoration-underline caption"
-                  title="Uses of cookie page"
-                  >Cookie Privacy</a
+                  href="/help/tutorials"
+                  class="text-decoration-underline caption font-weight-bold"
+                  title="Explore more tutorials"
                 >
-                <a
-                  href="#"
-                  class="text-decoration-underline caption"
-                  title="Explore more"
-                  >Explore</a
-                >
+                  Tutorials
+                </a>
               </v-row>
             </v-col>
           </v-row>
@@ -396,9 +399,9 @@ export default {
   right: 12px;
 }
 .lnu-logo {
-  width: 4rem;
+  width: 5rem;
   height: auto;
-  margin-bottom: -5px;
+  margin-top: -10px;
   margin-right: 5px;
 }
 </style>
