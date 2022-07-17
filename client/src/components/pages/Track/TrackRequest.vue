@@ -352,20 +352,36 @@ export default {
               <v-divider />
             </v-col>
             <v-col cols="11">
-              <v-row justify="center">
+              <v-row justify="space-around">
                 <router-link
                   to="/"
-                  class="body-2 primary--text ma-2 text-decoration-none"
+                  class="text-overline ma-2 font-weight-bold"
                 >
-                  <v-icon color="primary" class="mb-2">mdi-home</v-icon>
                   Home
                 </router-link>
                 <router-link
                   to="/login"
-                  class="body-2 primary--text ma-2 text-decoration-none"
+                  class="text-overline ma-2 font-weight-bold"
                 >
-                  <v-icon color="primary" class="mb-2">mdi-login</v-icon>
                   Login
+                </router-link>
+                <router-link
+                  to="/help/about"
+                  class="text-overline ma-2 font-weight-bold"
+                >
+                  About
+                </router-link>
+                <router-link
+                  to="/help/tutorials"
+                  class="text-overline ma-2 font-weight-bold"
+                >
+                  Tutorials
+                </router-link>
+                <router-link
+                  to="/help/privacy-and-policy"
+                  class="text-overline ma-2 font-weight-bold"
+                >
+                  Privacy
                 </router-link>
               </v-row>
             </v-col>
