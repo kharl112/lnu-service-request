@@ -29,8 +29,8 @@ const Notification = new mongoose.Schema({
       required: true,
     },
   },
-  request: {
-    _id: mongoose.Schema.Types.ObjectId,
+  request_id: {
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
   description: {
