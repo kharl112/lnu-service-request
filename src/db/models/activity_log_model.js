@@ -1,10 +1,7 @@
 const mongoose = require("mongoose");
+const { nanoid } = require("nanoid");
 
 const ActivityLog = new mongoose.Schema({
-  _id: {
-    type: String,
-    default: nanoid(9),
-  },
   user: {
     type: Object,
     required: true,
@@ -18,8 +15,8 @@ const ActivityLog = new mongoose.Schema({
     },
   },
   request_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    type: String,
+    required: false,
   },
   description: {
     type: String,

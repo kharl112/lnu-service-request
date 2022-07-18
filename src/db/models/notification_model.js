@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const Notification = new mongoose.Schema({
-  _id: {
-    type: String,
-    default: nanoid(9),
-  },
   user: {
     type: Object,
     required: true,
@@ -31,7 +27,7 @@ const Notification = new mongoose.Schema({
   },
   request_id: {
     type: mongoose.Schema.Types.ObjectId,
-    required: true,
+    required: false,
   },
   description: {
     type: String,
