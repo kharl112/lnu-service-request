@@ -60,7 +60,7 @@ export default {
                 class="text-h5 text-sm-h4 text-md-h5 text-center text-md-left primary--text"
               >
                 <em>LNU</em>
-                Service Request System
+                Service Requesting System
               </h3>
             </router-link>
             <h5

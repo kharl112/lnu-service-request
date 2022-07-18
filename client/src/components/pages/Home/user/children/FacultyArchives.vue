@@ -13,7 +13,7 @@ export default {
           value: "subject",
         },
         {
-          text: "Type",
+          text: "Service Type",
           align: "left",
           sortable: false,
           value: "service[0].type",
@@ -61,7 +61,7 @@ export default {
             :headers="table.headers"
             :items="archives"
             :items-per-page="5"
-            class="elevation-0"
+            class="elevation-0 data-table"
           >
             <template v-slot:[`item.reports.dates.archived`]="{ item }">
               <v-chip small color="primary" class="text-center text-caption">
@@ -144,5 +144,8 @@ export default {
   #main-container {
     padding-left: 25px;
   }
+}
+.data-table {
+  cursor: pointer;
 }
 </style>

@@ -81,7 +81,7 @@ export default {
         <LeftBg1 v-if="user === 'faculty'" />
         <LeftBg2 v-else />
       </v-col>
-      <v-col cols="12" sm="7" md="5" lg="4" id="login-col2">
+      <v-col cols="12" sm="10" md="5" lg="4" id="login-col2">
         <v-row
           justify="center"
           align="start"
@@ -96,11 +96,24 @@ export default {
             <v-row>
               <v-col cols="12">
                 <h3
-                  :class="`text-h5 text-sm-h4 text-center ${
+                  :class="`text-h2 text-center ${
                     $vuetify.theme.dark ? 'primary--text' : ''
                   }`"
                 >
-                  Sign In to LNUSR
+                  <v-container fluid class="mb-5">
+                    <v-row justify="center" align-items="center">
+                      <img
+                        src="../../../assets/images/logo-512x512.png"
+                        class="lnu-logo"
+                        alt="LNU logo"
+                        title="Leyte Normal University logo"
+                      />
+                      <strong class="primary--text">LNU</strong>
+                    </v-row>
+                  </v-container>
+                  <p class="pa-0 text-h6 mb-3">
+                    SERVICE REQUESTING APPLICATION
+                  </p>
                 </h3>
               </v-col>
               <v-col cols="12" class="pa-2"><v-divider /></v-col>
@@ -111,7 +124,19 @@ export default {
                     $vuetify.theme.dark ? 'primary--text' : ''
                   }`"
                 >
-                  Faculty Personnel Login
+                  Logging in as
+                  <v-tooltip bottom color="warning">
+                    <template v-slot:activator="{ on, attrs }">
+                      <span
+                        class="text-decoration-underline"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        Faculty Personnel
+                      </span>
+                    </template>
+                    <span>Requestors of services</span>
+                  </v-tooltip>
                 </h4>
                 <h4
                   v-else
@@ -119,7 +144,19 @@ export default {
                     $vuetify.theme.dark ? 'warning--text' : ''
                   }`"
                 >
-                  Chief Admin Office Login
+                  Logging in as
+                  <v-tooltip bottom color="primary">
+                    <template v-slot:activator="{ on, attrs }">
+                      <span
+                        class="text-decoration-underline"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        Chief Administration Officer
+                      </span>
+                    </template>
+                    <span>Authorize Person to approve requests</span>
+                  </v-tooltip>
                 </h4>
               </v-col>
               <v-col cols="12" class="pb-0">
@@ -145,7 +182,7 @@ export default {
                     prepend-inner-icon="mdi-email"
                     dense
                     class="input"
-                    label="E-mail"
+                    label="Type your E-mail"
                     v-model="form.email"
                     type="email"
                     autofocus
@@ -161,7 +198,7 @@ export default {
                     :disabled="getLoading.login && getLoading.profile"
                     dense
                     class="input"
-                    label="Password"
+                    label="Type your Password"
                     v-model="form.password"
                     @click:append="handleShowPassword"
                     outlined
@@ -222,15 +259,101 @@ export default {
           </v-col>
         </v-row>
       </v-col>
+      <v-col class="d-none d-sm-none d-md-flex">
+        <v-container fluid class="pa-12 mt-14">
+          <v-row justify="start" align-items="center">
+            <h2 class="text-h5 text-sm-h5 text-md-h3 font-weight-bold mb-5">
+              Request Services on the GO!
+            </h2>
+            <p class="text-body text-sm-body text-md-h6">
+              Requesting Services in
+              <a
+                href="https://www.lnu.edu.ph"
+                target="_blank"
+                class="font-weight-bold text-decoration-none primary--text"
+                title="Go to LNU website"
+              >
+                Leyte Normal University <strong>(LNU)</strong>
+                <v-icon color="primary">mdi-link</v-icon>
+              </a>
+              made easier. Install LNU Service Request App to your desktop and
+              mobile devices to request services on the go.
+            </p>
+          </v-row>
+          <v-row class="mt-5">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="goToLink('/track')"
+                  color="primary"
+                  medium
+                  class="mr-2"
+                  elevation="0"
+                >
+                  <v-icon>mdi-map-marker-distance</v-icon>
+                  Track Request
+                </v-btn>
+              </template>
+              <span> Track your request using QR or code</span>
+            </v-tooltip>
+            <v-tooltip top v-if="deferredPrompt">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="install"
+                  :color="deferredPrompt ? 'error' : 'grey lighten-1'"
+                  medium
+                  class="ml-2"
+                  elevation="0"
+                >
+                  <v-icon>mdi-download</v-icon>
+                  Install The App
+                </v-btn>
+              </template>
+              <span> Install this app in your device </span>
+            </v-tooltip>
+          </v-row>
+          <v-row justify="space-between">
+            <v-col sm="12" md="8" class="mt-14">
+              <v-row justify="space-between">
+                <a
+                  href="/help/about"
+                  class="text-decoration-underline caption font-weight-bold"
+                  title="See about page"
+                >
+                  About
+                </a>
+                <a
+                  href="/help/privacy-and-policy#privacy_notice"
+                  class="text-decoration-underline caption font-weight-bold"
+                  title="privacy and policy page"
+                >
+                  Privacy and Policy
+                </a>
+                <a
+                  href="/help/tutorials"
+                  class="text-decoration-underline caption font-weight-bold"
+                  title="Explore more tutorials"
+                >
+                  Tutorials
+                </a>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-col>
     </v-row>
-    <v-row class="floating-button">
+    <v-row class="floating-button d-flex d-sm-flex d-md-none">
       <v-tooltip top>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             small
             v-bind="attrs"
             v-on="on"
-            @click="goToLink('/track/none')"
+            @click="goToLink('/track')"
             color="primary"
             medium
             class="ma-2"
@@ -260,8 +383,8 @@ export default {
         <span>
           {{
             deferredPrompt
-              ? "This app is compatible in your device"
-              : "This app is not installable in your browser"
+              ? "Install the app"
+              : "This app is not available for installation in your device"
           }}
         </span>
       </v-tooltip>
@@ -274,5 +397,11 @@ export default {
   position: fixed;
   bottom: 12px;
   right: 12px;
+}
+.lnu-logo {
+  width: 5rem;
+  height: auto;
+  margin-top: -10px;
+  margin-right: 5px;
 }
 </style>

@@ -45,13 +45,9 @@ export default {
 </script>
 <template>
   <v-container fluid class="pa-0">
-    <v-row justify="end" align="end">
-      <v-col cols="12" align="center">
-        <v-row
-          :justify="isMobile ? 'space-between' : 'end'"
-          align="end"
-          class="pa-2"
-        >
+    <v-row justify="end" align-items="center">
+      <v-col cols="12" class="">
+        <v-row justify="space-between" align-items="center" class="mt-4">
           <div v-if="isMobile">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -69,6 +65,19 @@ export default {
               <span>Menu</span>
             </v-tooltip>
           </div>
+
+          <div class="ml-5 hidden-sm-and-down">
+            <v-row justify="center" align="center">
+              <img
+                src="../../../../../assets/images/logo-512x512.png"
+                class="lnu-logo"
+                alt="LNU logo"
+                title="Leyte Normal University logo"
+              />
+              <span class="font-weight-bold">LNU SERVICE REQUESTING APP</span>
+            </v-row>
+          </div>
+
           <div>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -89,28 +98,51 @@ export default {
                   </v-icon>
                 </v-btn>
               </template>
-              <span>Enable darkmode</span>
+              <span v-if="!darkmode">Turn-on darkmode</span>
+              <span v-else>Turn-off darkmode</span>
             </v-tooltip>
-            <v-btn icon color="success" class="mr-3" @click="handleRefresh">
-              <v-icon size="25">mdi-cached</v-icon>
-            </v-btn>
-            <v-btn
-              @click="handleDeleteSelected"
-              icon
-              color="error"
-              :disabled="!getDeleteSelected[0] && !getLoading.delete_selected"
-              class="mr-3"
-            >
-              <v-badge
-                color="error"
-                offset-x="-18"
-                offset-y="-1"
-                v-if="getDeleteSelected[0]"
-                :content="getDeleteSelected.length"
-                size="small"
-              />
-              <v-icon size="25">mdi-trash-can</v-icon>
-            </v-btn>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  color="success"
+                  class="mr-3"
+                  @click="handleRefresh"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon size="25">mdi-cached</v-icon>
+                </v-btn>
+              </template>
+              <span>Refresh</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  @click="handleDeleteSelected"
+                  icon
+                  color="error"
+                  :disabled="
+                    !getDeleteSelected[0] && !getLoading.delete_selected
+                  "
+                  class="mr-3"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-badge
+                    color="error"
+                    offset-x="-18"
+                    offset-y="-1"
+                    v-if="getDeleteSelected[0]"
+                    :content="getDeleteSelected.length"
+                    size="small"
+                  />
+                  <v-icon size="25">mdi-trash-can</v-icon>
+                </v-btn>
+              </template>
+              <span>Delete Selected Drafts</span>
+            </v-tooltip>
           </div>
           <v-col cols="12" class="pa-0 pt-2">
             <v-divider />
@@ -120,3 +152,10 @@ export default {
     </v-row>
   </v-container>
 </template>
+<style scoped>
+.lnu-logo {
+  width: 3rem;
+  height: auto;
+  margin-right: 10px;
+}
+</style>

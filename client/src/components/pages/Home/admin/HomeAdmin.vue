@@ -109,6 +109,7 @@ export default {
       v-show="getSuccess"
       color="success"
       v-model="snackbar"
+      class="text-capitalize"
     >
       {{ getSuccess }}
       <template v-slot:action="{ attrs }">
@@ -122,20 +123,7 @@ export default {
       v-show="getError"
       color="error"
       v-model="snackbar"
-    >
-      {{ getError }}
-      <template v-slot:action="{ attrs }">
-        <v-btn color="white" text v-bind="attrs" @click="snackbar = false">
-          Close
-        </v-btn>
-      </template>
-    </v-snackbar>
-
-    <v-snackbar
-      :timeout="timeout"
-      v-show="getError"
-      color="error"
-      v-model="snackbar"
+      class="text-capitalize"
     >
       {{ getError }}
       <template v-slot:action="{ attrs }">

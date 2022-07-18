@@ -81,16 +81,21 @@ export default {
               <thead>
                 <tr>
                   <th class="text-left" />
-                  <th class="text-left">Type</th>
-                  <th class="text-left">Subject</th>
-                  <th class="text-center">Created</th>
-                  <th />
+                  <th class="text-left">Service Type</th>
+                  <th class="text-left">Description</th>
+                  <th class="text-center">Date Created</th>
+                  <th class="text-center">Send</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="draft in drafts" :key="draft.name">
+                <tr
+                  title="click to view"
+                  class="table-row"
+                  v-for="draft in drafts"
+                  :key="draft.name"
+                >
                   <td>
-                    <v-checkbox v-model="selected" :value="draft._id" />
+                    <v-checkbox title="Select for deletion" v-model="selected" :value="draft._id" />
                   </td>
                   <td @click="goToEdit(draft._id)">
                     <v-list-item-subtitle>
@@ -238,3 +243,8 @@ export default {
     </v-row>
   </v-container>
 </template>
+<style scoped>
+.table-row {
+  cursor: pointer;
+}
+</style>

@@ -19,7 +19,7 @@ export default {
   }),
   methods: {
     generateQR() {
-      const url = `https://lnusr.herokuapp.com${this.$route.fullPath}`;
+      const url = `${window.location.origin}${this.$route.fullPath}`;
       this.options.color.light = this.$vuetify.theme.isDark
         ? "#1e1e1e"
         : "#ffffff";
@@ -34,7 +34,7 @@ export default {
       if (this.image_url) {
         const link = document.createElement("a");
         link.href = this.image_url;
-        link.download = this.$route.fullPath.split("/")[2];
+        link.download = this.$route.fullPath.split("=")[1];
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

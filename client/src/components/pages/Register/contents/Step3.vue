@@ -70,6 +70,8 @@ export default {
         :disabled="getLoading.register"
         class="input"
         label="ID Number"
+        hint="Minimum of 7 numeric characters"  
+        persistent-hint
         type="number"
         :rules="[...rules.notNull, ...rules.numbers, ...rules.id]"
         v-model="form.staff_id"

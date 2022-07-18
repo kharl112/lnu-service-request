@@ -9,6 +9,7 @@ import Compose from "../../components/pages/Home/user/children/Compose";
 import Edit from "../../components/pages/Home/user/children/Edit";
 import ViewRequest from "../../components/pages/Home/user/children/ViewRequest";
 import NotFound from "../../components/pages/Home/user/children/NotFound";
+import FacultyDashboard from "../../components/pages/Home/user/children/FacultyDashboard";
 
 import store from "../../store/store";
 
@@ -26,6 +27,7 @@ export const user_routes = {
     } else next(false);
   },
   children: [
+    { path: "dashboard", component: FacultyDashboard },
     { path: "drafts", component: Drafts },
     { path: "sent", component: Sent },
     { path: "compose", component: Compose },

@@ -6,26 +6,49 @@ export default {
   },
   data: () => ({
     dialog: false,
+    home: [
+      {
+        title: "Dashboard",
+        icon: "mdi-tablet-dashboard",
+        getter: "",
+        path: "/faculty/home/dashboard",
+        tag: "",
+      },
+      {
+        title: "Activity Log",
+        icon: "mdi-cogs",
+        getter: "",
+        path: "/faculty/home/activity-log",
+        tag: "",
+      },
+    ],
     request_items: [
       {
         title: "Drafts",
         icon: "mdi-email-edit",
+        getter: "Drafts",
         path: "/faculty/home/drafts",
+        tag: "",
       },
       {
         title: "Sent",
         icon: "mdi-send-check",
+        getter: "Sent",
         path: "/faculty/home/sent",
+        tag: "",
       },
       {
         title: "Archives",
         icon: "mdi-archive",
+        getter: "Archives",
         path: "/faculty/home/archives",
+        tag: "",
       },
       {
         title: "Track",
         icon: "mdi-map-marker-distance",
-        path: "/track/none",
+        path: "/track",
+        tag: "",
       },
     ],
     received_items: [
@@ -34,11 +57,14 @@ export default {
         icon: "mdi-email-receive",
         getter: "Pendings",
         path: "/faculty/home/pending",
+        tag: "For Approval",
       },
       {
         title: "Signed",
         icon: "mdi-signature-freehand",
+        getter: "Signed",
         path: "/faculty/home/signed",
+        tag: "",
       },
     ],
   }),
@@ -87,6 +113,17 @@ export default {
       if (!getter) return 0;
       return this.$store.getters[`request/get${getter}`].length;
     },
+    getTitleDescription(child) {
+      if (child.title === "Track") return "Track Requests";
+      return (
+        "You have " +
+        this.getLength(child.getter) +
+        " " +
+        child.title +
+        " Requests " +
+        child.tag
+      );
+    },
   },
   destroyed() {
     this.drawer = false;
@@ -120,21 +157,37 @@ export default {
 
     <v-list shaped>
       <v-list-item-group v-model="route">
-        <v-list-item value="/faculty/home/compose">
+        <v-list-item
+          value="/faculty/home/compose"
+          title="Create, Draft and Send Service Request"
+        >
           <v-list-item-icon>
             <v-icon color="primary">mdi-plus</v-icon>
           </v-list-item-icon>
           <v-list-item-content>
-            <v-list-item-title>Compose</v-list-item-title>
+            <v-list-item-title>Create Request</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
     </v-list>
 
     <v-divider />
+    <v-list dense>
+      <v-subheader class="font-weight-bold">Home</v-subheader>
+      <v-list-item-group color="grey" v-model="route">
+        <v-list-item v-for="(child, i) in home" :key="i" :value="child.path">
+          <v-list-item-icon>
+            <v-icon v-text="child.icon" />
+          </v-list-item-icon>
+          <v-list-item-content :title="getTitleDescription(child)">
+            <v-list-item-title v-text="child.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
 
     <v-list dense>
-      <v-subheader>Requests</v-subheader>
+      <v-subheader class="font-weight-bold">My Requests</v-subheader>
       <v-list-item-group color="grey" v-model="route">
         <v-list-item
           v-for="(child, i) in request_items"
@@ -144,21 +197,15 @@ export default {
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
           </v-list-item-icon>
-          <v-list-item-content>
+          <v-list-item-content :title="getTitleDescription(child)">
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
-          <v-badge
-            offset-x="15"
-            color="primary"
-            v-if="getLength(child.getter)"
-            :content="getLength(child.getter)"
-          />
         </v-list-item>
       </v-list-item-group>
     </v-list>
 
     <v-list dense>
-      <v-subheader>Received</v-subheader>
+      <v-subheader class="font-weight-bold">Received Requests</v-subheader>
       <v-list-item-group color="grey" v-model="route">
         <v-list-item
           v-for="(child, i) in received_items"
@@ -168,23 +215,24 @@ export default {
           <v-list-item-icon>
             <v-icon v-text="child.icon" />
           </v-list-item-icon>
-          <v-list-item-content>
+          <v-list-item-content :title="getTitleDescription(child)">
             <v-list-item-title v-text="child.title" />
           </v-list-item-content>
           <v-badge
+            v-if="child.title === 'Pending'"
             offset-x="15"
-            v-if="getLength(child.getter)"
             color="primary"
-            :content="getLength(child.getter)"
+            :content="getLength(child.getter) || '0'"
+            :title="getTitleDescription(child)"
           />
         </v-list-item>
       </v-list-item-group>
     </v-list>
 
     <v-list dense>
-      <v-subheader>Account</v-subheader>
+      <v-subheader class="font-weight-bold">My Account</v-subheader>
       <v-list-item-group color="grey" v-model="route">
-        <v-list-item value="/faculty/home/settings">
+        <v-list-item value="/faculty/home/settings" title="Go to settings">
           <v-list-item-icon>
             <v-icon>mdi-account-settings</v-icon>
           </v-list-item-icon>
@@ -193,7 +241,7 @@ export default {
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
-      <v-list-item @click="showLogout" link>
+      <v-list-item @click="showLogout" link title="Sign-out your account">
         <v-list-item-icon>
           <v-icon color="primary">mdi-logout</v-icon>
         </v-list-item-icon>

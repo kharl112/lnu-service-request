@@ -8,7 +8,7 @@ const tableOptions = (value, text) => ({
       value: "user.profile",
     },
     {
-      text: "Service type",
+      text: "Service Type",
       align: "center",
       sortable: false,
       value: "service[0].type",

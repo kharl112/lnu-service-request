@@ -127,7 +127,7 @@ export default {
           <v-row justify="start" align="start" no-gutters dense>
             <v-col cols="12">
               <v-container fluid class="px-0">
-                <v-subheader class="subtitle-1">Edit Request</v-subheader>
+                <v-subheader class="text-h5">Edit Service Request</v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
@@ -142,7 +142,9 @@ export default {
                     />
                     <v-col cols="12" class="pa-0">
                       <v-container fluid class="py-0">
-                        <v-subheader>Signees</v-subheader>
+                        <v-subheader class="text-h6 px-0">
+                          Authorized Signees
+                        </v-subheader>
                         <v-divider />
                       </v-container>
                     </v-col>
@@ -159,7 +161,8 @@ export default {
                               item-text="name"
                               item-value="staff_id"
                               outlined
-                              label="Chief Admin Office"
+                              label="Chief Administration Office"
+                              title="Select CAO Officer(required)"
                               dense
                               prepend-inner-icon="mdi-close"
                               @click:prepend-inner="form.admin.staff_id = null"
@@ -174,6 +177,7 @@ export default {
                               item-value="staff_id"
                               outlined
                               label="Service Provider (optional)"
+                              title="Select a service provider (optional)"
                               hint="(optional)"
                               dense
                               prepend-inner-icon="mdi-close"
@@ -191,8 +195,9 @@ export default {
                               block
                               large
                               elevation="0"
+                              title="Apply your E-Signature (required)"
                             >
-                              Your Signature
+                              Apply Your E-Signature
                               <v-icon right> mdi-signature </v-icon>
                             </v-btn>
                           </v-col>
@@ -210,6 +215,7 @@ export default {
                               v-model="form.service_id"
                               outlined
                               label="Service Type"
+                              title="Select service type (required)"
                               :rules="others ? rules : []"
                               :items="getAllServices"
                               @change="handleChangeService"
@@ -223,6 +229,7 @@ export default {
                               v-model="form.other_service"
                               append-icon="mdi-eye-off"
                               label="Custom Service"
+                              title="Create your own service type"
                               hint="please specify custom service"
                               @click:append="customService(false)"
                               outlined
@@ -235,6 +242,7 @@ export default {
                               block
                               elevation="0"
                               color="primary"
+                              title="Click to create custom service type"
                             >
                               others
                             </v-btn>
@@ -249,6 +257,7 @@ export default {
                           outlined
                           :rules="rules"
                           label="Description"
+                          title="Description of your request (required)"
                           dense
                           counter
                           maxlength="50"
@@ -262,6 +271,7 @@ export default {
                           outlined
                           :rules="rules"
                           label="Purpose"
+                          title="Purpose/Body of your request (required)"
                           auto-grow
                         />
                       </v-col>
@@ -290,6 +300,7 @@ export default {
                               outlined
                               block
                               elevation="0"
+                              title="Save this service request as draft"
                             >
                               draft
                               <v-icon right> mdi-paperclip </v-icon>
@@ -305,6 +316,7 @@ export default {
                               outlined
                               block
                               elevation="0"
+                              title="Send this service request immediately"
                             >
                               send
                               <v-icon right> mdi-send </v-icon>

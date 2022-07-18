@@ -5,6 +5,7 @@ import { forgot_password_routes } from "./forgot_password/forgot_password_routes
 import { track_routes } from "./track/track_routes";
 import { admin_routes } from "./admin/admin_routes";
 import { user_routes } from "./user/user_routes";
+import { about_routes } from "./help/help_routes";
 
 export const routes = [
   register_routes,
@@ -14,4 +15,5 @@ export const routes = [
   track_routes,
   login_routes,
   forgot_password_routes,
+  about_routes,
 ];

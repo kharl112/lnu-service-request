@@ -33,9 +33,9 @@ export default {
 </script>
 <template>
   <v-container fluid class="pa-0">
-    <v-row justify="end" align="center">
-      <v-col cols="12" align="center">
-        <v-row justify="space-between" align="end" class="pa-2">
+    <v-row justify="end" align-items="center">
+      <v-col cols="12">
+        <v-row justify="space-between" align-items="center" class="mt-4">
           <div v-if="isMobile">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -47,17 +47,26 @@ export default {
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="50">
-                    mdi-menu
-                  </v-icon>
+                  <v-icon size="50"> mdi-menu </v-icon>
                 </v-btn>
               </template>
               <span>Menu</span>
             </v-tooltip>
           </div>
+
           <div class="ml-5 hidden-sm-and-down">
-            <span>Chief Administration Office </span>
+            <v-row justify="center" align="center">
+              <img
+                src="../../../../../assets/images/logo-512x512.png"
+                class="lnu-logo"
+                style=""
+                alt="LNU logo"
+                title="Leyte Normal University logo"
+              />
+              <span class="font-weight-bold">LNU SERVICE REQUESTING APP</span>
+            </v-row>
           </div>
+
           <div class="sm-ml-5">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -78,7 +87,8 @@ export default {
                   </v-icon>
                 </v-btn>
               </template>
-              <span>Enable darkmode</span>
+              <span v-if="!darkmode">Turn-on Darkmode</span>
+              <span v-else>Turn-off Darkmode</span>
             </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -104,3 +114,10 @@ export default {
     </v-row>
   </v-container>
 </template>
+<style scoped>
+.lnu-logo {
+  width: 3rem;
+  height: auto;
+  margin-right: 10px;
+}
+</style>
