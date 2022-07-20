@@ -1,6 +1,7 @@
 const Request = require("../../../db/models/request_model");
 const requestQuery = require("../../../functions/requestQuery");
 const pusher = require("../../../functions/pusher");
+const createActivityLog = require("../../../functions/createActivityLog");
 
 const Mutations = (() => {
   const sign = async (req, res) => {
@@ -28,6 +29,19 @@ const Mutations = (() => {
         message: "Signed and approved your request",
         date: new Date(),
       });
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: req.locals.staff_id,
+          user_type: "service_provider",
+        },
+        request_id: req.body._id,
+        description: "signed a service request",
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
 
       return res.send({ message: "signing complete" });
     } catch (error) {
