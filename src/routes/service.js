@@ -5,6 +5,7 @@ route.get("/all", async (req, res) => {
   try {
     const valid_services = [
       "62d7f8f2d6d6d829a8107a4e",
+      "62d7fb8f6ca91b2b7f7f9e80",
       "60f62dd969f7dd1017e2ba4a",
       "60f62e6169f7dd1017e2ba51",
       "629c8b230db34e279582a537"
