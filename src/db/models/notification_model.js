@@ -39,6 +39,11 @@ const Notification = new mongoose.Schema({
     required: true,
     default: true,
   },
+  date: {
+    type: Date,
+    required: true,
+    default: new Date(),
+  },
 });
 
 module.exports = mongoose.model("Notification", Notification);

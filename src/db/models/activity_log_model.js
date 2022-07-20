@@ -23,6 +23,11 @@ const ActivityLog = new mongoose.Schema({
     maxLength: 255,
     required: true,
   },
+  date: {
+    type: Date,
+    required: true,
+    default: new Date(),
+  },
 });
 
 module.exports = mongoose.model("ActivityLog", ActivityLog);
