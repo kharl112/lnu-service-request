@@ -49,8 +49,7 @@ export default {
   methods: {
     goToView(item) {
       const user_type =
-        item.description.includes("signed") ||
-        item.description.includes("mark")
+        item.description.includes("signed") || item.description.includes("mark")
           ? "provider"
           : "user";
       this.$router.push(`/faculty/home/view/${user_type}/${item.request_id}`);
@@ -99,6 +98,19 @@ export default {
             :items-per-page="5"
             class="elevation-0 data-table"
           >
+            <template v-slot:[`item.request.subject`]="{ item }">
+              <span>
+                {{ item.request.subject ? item.request.subject : "DELETED" }}
+              </span>
+            </template>
+            <template v-slot:[`item.request.service.type`]="{ item }">
+              <span>
+                {{
+                  item.request.service ? item.request.service.type : "DELETED"
+                }}
+              </span>
+            </template>
+
             <template v-slot:[`item.date`]="{ item }">
               <span>
                 {{
