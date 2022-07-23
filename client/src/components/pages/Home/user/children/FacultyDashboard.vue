@@ -6,15 +6,15 @@ export default {
       {
         title: "sent",
         icon: "send-check",
-        description: "Service Request",
+        description: "Sent service request from different service providers",
         color: "primary",
         getter: "Sent",
         link: "/faculty/home/sent",
       },
       {
-        title: "received pending",
-        icon: "email-receive",
-        description: "Service Request from the other staffs",
+        title: "pending received",
+        icon: "email-multiple",
+        description: "Received pending service Request from the other requestors",
         color: "warning",
         getter: "Pendings",
         link: "/faculty/home/pending",
@@ -22,7 +22,7 @@ export default {
       {
         title: "signed",
         icon: "signature-freehand",
-        description: "Service Request from the other staffs",
+        description: "Signed service requests from the other requestors",
         color: "success",
         getter: "Signed",
         link: "/faculty/home/signed",
@@ -32,35 +32,30 @@ export default {
       {
         text: "Date",
         align: "start",
-        value: "name",
-        sortable: false,
-      },
-      { text: "Activity", value: "category", sortable: false, align: "start" },
-    ],
-    desserts: [
-      {
-        name: "Frozen Yogurt",
-        category: "Ice cream",
+        value: "date",
+        sortable: true,
       },
       {
-        name: "Ice cream sandwich",
-        category: "Ice cream",
+        text: "Time",
+        align: "start",
+        value: "time",
+        sortable: true,
       },
       {
-        name: "Eclair",
-        category: "Cookie",
-      },
-      {
-        name: "Cupcake",
-        category: "Pastry",
-      },
-      {
-        name: "Gingerbread",
-        category: "Cookie",
+        text: "Log",
+        value: "description",
+        sortable: true,
+        align: "start",
       },
     ],
   }),
   computed: {
+    getActivityLogLoading() {
+      return this.$store.getters["activity_log/getLoading"].user;
+    },
+    activity_logs() {
+      return this.$store.getters["activity_log/getActivityLogs"].slice(0, 4);
+    },
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
     },
@@ -101,9 +96,10 @@ export default {
   created() {
     this.$store.dispatch("unit/allUnits");
     this.$store.dispatch("role/allRoles");
-    this.$store.dispatch("request/Pendings");
+    this.$store.dispatch("request/Pendings", "provider");
     this.$store.dispatch("request/Sent");
-    this.$store.dispatch("request/Signed");
+    this.$store.dispatch("request/Signed", "provider");
+    this.$store.dispatch("activity_log/userActivityLogs");
   },
 };
 </script>
@@ -208,11 +204,31 @@ export default {
         <v-container fluid>
           <v-data-table
             :headers="headers"
-            :items="desserts"
-            item-key="name"
+            :items="activity_logs"
             class="elevation-1"
             hide-default-footer
+            :loading="getActivityLogLoading"
           >
+            <template v-slot:[`item.date`]="{ item }">
+              <span>
+                {{
+                  new Date(item.date).toLocaleString("default", {
+                    dateStyle: "medium",
+                  })
+                }}
+              </span>
+            </template>
+            <template v-slot:[`item.time`]="{ item }">
+              <span>
+                {{
+                  new Date(item.date).toLocaleString("default", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  })
+                }}
+              </span>
+            </template>
             <template v-slot:footer>
               <v-toolbar flat>
                 <v-btn outlined small>
