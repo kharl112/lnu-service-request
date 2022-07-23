@@ -42,12 +42,10 @@ export default {
       <v-col cols="12" class="pa-0">
         <v-container fluid class="pa-0">
           <v-row justify="space-between" align="start" class="pa-4">
-            <v-col cols="8" sm="6" md="4" align-self="start">
-              <span class="text-h6 warning--text font-weight-bold">
-                Pending Requests
-              </span>
+            <v-col cols="8" sm="6">
+              <v-subheader class="text-h5"> Pending Requests </v-subheader>
             </v-col>
-            <v-col cols="12" sm="6" md="5" v-if="pendings[0]" align-self="end">
+            <v-col cols="12" sm="6" md="5" align-self="end">
               <v-text-field
                 outlined
                 v-model="table.search"
@@ -61,7 +59,7 @@ export default {
           </v-row>
           <v-divider />
         </v-container>
-        <v-container fluid v-if="pendings[0] && !loading.pendings">
+        <v-container fluid v-if="!loading.pendings">
           <v-data-table
             @click:row="goToView"
             :headers="table.headers"
@@ -98,18 +96,6 @@ export default {
         </v-container>
         <v-container fluid v-else-if="loading.pendings">
           <v-skeleton-loader type="table" />
-        </v-container>
-        <v-container fluid v-else-if="!pendings[0] && !loading.pendings">
-          <v-row justify="start">
-            <v-col cols="12">
-              <v-banner single-line>
-                <v-icon slot="icon" color="warning" size="36">
-                  mdi-exclamation-thick
-                </v-icon>
-                You have empty unsigned requests
-              </v-banner>
-            </v-col>
-          </v-row>
         </v-container>
       </v-col>
     </v-row>

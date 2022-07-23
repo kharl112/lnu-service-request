@@ -70,10 +70,13 @@ export default {
     <v-row dense justify="start">
       <v-col cols="12" class="pa-0">
         <v-container fluid>
-          <v-row justify="start" align="start" class="pb-4">
-            <v-col cols="12" sm="6" md="4" v-if="sent[0]">
+          <v-row justify="space-between" align="start" class="pb-4">
+            <v-col cols="12" sm="6">
+              <v-subheader class="text-h5"> Sent Service Requests </v-subheader>
+            </v-col>
+            <v-col cols="12" sm="6" md="4">
               <v-text-field
-              outlined
+                outlined
                 v-model="table.search"
                 append-icon="mdi-magnify"
                 label="Search"
@@ -85,7 +88,7 @@ export default {
           </v-row>
           <v-divider />
         </v-container>
-        <v-container fluid v-if="sent[0] && !loading.sent">
+        <v-container fluid v-if="!loading.sent">
           <v-data-table
             @click:row="goToView"
             :headers="table.headers"
@@ -125,23 +128,6 @@ export default {
         </v-container>
         <v-container fluid v-else-if="loading.sent">
           <v-skeleton-loader type="table" />
-        </v-container>
-        <v-container fluid v-else-if="!sent[0] && !loading.sent">
-          <v-row justify="start">
-            <v-col cols="12">
-              <v-banner single-line>
-                <v-icon slot="icon" color="warning" size="36">
-                  mdi-exclamation-thick
-                </v-icon>
-                No service requests found
-                <template v-slot:actions>
-                  <v-btn color="primary" @click="goToCreate" text>
-                    create
-                  </v-btn>
-                </template>
-              </v-banner>
-            </v-col>
-          </v-row>
         </v-container>
       </v-col>
     </v-row>
