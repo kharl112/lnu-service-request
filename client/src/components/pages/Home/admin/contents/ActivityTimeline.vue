@@ -79,5 +79,10 @@ export default {
     >
       No activity logs
     </v-card-title>
+    <v-card-actions>
+      <v-btn small color="primary" elevation="0" to="/admin/home/activity-log">
+        View All
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
