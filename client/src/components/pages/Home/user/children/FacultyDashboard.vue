@@ -118,8 +118,8 @@ export default {
       </v-col>
       <v-col cols="12" class="my-2">
         <v-container fluid>
-          <v-row>
-            <v-col cols="6" sm="4" v-for="(card, index) in cards" :key="index">
+          <v-row justify="center">
+            <v-col cols="6" sm="6" md="4" v-for="(card, index) in cards" :key="index">
               <v-card max-width="344" outlined primary>
                 <v-list-item three-line>
                   <v-list-item-avatar tile size="80">
@@ -158,7 +158,7 @@ export default {
           </v-row>
         </v-container>
       </v-col>
-      <v-col cols="12" sm="4">
+      <v-col cols="12" sm="12" md="4">
         <v-subheader class="text-h6">My Account</v-subheader>
         <v-container fluid>
           <v-card max-width="344" outlined primary>
@@ -200,7 +200,7 @@ export default {
           </v-card>
         </v-container>
       </v-col>
-      <v-col cols="12" sm="8">
+      <v-col cols="12" sm="12" md="8">
         <v-subheader class="text-h6"> Recent Activities </v-subheader>
         <v-container fluid v-if="!getActivityLogLoading">
           <v-data-table
