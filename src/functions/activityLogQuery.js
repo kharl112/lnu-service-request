@@ -29,6 +29,11 @@ const activityLogQuery = (match) => [
     },
   },
   {
+    $sort: {
+      date: -1,
+    },
+  },
+  {
     $project: {
       "request.user": 0,
       "request.admin": 0,
@@ -42,4 +47,3 @@ const activityLogQuery = (match) => [
 ];
 
 module.exports = activityLogQuery;
-
