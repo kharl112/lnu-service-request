@@ -14,7 +14,8 @@ export default {
       {
         title: "pending received",
         icon: "email-multiple",
-        description: "Received pending service Request from the other requestors",
+        description:
+          "Received pending service Request from the other requestors",
         color: "warning",
         getter: "Pendings",
         link: "/faculty/home/pending",
@@ -201,13 +202,12 @@ export default {
       </v-col>
       <v-col cols="12" sm="8">
         <v-subheader class="text-h6"> Recent Activities </v-subheader>
-        <v-container fluid>
+        <v-container fluid v-if="!getActivityLogLoading">
           <v-data-table
             :headers="headers"
             :items="activity_logs"
             class="elevation-1"
             hide-default-footer
-            :loading="getActivityLogLoading"
           >
             <template v-slot:[`item.date`]="{ item }">
               <span>
@@ -238,6 +238,9 @@ export default {
               </v-toolbar>
             </template>
           </v-data-table>
+        </v-container>
+        <v-container fluid v-else>
+          <v-skeleton-loader type="table" height="240px" />
         </v-container>
       </v-col>
     </v-row>
