@@ -229,9 +229,9 @@ export default {
                 }}
               </span>
             </template>
-            <template v-slot:footer>
+            <template v-slot:footer v-if="activity_logs.length">
               <v-toolbar flat>
-                <v-btn outlined small>
+                <v-btn outlined small to="/faculty/home/activity-log">
                   <v-icon left>mdi-cogs</v-icon>
                   View All Activities
                 </v-btn>
