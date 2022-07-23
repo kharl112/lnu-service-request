@@ -9,7 +9,7 @@ export default {
     items: [
       {
         title: "Pending",
-        icon: "mdi-email-alert",
+        icon: "mdi-email-multiple",
         getter: "Pendings",
         path: "/admin/home/pending",
         tag: "For Approval",

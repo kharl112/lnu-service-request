@@ -54,7 +54,7 @@ export default {
     received_items: [
       {
         title: "Pending",
-        icon: "mdi-email-receive",
+        icon: "mdi-email-multiple",
         getter: "Pendings",
         path: "/faculty/home/pending",
         tag: "For Approval",
