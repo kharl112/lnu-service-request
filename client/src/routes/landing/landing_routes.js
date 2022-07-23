@@ -10,7 +10,7 @@ export const landing_routes = {
     ) {
       localStorage.getItem("UserType") === "admin"
         ? next("/admin/home/pending")
-        : next("/faculty/home/drafts");
+        : next("/faculty/home/dashboard");
     } else next();
   },
 };
