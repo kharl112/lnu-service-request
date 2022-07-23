@@ -1,7 +1,9 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
+import ActivityTimeline from "../contents/ActivityTimeline.vue";
 export default {
   name: "Sent",
+  components: { ActivityTimeline },
   data: () => ({
     table: {
       headers: [
@@ -68,13 +70,13 @@ export default {
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
-      <v-col cols="12" class="pa-0">
+      <v-col cols="12" md="8" class="pa-0">
         <v-container fluid>
-          <v-row justify="space-between" align="start" class="pb-4">
+          <v-row justify="space-between" class="pb-4">
             <v-col cols="12" sm="6">
-              <v-subheader class="text-h5"> Sent Service Requests </v-subheader>
+              <v-subheader class="text-h6"> Sent Service Requests </v-subheader>
             </v-col>
-            <v-col cols="12" sm="6" md="4">
+            <v-col cols="12" sm="6" md="6">
               <v-text-field
                 outlined
                 v-model="table.search"
@@ -113,7 +115,7 @@ export default {
               </v-chip>
             </template>
             <template v-slot:[`item.reports.status`]="{ item }">
-              <v-subtitle
+              <span
                 id="clickable"
                 :class="`text-overline font-weight-bold ${
                   item.reports.status === 'completed'
@@ -122,13 +124,17 @@ export default {
                 }`"
               >
                 {{ item.reports.status }}
-              </v-subtitle>
+              </span>
             </template>
           </v-data-table>
         </v-container>
         <v-container fluid v-else-if="loading.sent">
           <v-skeleton-loader type="table" />
         </v-container>
+      </v-col>
+      <v-divider vertical class="d-md-flex d-sm-none d-none" />
+      <v-col cols="4" class="px-4 d-md-block d-sm-none d-none">
+        <ActivityTimeline />
       </v-col>
     </v-row>
   </v-container>

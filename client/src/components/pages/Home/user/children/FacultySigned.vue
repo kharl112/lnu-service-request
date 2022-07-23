@@ -1,9 +1,11 @@
 <script>
 import { formatDistanceToNow } from "date-fns";
 import tableOptions from "./tableOptions";
+import ActivityTimeline from "../contents/ActivityTimeline.vue";
 
 export default {
   name: "FacultySigned",
+  components: { ActivityTimeline },
   data: () => ({
     table: tableOptions("service_provider.reports.date", "Date Signed"),
   }),
@@ -40,11 +42,11 @@ export default {
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
-      <v-col cols="12">
+      <v-col cols="12" md="8" class="pa-0">
         <v-container fluid class="pr-0 pb-0 pt-0">
           <v-row justify="space-between" align="start" class="pa-4">
             <v-col cols="12" sm="6">
-              <v-subheader class="text-h5"> Signed Requests </v-subheader>
+              <v-subheader class="text-h6"> Signed Requests </v-subheader>
             </v-col>
             <v-col cols="12" sm="6" md="5">
               <v-text-field
@@ -97,6 +99,10 @@ export default {
         <v-container fluid v-else-if="loading.signed">
           <v-skeleton-loader type="table" />
         </v-container>
+      </v-col>
+      <v-divider vertical class="d-md-flex d-sm-none d-none" />
+      <v-col cols="4" class="px-4 d-md-block d-sm-none d-none">
+        <ActivityTimeline />
       </v-col>
     </v-row>
   </v-container>
