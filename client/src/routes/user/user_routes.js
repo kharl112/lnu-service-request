@@ -10,6 +10,7 @@ import Edit from "../../components/pages/Home/user/children/Edit";
 import ViewRequest from "../../components/pages/Home/user/children/ViewRequest";
 import NotFound from "../../components/pages/Home/user/children/NotFound";
 import FacultyDashboard from "../../components/pages/Home/user/children/FacultyDashboard";
+import ActivityLogs from "../../components/pages/Home/user/children/ActivityLogs";
 
 import store from "../../store/store";
 
@@ -28,6 +29,7 @@ export const user_routes = {
   },
   children: [
     { path: "dashboard", component: FacultyDashboard },
+    { path: "activity-log", component: ActivityLogs },
     { path: "drafts", component: Drafts },
     { path: "sent", component: Sent },
     { path: "compose", component: Compose },
