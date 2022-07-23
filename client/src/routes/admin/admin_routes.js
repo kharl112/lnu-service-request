@@ -7,6 +7,7 @@ import ViewRequest from "../../components/pages/Home/admin/children/ViewRequest"
 import NotFound from "../../components/pages/Home/admin/children/NotFound";
 
 import AdminDashboard from "../../components/pages/Home/admin/children/AdminDashboard";
+import ActivityLogs from "../../components/pages/Home/admin/children/ActivityLogs";
 
 import store from "../../store/store";
 
@@ -25,6 +26,7 @@ export const admin_routes = {
   },
   children: [
     { path: "dashboard", component: AdminDashboard },
+    { path: "activity-log", component: ActivityLogs },
     { path: "settings", component: AdminSettings },
     { path: "pending", component: AdminPending },
     { path: "signed", component: AdminSigned },
