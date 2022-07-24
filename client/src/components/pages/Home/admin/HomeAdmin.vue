@@ -74,6 +74,10 @@ export default {
         this.$store.dispatch("message/detachNotif");
         this.$store.dispatch("message/notify", options);
         this.$store.dispatch("request/Pendings", "admin");
+        this.$store.dispatch("notification/notifications", {
+          user_type: "admin",
+          filter: null,
+        });
       });
     }
   },
