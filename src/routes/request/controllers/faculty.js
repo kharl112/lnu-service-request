@@ -4,11 +4,9 @@ const { nanoid } = require("nanoid");
 const User = require("../../../db/models/user_model");
 const Admin = require("../../../db/models/admin_model");
 const Request = require("../../../db/models/request_model");
-const Service = require("../../../db/models/service_model");
 const requestQuery = require("../../../functions/requestQuery");
-const { Name } = require("../../../functions/generateProfile");
-const pusher = require("../../../functions/pusher");
 const createActivityLog = require("../../../functions/createActivityLog");
+const createNotification = require("../../../functions/createNotification");
 
 const Mutations = (() => {
   const create = async (req, res) => {
@@ -60,19 +58,29 @@ const Mutations = (() => {
       },
     });
 
-    //trigger notification to admin
-    if (req.body.reports.status === "sent") {
-      pusher.trigger(req.body.admin.staff_id, "received", {
-        request_id: _id,
-        initiator: req.locals.name,
-        user_type: "admin",
-        message: "Sent you a service request",
-        date: new Date(),
-      });
-    }
-
     try {
+      //save request
       await request.save();
+
+      //trigger notification to admin
+      if (req.body.reports.status === "sent") {
+        //create notif default option
+        const notif_options = {
+          user: {
+            staff_id: req.body.admin.staff_id,
+            user_type: "admin",
+          },
+          action_type: "received",
+          request_id: _id,
+          initiator: req.locals.name,
+          description: "Sent you a service request",
+        };
+
+        //trigger pusher and save notification
+        await createNotification({
+          ...notif_options,
+        });
+      }
 
       //generate options
       const activity_options = {
@@ -189,13 +197,21 @@ const Mutations = (() => {
         { "reports.status": "sent", "reports.dates.sent": new Date() }
       );
 
-      //send notification to admin
-      pusher.trigger(request.admin.staff_id, "received", {
+      //create notif default option
+      const notif_options = {
+        user: {
+          staff_id: request.admin.staff_id,
+          user_type: "admin",
+        },
+        action_type: "received",
         request_id: _id,
         initiator: req.locals.name,
-        user_type: "admin",
-        message: "Sent you a service request",
-        date: new Date(),
+        description: "Sent you a service request",
+      };
+
+      //trigger pusher and save notification
+      await createNotification({
+        ...notif_options,
       });
 
       //generate options
@@ -237,13 +253,21 @@ const Mutations = (() => {
         { "reports.status": "completed", "reports.dates.completed": new Date() }
       );
 
-      //send notification to admin
-      pusher.trigger(request.admin.staff_id, "received", {
+      //create notif default option
+      const notif_options = {
+        user: {
+          staff_id: request.admin.staff_id,
+          user_type: "admin",
+        },
+        action_type: "received",
         request_id: _id,
         initiator: req.locals.name,
-        user_type: "admin",
-        message: "marked a request as completed",
-        date: new Date(),
+        description: "marked a request as completed",
+      };
+
+      //trigger pusher and save notification
+      await createNotification({
+        ...notif_options,
       });
 
       //generate options
