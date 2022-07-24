@@ -10,6 +10,7 @@ const unit = require("./src/routes/unit");
 const role = require("./src/routes/role");
 const service = require("./src/routes/service");
 const activity_log = require("./src/routes/activity_log");
+const notification = require("./src/routes/notification");
 const dbconnection = require("./src/db/connection");
 require("dotenv").config();
 
@@ -27,6 +28,7 @@ app.use("/api/unit", unit);
 app.use("/api/role", role);
 app.use("/api/service", service);
 app.use("/api/activity-log", activity_log);
+app.use("/api/notification", notification);
 
 app.use(express.static("client/dist"));
 app.get("/*", (req, res) => {
