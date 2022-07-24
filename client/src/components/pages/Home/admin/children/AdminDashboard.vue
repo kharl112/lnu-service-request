@@ -1,32 +1,32 @@
 <script>
 export default {
-  name: "FacultyDashboard",
+  name: "AdminDashboard",
   data: () => ({
     cards: [
-      {
-        title: "sent",
-        icon: "send-check",
-        description: "Sent service request from different service providers",
-        color: "primary",
-        getter: "Sent",
-        link: "/faculty/home/sent",
-      },
       {
         title: "pending received",
         icon: "email-multiple",
         description:
-          "Received pending service Request from the other requestors",
-        color: "warning",
+          "Received pending service requests from the other requestors",
+        color: "primary",
         getter: "Pendings",
-        link: "/faculty/home/pending",
+        link: "/admin/home/pending",
       },
       {
         title: "signed",
         icon: "signature-freehand",
-        description: "Signed service requests from the other requestors",
+        description: "Service requests you already signed",
         color: "success",
         getter: "Signed",
-        link: "/faculty/home/signed",
+        link: "/admin/home/signed",
+      },
+      {
+        title: "archives",
+        icon: "archive",
+        description: "Archived service requests ",
+        color: "warning",
+        getter: "Archives",
+        link: "/admin/home/archives",
       },
     ],
     headers: [
@@ -52,55 +52,39 @@ export default {
   }),
   computed: {
     getActivityLogLoading() {
-      return this.$store.getters["activity_log/getLoading"].user;
+      return this.$store.getters["activity_log/getLoading"].admin;
     },
     activity_logs() {
       return this.$store.getters["activity_log/getActivityLogs"].slice(0, 4);
     },
-    getFacultyProfile() {
-      return this.$store.getters["faculty/getProfile"];
+    getAdminProfile() {
+      return this.$store.getters["admin/getProfile"];
     },
-    getFacultyFullName() {
+    getAdminFullName() {
       const { firstname, lastname, middle_initial, prefix, suffixes } =
-        this.getFacultyProfile.name;
+        this.getAdminProfile.name;
       return `${
         prefix ? prefix + "." : ""
       } ${firstname} ${middle_initial.toUpperCase()}. ${lastname} ${
         suffixes[0] ? suffixes.toString() : ""
       }`;
     },
-    getFacultyInitials() {
-      const { firstname, lastname } = this.getFacultyProfile.name;
+    getAdminInitials() {
+      const { firstname, lastname } = this.getAdminProfile.name;
       return `${firstname[0].toUpperCase()}${lastname[0].toUpperCase()}`;
-    },
-    getAllUnits() {
-      return this.$store.getters["unit/getAllUnits"];
-    },
-    getAllRoles() {
-      return this.$store.getters["role/getAllRoles"];
     },
   },
   methods: {
-    getUnitName(id) {
-      if (!this.getAllUnits.length) return "";
-      return this.getAllUnits.filter(({ _id }) => _id == id)[0].name;
-    },
-    getRoleName(id) {
-      if (!this.getAllRoles.length) return "";
-      return this.getAllRoles.filter(({ _id }) => _id == id)[0].name;
-    },
     getLength(getter) {
       if (!getter) return 0;
       return this.$store.getters[`request/get${getter}`].length;
     },
   },
   created() {
-    this.$store.dispatch("unit/allUnits");
-    this.$store.dispatch("role/allRoles");
-    this.$store.dispatch("request/Pendings", "provider");
-    this.$store.dispatch("request/Sent");
-    this.$store.dispatch("request/Signed", "provider");
-    this.$store.dispatch("activity_log/userActivityLogs");
+    this.$store.dispatch("request/Pendings", "admin");
+    this.$store.dispatch("request/Signed", "admin");
+    this.$store.dispatch("request/Archives", "admin");
+    this.$store.dispatch("activity_log/adminActivityLogs");
   },
 };
 </script>
@@ -119,7 +103,13 @@ export default {
       <v-col cols="12" class="my-2">
         <v-container fluid>
           <v-row justify="center">
-            <v-col cols="6" sm="6" md="4" v-for="(card, index) in cards" :key="index">
+            <v-col
+              cols="6"
+              sm="6"
+              md="4"
+              v-for="(card, index) in cards"
+              :key="index"
+            >
               <v-card max-width="344" outlined primary>
                 <v-list-item three-line>
                   <v-list-item-avatar tile size="80">
@@ -166,34 +156,24 @@ export default {
               <v-list-item-avatar size="50">
                 <v-avatar color="primary" size="80">
                   <span class="white--text headline">
-                    {{ getFacultyInitials }}
+                    {{ getAdminInitials }}
                   </span>
                 </v-avatar>
               </v-list-item-avatar>
 
               <v-list-item-content>
-                <v-list-item-title>{{ getFacultyFullName }}</v-list-item-title>
+                <v-list-item-title>{{ getAdminFullName }}</v-list-item-title>
                 <v-list-item-subtitle class="my-0 py-0">
-                  ID: {{ getFacultyProfile.staff_id }}
+                  ID: {{ getAdminProfile.staff_id }}
                 </v-list-item-subtitle>
                 <v-list-item-subtitle class="my-0 pt-2">
                   Department:
-                  <strong>{{
-                    getUnitName(getFacultyProfile.department.unit_id)
-                  }}</strong>
-                </v-list-item-subtitle>
-                <v-list-item-subtitle class="my-0 py-0">
-                  Role:
-                  <strong>
-                    {{
-                      getRoleName(getFacultyProfile.department.role_id)
-                    }}</strong
-                  >
+                  <strong>Chief Administration Office</strong>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>
             <v-card-actions>
-              <v-btn outlined rounded small to="/faculty/home/settings">
+              <v-btn outlined rounded small to="/admin/home/settings">
                 Settings
               </v-btn>
             </v-card-actions>
@@ -231,7 +211,7 @@ export default {
             </template>
             <template v-slot:footer v-if="activity_logs.length">
               <v-toolbar flat>
-                <v-btn outlined small to="/faculty/home/activity-log">
+                <v-btn outlined small to="/admin/home/activity-log">
                   <v-icon left>mdi-cogs</v-icon>
                   View All Activities
                 </v-btn>

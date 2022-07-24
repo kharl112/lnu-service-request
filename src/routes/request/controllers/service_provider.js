@@ -1,6 +1,7 @@
 const Request = require("../../../db/models/request_model");
 const requestQuery = require("../../../functions/requestQuery");
-const pusher = require("../../../functions/pusher");
+const createActivityLog = require("../../../functions/createActivityLog");
+const createNotification = require("../../../functions/createNotification");
 
 const Mutations = (() => {
   const sign = async (req, res) => {
@@ -20,14 +21,35 @@ const Mutations = (() => {
         }
       );
 
-      //trigger notification to user requestor
-      pusher.trigger(request_service.user.staff_id, "signed", {
+      //create notif default option
+      const notif_options = {
+        user: {
+          staff_id: request_service.user.staff_id,
+          user_type: "user",
+        },
+        action_type: "signed",
         request_id: req.body._id,
         initiator: req.locals.name,
-        user_type: "user",
-        message: "Signed and approved your request",
-        date: new Date(),
+        description: "Signed and approved your request",
+      };
+
+      //trigger pusher and save notification
+      await createNotification({
+        ...notif_options,
       });
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: req.locals.staff_id,
+          user_type: "service_provider",
+        },
+        request_id: req.body._id,
+        description: "signed a service request",
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
 
       return res.send({ message: "signing complete" });
     } catch (error) {

@@ -6,6 +6,10 @@ import AdminArchives from "../../components/pages/Home/admin/children/AdminArchi
 import ViewRequest from "../../components/pages/Home/admin/children/ViewRequest";
 import NotFound from "../../components/pages/Home/admin/children/NotFound";
 
+import AdminDashboard from "../../components/pages/Home/admin/children/AdminDashboard";
+import ActivityLogs from "../../components/pages/Home/admin/children/ActivityLogs";
+import Notifications from "../../components/pages/Home/admin/children/Notifications";
+
 import store from "../../store/store";
 
 export const admin_routes = {
@@ -22,6 +26,9 @@ export const admin_routes = {
     } else next(false);
   },
   children: [
+    { path: "dashboard", component: AdminDashboard },
+    { path: "activity-log", component: ActivityLogs },
+    { path: "notification", component: Notifications },
     { path: "settings", component: AdminSettings },
     { path: "pending", component: AdminPending },
     { path: "signed", component: AdminSigned },

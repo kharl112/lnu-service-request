@@ -6,10 +6,26 @@ export default {
   },
   data: () => ({
     dialog: false,
+    home: [
+      {
+        title: "Dashboard",
+        icon: "mdi-tablet-dashboard",
+        getter: "",
+        path: "/admin/home/dashboard",
+        tag: "",
+      },
+      {
+        title: "Activity Log",
+        icon: "mdi-cogs",
+        getter: "",
+        path: "/admin/home/activity-log",
+        tag: "",
+      },
+    ],
     items: [
       {
         title: "Pending",
-        icon: "mdi-email-alert",
+        icon: "mdi-email-multiple",
         getter: "Pendings",
         path: "/admin/home/pending",
         tag: "For Approval",
@@ -124,6 +140,19 @@ export default {
     </v-list>
 
     <v-divider />
+    <v-list dense>
+      <v-subheader class="font-weight-bold">Home</v-subheader>
+      <v-list-item-group color="grey" v-model="route">
+        <v-list-item v-for="(child, i) in home" :key="i" :value="child.path">
+          <v-list-item-icon>
+            <v-icon v-text="child.icon" />
+          </v-list-item-icon>
+          <v-list-item-content :title="getTitleDescription(child)">
+            <v-list-item-title v-text="child.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
 
     <v-list dense>
       <v-subheader class="font-weight-bold">Received Requests</v-subheader>

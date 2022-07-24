@@ -4,10 +4,9 @@ const { nanoid } = require("nanoid");
 const User = require("../../../db/models/user_model");
 const Admin = require("../../../db/models/admin_model");
 const Request = require("../../../db/models/request_model");
-const Service = require("../../../db/models/service_model");
 const requestQuery = require("../../../functions/requestQuery");
-const { Name } = require("../../../functions/generateProfile");
-const pusher = require("../../../functions/pusher");
+const createActivityLog = require("../../../functions/createActivityLog");
+const createNotification = require("../../../functions/createNotification");
 
 const Mutations = (() => {
   const create = async (req, res) => {
@@ -59,19 +58,43 @@ const Mutations = (() => {
       },
     });
 
-    //trigger notification to admin
-    if (req.body.reports.status === "sent") {
-      pusher.trigger(req.body.admin.staff_id, "received", {
-        request_id: _id,
-        initiator: req.locals.name,
-        user_type: "admin",
-        message: "Sent you a service request",
-        date: new Date(),
-      });
-    }
-
     try {
+      //save request
       await request.save();
+
+      //trigger notification to admin
+      if (req.body.reports.status === "sent") {
+        //create notif default option
+        const notif_options = {
+          user: {
+            staff_id: req.body.admin.staff_id,
+            user_type: "admin",
+          },
+          action_type: "received",
+          request_id: _id,
+          initiator: req.locals.name,
+          description: "Sent you a service request",
+        };
+
+        //trigger pusher and save notification
+        await createNotification({
+          ...notif_options,
+        });
+      }
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: req.locals.staff_id,
+          user_type: "user",
+        },
+        request_id: request._id,
+        description: "created a new service request",
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
+
       return res.send({
         message: `request ${req.body.reports.status}`,
       });
@@ -93,7 +116,7 @@ const Mutations = (() => {
     delete req.body.reports;
 
     try {
-      await Request.findOneAndUpdate(
+      const update_request = await Request.findOneAndUpdate(
         { _id, "reports.status": "created" },
         {
           ...req.body,
@@ -111,9 +134,22 @@ const Mutations = (() => {
           "reports.dates.sent": isSent ? new Date() : null,
         }
       );
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: req.locals.staff_id,
+          user_type: "user",
+        },
+        request_id: update_request._id,
+        description: "updated a service request",
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
+
       return res.send({ message: "request letter updated" });
     } catch (error) {
-      console.log(error);
       return res
         .status(500)
         .send({ message: "something went wrong, please try again" });
@@ -129,6 +165,20 @@ const Mutations = (() => {
         "user.staff_id": req.locals.staff_id,
         _id: { $in: req.body.delete_selected },
       });
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: req.locals.staff_id,
+          user_type: "user",
+        },
+        request_id: null,
+        description: `deleted ${req.body.delete_selected.length} drafted service requests`,
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
+
       return res.send({ message: "selected requests deleted" });
     } catch (error) {
       res
@@ -142,10 +192,41 @@ const Mutations = (() => {
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
     try {
-      await Request.findOneAndUpdate(
+      const request = await Request.findOneAndUpdate(
         { _id, "reports.status": "created" },
         { "reports.status": "sent", "reports.dates.sent": new Date() }
       );
+
+      //create notif default option
+      const notif_options = {
+        user: {
+          staff_id: request.admin.staff_id,
+          user_type: "admin",
+        },
+        action_type: "received",
+        request_id: _id,
+        initiator: req.locals.name,
+        description: "Sent you a service request",
+      };
+
+      //trigger pusher and save notification
+      await createNotification({
+        ...notif_options,
+      });
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: req.locals.staff_id,
+          user_type: "user",
+        },
+        request_id: _id,
+        description: "sent a service request",
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
+
       return res.send({ message: "request letter sent" });
     } catch (error) {
       return res
@@ -159,7 +240,7 @@ const Mutations = (() => {
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
     try {
-      await Request.findOneAndUpdate(
+      const request = await Request.findOneAndUpdate(
         {
           _id,
           "reports.status": "sent",
@@ -171,6 +252,36 @@ const Mutations = (() => {
         },
         { "reports.status": "completed", "reports.dates.completed": new Date() }
       );
+
+      //create notif default option
+      const notif_options = {
+        user: {
+          staff_id: request.admin.staff_id,
+          user_type: "admin",
+        },
+        action_type: "received",
+        request_id: _id,
+        initiator: req.locals.name,
+        description: "marked a request as completed",
+      };
+
+      //trigger pusher and save notification
+      await createNotification({
+        ...notif_options,
+      });
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: req.locals.staff_id,
+          user_type: "user",
+        },
+        request_id: _id,
+        description: "mark a request as completed",
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
 
       return res.send({ message: "request letter marked as completed" });
     } catch (error) {
@@ -192,6 +303,20 @@ const Mutations = (() => {
         },
         { "reports.status": "archived", "reports.dates.archived": new Date() }
       );
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: req.locals.staff_id,
+          user_type: "user",
+        },
+        request_id: _id,
+        description: "mark a service request as archived",
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
+
       return res.send({ message: "request letter marked as archived" });
     } catch (error) {
       return res

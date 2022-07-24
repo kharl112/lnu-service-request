@@ -42,7 +42,7 @@ const admin = {
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
 
-        router.replace("/admin/home/pending");
+        router.replace("/admin/home/dashboard");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });
@@ -61,7 +61,7 @@ const admin = {
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
 
-        router.replace("/admin/home/pending");
+        router.replace("/admin/home/dashboard");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
@@ -112,7 +112,7 @@ const admin = {
         dispatch("message/successMessage", "password changed", {
           root: true,
         });
-        router.replace("/admin/home/pending");
+        router.replace("/admin/home/dashboard");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "change_password" });
@@ -132,7 +132,7 @@ const admin = {
         commit("setLoading", { loading: false, type: "reset_password" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "admin");
-        router.replace("/admin/home/pending");
+        router.replace("/admin/home/dashboard");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "reset_password" });

@@ -78,11 +78,19 @@ export default {
         this.$store.dispatch("message/detachNotif");
         this.$store.dispatch("message/notify", options);
         this.$store.dispatch("request/Pendings", "provider");
+        this.$store.dispatch("notification/notifications", {
+          user_type: "faculty",
+          filter: null,
+        });
       });
 
       channel.bind("signed", (options) => {
         this.$store.dispatch("message/detachNotif");
         this.$store.dispatch("message/notify", options);
+        this.$store.dispatch("notification/notifications", {
+          user_type: "faculty",
+          filter: null,
+        });
       });
     }
   },
@@ -148,7 +156,7 @@ export default {
       right
       tile
       v-model="notif_bar"
-      :timeout="-1"
+      :timeout="10000"
     >
       <v-container fluid fill-height>
         <v-row justify="start" align="center">

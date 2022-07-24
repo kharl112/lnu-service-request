@@ -1,11 +1,11 @@
 const changeServices = (id) => {
   const services = [
     {
-      id: "60f62dcb69f7dd1017e2ba49",
+      id: "62d7f8f2d6d6d829a8107a4e",
       obj: { name: "", timeout: "", date: "" },
     },
     {
-      id: "60f62dd969f7dd1017e2ba4a",
+      id: "62d7fb8f6ca91b2b7f7f9e80",
       obj: {
         with_paper: false,
         back_to_back: false,
@@ -13,7 +13,7 @@ const changeServices = (id) => {
       },
     },
     {
-      id: "60f62e6169f7dd1017e2ba51",
+      id: "62d7ff720144e63075a27c82",
       obj: {
         co_makers: [],
         request_for: {
@@ -63,7 +63,7 @@ const changeServices = (id) => {
       },
     },
     {
-      id: "629c8b230db34e279582a537",
+      id: "62d7fdddbfdaeb2e03878dcb",
       obj: {
         persons_involved: [],
         type: "",

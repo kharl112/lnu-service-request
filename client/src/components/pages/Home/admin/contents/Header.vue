@@ -2,6 +2,11 @@
 export default {
   name: "Header",
   computed: {
+    getUnreadNotifCount() {
+      return this.$store.getters["notification/getNotifications"]
+        .filter(({ unread }) => unread)
+        .length.toString();
+    },
     drawer: {
       get() {
         return this.$store.getters["navigation/getDrawer"];
@@ -28,6 +33,12 @@ export default {
     handleRefresh() {
       return location.reload();
     },
+  },
+  created() {
+    this.$store.dispatch("notification/notifications", {
+      user_type: "admin",
+      filter: null,
+    });
   },
 };
 </script>
@@ -67,12 +78,36 @@ export default {
             </v-row>
           </div>
 
-          <div class="sm-ml-5">
+          <div >
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-badge
+                  color="primary"
+                  offset-x="-20"
+                  offset-y="-1"
+                  :content="getUnreadNotifCount"
+                  size="small"
+                />
+                <v-btn
+                  icon
+                  color="primary"
+                  class="mr-2"
+                  v-bind="attrs"
+                  v-on="on"
+                  to="/admin/home/notification?filter=all"
+                >
+                  <v-icon size="25"> mdi-bell </v-icon>
+                </v-btn>
+              </template>
+              <span>
+                You have {{ getUnreadNotifCount }} unread notifications
+              </span>
+            </v-tooltip>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   color="warning"
-                  class="mr-2"
+                  class="ml-1"
                   icon
                   @click="darkmode ? (darkmode = false) : (darkmode = true)"
                   v-bind="attrs"
@@ -94,7 +129,7 @@ export default {
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   color="success"
-                  class="mr-2"
+                  class="mx-1"
                   icon
                   @click="handleRefresh"
                   v-bind="attrs"

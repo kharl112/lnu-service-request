@@ -48,7 +48,7 @@ const faculty = {
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
 
-        router.replace("/faculty/home/drafts");
+        router.replace("/faculty/home/dashboard");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "login" });
@@ -65,7 +65,7 @@ const faculty = {
         commit("setLoading", { loading: false, type: "register" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
-        router.replace("/faculty/home/drafts");
+        router.replace("/faculty/home/dashboard");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "register" });
@@ -116,7 +116,7 @@ const faculty = {
         dispatch("message/successMessage", "password changed", {
           root: true,
         });
-        router.replace("/faculty/home/drafts");
+        router.replace("/faculty/home/dashboard");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "change_password" });
@@ -136,7 +136,7 @@ const faculty = {
         commit("setLoading", { loading: false, type: "reset_password" });
         localStorage.setItem("Authorization", data.token);
         localStorage.setItem("UserType", "user");
-        router.replace("/faculty/home/drafts");
+        router.replace("/faculty/home/dashboard");
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "reset_password" });
