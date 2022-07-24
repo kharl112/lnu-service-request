@@ -16,11 +16,13 @@ export default {
       if (item.description.includes("archive"))
         return { icon: "mdi-archive", color: "warning" };
       if (item.description.includes("completed"))
-        return { icon: "mdi-check", color: "primary" };
+        return { icon: "mdi-check", color: "success" };
       if (item.description.includes("signed"))
         return { icon: "mdi-signature-freehand", color: "success" };
       if (item.description.includes("delete"))
         return { icon: "mdi-delete", color: "error" };
+      if (item.description.includes("sent"))
+        return { icon: "mdi-send", color: "success" };
     },
     getTime(date) {
       return new Date(date).toLocaleString("default", {
