@@ -68,7 +68,7 @@ const notification = {
         );
 
         commit("setLoading", { type: user_type, loading: false });
-        dispatch("notifications", user_type);
+        dispatch("notifications", { user_type, filter: null });
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { type: user_type, loading: false });
@@ -91,7 +91,7 @@ const notification = {
 
         commit("setLoading", { type: user_type, loading: false });
         dispatch("message/successMessage", data.message, { root: true });
-        dispatch("notifications", user_type);
+        dispatch("notifications", { user_type, filter: null });
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { type: user_type, loading: false });
