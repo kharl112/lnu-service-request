@@ -2,6 +2,7 @@ const Request = require("../../../db/models/request_model");
 const requestQuery = require("../../../functions/requestQuery");
 const pusher = require("../../../functions/pusher");
 const createActivityLog = require("../../../functions/createActivityLog");
+const createNotification = require("../../../functions/createNotification");
 
 const Mutations = (() => {
   const sign = async (req, res) => {
@@ -21,24 +22,40 @@ const Mutations = (() => {
         }
       );
 
+      //create notif default option
+      const notif_options = {
+        request_id: req.body._id,
+        initiator: req.locals.name,
+      };
+
       //trigger notification to service provider
       if (request_service.service_provider.staff_id) {
-        pusher.trigger(request_service.service_provider.staff_id, "received", {
-          request_id: req.body._id,
-          initiator: req.locals.name,
+        const provider = {
+          staff_id: request_service.service_provider.staff_id,
           user_type: "provider",
-          message: "Approved a request that was sent for you",
-          date: new Date(),
+        };
+
+        //trigger pusher and save notification
+        await createNotification({
+          user: provider,
+          action_type: "received",
+          ...notif_options,
+          description: "Approved a request that was sent for you",
         });
       }
 
       //trigger notification to user requestor
-      pusher.trigger(request_service.user.staff_id, "signed", {
-        request_id: req.body._id,
-        initiator: req.locals.name,
+      const user = {
+        staff_id: request_service.user.staff_id,
         user_type: "user",
-        message: "Signed and approved your request",
-        date: new Date(),
+      };
+
+      //trigger pusher and save notification
+      await createNotification({
+        user,
+        action_type: "signed",
+        ...notif_options,
+        description: "Signed and approved your request",
       });
 
       //generate options
