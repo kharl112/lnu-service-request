@@ -2,6 +2,11 @@
 export default {
   name: "Header",
   computed: {
+    getUnreadNotifCount() {
+      return this.$store.getters["notification/getNotifications"]
+        .filter(({ unread }) => unread)
+        .length.toString();
+    },
     getDeleteSelected() {
       return this.$store.getters["request/getDeleteSelected"];
     },
@@ -40,6 +45,12 @@ export default {
     handleRefresh() {
       return location.reload();
     },
+  },
+  created() {
+    this.$store.dispatch("notification/notifications", {
+      user_type: "faculty",
+      filter: null,
+    });
   },
 };
 </script>
@@ -81,10 +92,35 @@ export default {
           <div>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
+                <v-badge
+                  color="primary"
+                  offset-x="-20"
+                  offset-y="-1"
+                  :content="getUnreadNotifCount"
+                  size="small"
+                />
+                <v-btn
+                  icon
+                  color="primary"
+                  class="mr-2"
+                  v-bind="attrs"
+                  v-on="on"
+                  to="/faculty/home/notification?filter=all"
+                >
+                  <v-icon size="25"> mdi-bell </v-icon>
+                </v-btn>
+              </template>
+              <span>
+                You have {{ getUnreadNotifCount }} unread notifications
+              </span>
+            </v-tooltip>
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
                   color="warning"
-                  class="mr-3"
+                  class="mx-1"
                   @click="darkmode ? (darkmode = false) : (darkmode = true)"
                   v-bind="attrs"
                   v-on="on"
@@ -107,7 +143,7 @@ export default {
                 <v-btn
                   icon
                   color="success"
-                  class="mr-3"
+                  class="mx-1"
                   @click="handleRefresh"
                   v-bind="attrs"
                   v-on="on"
@@ -126,7 +162,7 @@ export default {
                   :disabled="
                     !getDeleteSelected[0] && !getLoading.delete_selected
                   "
-                  class="mr-3"
+                  class="mx-1"
                   v-bind="attrs"
                   v-on="on"
                 >
