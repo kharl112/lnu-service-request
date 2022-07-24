@@ -156,7 +156,7 @@ export default {
       right
       tile
       v-model="notif_bar"
-      :timeout="-1"
+      :timeout="10000"
     >
       <v-container fluid fill-height>
         <v-row justify="start" align="center">
