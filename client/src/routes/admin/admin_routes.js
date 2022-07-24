@@ -8,6 +8,7 @@ import NotFound from "../../components/pages/Home/admin/children/NotFound";
 
 import AdminDashboard from "../../components/pages/Home/admin/children/AdminDashboard";
 import ActivityLogs from "../../components/pages/Home/admin/children/ActivityLogs";
+import Notifications from "../../components/pages/Home/admin/children/Notifications";
 
 import store from "../../store/store";
 
@@ -27,6 +28,7 @@ export const admin_routes = {
   children: [
     { path: "dashboard", component: AdminDashboard },
     { path: "activity-log", component: ActivityLogs },
+    { path: "notification", component: Notifications },
     { path: "settings", component: AdminSettings },
     { path: "pending", component: AdminPending },
     { path: "signed", component: AdminSigned },
