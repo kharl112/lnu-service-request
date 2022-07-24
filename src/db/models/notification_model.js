@@ -16,17 +16,9 @@ const Notification = new mongoose.Schema({
   initiator: {
     type: Object,
     required: true,
-    staff_id: {
-      type: String,
-      required: true,
-    },
-    user_type: {
-      type: String,
-      required: true,
-    },
   },
   request_id: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: false,
   },
   description: {
