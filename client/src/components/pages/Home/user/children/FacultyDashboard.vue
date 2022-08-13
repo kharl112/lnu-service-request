@@ -119,8 +119,8 @@ export default {
       <v-col cols="12" class="my-2">
         <v-container fluid>
           <v-row justify="center">
-            <v-col cols="6" sm="6" md="4" v-for="(card, index) in cards" :key="index">
-              <v-card max-width="344" outlined primary>
+            <v-col cols="12" sm="6" md="4" v-for="(card, index) in cards" :key="index">
+              <v-card outlined primary>
                 <v-list-item three-line>
                   <v-list-item-avatar tile size="80">
                     <v-icon size="70" :color="card.color">
@@ -161,7 +161,7 @@ export default {
       <v-col cols="12" sm="12" md="4">
         <v-subheader class="text-h6">My Account</v-subheader>
         <v-container fluid>
-          <v-card max-width="344" outlined primary>
+          <v-card outlined primary>
             <v-list-item>
               <v-list-item-avatar size="50">
                 <v-avatar color="primary" size="80">
