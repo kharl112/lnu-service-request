@@ -4,6 +4,15 @@ export default {
   data: () => ({
     sections: [
       {
+        title: "About the App",
+        links: [
+          {
+            hash: "how_it_works",
+            title: "How it works?",
+          },
+        ],
+      },
+      {
         title: "Leyte Normal University",
         links: [
           { hash: "transparency_seal", title: "Transparency Seal" },
@@ -60,6 +69,21 @@ export default {
       </v-col>
 
       <v-col cols="9" class="main-container pr-sm-16">
+        <h4
+          class="text-h4 mb-2 font-weight-bold primary--text"
+          id="how_it_works"
+        >
+          How Service Requesting in the application works?
+        </h4>
+        <p class="text-h6 font-weight-regular mb-12">
+          Creating Service Requests will be accomplished by the faculty and the
+          rest of the employees of <a href="#transparency_seal">LNU</a> and
+          granting approval of the requests which will be done by the Chief
+          Administration Office (CAO). Service providers on the other hand, are
+          responsible for rendering the service. Thus, completing the service
+          request within the application. Go to the <a href="/help/tutorials">Tutorials Page</a> to
+          learn more.
+        </p>
         <h4
           class="text-h4 mb-2 font-weight-bold warning--text"
           id="transparency_seal"
