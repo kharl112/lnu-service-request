@@ -66,7 +66,13 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid id="login-container">
+  <v-container fluid id="login-container"
+  :style="{
+    'background-image': `url(${require('../../../assets/images/lnu-logo-25opac.png')})`,
+    'background-size': '105%',
+    'background-position': '500px',
+  }"
+  >
     <v-row
       id="login-row1"
       justify="center"

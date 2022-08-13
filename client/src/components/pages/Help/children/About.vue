@@ -81,8 +81,8 @@ export default {
           granting approval of the requests which will be done by the Chief
           Administration Office (CAO). Service providers on the other hand, are
           responsible for rendering the service. Thus, completing the service
-          request within the application. Go to the <a href="/help/tutorials">Tutorials Page</a> to
-          learn more.
+          request within the application. Go to the
+          <a href="/help/tutorials">Tutorials Page</a> to learn more.
         </p>
         <h4
           class="text-h4 mb-2 font-weight-bold warning--text"
