@@ -54,6 +54,8 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     console.log(html);
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
+      console.log(e);
+      if (e) return res.status(500).send({ message: e.toString() });
       return res.send(buffer);
     });
   } catch (error) {
@@ -107,6 +109,8 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     console.log(html);
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
+      console.log(e);
+      if (e) return res.status(500).send({ message: e.toString() });
       return res.send(buffer);
     });
   } catch (error) {
@@ -157,6 +161,8 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     console.log(html);
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
+      console.log(e);
+      if (e) return res.status(500).send({ message: e.toString() });
       return res.send(buffer);
     });
   } catch (error) {
