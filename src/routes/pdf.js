@@ -11,6 +11,7 @@ const Request = require("../db/models/request_model");
 
 const requestQuery = require("../functions/requestQuery");
 const { Name, _Date, Department } = require("../functions/generateProfile");
+const { PROJECT_PATH } = require("../../path.config");
 
 route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
   try {
@@ -38,8 +39,8 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
 
     const html = pug.renderFile(
       path.join(
-        __dirname +
-          `/../../public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+        PROJECT_PATH +
+          `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
       ),
       { form }
     );
@@ -48,6 +49,9 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
       format: form.service[0].paper_size,
       border: "0.8in",
     };
+
+    console.log(PROJECT_PATH);
+    console.log(html);
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
@@ -88,8 +92,8 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
 
     const html = pug.renderFile(
       path.join(
-        __dirname +
-          `/../../public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+        PROJECT_PATH +
+          `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
       ),
       { form }
     );
@@ -98,6 +102,9 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
       format: form.service[0].paper_size,
       border: "0.8in",
     };
+
+    console.log(PROJECT_PATH);
+    console.log(html);
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
@@ -135,8 +142,8 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
 
     const html = pug.renderFile(
       path.join(
-        __dirname +
-          `/../../public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+        PROJECT_PATH +
+          `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
       ),
       { form }
     );
@@ -145,6 +152,9 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
       format: form.options.paper_size,
       border: "0.8in",
     };
+
+    console.log(PROJECT_PATH);
+    console.log(html);
 
     return pdf.create(html, options).toBuffer((e, buffer) => {
       return res.send(buffer);
