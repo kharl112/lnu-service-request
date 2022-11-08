@@ -37,7 +37,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.reports.dates.created);
     form.service_type = form.service[0].type;
 
-    const html = pug.renderFile(
+    const html = pug.compileFile(
       path.join(
         PROJECT_PATH +
           `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
@@ -92,7 +92,7 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.reports.dates.created);
     form.service_type = form.service[0].type;
 
-    const html = pug.renderFile(
+    const html = pug.compileFile(
       path.join(
         PROJECT_PATH +
           `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
@@ -144,7 +144,7 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     form.date = _Date.getFullDate(form.reports.dates.created);
     form.service_type = form.service[0].type;
 
-    const html = pug.renderFile(
+    const html = pug.compileFile(
       path.join(
         PROJECT_PATH +
           `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
