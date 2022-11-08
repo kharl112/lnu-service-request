@@ -12,6 +12,7 @@
     "install-dep-client": "cd client && npm install",
     "build": "cd client && npm run build",
     "heroku-postbuild": "npm run install-dep-client && npm run build",
+    "render-postbuild": "npm run ci --only=production && npm run heroku-postbuild",
     "dev": "concurrently -n 'server,client' -c 'magenta,blue' \"npm run server\" \"npm run client\""
   },
   "keywords": [],
