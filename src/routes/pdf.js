@@ -111,14 +111,20 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
       border: "0.8in",
     };
 
-    console.log(PROJECT_PATH);
-    console.log(html);
-
-    return pdf.create(html, options).toBuffer((e, buffer) => {
-      console.log(e);
-      if (e) return res.status(500).send({ message: e.toString() });
-      return res.send(buffer);
-    });
+    return pdf
+      .create(html, {
+        ...options,
+        childProcessOptions: {
+          env: {
+            OPENSSL_CONF: "/dev/null",
+          },
+        },
+      })
+      .toBuffer((e, buffer) => {
+        console.log(e);
+        if (e) return res.status(500).send({ message: e.toString() });
+        return res.send(buffer);
+      });
   } catch (error) {
     return res
       .status(500)
@@ -163,14 +169,20 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
       border: "0.8in",
     };
 
-    console.log(PROJECT_PATH);
-    console.log(html);
-
-    return pdf.create(html, options).toBuffer((e, buffer) => {
-      console.log(e);
-      if (e) return res.status(500).send({ message: e.toString() });
-      return res.send(buffer);
-    });
+    return pdf
+      .create(html, {
+        ...options,
+        childProcessOptions: {
+          env: {
+            OPENSSL_CONF: "/dev/null",
+          },
+        },
+      })
+      .toBuffer((e, buffer) => {
+        console.log(e);
+        if (e) return res.status(500).send({ message: e.toString() });
+        return res.send(buffer);
+      });
   } catch (error) {
     return res
       .status(500)
