@@ -51,6 +51,10 @@ export default {
     ],
   }),
   computed: {
+    isMobile() {
+      const mobile = window.matchMedia("(max-width: 780px)");
+      return mobile.matches;
+    },
     getActivityLogLoading() {
       return this.$store.getters["activity_log/getLoading"].user;
     },
@@ -119,11 +123,27 @@ export default {
       <v-col cols="12" class="my-2">
         <v-container fluid>
           <v-row justify="center">
-            <v-col cols="12" sm="6" md="4" v-for="(card, index) in cards" :key="index">
-              <v-card outlined primary>
+            <v-col cols="4" md="4" v-for="(card, index) in cards" :key="index">
+              <v-card  primary>
                 <v-list-item three-line>
-                  <v-list-item-avatar tile size="80">
-                    <v-icon size="70" :color="card.color">
+                  <v-list-item-avatar tile size="80" class="text-center">
+                    <v-badge
+                      v-if="isMobile"
+                      :color="card.color"
+                      :content="getLength(card.getter) || '0'"
+                    >
+                      <v-icon
+                        :size="isMobile ? '25' : '70'"
+                        :color="card.color"
+                      >
+                        mdi-{{ card.icon }}
+                      </v-icon>
+                    </v-badge>
+                    <v-icon
+                      v-else
+                      :size="isMobile ? '25' : '70'"
+                      :color="card.color"
+                    >
                       mdi-{{ card.icon }}
                     </v-icon>
                   </v-list-item-avatar>
@@ -142,15 +162,16 @@ export default {
                   </v-list-item-content>
                 </v-list-item>
 
-                <v-card-actions>
+                <v-card-actions class="pa-2">
                   <v-btn
                     outlined
                     rounded
                     small
                     :color="card.color"
                     :to="card.link"
+                    :block="isMobile"
                   >
-                    See more
+                    View All
                   </v-btn>
                 </v-card-actions>
               </v-card>
