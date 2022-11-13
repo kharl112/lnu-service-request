@@ -40,7 +40,7 @@ export default {
 <template>
   <v-container fluid class="mt-16 pa-0">
     <v-row justify="start">
-      <v-col cols="3">
+      <v-col cols="3" class="d-none d-md-flex">
         <v-navigation-drawer permanent class="nav-drawer">
           <v-list shaped v-for="(section, x) in sections" :key="x">
             <v-subheader class="font-weight-bold text-body-1 mb-2">
@@ -68,7 +68,7 @@ export default {
         </v-navigation-drawer>
       </v-col>
 
-      <v-col cols="9" class="main-container pr-sm-16">
+      <v-col cols="12" md="9" class="main-container pr-md-16">
         <h4
           class="text-h4 mb-2 font-weight-bold primary--text"
           id="how_it_works"

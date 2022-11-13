@@ -15,20 +15,20 @@ export default {
       >
         <img
           src="../../../assets/images/logo-512x512.png"
-          class="lnusr-logo"
+          class="lnusr-logo  pb-3"
           alt="LNU Service Request Logo"
           title="LNU Service Request Logo"
         />
-        <span class="ml-2 text-h5">
+        <span class="ml-2 text-h5 pb-3">
           <span class="warning--text font-weight-bold pa-0"> LNU </span>
           Service Requesting System
         </span>
       </v-row>
       <template v-slot:extension>
         <v-tabs align-with-title>
-          <v-tab to="/help/about">About</v-tab>
+          <v-tab to="/help/about" >About</v-tab>
           <v-tab to="/help/tutorials">Tutorials</v-tab>
-          <v-tab to="/help/privacy-and-policy">Privacy and Policy</v-tab>
+          <v-tab to="/help/privacy-and-policy" style="white-space: pre-wrap">Privacy and Policy</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>

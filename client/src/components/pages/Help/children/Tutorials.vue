@@ -179,7 +179,7 @@ export default {
 <template>
   <v-container fluid class="mt-16 pa-0">
     <v-row justify="start">
-      <v-col cols="3" class="main-container">
+      <v-col cols="3" class="main-container d-none d-md-block">
         <v-navigation-drawer permanent class="nav-drawer">
           <v-card-title class="my-0 py-2"> Contents </v-card-title>
           <v-list shaped v-for="(section, x) in sections" :key="x">
@@ -208,7 +208,7 @@ export default {
           </v-list>
         </v-navigation-drawer>
       </v-col>
-      <v-col cols="6" class="main-container pr-sm-16">
+      <v-col cols="12" md="6" class="main-container pr-md-16">
         <v-container fluid v-for="(section, x) in sections" :key="x">
           <h5 class="text-h5 mb-2 font-weight-bold" :id="section.id">
             {{ section.title }}
@@ -238,13 +238,16 @@ export default {
           </v-row>
         </v-container>
       </v-col>
-      <v-divider vertical />
-      <v-col cols="2">
-        <v-card-title class="my-0 py-2"> Sections </v-card-title>
+      <v-divider vertical class="d-none d-md-block" />
+      <v-col cols="2" class="d-none d-md-block">
+        <v-card-title class="my-0 py-2" style="white-space: nowrap">
+          Sections
+        </v-card-title>
         <v-list shaped v-for="(section, x) in sections" :key="x">
           <a
             class="font-weight-bold text-body-1 my-5 px-5 text-decoration-none"
             :href="'/help/tutorials#' + section.id"
+            style="white-space: nowrap"
           >
             {{ section.title }}
           </a>

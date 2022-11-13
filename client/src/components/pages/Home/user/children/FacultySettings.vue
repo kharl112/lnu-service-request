@@ -342,6 +342,28 @@ export default {
               </v-form>
             </v-container>
           </v-col>
+          <v-col cols="12">
+            <v-divider />
+          </v-col>
+          <v-col cols="12" class="py-5">
+            <v-row justify="space-betwee"></v-row>
+            <a
+              href="/help/privacy-and-policy#privacy_notice"
+              target="__blank"
+              class="text-caption ml-2"
+              >Privacy And Policy</a
+            >
+            <a
+              href="/help/tutorials"
+              target="__blank"
+              class="text-caption ml-4"
+            >
+              Tutorials
+            </a>
+            <a href="/help/about" target="__blank" class="text-caption ml-4">
+              About
+            </a>
+          </v-col>
         </v-row>
       </v-col>
     </v-row>

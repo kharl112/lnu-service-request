@@ -35,7 +35,7 @@ export default {
 <template>
   <v-container fluid class="mt-16 pa-0">
     <v-row justify="start">
-      <v-col cols="3">
+      <v-col cols="3" class="d-none d-md-flex">
         <v-navigation-drawer permanent>
           <v-list shaped>
             <v-subheader class="font-weight-bold text-h5 mb-4">
@@ -63,7 +63,7 @@ export default {
         </v-navigation-drawer>
       </v-col>
 
-      <v-col cols="9" class="main-container pr-sm-16">
+      <v-col cols="12" md="9" class="main-container pr-md-16">
         <h4 class="text-h4 mb-2 font-weight-bold" id="privacy_notice">
           Privacy Notice
         </h4>
@@ -76,9 +76,7 @@ export default {
         <ul class="mb-5">
           <li class="text-body-1 my-2">
             Visit our website at
-            <a href="https://lnusr.herokuapp.com"
-              >https://lnusr.herokuapp.com</a
-            >
+            <a href="https://lnusr.tech" target="__blank">https://lnusr.tech</a>
             , or any website of ours that links to this privacy notice
           </li>
           <li class="text-body-1 my-2">
