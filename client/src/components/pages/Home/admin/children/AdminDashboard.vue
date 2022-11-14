@@ -83,6 +83,9 @@ export default {
       if (!getter) return 0;
       return this.$store.getters[`request/get${getter}`].length;
     },
+    goToView(item) {
+      this.$router.push(`/admin/home/view/${item.request_id}`);
+    },
   },
   created() {
     this.$store.dispatch("request/Pendings", "admin");
@@ -194,7 +197,7 @@ export default {
           </v-card>
         </v-container>
       </v-col>
-      <v-col cols="12" sm="12" md="8">
+      <v-col cols="12" sm="12" md="8" v-if="!isMobile">
         <v-subheader class="text-h6"> Recent Activities </v-subheader>
         <v-container fluid v-if="!getActivityLogLoading">
           <v-data-table
@@ -235,6 +238,70 @@ export default {
         </v-container>
         <v-container fluid v-else>
           <v-skeleton-loader type="table" height="240px" />
+        </v-container>
+      </v-col>
+      <v-col cols="12" sm="12" md="8" v-else>
+        <v-container fluid class="pr-6">
+          <v-row justify="space-between" align="center">
+            <v-subheader class="text-h6"> Recent Activities </v-subheader>
+            <v-btn outlined small to="/admin/home/activity-log">
+              <v-icon left>mdi-cogs</v-icon>
+              View All
+            </v-btn>
+          </v-row>
+        </v-container>
+        <v-list three-line class="px-4" v-if="!getActivityLogLoading">
+          <v-card
+            v-for="(item, index) in activity_logs"
+            :key="index"
+            class="my-2"
+            hover
+            @click="goToView(item)"
+          >
+            <v-list-item>
+              <v-list-item-avatar
+                color="error"
+                v-if="item.description.includes('delete')"
+              >
+                <v-icon dark>mdi-delete</v-icon>
+              </v-list-item-avatar>
+
+              <v-list-item-avatar
+                color="success"
+                v-else-if="item.description.includes('created')"
+              >
+                <v-icon dark>mdi-note-plus</v-icon>
+              </v-list-item-avatar>
+
+              <v-list-item-avatar color="primary" v-else>
+                <v-icon dark>mdi-draw</v-icon>
+              </v-list-item-avatar>
+
+              <v-list-item-content>
+                <v-list-item-title class="text-capitalize">
+                  {{ item.description }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{
+                    new Date(item.date).toLocaleString("default", {
+                      dateStyle: "medium",
+                    })
+                  }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card>
+        </v-list>
+        <v-container v-else>
+          <v-row>
+            <v-col cols="12" v-for="item in [1, 2, 3]" :key="item">
+              <v-skeleton-loader
+                :key="item"
+                style="height: 100px"
+                type="image"
+              ></v-skeleton-loader>
+            </v-col>
+          </v-row>
         </v-container>
       </v-col>
     </v-row>
