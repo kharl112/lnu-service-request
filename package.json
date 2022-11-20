@@ -36,6 +36,7 @@
     "pusher": "^5.1.0-beta"
   },
   "devDependencies": {
+    "@vue/compiler-dom": "^3.2.45",
     "nodemon": "^2.0.16"
   }
 }
