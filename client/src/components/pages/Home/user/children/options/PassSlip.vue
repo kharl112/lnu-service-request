@@ -30,6 +30,25 @@ export default {
       </v-col>
       <v-col cols="12" class="py-0">
         <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
+          Timeout
+        </v-subheader>
+      </v-col>
+      <v-col cols="12">
+        <v-text-field
+          outlined
+          v-model="options.timeout"
+          :rules="rules"
+          dense
+          type="time"
+          label="Select Timeout"
+          prepend-inner-icon="mdi-clock-time-four-outline"
+          title="Choose the time you want to out"
+          hint="Choose the time you want to out"
+          persistent-hint
+        />
+      </v-col>
+      <v-col cols="12" class="py-0">
+        <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
           Select Date
         </v-subheader>
       </v-col>
@@ -53,25 +72,6 @@ export default {
           type="date"
           label="Select Date"
           prepend-inner-icon="mdi-calendar"
-        />
-      </v-col>
-      <v-col cols="12" class="py-0">
-        <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
-          Timeout
-        </v-subheader>
-      </v-col>
-      <v-col cols="12">
-        <v-text-field
-          outlined
-          v-model="options.timeout"
-          :rules="rules"
-          dense
-          type="time"
-          label="Select Timeout"
-          prepend-inner-icon="mdi-clock-time-four-outline"
-          title="Choose the time you want to out"
-          hint="Choose the time you want to out"
-          persistent-hint
         />
       </v-col>
     </v-row>
