@@ -134,7 +134,7 @@ export default {
       </v-col>
       <v-divider vertical class="d-md-flex d-sm-none d-none" />
       <v-col cols="4" class="px-4 d-md-block d-sm-none d-none">
-        <ActivityTimeline />
+        <ActivityTimeline :limit="4" />
       </v-col>
     </v-row>
   </v-container>

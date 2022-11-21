@@ -1,5 +1,7 @@
 <script>
+import ActivityTimeline from "../contents/ActivityTimeline.vue";
 export default {
+  components: { ActivityTimeline },
   name: "FacultyDashboard",
   data: () => ({
     cards: [
@@ -131,9 +133,13 @@ export default {
         <v-container fluid>
           <v-row justify="center">
             <v-col cols="4" md="4" v-for="(card, index) in cards" :key="index">
-              <v-card primary>
+              <v-card primary :class="!isMobile ? 'pa-3' : ''">
                 <v-list-item three-line>
-                  <v-list-item-avatar tile size="80" class="text-center">
+                  <v-list-item-avatar
+                    tile
+                    size="80"
+                    :class="isMobile ? 'mx-2' : ''"
+                  >
                     <v-badge
                       v-if="isMobile"
                       :color="card.color"
@@ -155,7 +161,7 @@ export default {
                     </v-icon>
                   </v-list-item-avatar>
 
-                  <v-list-item-content>
+                  <v-list-item-content v-if="!isMobile">
                     <v-list-item-title class="text-h5 font-weight-bold">
                       {{ getLength(card.getter) || "0" }}
                       <span
@@ -189,7 +195,7 @@ export default {
       <v-col cols="12" sm="12" md="4">
         <v-subheader class="text-h6">My Account</v-subheader>
         <v-container fluid>
-          <v-card outlined primary>
+          <v-card primary class="pt-5 pb-3">
             <v-list-item>
               <v-list-item-avatar size="50">
                 <v-avatar color="primary" size="80">
@@ -272,68 +278,8 @@ export default {
         </v-container>
       </v-col>
       <v-col cols="12" sm="12" md="8" v-else>
-        <v-container fluid class="pr-6">
-          <v-row justify="space-between" align="center">
-            <v-subheader class="text-h6"> Recent Activities </v-subheader>
-            <v-btn outlined small to="/faculty/home/activity-log">
-              <v-icon left>mdi-cogs</v-icon>
-              View All
-            </v-btn>
-          </v-row>
-        </v-container>
-        <v-list three-line class="px-4" v-if="!getActivityLogLoading">
-          <v-card
-            v-for="(item, index) in activity_logs"
-            :key="index"
-            class="my-2"
-            hover
-            @click="goToView(item)"
-          >
-            <v-list-item>
-              <v-list-item-avatar
-                color="error"
-                v-if="item.description.includes('delete')"
-              >
-                <v-icon dark>mdi-delete</v-icon>
-              </v-list-item-avatar>
-
-              <v-list-item-avatar
-                color="success"
-                v-else-if="item.description.includes('created')"
-              >
-                <v-icon dark>mdi-note-plus</v-icon>
-              </v-list-item-avatar>
-
-              <v-list-item-avatar color="primary" v-else>
-                <v-icon dark>mdi-draw</v-icon>
-              </v-list-item-avatar>
-
-              <v-list-item-content>
-                <v-list-item-title class="text-capitalize">
-                  {{ item.description }}
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  {{
-                    new Date(item.date).toLocaleString("default", {
-                      dateStyle: "medium",
-                    })
-                  }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-card>
-        </v-list>
-
-        <v-container v-else>
-          <v-row>
-            <v-col cols="12" v-for="item in [1, 2, 3]" :key="item">
-              <v-skeleton-loader
-                :key="item"
-                style="height: 100px"
-                type="image"
-              ></v-skeleton-loader>
-            </v-col>
-          </v-row>
+        <v-container fluid>
+          <ActivityTimeline :limit="6" />
         </v-container>
       </v-col>
     </v-row>
