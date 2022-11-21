@@ -175,7 +175,7 @@ export default {
       <v-col cols="12" sm="12" md="4">
         <v-subheader class="text-h6">My Account</v-subheader>
         <v-container fluid>
-          <v-card primary>
+          <v-card primary class="pt-5 pb-3">
             <v-list-item>
               <v-list-item-avatar size="50">
                 <v-avatar color="primary" size="80">
