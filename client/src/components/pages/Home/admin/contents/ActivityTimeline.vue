@@ -1,12 +1,18 @@
 <script>
 export default {
   name: "ActivityTimeline",
+  props: { limit: Number },
   computed: {
     loading() {
       return this.$store.getters["activity_log/getLoading"].admin;
     },
     activity_logs() {
-      return this.$store.getters["activity_log/getActivityLogs"].slice(0, 4);
+      if (this.limit)
+        return this.$store.getters["activity_log/getActivityLogs"].slice(
+          0,
+          this.limit
+        );
+      return this.$store.getters["activity_log/getActivityLogs"];
     },
   },
   methods: {
@@ -41,8 +47,10 @@ export default {
 };
 </script>
 <template>
-  <v-card class="py-4 px-2" width="100%">
-    <v-card-title> Activity Log Timeline </v-card-title>
+  <v-card class="py-4 px-2" width="100%" :outlined="!this.limit">
+    <v-subheader class="text-h6" v-if="this.limit">
+      Activity Log Timeline
+    </v-subheader>
     <v-timeline align-top dense v-if="!loading && activity_logs.length">
       <v-timeline-item
         :color="getColorIcon(item).color"
@@ -79,7 +87,7 @@ export default {
     >
       No activity logs
     </v-card-title>
-    <v-card-actions>
+    <v-card-actions v-if="this.limit">
       <v-btn small color="primary" elevation="0" to="/admin/home/activity-log">
         View All
       </v-btn>

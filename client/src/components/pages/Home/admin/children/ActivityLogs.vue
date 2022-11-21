@@ -1,5 +1,9 @@
 <script>
+import ActivityTimeline from "../contents/ActivityTimeline.vue";
 export default {
+  components: {
+    ActivityTimeline,
+  },
   name: "ActivityLogs",
   data: () => ({
     table: {
@@ -45,6 +49,10 @@ export default {
     activity_logs() {
       return this.$store.getters["activity_log/getActivityLogs"];
     },
+    isMobile() {
+      const mobile = window.matchMedia("(max-width: 780px)");
+      return mobile.matches;
+    },
   },
   methods: {
     goToView(item) {
@@ -67,11 +75,19 @@ export default {
     <v-row dense justify="start">
       <v-col cols="12" class="pa-0">
         <v-container fluid>
-          <v-row justify="space-between" align="start" class="pb-4">
+          <v-row
+            :justify="!isMobile ? 'space-between' : 'center'"
+            align="start"
+            class="pb-4"
+          >
             <v-col cols="12" sm="6">
-              <v-subheader class="text-h5"> Activity Logs </v-subheader>
+              <v-subheader
+                :class="isMobile ? 'text-h6 text-center' : 'text-h5'"
+              >
+                Activity Logs
+              </v-subheader>
             </v-col>
-            <v-col cols="12" sm="6" md="4">
+            <v-col cols="12" sm="6" md="4" v-if="!isMobile">
               <v-text-field
                 outlined
                 v-model="table.search"
@@ -85,52 +101,61 @@ export default {
           </v-row>
           <v-divider />
         </v-container>
-        <v-container fluid v-if="!loading">
-          <v-data-table
-            @click:row="goToView"
-            :headers="table.headers"
-            :items="activity_logs"
-            :search="table.search"
-            :items-per-page="5"
-            class="elevation-0 data-table"
-          >
-            <template v-slot:[`item.request.subject`]="{ item }">
-              <span>
-                {{ item.request.subject ? item.request.subject : "DELETED" }}
-              </span>
-            </template>
-            <template v-slot:[`item.request.service.type`]="{ item }">
-              <span>
-                {{
-                  item.request.service ? item.request.service.type : "DELETED"
-                }}
-              </span>
-            </template>
-            <template v-slot:[`item.date`]="{ item }">
-              <span>
-                {{
-                  new Date(item.date).toLocaleString("default", {
-                    dateStyle: "medium",
-                  })
-                }}
-              </span>
-            </template>
-            <template v-slot:[`item.time`]="{ item }">
-              <span>
-                {{
-                  new Date(item.date).toLocaleString("default", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })
-                }}
-              </span>
-            </template>
-          </v-data-table>
-        </v-container>
-        <v-container fluid v-else-if="loading">
-          <v-skeleton-loader type="table" />
-        </v-container>
+        <div v-if="!isMobile">
+          <v-container fluid v-if="!loading">
+            <v-data-table
+              @click:row="goToView"
+              :headers="table.headers"
+              :items="activity_logs"
+              :search="table.search"
+              :items-per-page="5"
+              class="elevation-0 data-table"
+            >
+              <template v-slot:[`item.request.subject`]="{ item }">
+                <span>
+                  {{ item.request.subject ? item.request.subject : "DELETED" }}
+                </span>
+              </template>
+              <template v-slot:[`item.request.service.type`]="{ item }">
+                <span>
+                  {{
+                    item.request.service ? item.request.service.type : "DELETED"
+                  }}
+                </span>
+              </template>
+              <template v-slot:[`item.date`]="{ item }">
+                <span>
+                  {{
+                    new Date(item.date).toLocaleString("default", {
+                      dateStyle: "medium",
+                    })
+                  }}
+                </span>
+              </template>
+              <template v-slot:[`item.time`]="{ item }">
+                <span>
+                  {{
+                    new Date(item.date).toLocaleString("default", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                    })
+                  }}
+                </span>
+              </template>
+            </v-data-table>
+          </v-container>
+          <v-container fluid v-else-if="loading">
+            <v-skeleton-loader type="table" />
+          </v-container>
+        </div>
+        <div v-else>
+          <v-container fluid>
+            <ActivityTimeline />
+
+            <v-col class="text-center pt-5"> End of results </v-col>
+          </v-container>
+        </div>
       </v-col>
     </v-row>
   </v-container>
