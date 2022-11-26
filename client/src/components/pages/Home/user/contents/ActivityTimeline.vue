@@ -29,6 +29,7 @@ export default {
         return { icon: "mdi-delete", color: "error" };
       if (item.description.includes("sent"))
         return { icon: "mdi-send", color: "success" };
+      return { icon: "mdi-close", color: "error" };
     },
     getTime(date) {
       return new Date(date).toLocaleString("default", {

@@ -27,6 +27,7 @@ export default {
         return { icon: "mdi-signature-freehand", color: "success" };
       if (item.description.includes("delete"))
         return { icon: "mdi-delete", color: "error" };
+      return { icon: "mdi-close", color: "error" };
     },
     getTime(date) {
       return new Date(date).toLocaleString("default", {
