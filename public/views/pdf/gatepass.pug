@@ -44,4 +44,5 @@ body
             span(style="font-weight: bold; text-transform: uppercase;")=form.admin.profile
             br
             span(class="r-dept") OIC CAO - Administration
-            | !{form.admin.signature}
+            if !form.hideSignatures
+                | !{form.admin.signature}

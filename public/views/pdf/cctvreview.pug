@@ -30,12 +30,14 @@ body
             span(class="fixer") Requested By:
             p(class="user-name" style="margin-top: 15px")=form.user.profile
             p(class="admin-dept-title") Requestor 
-            | !{form.user.signature}
+            if !form.hideSignatures
+                | !{form.user.signature}
         div(class="signature" style="margin-bottom: 25px")
             span(class="fixer") Approved By:
             p(class="dept-head" style="margin-top: 15px")=form.service_provider.profile
             p(class="dept-head-title") VP for Administration & Finance
-            | !{form.service_provider.signature}
+            if !form.hideSignatures
+                | !{form.service_provider.signature}
     div(class="container-4" style="margin-top: 5px; font-weight: bold")
         span(class="item-1") Reviewed by:
         if(form.options.reviewed_by)

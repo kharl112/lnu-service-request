@@ -26,9 +26,11 @@ body
     div(class="signature user-signee")
       p(class="user-name")=form.user.profile
       p(class="admin-dept-title") (Signature over Printed Name)
-    | !{form.user.signature}
+      if !form.hideSignatures
+        | !{form.user.signature}
     div(class="signature")
       span(class="fixer") Approved by:
       p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Chief Administrative Officer-Admin
-    | !{form.admin.signature}
+      if !form.hideSignatures
+        | !{form.admin.signature}

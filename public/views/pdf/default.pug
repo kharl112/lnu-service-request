@@ -2,7 +2,7 @@ doctype html
 html 
   head 
     style
-        include ../styles/original.css
+      include ../styles/original.css
 body
   header
     div(class="header-info")
@@ -27,18 +27,21 @@ body
       span(class="fixer") Requested by:
       p(class="user-name")=form.user.profile
       p(class="admin-dept-title")=form.user.department
-    | !{form.user.signature}
+    if(!form.hideSignatures)
+      | !{form.user.signature}
     if form.service_provider.staff_id
       div(class="signature")
         span(class="fixer") Job done by:
         p(class="dept-head")=form.service_provider.profile
         p(class="dept-head-title")=form.service_provider.department
-      | !{form.service_provider.signature}
+      if !form.hideSignatures
+        | !{form.service_provider.signature}
     div(class="signature")
       span(class="fixer") Approved by:
       p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Chief Administrative Officer-Admin
-    | !{form.admin.signature}
+      if !form.hideSignatures
+        | !{form.admin.signature}
 
-    
+
 

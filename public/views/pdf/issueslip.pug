@@ -27,12 +27,14 @@ body
     div(class="signature")
       p(class="user-name")=form.user.profile
       p(class="admin-dept-title") (Signature over Printed Name Of the Recipient)
-      | !{form.user.signature}
+      if !form.hideSignatures
+        | !{form.user.signature}
     div(class="signature")
       span(class="fixer") Approved by:
       p(class="admin-dept")=form.admin.profile
       p(class="admin-dept-title") Chief Administrative Officer-Admin
-    | !{form.admin.signature}
+      if !form.hideSignatures
+        | !{form.admin.signature}
   div(class="container-5" style="margin-top: 20px; font-weight: bold")
     span(class="item-1") Amount: P
     span(class="item-1" style="text-decoration: underline")=form.options.amount
