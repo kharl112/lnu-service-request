@@ -84,10 +84,7 @@ export default {
         });
       });
 
-      channel.bind("rejected", (options) => {
-        this.$store.dispatch("message/detachNotif");
-        this.$store.dispatch("message/notify", options);
-        this.$store.dispatch("request/Pendings", "provider");
+      channel.bind("rejected", () => {
         this.$store.dispatch("notification/notifications", {
           user_type: "faculty",
           filter: null,
