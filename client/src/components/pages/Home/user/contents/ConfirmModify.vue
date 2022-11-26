@@ -7,10 +7,13 @@ export default {
   },
   methods: {
     async handleSubmit() {
-      await this.$store.dispatch("request/Mark", {
-        _id: this.$route.params._id,
-        mark_type: this.data.type,
-      });
+      if (this.data.type === "reject")
+        await this.$store.dispatch("request/Reject", this.$route.params._id);
+      else
+        await this.$store.dispatch("request/Mark", {
+          _id: this.$route.params._id,
+          mark_type: this.data.type,
+        });
       this.hideAndSeekModify();
     },
   },
@@ -26,7 +29,9 @@ export default {
     >
       <v-card-text class="px-3 pb-0">
         <p class="text-h6">
-          Are you sure you want to mark as {{ data.type }}d this request?
+          Are you sure you want to mark as
+          {{ data.type == "reject" ? data.type + "ed" : data.type + "d" }} this
+          request?
         </p>
       </v-card-text>
       <v-card-actions>

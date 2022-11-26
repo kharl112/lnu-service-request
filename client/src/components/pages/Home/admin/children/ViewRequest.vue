@@ -2,10 +2,11 @@
 import pdf from "vue-pdf";
 import UploadFile from "../contents/UploadFile";
 import SetSignature from "../contents/SetSignature";
+import ConfirmModify from "../../user/contents/ConfirmModify";
 
 export default {
   name: "ViewFile",
-  components: { pdf, UploadFile, SetSignature },
+  components: { pdf, UploadFile, SetSignature, ConfirmModify },
   props: { user_type: String },
   data: () => ({
     signature_view: {
@@ -18,6 +19,12 @@ export default {
       currentPage: 1,
       pageCount: 0,
       shown: true,
+    },
+    modify_view: {
+      shown: false,
+      type: null,
+      id: null,
+      description: null,
     },
   }),
   computed: {
@@ -44,9 +51,6 @@ export default {
     },
   },
   methods: {
-    rejectRequest(request_id) {
-      this.$store.dispatch("request/Reject", request_id);
-    },
     getDate(date) {
       const new_date = new Date(date);
       const month = new_date.toLocaleString("default", { month: "long" });
@@ -64,6 +68,16 @@ export default {
     },
     hideAndSeekSignature() {
       this.signature_view.shown = !this.signature_view.shown;
+    },
+    hideAndSeekModify(type = null) {
+      if (type) {
+        return (this.modify_view = {
+          shown: !this.modify_view.shown,
+          id: this.$route.params.id,
+          type,
+        });
+      }
+      this.modify_view.shown = !this.modify_view.shown;
     },
     goToDrive() {
       if (this.req_info.options.file)
@@ -269,7 +283,7 @@ export default {
             </v-card>
           </v-col>
         </v-row>
-        <v-row justify="start" v-if="req_info.reports.status !== 'rejected' ">
+        <v-row justify="start" v-if="req_info.reports.status !== 'rejected'">
           <v-col cols="12" class="pb-7">
             <v-card flat>
               <v-card-text>
@@ -307,13 +321,13 @@ export default {
                       <v-icon right>mdi-map-marker-distance</v-icon>
                     </v-btn>
                     <v-btn
-                      title="Double click to reject this request"
+                      title="Reject this request"
                       color="error"
                       v-if="
                         req_info.reports.status === 'sent' &&
                         !req_info.admin.signature
                       "
-                      @dblclick="rejectRequest($route.params._id)"
+                      @click="hideAndSeekModify('reject')"
                     >
                       <span class="hidden-sm-and-down">Reject</span>
                       <v-icon color="white" right>mdi-close</v-icon>
@@ -416,6 +430,11 @@ export default {
         v-if="signature_view.shown"
         :data="signature_view"
         :hideAndSeekSignature="hideAndSeekSignature"
+      />
+      <ConfirmModify
+        v-if="modify_view.shown"
+        :data="modify_view"
+        :hideAndSeekModify="hideAndSeekModify"
       />
     </v-row>
   </v-container>
