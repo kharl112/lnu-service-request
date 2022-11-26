@@ -5,6 +5,10 @@ const Request = new mongoose.Schema({
     type: String,
     default: nanoid(9),
   },
+  hideSignatures: {
+    type: Boolean,
+    default: false,
+  },
   subject: {
     type: String,
     required: true,
