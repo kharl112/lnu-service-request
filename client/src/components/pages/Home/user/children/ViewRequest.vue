@@ -191,7 +191,9 @@ export default {
                   <thead>
                     <tr>
                       <th class="text-left">Description</th>
-                      <th class="text-left">Status</th>
+                      <th class="text-left">
+                        Status
+                      </th>
                       <th class="text-left">Date Created</th>
                     </tr>
                   </thead>
@@ -297,7 +299,7 @@ export default {
             </v-card>
           </v-col>
         </v-row>
-        <v-row justify="start">
+        <v-row justify="start" v-if="req_info.reports.status !== 'rejected'">
           <v-col cols="12" class="pb-7">
             <v-card class="mx-auto pb-5 pt-2 px-5" outlined>
               <v-subheader class="text-h6 font-weight-bold pl-0 my-3">
