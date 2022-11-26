@@ -107,7 +107,13 @@ export default {
             <template v-slot:[`item.reports.dates.sent`]="{ item }">
               <v-chip
                 small
-                color="primary"
+                :color="
+                  item.reports.status === 'completed'
+                    ? 'success'
+                    : item.reports.status === 'rejected'
+                    ? 'error'
+                    : 'primary'
+                "
                 class="pa-0 pr-2 pl-2 text-center text-caption"
                 id="clickable"
               >
@@ -120,6 +126,8 @@ export default {
                 :class="`text-overline font-weight-bold ${
                   item.reports.status === 'completed'
                     ? 'success--text'
+                    : item.reports.status === 'rejected'
+                    ? 'error--text'
                     : 'primary--text'
                 }`"
               >
