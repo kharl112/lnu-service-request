@@ -128,7 +128,6 @@ const request = {
     },
     Sent: async ({ commit, dispatch, state }) => {
       if (!state.sent[0]) commit("setLoading", { loading: true, type: "sent" });
-      console.log();
       try {
         const { data } = await axios.get("/api/request/faculty/sent", {
           headers: { Authorization: localStorage.getItem("Authorization") },
