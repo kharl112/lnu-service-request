@@ -4,14 +4,16 @@ html
     style
       include ../styles/risograph.css
 body
-  header
+  if form.reports.status == "rejected"
+    h1(class="rejected") REJECTED
+  header(class=`${form.reports.status !== "rejected" ? '' : 'blurred'}`)
     div(class="header-info")
       p(class="header-info-p1") LEYTE NORMAL UNIVERSITY
       p(class="header-info-p2") Tacloban City
       p(class="header-info-p3") OFFICE OF THE CHIEF ADMINISTRATION OFFICE 
       br
       p(class="header-info-p4") For ADMINISTRATION
-  div(class="main")
+  div(class=`${form.reports.status !== "rejected" ? 'main' : 'main blurred'}`)
     h4(class="subject") JOB ORDER FOR RISOGRAPH
     div(class="container-1")
       span(class="item-1") To: Reproduction Center
@@ -41,7 +43,7 @@ body
     div(class="request-body")
       span(class="prefix") PURPOSE:
       span(class="prefix-body")=form.body
-  div(class="recipients")
+  div(class=`${form.reports.status !== "rejected" ? 'recipients' : 'recipients blurred'}`)
     div(class="signature")
       span(class="prefix") Requested by:
       p(class="user-name")=form.user.profile
