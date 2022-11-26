@@ -79,7 +79,68 @@ const Mutations = (() => {
     }
   };
 
-  return { sign };
+  const reject = async (req, res) => {
+    const { staff_id } = req.locals;
+    const { id } = req.body;
+
+    try {
+      const request = await Request.findOneAndUpdate(
+        {
+          _id: id,
+          "reports.status": "sent",
+          "admin.staff_id": staff_id,
+          "admin.reports.date": null,
+        },
+        {
+          "reports.status": "rejected",
+        }
+      );
+
+      if (!request)
+        return res.status(404).send({ message: "requested data not found" });
+
+      //create notif default option
+      const notif_options = {
+        request_id: id,
+        initiator: req.locals.name,
+      };
+
+      //trigger notification to user requestor
+      const user = {
+        staff_id: request.user.staff_id,
+        user_type: "user",
+      };
+
+      //trigger pusher and save notification
+      await createNotification({
+        user,
+        action_type: "rejected",
+        ...notif_options,
+        description: "Rejected your request",
+      });
+
+      //generate options
+      const activity_options = {
+        user: {
+          staff_id: staff_id,
+          user_type: "admin",
+        },
+        request_id: id,
+        description: "rejected a service request",
+      };
+
+      //save activity
+      const activity = await createActivityLog(activity_options);
+
+      return res.send({ message: "Rejected successfully" });
+    } catch (error) {
+      res
+        .status(500)
+        .send({ message: "Something wen't wrong. Please try again." });
+    }
+  };
+
+  return { sign, reject };
 })();
 
 const Views = (() => {
