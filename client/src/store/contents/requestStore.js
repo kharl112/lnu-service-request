@@ -26,6 +26,7 @@ const request = {
       edit: false,
       sign: false,
       mark: false,
+      reject: false,
     },
   }),
   getters: {
@@ -330,6 +331,31 @@ const request = {
         dispatch("message/errorMessage", message, { root: true });
         const user = router.history.current.fullPath.split("/")[1];
         dispatch(`${user}/Profile`, null, { root: true });
+      }
+    },
+    Reject: async ({ commit, dispatch }, request_id) => {
+      commit("setLoading", { loading: true, type: "reject" });
+
+      try {
+        await axios.post(
+          "/api/request/admin/reject",
+          {
+            id: request_id,
+          },
+          {
+            headers: {
+              Authorization: localStorage.getItem("Authorization"),
+            },
+          }
+        );
+
+        commit("setLoading", { loading: false, type: "reject" });
+        dispatch("message/successMessage", "Request Rejected", { root: true });
+        dispatch("Info", { _id: request_id, user_type: "admin" });
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "info" });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
   },
