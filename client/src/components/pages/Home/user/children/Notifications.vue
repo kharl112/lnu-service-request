@@ -26,10 +26,9 @@ export default {
   },
   methods: {
     goToView(item) {
-      const user_type =
-        item.description.includes("signed") || item.description.includes("mark")
-          ? "provider"
-          : "user";
+      const user_type = item.description.toLowerCase().includes("for you")
+        ? "provider"
+        : "user";
       this.$router.push(`/faculty/home/view/${user_type}/${item.request_id}`);
     },
     filterNotif(filter) {
