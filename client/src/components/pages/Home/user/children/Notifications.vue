@@ -70,6 +70,21 @@ export default {
         includeSeconds: true,
       }).replace("about ", "");
     },
+    getColorIcon(item) {
+      if (item.description.toLowerCase().includes("create"))
+        return { icon: "mdi-plus", color: "primary" };
+      if (item.description.toLowerCase().includes("archive"))
+        return { icon: "mdi-archive", color: "warning" };
+      if (item.description.toLowerCase().includes("completed"))
+        return { icon: "mdi-check", color: "success" };
+      if (item.description.toLowerCase().includes("signed"))
+        return { icon: "mdi-check", color: "success" };
+      if (item.description.toLowerCase().includes("delete"))
+        return { icon: "mdi-delete", color: "error" };
+      if (item.description.toLowerCase().includes("sent"))
+        return { icon: "mdi-send", color: "primary" };
+      return { icon: "mdi-close", color: "error" };
+    },
   },
   created() {
     this.filterNotif(this.filter);
@@ -132,20 +147,18 @@ export default {
                 @click="markAsRead(item)"
               >
                 <v-list-item-avatar>
-                  <v-avatar :color="getAvatarColor(item.user.user_type)">
-                    <span class="white--text headline">
-                      {{ getFacultyInitials(item.initiator) }}
-                    </span>
+                  <v-avatar :color="getColorIcon(item).color">
+                    <v-icon color="white">{{ getColorIcon(item).icon }}</v-icon>
                   </v-avatar>
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title
-                    v-text="getFullname(item.initiator)"
+                    v-text="item.request ? item.request.service.type : 'DELETE'"
                   ></v-list-item-title>
 
                   <v-list-item-subtitle
                     class="text--primary"
-                    v-text="item.request ? item.request.service.type : 'DELETE'"
+                    v-text="getFullname(item.initiator)"
                   ></v-list-item-subtitle>
 
                   <v-list-item-subtitle
