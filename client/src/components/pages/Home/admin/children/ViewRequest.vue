@@ -44,6 +44,9 @@ export default {
     },
   },
   methods: {
+    rejectRequest(request_id) {
+      this.$store.dispatch("request/Reject", request_id);
+    },
     getDate(date) {
       const new_date = new Date(date);
       const month = new_date.toLocaleString("default", { month: "long" });
@@ -266,7 +269,62 @@ export default {
             </v-card>
           </v-col>
         </v-row>
-
+        <v-row justify="start" v-if="req_info.reports.status !== 'rejected' ">
+          <v-col cols="12" class="pb-7">
+            <v-card flat>
+              <v-card-text>
+                <v-row align="center" justify="center">
+                  <v-btn-toggle>
+                    <v-btn
+                      title="Sign this request"
+                      v-if="getSignatureLevel === 1"
+                      @click="hideAndSeekSignature"
+                    >
+                      <span class="hidden-sm-and-down">Sign</span>
+                      <v-icon right>mdi-signature</v-icon>
+                    </v-btn>
+                    <v-btn
+                      title="Download as pdf"
+                      :disabled="pdfLoading.download"
+                      @click="downloadPDF"
+                    >
+                      <span class="hidden-sm-and-down">Download PDF</span>
+                      <v-icon right>mdi-download</v-icon>
+                    </v-btn>
+                    <v-btn
+                      title="Upload files to GoogleDrive"
+                      v-if="
+                        req_info.reports.status !== 'archived' &&
+                        getSignatureLevel >= 2
+                      "
+                      @click="hideAndSeekUpload"
+                    >
+                      <span class="hidden-sm-and-down">Upload</span>
+                      <v-icon> mdi-folder-google-drive</v-icon>
+                    </v-btn>
+                    <v-btn :to="`/track?id=${$route.params._id}`">
+                      <span class="hidden-sm-and-down">Track</span>
+                      <v-icon right>mdi-map-marker-distance</v-icon>
+                    </v-btn>
+                    <v-btn
+                      title="Double click to reject this request"
+                      color="error"
+                      v-if="
+                        req_info.reports.status === 'sent' &&
+                        !req_info.admin.signature
+                      "
+                      @dblclick="rejectRequest($route.params._id)"
+                    >
+                      <span class="hidden-sm-and-down">Reject</span>
+                      <v-icon color="white" right>mdi-close</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <!-- 
         <v-row justify="start">
           <v-col cols="12" class="pb-7">
             <v-card class="mx-auto pb-5 pt-2 px-5" outlined>
@@ -312,6 +370,23 @@ export default {
                 <v-col
                   class="py-1"
                   v-if="
+                    req_info.reports.status === 'sent' &&
+                    !req_info.admin.signature
+                  "
+                >
+                  <v-btn
+                    small
+                    outlined
+                    color="error"
+                    @click="rejectRequest($route.params._id)"
+                  >
+                    <v-icon left> mdi-close </v-icon>
+                    Reject
+                  </v-btn>
+                </v-col>
+                <v-col
+                  class="py-1"
+                  v-if="
                     req_info.reports.status !== 'archived' &&
                     getSignatureLevel >= 2
                   "
@@ -330,6 +405,7 @@ export default {
             </v-card>
           </v-col>
         </v-row>
+        -->
       </v-col>
       <UploadFile
         v-if="upload_view.shown"
