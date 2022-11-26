@@ -234,7 +234,7 @@ export default {
                 Google Drive Files
               </v-subheader>
               <v-row>
-                <v-simple-table class="table-row" elevation="1">
+                <v-simple-table class="table-row hidden" elevation="1">
                   <thead>
                     <tr>
                       <th class="text-left">ID</th>
@@ -325,7 +325,7 @@ export default {
                       v-if="req_info.reports.status !== 'archived'"
                     >
                       <span class="hidden-sm-and-down">Upload</span>
-                      <v-icon> mdi-folder-google-drive</v-icon>
+                      <v-icon right>mdi-folder-google-drive</v-icon>
                     </v-btn>
                     <v-btn :to="`/track?id=${$route.params._id}`">
                       <span class="hidden-sm-and-down">Track</span>
@@ -488,5 +488,8 @@ export default {
 }
 .table-row {
   width: 100%;
+}
+.hidden {
+  display: none;
 }
 </style>
