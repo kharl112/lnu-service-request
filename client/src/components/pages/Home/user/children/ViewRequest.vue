@@ -191,9 +191,7 @@ export default {
                   <thead>
                     <tr>
                       <th class="text-left">Description</th>
-                      <th class="text-left">
-                        Status
-                      </th>
+                      <th class="text-left">Status</th>
                       <th class="text-left">Date Created</th>
                     </tr>
                   </thead>
@@ -299,6 +297,64 @@ export default {
             </v-card>
           </v-col>
         </v-row>
+
+        <v-row justify="start" v-if="req_info.reports.status !== 'rejected'">
+          <v-col cols="12" class="pb-7">
+            <v-card flat>
+              <v-card-text>
+                <v-row align="center" justify="center">
+                  <v-btn-toggle>
+                    <v-btn
+                      @click="hideAndSeekSignature"
+                      v-if="isProvider && getSignatureLevel === 2"
+                    >
+                      E-Signature
+                      <v-icon right> mdi-signature </v-icon>
+                    </v-btn>
+                    <v-btn
+                      title="Download as pdf"
+                      :disabled="pdfLoading.download"
+                      @click="downloadPDF"
+                    >
+                      <span class="hidden-sm-and-down">Download PDF</span>
+                      <v-icon right>mdi-download</v-icon>
+                    </v-btn>
+                    <v-btn
+                      title="Upload files to GoogleDrive"
+                      @click="hideAndSeekUpload"
+                      v-if="req_info.reports.status !== 'archived'"
+                    >
+                      <span class="hidden-sm-and-down">Upload</span>
+                      <v-icon> mdi-folder-google-drive</v-icon>
+                    </v-btn>
+                    <v-btn :to="`/track?id=${$route.params._id}`">
+                      <span class="hidden-sm-and-down">Track</span>
+                      <v-icon right>mdi-map-marker-distance</v-icon>
+                    </v-btn>
+                    <v-btn
+                      @click="hideAndSeekModify('complete')"
+                      v-if="
+                        req_info.reports.status === 'sent' &&
+                        getSignatureLevel === 3
+                      "
+                    >
+                      Mark as Completed
+                      <v-icon right>mdi-check</v-icon>
+                    </v-btn>
+                    <v-btn
+                      v-if="req_info.reports.status === 'completed' && isUser"
+                      @click="hideAndSeekModify('archive')"
+                    >
+                      Mark as Archived
+                      <v-icon right>mdi-archive</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-row>
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <!-- 
         <v-row justify="start" v-if="req_info.reports.status !== 'rejected'">
           <v-col cols="12" class="pb-7">
             <v-card class="mx-auto pb-5 pt-2 px-5" outlined>
@@ -391,6 +447,7 @@ export default {
             </v-card>
           </v-col>
         </v-row>
+        -->
       </v-col>
       <UploadFile
         v-if="upload_view.shown"
