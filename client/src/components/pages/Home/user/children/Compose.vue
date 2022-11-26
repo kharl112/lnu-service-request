@@ -84,11 +84,12 @@ export default {
         ? selectedOption.options
         : { persons_involved: [] };
     },
-    handleSetSignature(signatureId) {
+    handleSetSignature(signatureId, hideSignatures) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
       this.form.user.signature = signatureElement
         .toString()
         .replace('height="300"', 'height="175" viewBox="0 0 300 175"');
+      this.form.hideSignatures = hideSignatures;
     },
     handleSubmit(status) {
       (e) => {
@@ -103,6 +104,7 @@ export default {
             "message/errorMessage",
             "You must sign this document to proceed"
           );
+
         this.$store.dispatch("request/Create", this.form);
       }
     },

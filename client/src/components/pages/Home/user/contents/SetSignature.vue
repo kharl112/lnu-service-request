@@ -12,6 +12,7 @@ export default {
   },
   data: () => ({
     remarks: null,
+    hideSignatures: false,
     signature: {
       disabled: false,
       size: 1,
@@ -30,7 +31,7 @@ export default {
     handleSubmit() {
       if (this.$refs.sketch.getJSON().paths[0]) {
         if (this.handleSetSignature) {
-          this.handleSetSignature("signature");
+          this.handleSetSignature("signature", this.hideSignatures);
           return this.hideAndSeekSignature();
         }
         const signature = document
@@ -82,6 +83,12 @@ export default {
             outlined
             label="Remarks (optional)"
           />
+        </v-col>
+        <v-col cols="12" class="pa-0">
+          <v-switch
+            label="Hide my signature"
+            v-model="hideSignatures"
+          ></v-switch>
         </v-col>
         <v-col cols="12" class="pa-0">
           <v-container fluid class="pa-1">

@@ -80,11 +80,13 @@ export default {
         ? selectedOption.options
         : { persons_involved: [] };
     },
-    handleSetSignature(signatureId) {
+    handleSetSignature(signatureId, hideSignatures) {
       const signatureElement = document.getElementById(signatureId).innerHTML;
+      this.form.hideSignatures = hideSignatures;
       return (this.form.user.signature = signatureElement
         .toString()
         .replace('height="300"', 'height="175" viewBox="0 0 300 175"'));
+
     },
     handleSubmit(status) {
       (e) => {

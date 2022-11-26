@@ -2,6 +2,7 @@ const form = {
   subject: "",
   service_id: "",
   body: "",
+  hideSignatures: false,
   user: {
     signature: null,
   },
