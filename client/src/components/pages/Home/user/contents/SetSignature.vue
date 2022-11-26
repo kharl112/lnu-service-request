@@ -84,7 +84,7 @@ export default {
             label="Remarks (optional)"
           />
         </v-col>
-        <v-col cols="12" class="pa-0">
+        <v-col cols="12" class="pa-0" v-if="handleSetSignature">
           <v-switch
             label="Hide my signature"
             v-model="hideSignatures"

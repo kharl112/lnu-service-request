@@ -173,38 +173,45 @@ export default {
                 Request Information
               </v-subheader>
               <v-row justify="start">
-                <v-simple-table class="table-row">
-                  <thead>
-                    <tr>
-                      <th class="text-left">Description</th>
-                      <th class="text-left">Status</th>
-                      <th class="text-left">Date Created</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td class="caption text-sm-body-2">
-                        {{ req_info.subject }}
-                      </td>
-                      <td class="text-capitalize caption text-sm-body-2">
-                        {{ req_info.reports.status }}
-                      </td>
-                      <td class="caption text-sm-body-2">
-                        {{ getDate(req_info.reports.dates.created) }}
-                      </td>
-                    </tr>
-                  </tbody>
-                </v-simple-table>
-                <v-simple-table class="table-row" elevation="1">
+                <v-simple-table class="table-row mb-4" elevation="1" >
                   <thead>
                     <tr>
                       <th class="text-left">PURPOSE</th>
+                      <th class="text-left">Description</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td class="caption text-sm-body-2">
                         {{ req_info.body }}
+                      </td>
+                      <td class="caption text-sm-body-2">
+                        {{ req_info.subject }}
+                      </td>
+                    </tr>
+                  </tbody>
+                </v-simple-table>
+                <v-simple-table class="table-row">
+                  <thead>
+                    <tr>
+                      <th class="text-left">Status</th>
+                      <th class="text-left">Signatures</th>
+                      <th class="text-left">Date Created</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="text-capitalize caption text-sm-body-2">
+                        {{ req_info.reports.status }}
+                      </td>
+                      <td class="text-capitalize caption text-sm-body-2">
+                        {{ req_info.hideSignatures ? "hidden" : "Viewable" }}
+                      </td>
+                      <td
+                        class="caption text-sm-body-2"
+                        style="white-space: nowrap"
+                      >
+                        {{ getDate(req_info.reports.dates.created) }}
                       </td>
                     </tr>
                   </tbody>
