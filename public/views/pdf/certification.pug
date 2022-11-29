@@ -4,18 +4,21 @@ html
     style
         include ../styles/certification.css
 body
-  header
+  if form.reports.status == "rejected"
+    h1(class="rejected") REJECTED
+
+  header(class=`${form.reports.status !== "rejected" ? '' : 'blurred'}`)
     div(class="header-info")
       p(class="header-info-p1") LEYTE NORMAL UNIVERSITY
       p(class="header-info-p2") Tacloban City
       p(class="header-info-p3") OFFICE OF THE CHIEF ADMINISTRATION OFFICER 
-  div(class="main")
+  div(class=`${form.reports.status !== "rejected" ? 'main' : 'main blurred'}`)
     h4(class="subject") REQUEST FOR RECORDS AND CERTIFICATION
     div(class="container-1")
       span(class="item-1") Date:
       span(class="item-2")=form.date
     p(class="note") TO ACCOUNTING SECTION
-  div(class="request container")
+  div(class=`${form.reports.status !== "rejected" ? 'request container' : 'request container blurred'}`)
     span(class="title") Request for:
     div(class="items-container")
       each item in ["Not Take Home Pay", "Loan Remittances/Payments", "Annual Gross Income"]
@@ -56,7 +59,7 @@ body
       span(class="item") Others (pls. specify) 
       span(class="custom")=["Travel Abroad", "Employment", "Updates", "DPB", "GSIS", "LBP", "HDMF"].indexOf(form.options.purpose) === -1 ? form.options.purpose : null
 
-  div(class="recipients")
+  div(class=`${form.reports.status !== "rejected" ? 'recipients' : 'recipients blurred'}`)
     div(class="signature")
       span(class="prefix") Requested by:
       p(class="user-name")=form.user.profile

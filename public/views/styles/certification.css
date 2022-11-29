@@ -194,3 +194,26 @@ svg {
   position: absolute;
   margin: -65px 0px 0px -30px;
 }
+
+.rejected {
+  font-size: 100px;
+  transform: rotate(-60deg);
+  position: fixed;
+  top: -100px;
+  bottom: 0;
+  right: -500px;
+  left: 0px;
+  color: rgb(255, 55, 55);
+  -webkit-transform: rotate(-60deg);
+  -moz-transform: rotate(-60deg);
+  -ms-transform: rotate(-60deg);
+  -o-transform: rotate(-60deg);
+}
+
+.blurred {
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+  filter: blur(5px);
+}
