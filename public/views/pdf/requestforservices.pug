@@ -4,12 +4,14 @@ html
     style
       include ../styles/requestforservices.css
 body
-  header
+  if form.reports.status == "rejected"
+    h1(class="rejected") REJECTED
+  header(class=`${form.reports.status !== "rejected" ? '' : 'blurred'}`)
     div(class="header-info")
       p(class="header-info-p1") Leyte Normal University
       p(class="header-info-p2") Tacloban City
       p(class="header-info-p3") OFFICE OF THE ADMINISTRATIVE OFFICER
-  div(class="main")
+  div(class=`${form.reports.status !== "rejected" ? 'main' : 'main blurred'}`)
     h4(class="subject") REQUEST FOR SERVICES
     p(class="date")=`DATE: ${form.date}`
     div(class="request-type")
@@ -32,7 +34,7 @@ body
     div(class="request-body")
       span(class="prefix") PURPOSE:
       span(class="prefix-body")=form.body
-  div(class="recipients")
+  div(class=`${form.reports.status !== "rejected" ? 'recipients' : 'recipients blurred'}`)
     div(class="signature")
       span(class="fixer") Requested by:
       p(class="user-name")=form.user.profile
