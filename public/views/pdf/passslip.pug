@@ -4,13 +4,15 @@ html
     style
       include ../styles/passslip.css
 body
-  header
+  if form.reports.status == "rejected"
+    h1(class="rejected") REJECTED
+  header(class=`${form.reports.status !== "rejected" ? '' : 'blurred'}`)
     img(class="university-logo" src="https://www.lnu.edu.ph/images/logo.png")
     div(class="header-info")
       p(class="header-info-p1") Republic of the Philippines
       p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
       p(class="header-info-p3") Tacloban City 
-  div(class="main")
+  div(class=`${form.reports.status !== "rejected" ? 'main' : 'main blurred'}`)
     h4(class="subject") PASS SLIP
     p(class="date")=`DATE: ${form.date}`
     div(class="name-container")
@@ -22,7 +24,7 @@ body
     div(class="request-body")
       span(class="prefix") PURPOSE:
       span(class="prefix-body")=form.body
-  div(class="recipients")
+  div(class=`${form.reports.status !== "rejected" ? 'recipients' : 'recipients blurred'}`)
     div(class="signature user-signee")
       p(class="user-name")=form.user.profile
       p(class="admin-dept-title") (Signature over Printed Name)
