@@ -1,8 +1,9 @@
 <script>
 import ActivityTimeline from "../contents/ActivityTimeline.vue";
+import Calendar from "../contents/Calendar.vue";
 export default {
   name: "AdminDashboard",
-  components: { ActivityTimeline },
+  components: { ActivityTimeline, Calendar },
   data: () => ({
     cards: [
       {
@@ -53,6 +54,24 @@ export default {
     ],
   }),
   computed: {
+    getAllRequests() {
+      const all = this.$store.getters["request/getAll"];
+      console.log(all);
+      return all.map((item) => ({
+        data: item._id,
+        start: new Date(item.reports.dates.sent).toISOString().split("T")[0],
+        color:
+          item.reports.status == "rejected"
+            ? "error"
+            : item.reports.status == "archived"
+            ? "warning"
+            : item.admin.signature
+            ? "success"
+            : "primary",
+        name:
+          item.user.profile[0].name.firstname + " - " + item.service[0].type,
+      }));
+    },
     isMobile() {
       const mobile = window.matchMedia("(max-width: 780px)");
       return mobile.matches;
@@ -90,6 +109,7 @@ export default {
     },
   },
   created() {
+    this.$store.dispatch("request/All", "admin");
     this.$store.dispatch("request/Pendings", "admin");
     this.$store.dispatch("request/Signed", "admin");
     this.$store.dispatch("request/Archives", "admin");
@@ -115,10 +135,9 @@ export default {
             <v-col cols="4" md="4" v-for="(card, index) in cards" :key="index">
               <v-card primary :class="!isMobile ? 'pa-3' : ''">
                 <v-list-item three-line>
-                  <v-list-item-avatar
-                    tile
-                    size="80"
-                    :class="isMobile ? 'mx-2' : ''"
+                  <v-col
+                    :cols="isMobile ? '12' : '4'"
+                    :class="isMobile ? 'text-center pa-0' : 'pa-0'"
                   >
                     <v-badge
                       v-if="isMobile"
@@ -139,8 +158,7 @@ export default {
                     >
                       mdi-{{ card.icon }}
                     </v-icon>
-                  </v-list-item-avatar>
-
+                  </v-col>
                   <v-list-item-content v-if="!isMobile">
                     <v-list-item-title class="text-h5 font-weight-bold">
                       {{ getLength(card.getter) || "0" }}
@@ -171,6 +189,10 @@ export default {
             </v-col>
           </v-row>
         </v-container>
+      </v-col>
+      <v-col cols="12" class="pa-4 mb-3">
+        <v-subheader class="text-h6 pa-0 mb-3"> Calendar </v-subheader>
+        <Calendar :events="getAllRequests" />
       </v-col>
       <v-col cols="12" sm="12" md="4">
         <v-subheader class="text-h6">My Account</v-subheader>
