@@ -3,6 +3,7 @@ import svgSketch from "vue-svg-sketch";
 export default {
   name: "SetSignature",
   props: {
+    isSignatureHidden: Boolean,
     data: Object,
     hideAndSeekSignature: Function,
     handleSetSignature: Function,
@@ -80,7 +81,14 @@ export default {
             v-model="remarks"
             outlined
             label="Remarks (optional)"
+            hide-details
           />
+        </v-col>
+        <v-col cols="12" class="pa-0 my-1" v-if="isSignatureHidden">
+          <p class="caption">
+            <v-icon size="15" class="mb-1">mdi-help</v-icon>
+            Signatures will be hidden on the documents.
+          </p>
         </v-col>
         <v-col cols="12" class="pa-0">
           <v-container fluid class="pa-1">

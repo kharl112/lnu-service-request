@@ -436,6 +436,7 @@ export default {
       <SetSignature
         v-if="signature_view.shown"
         :data="signature_view"
+        :isSignatureHidden="req_info.hideSignatures"
         :hideAndSeekSignature="hideAndSeekSignature"
       />
       <ConfirmModify
