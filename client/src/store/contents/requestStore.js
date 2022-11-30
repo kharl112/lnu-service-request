@@ -4,6 +4,7 @@ import { router } from "../../main";
 const request = {
   namespaced: true,
   state: () => ({
+    all: [],
     drafts: [],
     sent: [],
     archives: [],
@@ -13,6 +14,7 @@ const request = {
     info: {},
     delete_selected: [],
     loading: {
+      all: false,
       create: false,
       drafts: false,
       sent: false,
@@ -30,6 +32,7 @@ const request = {
     },
   }),
   getters: {
+    getAll: (state) => state.all,
     getDrafts: (state) => state.drafts,
     getSent: (state) => state.sent,
     getArchives: (state) => state.archives,
@@ -41,6 +44,7 @@ const request = {
     getLoading: (state) => state.loading,
   },
   mutations: {
+    setAll: (state, all) => (state.all = [...all]),
     setDrafts: (state, drafts) => (state.drafts = [...drafts]),
     setSent: (state, sent) => (state.sent = [...sent]),
     setArchives: (state, archives) => (state.archives = [...archives]),
@@ -107,6 +111,20 @@ const request = {
         dispatch("message/errorMessage", message, { root: true });
         const user = router.history.current.fullPath.split("/")[1];
         dispatch(`${user}/Profile`, null, { root: true });
+      }
+    },
+    All: async ({ commit, dispatch, state }, user_type = "admin") => {
+      if (!state.all[0]) commit("setLoading", { loading: true, type: "all" });
+      try {
+        const { data } = await axios.get(`/api/request/${user_type}/all`, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+        commit("setLoading", { loading: false, type: "all" });
+        commit("setAll", data);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "all" });
+        dispatch("message/errorMessage", message, { root: true });
       }
     },
     Drafts: async ({ commit, dispatch, state }) => {
