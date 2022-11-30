@@ -144,6 +144,16 @@ const Mutations = (() => {
 })();
 
 const Views = (() => {
+  const all = async (req, res) => {
+    const admin_all = await Request.aggregate(
+      requestQuery({
+        "admin.staff_id": req.locals.staff_id,
+        "user.signature": { $ne: null },
+      })
+    );
+    return res.send(admin_all);
+  };
+
   const pendings = async (req, res) => {
     const admin_pending = await Request.aggregate(
       requestQuery({
@@ -200,7 +210,7 @@ const Views = (() => {
     }
   };
 
-  return { pendings, signed, archives, info };
+  return { all, pendings, signed, archives, info };
 })();
 
 module.exports = { Mutations, Views };
