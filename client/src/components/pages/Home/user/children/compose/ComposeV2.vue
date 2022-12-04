@@ -174,7 +174,7 @@ export default {
 <template>
   <v-container fluid class="pa-3">
     <v-row justify="start" align="start">
-      <v-col cols="12">
+      <v-col cols="12" :class="isMobile ? 'pa-0' : ''">
         <v-form
           ref="form"
           @submit="(e) => e.preventDefault()"
@@ -182,15 +182,18 @@ export default {
           v-if="!isLoading"
         >
           <v-row justify="start" align="start" no-gutters dense>
-            <v-col cols="12">
+            <v-col
+              cols="12"
+              :style="isMobile ? 'margin-bottom: -3rem; z-index: 1 ' : ''"
+            >
               <v-container fluid class="px-2 px-sm-5 px-md-10">
-                <v-subheader class="text-h5">
+                <v-subheader class="text-h5 text-center">
                   Create Service Request
                 </v-subheader>
                 <v-divider />
               </v-container>
             </v-col>
-            <v-col cols="12" class="pa-2 pa-sm-5 pa-md-10">
+            <v-col cols="12" class="pa-0 pa-sm-5 pa-md-10">
               <v-container fluid>
                 <v-row justify="end">
                   <!-- Info -->
@@ -201,12 +204,12 @@ export default {
                     :value="tab"
                     @change="onChangeTabs"
                   >
-                    <v-tab> Information </v-tab>
-                    <v-tab> Services </v-tab>
-                    <v-tab> Recipients </v-tab>
+                    <v-tab v-show="!isMobile"> Information </v-tab>
+                    <v-tab v-show="!isMobile"> Services </v-tab>
+                    <v-tab v-show="!isMobile"> Recipients </v-tab>
 
                     <!-- Info -->
-                    <v-tab-item class="pt-10 pt-sm-4 pt-md-1">
+                    <v-tab-item class="pt-0 pt-sm-4 pt-md-1">
                       <v-card flat class="px-md-10 px-sm-5 px-2">
                         <v-col cols="12" class="py-0 pt-2">
                           <v-container fluid class="py-0">
@@ -255,7 +258,7 @@ export default {
                       </v-card>
                     </v-tab-item>
                     <!-- Service Type  -->
-                    <v-tab-item class="pt-5 pt-sm-4 pt-md-1">
+                    <v-tab-item class="pt-0 pt-sm-4 pt-md-1">
                       <v-card flat class="px-md-10 px-sm-5">
                         <v-col cols="12" class="py-0 pt-2">
                           <v-container fluid class="py-0">
@@ -308,7 +311,7 @@ export default {
                       </v-card>
                     </v-tab-item>
                     <!-- Others -->
-                    <v-tab-item class="pt-5 pt-sm-4 pt-md-1">
+                    <v-tab-item class="pt-0 pt-sm-4 pt-md-1">
                       <v-card flat class="px-md-10 px-sm-5 px-2">
                         <v-col cols="12" class="py-0 pt-2">
                           <v-container fluid class="py-0">
@@ -325,7 +328,7 @@ export default {
                         <v-col cols="12">
                           <v-container fluid class="pt-2 pb-0">
                             <v-row justify="start" align="start" dense>
-                              <v-col cols="6">
+                              <v-col cols="12" sm="6">
                                 <v-autocomplete
                                   v-model="form.admin.staff_id"
                                   @change="handleSetLocalStorage"
@@ -345,7 +348,7 @@ export default {
                                   "
                                 />
                               </v-col>
-                              <v-col cols="6">
+                              <v-col cols="12" sm="6">
                                 <v-autocomplete
                                   v-model="form.service_provider.staff_id"
                                   @change="handleSetLocalStorage"
@@ -379,7 +382,7 @@ export default {
                           <v-divider />
                         </v-col>
 
-                        <v-col cols="6" class="py-0 pl-6">
+                        <v-col cols="12" sm="6" class="py-0 pl-6">
                           <v-btn
                             :disabled="getComposeLoading"
                             color="success"
