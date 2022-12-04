@@ -5,8 +5,8 @@ import FacultyPending from "../../components/pages/Home/user/children/FacultyPen
 import FacultySigned from "../../components/pages/Home/user/children/FacultySigned";
 import FacultyArchives from "../../components/pages/Home/user/children/FacultyArchives";
 import FacultySettings from "../../components/pages/Home/user/children/FacultySettings";
-import Compose from "../../components/pages/Home/user/children/Compose";
-import Edit from "../../components/pages/Home/user/children/Edit";
+import ComposeV2 from "../../components/pages/Home/user/children/compose/ComposeV2";
+// import Edit from "../../components/pages/Home/user/children/Edit";
 import ViewRequest from "../../components/pages/Home/user/children/ViewRequest";
 import NotFound from "../../components/pages/Home/user/children/NotFound";
 import FacultyDashboard from "../../components/pages/Home/user/children/FacultyDashboard";
@@ -34,7 +34,7 @@ export const user_routes = {
     { path: "notification", component: Notifications },
     { path: "drafts", component: Drafts },
     { path: "sent", component: Sent },
-    { path: "compose", component: Compose },
+    { path: "compose", component: ComposeV2 },
     { path: "settings", component: FacultySettings },
     {
       path: "pending",
@@ -61,7 +61,7 @@ export const user_routes = {
     },
     {
       path: "edit/:_id",
-      component: Edit,
+      component: ComposeV2,
       beforeEnter: async (to, from, next) => {
         await store.dispatch("request/Info", {
           _id: to.params._id,

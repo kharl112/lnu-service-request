@@ -48,7 +48,7 @@ export default {
 };
 </script>
 <template>
-  <v-col cols="12">
+  <v-col cols="12" class="px-0">
     <v-row justify="start" align="start">
       <v-col cols="12">
         <v-container fluid class="py-0">
@@ -67,14 +67,12 @@ export default {
               Request for:
             </v-subheader>
           </v-col>
-          <v-col cols="12" class="pt-0 pb-0">
+          <v-col cols="12" sm="6" class="py-0">
             <v-subheader class="text-body text-uppercase pt-0">
               To Accounting Section
             </v-subheader>
-          </v-col>
-          <v-col cols="12" class="py-0">
             <v-row justify="start" align="start">
-              <v-col cols="12" class="pt-2 pb-0 px-7">
+              <v-col cols="12" class="pt-2 px-7">
                 <v-select
                   dense
                   outlined
@@ -82,9 +80,10 @@ export default {
                   :items="sections.accounting"
                   @change="handleCustomInput($event, 'custom-accounting')"
                   title="Select one item for Accounting Section (required)"
+                  hide-details
                 />
               </v-col>
-              <v-col cols="12" class="pb-4 pt-0 px-7" id="custom-accounting">
+              <v-col cols="12" class="pb-4 px-7" id="custom-accounting">
                 <v-text-field
                   v-model="options.request_for.accounting"
                   :rules="rules"
@@ -96,12 +95,10 @@ export default {
               </v-col>
             </v-row>
           </v-col>
-          <v-col cols="12" class="py-0">
+          <v-col cols="12" sm="6" class="py-0">
             <v-subheader class="text-body text-uppercase pt-0">
               Hrm/Records Office
             </v-subheader>
-          </v-col>
-          <v-col cols="12" class="py-0">
             <v-row justify="start" align="start">
               <v-col cols="12" class="pt-2 px-7">
                 <v-select
@@ -111,11 +108,42 @@ export default {
                   :items="sections.records_office"
                   @change="handleCustomInput($event, 'custom-records')"
                   title="Select one item for Hrm/Records Office (required)"
+                  hide-details
                 />
               </v-col>
-              <v-col cols="12" class="pb-2 pt-0 px-7" id="custom-records">
+              <v-col cols="12" class="pb-2 px-7" id="custom-records">
                 <v-text-field
                   v-model="options.request_for.records"
+                  :rules="rules"
+                  label="Others/Custom"
+                  placeholder="pls specify"
+                  class="py-0"
+                  dense
+                />
+              </v-col>
+            </v-row>
+          </v-col>
+          <v-col cols="12" sm="6" class="py-0">
+            <v-subheader class="text-body text-uppercase pt-0">
+              Purpose
+            </v-subheader>
+
+            <v-row justify="start" align="start">
+              <v-col cols="12" class="pt-2 px-7">
+                <v-select
+                  outlined
+                  dense
+                  class="py-0"
+                  v-model="options.purpose"
+                  :items="[...purposes.loans, ...purposes.others]"
+                  @change="handleCustomInput($event, 'custom-purpose')"
+                  title="Select one item for Request Purpose (required)"
+                  hide-details
+                />
+              </v-col>
+              <v-col cols="12" class="pt-2 pb-4 px-7" id="custom-purpose">
+                <v-text-field
+                  v-model="options.purpose"
                   :rules="rules"
                   label="Others/Custom"
                   placeholder="pls specify"
@@ -126,33 +154,8 @@ export default {
             </v-row>
           </v-col>
         </v-row>
-        <v-col cols="12" class="py-0">
-          <v-container class="px-0 py-0" fluid>
-            <v-subheader class="text-body text-uppercase pt-0 px-0">
-              Purpose
-            </v-subheader>
-          </v-container>
-          <v-select
-            outlined
-            dense
-            class="py-0"
-            v-model="options.purpose"
-            :items="[...purposes.loans, ...purposes.others]"
-            @change="handleCustomInput($event, 'custom-purpose')"
-            title="Select one item for Request Purpose (required)"
-          />
-        </v-col>
-        <v-col cols="12" class="pt-2 pb-4" id="custom-purpose">
-          <v-text-field
-            v-model="options.purpose"
-            :rules="rules"
-            label="Others/Custom"
-            placeholder="pls specify"
-            class="py-0"
-            dense
-          />
-        </v-col>
-        <v-col cols="12" class="pt-0">
+
+        <v-col cols="12">
           <v-divider />
         </v-col>
         <v-col cols="12">
