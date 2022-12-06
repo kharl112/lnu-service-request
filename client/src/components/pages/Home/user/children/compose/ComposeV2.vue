@@ -312,7 +312,7 @@ export default {
                     </v-tab-item>
                     <!-- Others -->
                     <v-tab-item class="pt-0 pt-sm-4 pt-md-1">
-                      <v-card flat class="px-md-10 px-sm-5 px-2">
+                      <v-card flat class="px-md-10 px-sm-5 px-2 pb-10">
                         <v-col cols="12" class="py-0 pt-2">
                           <v-container fluid class="py-0">
                             <v-subheader class="text-h6 px-0">
@@ -382,7 +382,7 @@ export default {
                           <v-divider />
                         </v-col>
 
-                        <v-col cols="12" sm="6" class="py-0 pl-6">
+                        <v-col cols="12" sm="6" class="pt-0 pl-6">
                           <v-btn
                             :disabled="getComposeLoading"
                             color="success"
