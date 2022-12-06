@@ -7,6 +7,19 @@ export default {
     table: {
       headers: [
         {
+          text: "Date",
+          align: "start",
+          value: "date",
+          sortable: true,
+        },
+        {
+          text: "Time",
+          align: "start",
+          value: "time",
+          sortable: true,
+        },
+
+        {
           text: "Request Subject",
           value: "request.subject",
           sortable: true,
@@ -23,19 +36,6 @@ export default {
           value: "description",
           sortable: true,
           align: "start",
-        },
-
-        {
-          text: "Date",
-          align: "start",
-          value: "date",
-          sortable: true,
-        },
-        {
-          text: "Time",
-          align: "start",
-          value: "time",
-          sortable: true,
         },
       ],
     },
@@ -82,7 +82,7 @@ export default {
             align="center"
             class="pb-4"
           >
-            <v-col cols="12" sm="6" >
+            <v-col cols="12" sm="6">
               <v-subheader
                 :class="isMobile ? 'text-h6 text-center' : 'text-h5'"
               >
@@ -111,7 +111,7 @@ export default {
               :headers="table.headers"
               :items="activity_logs"
               :search="table.search"
-              :items-per-page="5"
+              :items-per-page="-1"
               class="elevation-0 data-table"
             >
               <template v-slot:[`item.request.subject`]="{ item }">
