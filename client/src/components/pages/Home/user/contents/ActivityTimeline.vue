@@ -19,6 +19,8 @@ export default {
     getColorIcon(item) {
       if (item.description.includes("create"))
         return { icon: "mdi-plus", color: "primary" };
+      if (item.description.includes("update"))
+        return { icon: "mdi-pencil", color: "secondary" };
       if (item.description.includes("archive"))
         return { icon: "mdi-archive", color: "warning" };
       if (item.description.includes("completed"))
