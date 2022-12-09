@@ -95,7 +95,11 @@ export default {
                   :key="draft.name"
                 >
                   <td>
-                    <v-checkbox title="Select for deletion" v-model="selected" :value="draft._id" />
+                    <v-checkbox
+                      title="Select for deletion"
+                      v-model="selected"
+                      :value="draft._id"
+                    />
                   </td>
                   <td @click="goToEdit(draft._id)">
                     <v-list-item-subtitle>
@@ -125,8 +129,14 @@ export default {
                         <v-btn
                           icon
                           color="success"
+                          :title="
+                            !draft.user.signature
+                              ? 'Please sign this document before sending'
+                              : ''
+                          "
                           :disabled="
-                            getLoading.send && selected_id === draft._id
+                            (getLoading.send && selected_id === draft._id) ||
+                            !draft.user.signature
                           "
                           @click="send(draft._id)"
                           v-bind="attrs"

@@ -13,7 +13,7 @@ const create = (body) => {
       staff_id: Joi.string().required().allow(null),
     }).required(),
     user: Joi.object({
-      signature: Joi.string().required(),
+      signature: Joi.string().allow(null),
     }).required(),
     options: Joi.object().required(),
     reports: Joi.object({

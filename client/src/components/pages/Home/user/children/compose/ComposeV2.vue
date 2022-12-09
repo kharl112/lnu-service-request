@@ -126,7 +126,7 @@ export default {
           "You must complete all the fields"
         );
 
-      if (!this.form.user.signature)
+      if (!this.form.user.signature && status)
         return this.$store.dispatch(
           "message/errorMessage",
           "You must sign this document to proceed"

@@ -191,6 +191,15 @@ const Mutations = (() => {
     const { _id } = req.params;
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
+    const _request = await Request.findById(_id);
+    if (!_request)
+      return res.status(404).send({ message: "Requested data not foundI" });
+
+    if (!_request.user.signature)
+      return res
+        .status(404)
+        .send({ message: "You must sign this document before sending out" });
+
     try {
       const request = await Request.findOneAndUpdate(
         { _id, "reports.status": "created" },
