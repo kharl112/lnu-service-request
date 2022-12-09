@@ -56,7 +56,6 @@ export default {
   computed: {
     getAllRequests() {
       const all = this.$store.getters["request/getAll"];
-      console.log(all);
       return all.map((item) => ({
         data: item._id,
         start: new Date(item.reports.dates.sent).toISOString().split("T")[0],

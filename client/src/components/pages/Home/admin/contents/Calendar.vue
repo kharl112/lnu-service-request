@@ -15,6 +15,29 @@ export default {
     },
   }),
   methods: {
+    getWeek(date) {
+      const currentDate = new Date(date);
+      const startDate = new Date(currentDate.getFullYear(), 0, 1);
+      const days = Math.floor(
+        (currentDate - startDate) / (24 * 60 * 60 * 1000)
+      );
+      const weekNumber = Math.ceil(days / 7);
+      return weekNumber;
+    },
+    getMonth(date) {
+      return new Date(date).toLocaleString("en-us", { month: "short" });
+    },
+    getYear(date) {
+      return new Date(date).getFullYear();
+    },
+    getOccurences(arr, placeholder = []) {
+      return placeholder.map((item) => {
+        return {
+          ...item,
+          count: arr.filter((num) => num == item.index).length,
+        };
+      });
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = "day";
@@ -37,9 +60,55 @@ export default {
       const mobile = window.matchMedia("(max-width: 780px)");
       return mobile.matches;
     },
+    weekly() {
+      const weeks = [...Array(52).keys()].map((week) => ({
+        count: 0,
+        index: week + 1,
+      }));
+      return this.getOccurences(
+        this.events.map((item) => this.getWeek(item.start)),
+        weeks
+      );
+    },
+    monthly() {
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ].map((month) => ({ count: 0, index: month }));
+      return this.getOccurences(
+        this.events.map((item) => this.getMonth(item.start)),
+        months
+      );
+    },
+    yearly() {
+      const c_year = new Date().getFullYear();
+      const years = [c_year - 3, c_year - 2, c_year - 1, c_year].map(
+        (year) => ({ count: 0, index: year })
+      );
+
+      return this.getOccurences(
+        this.events.map((item) => this.getYear(item.start)),
+        years
+      );
+    },
   },
   mounted() {
     this.$refs.calendar.checkChange();
+  },
+  updated() {
+    console.log(this.weekly);
+    console.log(this.monthly);
+    console.log(this.yearly);
   },
 };
 </script>
