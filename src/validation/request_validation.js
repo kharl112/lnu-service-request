@@ -13,7 +13,11 @@ const create = (body) => {
       staff_id: Joi.string().required().allow(null),
     }).required(),
     user: Joi.object({
-      signature: Joi.string().allow(null),
+      signature: Joi.when("reports.status", {
+        is: Joi.equal("created"),
+        then: Joi.string().allow(null),
+        otherwise: Joi.string().required(),
+      }),
     }).required(),
     options: Joi.object().required(),
     reports: Joi.object({
