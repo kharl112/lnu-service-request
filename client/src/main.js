@@ -5,6 +5,9 @@ import VueRouter from "vue-router";
 import { routes } from "./routes/routes";
 import store from "./store/store";
 import "./registerServiceWorker";
+import VueApexCharts from "vue-apexcharts";
+Vue.use(VueApexCharts);
+Vue.component('apexchart', VueApexCharts);
 
 Vue.config.productionTip = false;
 
