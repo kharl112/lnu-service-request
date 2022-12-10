@@ -193,7 +193,7 @@ export default {
                     <tr>
                       <th class="text-left">Description</th>
                       <th class="text-left">Status</th>
-                      <th class="text-left">Date Created</th>
+                      <th class="text-left">Scheduled Date</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -205,7 +205,7 @@ export default {
                         {{ req_info.reports.status }}
                       </td>
                       <td class="caption text-sm-body-2">
-                        {{ getDate(req_info.reports.dates.created) }}
+                        {{ req_info.schedule_date }}
                       </td>
                     </tr>
                   </tbody>

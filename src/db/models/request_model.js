@@ -9,6 +9,11 @@ const Request = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  schedule_date: {
+    type: String,
+    required: true,
+    default: "",
+  },
   subject: {
     type: String,
     required: true,

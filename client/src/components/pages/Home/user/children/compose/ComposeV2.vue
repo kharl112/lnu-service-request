@@ -284,6 +284,21 @@ export default {
                                 auto-grow
                               />
                             </v-col>
+                            <v-col cols="12" class="py-0">
+                              <v-text-field
+                                type="date"
+                                v-model="form.schedule_date"
+                                @change="handleSetLocalStorage"
+                                outlined
+                                :rules="rules"
+                                label="Schedule Date"
+                                title="Purpose/Body of your request (required)"
+                                persistent-hint
+                                hint="Your preferred schedule date"
+                                required
+                                :min="new Date().toISOString().split('T')[0]"
+                              />
+                            </v-col>
                           </v-row>
                         </v-col>
                       </v-card>

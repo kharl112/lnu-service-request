@@ -1,6 +1,7 @@
 const form = {
   subject: "",
   service_id: "",
+  schedule_date: "",
   body: "",
   hideSignatures: false,
   user: {

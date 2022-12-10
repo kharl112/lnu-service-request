@@ -59,6 +59,7 @@ export default {
       return all.map((item) => ({
         data: item._id,
         start: new Date(item.reports.dates.sent).toISOString().split("T")[0],
+        schedule_date: new Date(item.schedule_date).toISOString().split("T")[0],
         color:
           item.reports.status == "rejected"
             ? "error"
@@ -190,7 +191,9 @@ export default {
         </v-container>
       </v-col>
       <v-col cols="12" class="pa-4 mb-3">
-        <v-subheader class="text-h6 pa-0 mb-3"> Calendar </v-subheader>
+        <v-subheader class="text-h6 pa-0 mb-3">
+          Calendar <small class="caption ml-2">(Request schedule dates)</small>
+        </v-subheader>
         <Calendar :events="getAllRequests" />
       </v-col>
       <v-col cols="12" sm="12" md="4">

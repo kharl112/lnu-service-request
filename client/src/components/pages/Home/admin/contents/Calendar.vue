@@ -124,7 +124,7 @@ export default {
         {
           name: "requests sent",
           data: this.getOccurences(
-            this.events.map((item) => this.getWeek(item.start)),
+            this.events.map((item) => this.getWeek(item.schedule_date)),
             weeks
           ),
         },
@@ -149,7 +149,7 @@ export default {
         {
           name: "requests sent",
           data: this.getOccurences(
-            this.events.map((item) => this.getMonth(item.start)),
+            this.events.map((item) => this.getMonth(item.schedule_date)),
             months
           ),
         },
@@ -164,7 +164,7 @@ export default {
         {
           name: "requests sent",
           data: this.getOccurences(
-            this.events.map((item) => this.getYear(item.start)),
+            this.events.map((item) => this.getYear(item.schedule_date)),
             years
           ),
         },
