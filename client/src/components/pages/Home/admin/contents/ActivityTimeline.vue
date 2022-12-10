@@ -24,7 +24,7 @@ export default {
       if (item.description.includes("completed"))
         return { icon: "mdi-check", color: "primary" };
       if (item.description.includes("signed"))
-        return { icon: "mdi-signature-freehand", color: "success" };
+        return { icon: "mdi-draw", color: "success" };
       if (item.description.includes("delete"))
         return { icon: "mdi-delete", color: "error" };
       return { icon: "mdi-close", color: "error" };
