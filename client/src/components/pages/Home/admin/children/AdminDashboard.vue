@@ -58,8 +58,10 @@ export default {
       const all = this.$store.getters["request/getAll"];
       return all.map((item) => ({
         data: item._id,
-        start: new Date(item.reports.dates.sent).toISOString().split("T")[0],
-        schedule_date: new Date(item.schedule_date).toISOString().split("T")[0],
+        start: new Date(item.schedule_date).toISOString().split("T")[0],
+        schedule_date: new Date(item.reports.dates.sent)
+          .toISOString()
+          .split("T")[0],
         color:
           item.reports.status == "rejected"
             ? "error"
