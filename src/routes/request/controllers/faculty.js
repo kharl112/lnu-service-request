@@ -246,6 +246,7 @@ const Mutations = (() => {
 
   const mark_as_completed = async (req, res) => {
     const { _id } = req.params;
+    const { remarks } = req.body;
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
     try {
@@ -259,7 +260,11 @@ const Mutations = (() => {
             { "user.staff_id": req.locals.staff_id },
           ],
         },
-        { "reports.status": "completed", "reports.dates.completed": new Date() }
+        {
+          "reports.status": "completed",
+          "reports.dates.completed": new Date(),
+          "reports.remarks": remarks ? remarks : "",
+        }
       );
 
       //create notif default option
@@ -302,6 +307,7 @@ const Mutations = (() => {
 
   const mark_as_archived = async (req, res) => {
     const { _id } = req.params;
+    const { remarks } = req.body;
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
     try {
@@ -310,7 +316,11 @@ const Mutations = (() => {
           _id,
           "reports.status": "completed",
         },
-        { "reports.status": "archived", "reports.dates.archived": new Date() }
+        {
+          "reports.status": "archived",
+          "reports.dates.archived": new Date(),
+          "reports.remarks": remarks ? remarks : "",
+        }
       );
 
       //generate options

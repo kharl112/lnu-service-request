@@ -302,13 +302,13 @@ const request = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
-    Mark: async ({ commit, dispatch }, { _id, mark_type }) => {
+    Mark: async ({ commit, dispatch }, { _id, mark_type, remarks }) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "mark" });
       try {
         await axios.post(
           `/api/request/faculty/mark/as/${mark_type}/${_id}`,
-          {},
+          { remarks },
           {
             headers: { Authorization: localStorage.getItem("Authorization") },
           }
@@ -350,14 +350,14 @@ const request = {
         dispatch(`${user}/Profile`, null, { root: true });
       }
     },
-    Reject: async ({ commit, dispatch }, request_id) => {
+    Reject: async ({ commit, dispatch }, { request_id, remarks }) => {
       commit("setLoading", { loading: true, type: "reject" });
-
       try {
         await axios.post(
           "/api/request/admin/reject",
           {
             id: request_id,
+            remarks,
           },
           {
             headers: {

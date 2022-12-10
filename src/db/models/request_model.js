@@ -103,6 +103,11 @@ const Request = new mongoose.Schema({
       required: true,
       default: "created",
     },
+    remarks: {
+      type: String,
+      required: false,
+      default: null,
+    },
     dates: {
       type: Object,
       required: true,
@@ -110,6 +115,11 @@ const Request = new mongoose.Schema({
         type: Date,
         required: false,
         default: Date.now,
+      },
+      rejected: {
+        type: Date,
+        required: false,
+        default: null,
       },
       sent: {
         type: Date,

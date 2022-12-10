@@ -81,7 +81,7 @@ const Mutations = (() => {
 
   const reject = async (req, res) => {
     const { staff_id } = req.locals;
-    const { id } = req.body;
+    const { id, remarks } = req.body;
 
     try {
       const request = await Request.findOneAndUpdate(
@@ -93,6 +93,8 @@ const Mutations = (() => {
         },
         {
           "reports.status": "rejected",
+          "reports.dates.rejected": new Date(),
+          "reports.remarks": remarks ? remarks : "",
         }
       );
 

@@ -21,6 +21,7 @@ export default {
       shown: true,
     },
     modify_view: {
+      remarks: "",
       shown: false,
       type: null,
       id: null,
@@ -176,17 +177,17 @@ export default {
                 <v-simple-table class="table-row mb-4" elevation="1">
                   <thead>
                     <tr>
-                      <th class="text-left">PURPOSE</th>
-                      <th class="text-left">Description</th>
+                      <th class="text-left">DESCRIPTION</th>
+                      <th class="text-left">REMARKS</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td class="caption text-sm-body-2">
-                        {{ req_info.body }}
+                        {{ req_info.subject }}
                       </td>
                       <td class="caption text-sm-body-2">
-                        {{ req_info.subject }}
+                        {{ req_info.reports.remarks }}
                       </td>
                     </tr>
                   </tbody>

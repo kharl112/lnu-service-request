@@ -14,6 +14,7 @@ export default {
       type: null,
       id: null,
       description: null,
+      remarks: "",
     },
     signature_view: {
       shown: false,
@@ -213,12 +214,16 @@ export default {
                   <thead>
                     <tr>
                       <th class="text-left">PURPOSE</th>
+                      <th class="text-left">REMARKS</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td class="caption text-sm-body-2">
                         {{ req_info.body }}
+                      </td>
+                      <td class="caption text-sm-body-2">
+                        {{ req_info.reports.remarks }}
                       </td>
                     </tr>
                   </tbody>
