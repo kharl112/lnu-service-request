@@ -1,12 +1,13 @@
 <script>
-import pdf from "vue-pdf";
+// import pdf from "vue-pdf";
 import UploadFile from "../contents/UploadFile";
 import SetSignature from "../contents/SetSignature";
 import ConfirmModify from "../../user/contents/ConfirmModify";
+import ViewPDF from "../contents/ViewPDF";
 
 export default {
   name: "ViewFile",
-  components: { pdf, UploadFile, SetSignature, ConfirmModify },
+  components: { UploadFile, SetSignature, ConfirmModify, ViewPDF },
   props: { user_type: String },
   data: () => ({
     signature_view: {
@@ -133,34 +134,19 @@ export default {
             elevation="0"
             small
             @click="hideAndSeekDoc"
-            class="hidden-sm-and-up"
-            v-if="!pdfLoading.preview && blobUrl"
+            class="hidden-sm-and-up mt-5"
+            :disabled="pdfLoading.preview || !blobUrl"
           >
             <v-icon left>
               {{ doc_view.shown ? "mdi-eye-off" : "mdi-eye" }}
             </v-icon>
             {{ doc_view.shown ? "hide document" : "unhide document" }}
           </v-btn>
-          <v-col cols="12" v-if="doc_view.shown">
-            <pdf
-              v-if="!pdfLoading.preview && blobUrl"
-              :src="blobUrl"
-              class="pdf-mod"
-              :page="doc_view.currentPage"
-              @num-pages="doc_view.pageCount = $event"
-              @page-loaded="doc_view.currentPage = $event"
-            />
-            <v-skeleton-loader
-              type="article, article, article, actions"
-              light
-              v-else
-            />
-            <v-pagination
-              v-if="!pdfLoading.preview && blobUrl"
-              v-model="doc_view.currentPage"
-              :length="doc_view.pageCount"
-            />
-          </v-col>
+          <ViewPDF
+            :pdfLoading="pdfLoading"
+            :doc_view="doc_view"
+            :blobUrl="blobUrl"
+          />
           <v-col cols="12" class="hidden-sm-and-up">
             <v-divider />
           </v-col>
