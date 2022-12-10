@@ -302,7 +302,7 @@ export default {
                       @click="hideAndSeekSignature"
                     >
                       <span class="hidden-sm-and-down">Sign</span>
-                      <v-icon right>mdi-signature</v-icon>
+                      <v-icon :right="!isMobile">mdi-signature</v-icon>
                     </v-btn>
                     <v-btn
                       title="Download as pdf"
@@ -310,7 +310,7 @@ export default {
                       @click="downloadPDF"
                     >
                       <span class="hidden-sm-and-down">Download PDF</span>
-                      <v-icon right>mdi-download</v-icon>
+                      <v-icon :right="!isMobile">mdi-download</v-icon>
                     </v-btn>
                     <v-btn
                       title="Upload files to GoogleDrive"
@@ -321,11 +321,15 @@ export default {
                       @click="hideAndSeekUpload"
                     >
                       <span class="hidden-sm-and-down">Upload</span>
-                      <v-icon right> mdi-folder-google-drive</v-icon>
+                      <v-icon :right="!isMobile">
+                        mdi-folder-google-drive</v-icon
+                      >
                     </v-btn>
                     <v-btn :to="`/track?id=${$route.params._id}`">
                       <span class="hidden-sm-and-down">Track</span>
-                      <v-icon right>mdi-map-marker-distance</v-icon>
+                      <v-icon :right="!isMobile"
+                        >mdi-map-marker-distance</v-icon
+                      >
                     </v-btn>
                     <v-btn
                       title="Reject this request"
@@ -337,7 +341,9 @@ export default {
                       @click="hideAndSeekModify('reject')"
                     >
                       <span class="hidden-sm-and-down">Reject</span>
-                      <v-icon color="white" right>mdi-close</v-icon>
+                      <v-icon color="white" :right="!isMobile"
+                        >mdi-close</v-icon
+                      >
                     </v-btn>
                   </v-btn-toggle>
                 </v-row>

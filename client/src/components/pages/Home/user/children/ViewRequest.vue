@@ -309,7 +309,7 @@ export default {
                       v-if="isProvider && getSignatureLevel === 2"
                     >
                       E-Signature
-                      <v-icon right> mdi-signature </v-icon>
+                      <v-icon :right="!isMobile"> mdi-signature </v-icon>
                     </v-btn>
                     <v-btn
                       title="Download as pdf"
@@ -317,7 +317,7 @@ export default {
                       @click="downloadPDF"
                     >
                       <span class="hidden-sm-and-down">Download PDF</span>
-                      <v-icon right>mdi-download</v-icon>
+                      <v-icon :right="!isMobile">mdi-download</v-icon>
                     </v-btn>
                     <v-btn
                       title="Upload files to GoogleDrive"
@@ -325,11 +325,15 @@ export default {
                       v-if="req_info.reports.status !== 'archived'"
                     >
                       <span class="hidden-sm-and-down">Upload</span>
-                      <v-icon right>mdi-folder-google-drive</v-icon>
+                      <v-icon :right="!isMobile"
+                        >mdi-folder-google-drive</v-icon
+                      >
                     </v-btn>
                     <v-btn :to="`/track?id=${$route.params._id}`">
                       <span class="hidden-sm-and-down">Track</span>
-                      <v-icon right>mdi-map-marker-distance</v-icon>
+                      <v-icon :right="!isMobile"
+                        >mdi-map-marker-distance</v-icon
+                      >
                     </v-btn>
                     <v-btn
                       @click="hideAndSeekModify('complete')"
@@ -338,15 +342,15 @@ export default {
                         getSignatureLevel === 3
                       "
                     >
-                      Mark as Completed
-                      <v-icon right>mdi-check</v-icon>
+                      <span class="hidden-sm-and-down">Mark as Completed</span>
+                      <v-icon :right="!isMobile">mdi-check</v-icon>
                     </v-btn>
                     <v-btn
                       v-if="req_info.reports.status === 'completed' && isUser"
                       @click="hideAndSeekModify('archive')"
                     >
-                      Mark as Archived
-                      <v-icon right>mdi-archive</v-icon>
+                      <span class="hidden-sm-and-down">Mark as Archived</span>
+                      <v-icon :right="!isMobile">mdi-archive</v-icon>
                     </v-btn>
                   </v-btn-toggle>
                 </v-row>
