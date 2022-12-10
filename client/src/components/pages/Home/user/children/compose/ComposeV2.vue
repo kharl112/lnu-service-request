@@ -35,9 +35,15 @@ export default {
     tab: 0,
   }),
   computed: {
+    isEditMode() {
+      return this.$route.fullPath.split("/").at(-1) != "compose";
+    },
     isMobile() {
       const mobile = window.matchMedia("(max-width: 780px)");
       return mobile.matches;
+    },
+    pdfLoading() {
+      return this.$store.getters["pdf/getLoading"];
     },
     getFacultyProfile() {
       return this.$store.getters["faculty/getProfile"];
@@ -139,6 +145,12 @@ export default {
     handleSetLocalStorage() {
       localStorage.setItem("compose", JSON.stringify(this.form));
     },
+    downloadPDF() {
+      return this.$store.dispatch("pdf/generatePDF", {
+        user_type: "faculty",
+        id: this.$route.params._id,
+      });
+    },
   },
   created() {
     //create
@@ -187,8 +199,27 @@ export default {
               :style="isMobile ? 'margin-bottom: -3rem; z-index: 1 ' : ''"
             >
               <v-container fluid class="px-2 px-sm-5 px-md-10">
-                <v-subheader class="text-h5 text-center">
-                  Create Service Request
+                <v-row
+                  justify="space-between px-2 px-sm-5 pb-2"
+                  align="center"
+                  v-if="isEditMode"
+                >
+                  <v-subheader class="text-h6 text-center pl-0">
+                    EDIT DRAFT
+                  </v-subheader>
+                  <v-btn
+                    small
+                    elevation="0"
+                    color="error"
+                    :disabled="pdfLoading.download"
+                    @click="downloadPDF"
+                  >
+                    Get PDF file
+                    <v-icon right>mdi-download</v-icon>
+                  </v-btn>
+                </v-row>
+                <v-subheader class="text-h6 text-center pl-0" v-else>
+                  COMPOSE NEW
                 </v-subheader>
                 <v-divider />
               </v-container>
