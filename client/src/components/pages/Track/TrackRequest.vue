@@ -211,11 +211,7 @@ export default {
                 <v-timeline-item
                   v-for="node in fixTimeLine"
                   :key="node.staff_id"
-                  :color="
-                    node.reports.date === fixTimeLine[0].reports.date
-                      ? 'primary'
-                      : 'grey'
-                  "
+                  color="primary"
                   :icon="node.status ? 'mdi-check' : 'mdi-dots-horizontal'"
                   small
                   fill-dot
@@ -353,10 +349,7 @@ export default {
             </v-col>
             <v-col cols="11">
               <v-row justify="space-around">
-                <router-link
-                  to="/"
-                  class="text-overline ma-2 font-weight-bold"
-                >
+                <router-link to="/" class="text-overline ma-2 font-weight-bold">
                   Home
                 </router-link>
                 <router-link
