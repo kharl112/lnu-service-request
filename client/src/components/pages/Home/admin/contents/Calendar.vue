@@ -231,7 +231,7 @@ export default {
       Graph
       <small class="text-caption ml-2"> (Request Sent) </small></v-subheader
     >
-    <v-card class="pa-sm-7 pt-0">
+    <v-card class="pa-sm-7 pt-sm-0 pa-2">
       <v-toolbar flat>
         <v-row justify="space-between">
           <v-subheader class="text-overline pl-0">
