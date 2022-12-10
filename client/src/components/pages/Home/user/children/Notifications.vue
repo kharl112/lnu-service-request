@@ -77,7 +77,7 @@ export default {
       if (item.description.toLowerCase().includes("completed"))
         return { icon: "mdi-check", color: "success" };
       if (item.description.toLowerCase().includes("signed"))
-        return { icon: "mdi-check", color: "success" };
+        return { icon: "mdi-draw", color: "success" };
       if (item.description.toLowerCase().includes("delete"))
         return { icon: "mdi-delete", color: "error" };
       if (item.description.toLowerCase().includes("sent"))
@@ -144,6 +144,7 @@ export default {
                 v-for="item in notifications"
                 :key="item._id"
                 @click="markAsRead(item)"
+                :disabled="!item.request || !item.request.service"
               >
                 <v-list-item-avatar>
                   <v-avatar :color="getColorIcon(item).color">
@@ -152,16 +153,34 @@ export default {
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title
-                    v-text="item.request ? item.request.service.type : 'DELETE'"
+                    v-text="
+                      item.request && item.request.service
+                        ? item.request.service.type
+                        : 'Data was deleted'
+                    "
                   ></v-list-item-title>
 
                   <v-list-item-subtitle
-                    class="text--primary"
                     v-text="getFullname(item.initiator)"
                   ></v-list-item-subtitle>
 
                   <v-list-item-subtitle
-                    v-text="item.description"
+                    v-text="'Description: ' + item.description"
+                  ></v-list-item-subtitle>
+
+                  <v-list-item-subtitle
+                    v-if="
+                      item.request &&
+                      item.request.reports &&
+                      item.request.reports.remarks
+                    "
+                    v-text="
+                      item.request &&
+                      item.request.reports &&
+                      item.request.reports.remarks
+                        ? 'Remarks: ' + item.request.reports.remarks
+                        : ''
+                    "
                   ></v-list-item-subtitle>
                 </v-list-item-content>
 
