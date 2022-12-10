@@ -67,7 +67,7 @@ export default {
 <template>
   <v-container fluid class="pa-0 pa-sm-3">
     <v-row dense justify="start">
-      <v-col cols="12" sm="12" md="9" class="pa-0">
+      <v-col cols="12" sm="12" md="8" class="pa-0">
         <v-container fluid v-if="archives[0] && !loading.archives">
           <v-data-table
             @click:row="(item) => $router.push(`/admin/home/view/${item._id}`)"
@@ -119,7 +119,7 @@ export default {
         </v-container>
       </v-col>
       <v-divider class="hidden-sm-and-down" vertical />
-      <v-col md="3" class="hidden-sm-and-down">
+      <v-col md="4" class="hidden-sm-and-down">
         <v-row>
           <v-col cols="12">
             <v-container fluid>
@@ -146,13 +146,45 @@ export default {
 
                 <v-expand-transition>
                   <div v-show="show">
-                    <v-divider></v-divider>
-                    <v-card-text>
-                      Leyte Normal University <br />
-                      Paterno Street Tacloban City 6500 <br />
-                      +63 (53) 832 3205 info@lnu.edu.ph <br />
-                      www.facebook.com/lnuofficial
-                    </v-card-text>
+                    <v-list dense>
+                      <v-row justify="start" align="start">
+                        <v-col cols="12" class="pa-2 pb-0">
+                          <v-list-item class="pa-1 px-4">
+                            <v-icon color="primary"> mdi-google-maps </v-icon>
+                            <v-subheader>
+                              <a
+                                href="https://www.google.com/maps/place/Leyte+Normal+University/@11.2380362,124.9995256,17z/data=!4m9!1m2!2m1!1slnu!3m5!1s0x3308772c87c4c367:0xa5e5c080ec6a88ef!8m2!3d11.2381879!4d125.001328!15sCgNsbnWSARFwdWJsaWNfdW5pdmVyc2l0eQ"
+                                color="primary"
+                                target="__blank"
+                              >
+                                Paterno St, Downtown, Tacloban City, 6500 Leyte
+
+                                <v-icon right color="primary" size="15">
+                                  mdi-open-in-new
+                                </v-icon>
+                              </a>
+                            </v-subheader>
+                          </v-list-item>
+                        </v-col>
+                        <v-col cols="12" class="pa-2 pt-0 pb-0">
+                          <v-list-item class="pa-1 px-4">
+                            <v-icon color="primary"> mdi-web </v-icon>
+                            <v-subheader>
+                              <a
+                                target="__blank"
+                                href="http://www.lnu.edu.ph/"
+                                color="primary"
+                              >
+                                lnu.edu.ph
+                                <v-icon right color="primary" size="15">
+                                  mdi-open-in-new
+                                </v-icon>
+                              </a>
+                            </v-subheader>
+                          </v-list-item>
+                        </v-col>
+                      </v-row>
+                    </v-list>
                   </div>
                 </v-expand-transition>
               </v-card>
