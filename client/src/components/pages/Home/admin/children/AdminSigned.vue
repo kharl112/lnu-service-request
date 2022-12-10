@@ -95,7 +95,11 @@ export default {
             <template v-slot:[`item.reports.status`]="{ item }">
               <span
                 :class="`overline font-weight-bold ${
-                  item.reports.status === 0 ? 'success--text' : 'primary--text'
+                  item.reports.status === 'completed'
+                    ? 'success--text'
+                    : item.reports.status === 'rejected'
+                    ? 'error--text'
+                    : 'primary--text'
                 }`"
               >
                 {{ item.reports.status }}

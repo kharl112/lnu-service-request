@@ -88,6 +88,8 @@ export default {
                 :class="`overline font-weight-bold ${
                   item.reports.status === 'completed'
                     ? 'success--text'
+                    : item.reports.status === 'rejected'
+                    ? 'error--text'
                     : 'primary--text'
                 }`"
               >

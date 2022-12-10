@@ -81,7 +81,10 @@ const Views = (() => {
         "service_provider.staff_id": req.locals.staff_id,
         "admin.signature": { $ne: null },
         "service_provider.signature": { $ne: null },
-        "reports.status": { $ne: "created" },
+        $and: [
+          { "reports.status": { $ne: "created" } },
+          { "reports.status": { $ne: "archived" } },
+        ],
       })
     );
     return res.send(service_provider_signed);

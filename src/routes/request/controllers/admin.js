@@ -174,7 +174,10 @@ const Views = (() => {
         "admin.staff_id": req.locals.staff_id,
         "user.signature": { $ne: null },
         "admin.signature": { $ne: null },
-        "reports.status": "sent",
+        $and: [
+          { "reports.status": { $ne: "created" } },
+          { "reports.status": { $ne: "archived" } },
+        ],
       })
     );
     return res.send(admin_signed);
