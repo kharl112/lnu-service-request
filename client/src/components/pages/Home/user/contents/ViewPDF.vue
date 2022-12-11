@@ -24,5 +24,12 @@ export default {
       v-model="doc_view.currentPage"
       :length="doc_view.pageCount"
     />
+    <v-container fluid class="mt-5">
+      <v-row justify="center">
+        <v-btn :href="blobUrl" small outlined color="error"
+          >Download File <v-icon right>mdi-download</v-icon></v-btn
+        >
+      </v-row>
+    </v-container>
   </v-col>
 </template>
