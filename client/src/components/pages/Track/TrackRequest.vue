@@ -109,6 +109,9 @@ export default {
         );
       }
     },
+    back() {
+      this.$router.back();
+    },
   },
   created() {
     this.handleSubmit(null);
@@ -121,6 +124,12 @@ export default {
 <template>
   <div class="container">
     <v-row justify="center" align-items="center" class="row-container">
+      <v-col cols="12" sm="8" md="7" class="pb-0">
+        <v-btn plain @click="back()">
+          <v-icon left>mdi-arrow-left</v-icon>
+          Go back
+        </v-btn>
+      </v-col>
       <v-col cols="12" sm="8" md="7" align="center">
         <v-card
           outlined
