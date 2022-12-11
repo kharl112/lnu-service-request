@@ -52,13 +52,13 @@ export default {
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
-                  color="primary"
+                  color="dark"
                   class="mr-3 ml-3"
                   @click="drawer = true"
                   v-bind="attrs"
                   v-on="on"
                 >
-                  <v-icon size="50"> mdi-menu </v-icon>
+                  <v-icon size="30"> mdi-menu </v-icon>
                 </v-btn>
               </template>
               <span>Menu</span>
@@ -78,7 +78,7 @@ export default {
             </v-row>
           </div>
 
-          <div >
+          <div>
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
                 <v-badge
