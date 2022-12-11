@@ -97,7 +97,7 @@ export default {
               v-for="file of sections[0].links"
               :key="file.hash"
             >
-              <v-card class="pa-2 pt-4" style="height: 100%" :id="file.hash">
+              <v-card class="pa-2 py-4" style="height: 100%" :id="file.hash">
                 <v-card-title class="text-center pb-0 align-center">
                   <v-row justify="center">
                     <span class="primary--text"> {{ file.title }} </span>
@@ -108,6 +108,17 @@ export default {
                   :doc_view="doc_view"
                   :blobUrl="require(`../../../../assets/pdfs/${file.file}`)"
                 />
+                <v-container fluid class="mt-2">
+                  <v-row justify="center">
+                    <v-btn
+                      :href="require(`../../../../assets/pdfs/${file.file}`)"
+                      small
+                      outlined
+                      color="error"
+                      >Download File <v-icon right>mdi-download</v-icon></v-btn
+                    >
+                  </v-row>
+                </v-container>
               </v-card>
             </v-col>
           </v-row>
