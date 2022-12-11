@@ -66,12 +66,14 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid id="login-container"
-  :style="{
-    'background-image': `url(${require('../../../assets/images/lnu-logo-25opac.png')})`,
-    'background-size': '105%',
-    'background-position': '500px',
-  }"
+  <v-container
+    fluid
+    id="login-container"
+    :style="{
+      'background-image': `url(${require('../../../assets/images/lnu-logo-25opac.png')})`,
+      'background-size': '105%',
+      'background-position': '500px',
+    }"
   >
     <v-row
       id="login-row1"
@@ -323,29 +325,36 @@ export default {
             </v-tooltip>
           </v-row>
           <v-row justify="space-between">
-            <v-col sm="12" md="8" class="mt-14">
+            <v-col cols="12" class="mt-14">
               <v-row justify="space-between">
-                <a
-                  href="/help/about"
-                  class="text-decoration-underline caption font-weight-bold"
+                <router-link
+                  to="/help/about"
+                  class="text-decoration-underline caption font-weight-bold py-2"
                   title="See about page"
                 >
                   About
-                </a>
-                <a
-                  href="/help/privacy-and-policy#privacy_notice"
-                  class="text-decoration-underline caption font-weight-bold"
+                </router-link>
+                <router-link
+                  to="/help/privacy-and-policy#privacy_notice"
+                  class="text-decoration-underline caption font-weight-bold py-2"
                   title="privacy and policy page"
                 >
                   Privacy and Policy
-                </a>
-                <a
-                  href="/help/tutorials"
-                  class="text-decoration-underline caption font-weight-bold"
+                </router-link>
+                <router-link
+                  to="/help/tutorials"
+                  class="text-decoration-underline caption font-weight-bold py-2"
                   title="Explore more tutorials"
                 >
                   Tutorials
-                </a>
+                </router-link>
+                <router-link
+                  to="/help/download-forms"
+                  class="text-decoration-underline caption font-weight-bold py-2"
+                  title="Download services forms"
+                >
+                  Downloadable Forms
+                </router-link>
               </v-row>
             </v-col>
           </v-row>
