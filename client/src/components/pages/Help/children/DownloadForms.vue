@@ -1,9 +1,5 @@
 <script>
-import axios from "axios";
 import ViewPDF from "../../Home/user/contents/ViewPDF";
-import fileDownload from "js-file-download";
-// import passslip from "../../../../assets/pdfs/passslip.pdf";
-// import getPDFS from "./pdfs.script";
 
 export default {
   name: "DownloadForms",
@@ -29,25 +25,6 @@ export default {
     },
   },
   created() {
-    const downloadAllPDF = async () => {
-      const { data } = await axios.get("/api/pdf/all", {
-        responseType: "blob",
-        headers: {
-          Authorization: localStorage.getItem("Authorization"),
-        },
-      });
-
-      console.log(data);
-
-      const date = new Date();
-      fileDownload(
-        data,
-        `${"LNUSR-downloadable-forms"}_${date.getMonth()}${date.getDate()}${date.getFullYear()}.pdf`
-      );
-    };
-
-    downloadAllPDF();
-
     const section_placeholder = [
       {
         title: "Available Forms",
@@ -113,7 +90,13 @@ export default {
         <v-container fluid>
           <h2 class="primary--text mb-5">Download Forms</h2>
           <v-row v-if="sections.length" align="stretch">
-            <v-col cols="12" sm="6" md="4" v-for="file of sections[0].links" :key="file.hash">
+            <v-col
+              cols="12"
+              sm="6"
+              md="4"
+              v-for="file of sections[0].links"
+              :key="file.hash"
+            >
               <v-card class="pa-2 pt-4" style="height: 100%" :id="file.hash">
                 <v-card-title class="text-center pb-0 align-center">
                   <v-row justify="center">
