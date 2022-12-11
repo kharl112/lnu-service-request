@@ -1,0 +1,73 @@
+doctype html 
+html 
+  head 
+    style
+      include ../../styles/certification.css
+body
+  header
+    div(class="header-info")
+      p(class="header-info-p1") LEYTE NORMAL UNIVERSITY
+      p(class="header-info-p2") Tacloban City
+      p(class="header-info-p3") OFFICE OF THE CHIEF ADMINISTRATION OFFICER 
+  div(class="main")
+    h4(class="subject") REQUEST FOR RECORDS AND CERTIFICATION
+    div(class="container-1")
+      span(class="item-1") Date:
+      span(class="item-2")=`${new Date().toLocaleString('en-us', { dateStyle: "short"})}`
+    p(class="note") TO ACCOUNTING SECTION
+  div(class="request-container")
+    span(class="title") Request for:
+    div(class="items-container")
+      each item in ["Not Take Home Pay", "Loan Remittances/Payments", "Annual Gross Income"]
+        div(class="items")
+          input(type="checkbox" class="checkbox") 
+          span(class="item")=item 
+      div(class="items")
+        input(type="checkbox" class="checkbox") 
+        span(class="item") Others (pls. specify) 
+        span(class="custom") _________________
+    div(class="items-container")
+      p(class="subtitle") HRM/RECORDS OFFICE
+      each item in ["Service Records", "Leave Credits/Balance", "No Pending Administrative Case", "Employment Certificate"]
+        div(class="items")
+          input(type="checkbox" class="checkbox") 
+          span(class="item")=item 
+      div(class="items")
+        input(type="checkbox" class="checkbox") 
+        span(class="item") Others (pls. specify) 
+        span(class="custom") _________________
+
+    span(class="title") Purpose: 
+    div(class="items-container")
+      div(class="items")
+        input(type="checkbox" class="checkbox") 
+        span(class="item") Loan
+        div(class="bank-container")
+          each bank in ["DBP", "GSIS", "LBP", "HDMF"]
+            input(type="checkbox" class="checkbox bank-checkbox") 
+            span(class="item bank-text")=bank
+      each item in ["Travel Abroad", "Employment", "Updates"]
+        div(class="items")
+          input(type="checkbox" class="checkbox") 
+          span(class="item")=item
+      div(class="items")
+        input(type="checkbox" class="checkbox") 
+        span(class="item") Others (pls. specify) 
+        span(class="custom") 
+  div(class="recipients")
+    div(class="signature")
+      span(class="prefix") Requested by:
+      p(class="user-name" style="margin-top: 20px") 
+      p(class="admin-dept-title") (Signature Over Printed Name)
+    div(class="signature")
+      span(class="prefix") Co Maker:
+      span(class="co-maker")
+    div(class="signature")
+      span(class="prefix") Approved by:
+      p(class="admin-dept" style="margin-top: 20px") 
+      p(class="admin-dept-title") Chief Administrative Officer-Admin
+    div(class="signature")
+      span(class="prefix") Job done by:
+      //- p(class="dept-head")
+
+

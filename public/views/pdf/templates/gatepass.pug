@@ -1,0 +1,44 @@
+doctype html 
+html 
+    head 
+        style
+            include ../../styles/gatepass.css
+body
+    header
+        img(class="university-logo" src="https://www.lnu.edu.ph/images/logo.png")
+        div(class="header-info")
+            p(class="header-info-p1") Republic of the Philippines
+            p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
+            p(class="header-info-p3") P. Paterno Street, Tacloban City
+    div(class="main")
+        h4(class="subject" style="text-decoration: underline; font-size: 18px") GATE PASS
+    div(class="container-2" style="font-weight: bold; margin-bottom: 10px")
+        span(class="item-1") Date:
+        span(class="item-1" style="text-decoration: underline")=`${new Date().toLocaleString('en-us', { dateStyle: "short"})}`
+    table(class="data-table")
+        tr(class="tb-row")
+            th(class="tb-data")
+            th(class="tb-data") Name
+            th(class="tb-data") Contact Number
+            tr(class="tb-row")
+                td(class="tb-number") 1
+                td(class="tb-data") Juan Dela Cruz 
+                td(class="tb-data") 09123456789 
+    div(class="container-2" style="font-weight: bold; margin-bottom: 10px")
+        span(class="item-1") DURATION / DATE OF USE:
+        span(class="item-1" ) 
+    div(class="container-2" style="font-weight: bold; margin-bottom: 10px")
+        span(class="item-1") LOCATION:
+        span(class="item-1" ) 
+    div(class="container-2" style="font-weight: bold; margin-bottom: 10px")
+        span(class="item-1") PURPOSE:
+        span(class="item-1" ) 
+    div(class="container-3")
+        div(class="recipient-1")
+            span(style="font-weight: bold; text-transform: uppercase;") 
+            br
+            span(class="r-dept") Chief Security
+        div(class="recipient-2")
+            span(style="font-weight: bold; text-transform: uppercase;") 
+            br
+            span(class="r-dept") OIC CAO - Administration

@@ -1,0 +1,61 @@
+doctype html 
+html 
+  head 
+    style
+      include ../../styles/mailing.css
+body
+  header
+    div(class="header-info")
+      p(class="header-info-p1") Republic of the Philippines
+      p(class="header-info-p3") LEYTE NORMAL UNIVERSITY
+      p(class="header-info-p2") Tacloban City
+  div(class="main")
+    p(class="date")=`Date: ${new Date().toLocaleString('en-us', { dateStyle: "short"})}`
+    p(class="records") Records 
+    p(class="form") Form #01 
+    h4(class="subject") REQUEST FOR MAILING
+    div(class="checkboxes-container-1")
+      input( type="checkbox" class="checkbox")
+      span(class="checkbox-label") JRS
+      input(type="checkbox" class="checkbox")
+      span(class="checkbox-label-2") PPC
+      small(class="info-label") (Phil. Postal Corp.)
+    div(class="mail-recipient")
+      span(class="prefix") Mail to:
+      span(class="recipient")
+    div(class="mail-sender")
+      span(class="prefix") From:
+      span(class="sender")
+    div(class="request-body")
+      span(class="prefix") PURPOSE / Re: Subject:
+  div(class="recipients")
+    div(class="signature")
+      span(class="prefix") Requested by:
+      p(class="user-name" style="margin-top: 20px")
+      p(class="admin-dept-title") (Print Name & Signature)
+    div(class="signature")
+      span(class="prefix") Job done by:
+      p(class="dept-head" style="margin-top: 20px")
+      p(class="dept-head-title")
+    div(class="signature")
+      span(class="prefix") Approved by:
+      p(class="admin-dept"  style="margin-top: 20px")
+      p(class="admin-dept-title") Chief Administrative Officer-Admin
+  div(class="footer")
+    div(class="post-container")
+      span(class="post-prefix") PPC:
+      each type in ["Mailing Envelope", "Brown Envelope", "Box"]
+        input(type="checkbox" class="checkbox")
+        span(class="checkbox-label")=type
+    div(class="post-container")
+      span(class="post-prefix") JRS:
+      each type in ["Registered", "Speed", "Priority", "International"]
+        input(type="checkbox" class="checkbox")
+        span(class="checkbox-label")=type
+    div(class="released-container")
+      p(class="released")=`Released by: `
+      p(class="released")=`Released date: `
+
+
+
+

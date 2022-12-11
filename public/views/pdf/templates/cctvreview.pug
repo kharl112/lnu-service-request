@@ -1,0 +1,41 @@
+doctype html 
+html 
+    head 
+        style
+            include ../../styles/cctvreview.css
+body
+    header
+        img(class="university-logo" src="https://www.lnu.edu.ph/images/logo.png")
+        div(class="header-info")
+            p(class="header-info-p1") LEYTE NORMAL UNIVERSITY
+            p(class="header-info-p2") Tacloban City
+    div(class="main")
+        h4(class="subject") REQUEST FOR CCTV REVIEW
+    div(class="container-2" style="font-weight: bold")
+        span(class="item-1") Date:
+        span(class="item-2")=`${new Date().toLocaleString('en-us', { dateStyle: "short"})}`
+    div(class="container-2" style="margin-top: 20px; font-weight: bold")
+        span(class="item-1") Location for review :
+        span(class="item-1") __________
+    div(class="container-3" style="font-weight: bold; margin-top: 5px")
+        span(class="item-1") Date & Time of Incident:
+        span(class="item-1") __________
+        span(class="item-1") __________
+    div(class="container-4" style="margin-top: 5px; font-weight: bold")
+        span(class="item-1") Purpose:
+        span(class="item-1" style="text-decoration: underline")
+    div(class="recipients" style="margin-top: 25px")
+        div(class="signature")
+            span(class="fixer") Requested By:
+            p(class="user-name" style="margin-top: 15px")
+            p(class="admin-dept-title") Requestor 
+        div(class="signature" style="margin-bottom: 25px")
+            span(class="fixer") Approved By:
+            p(class="dept-head" style="margin-top: 15px")
+            p(class="dept-head-title") VP for Administration & Finance
+    div(class="container-4" style="margin-top: 5px; font-weight: bold")
+        span(class="item-1") Reviewed by:
+            span(class="item-1") _________________
+    div(class="container-4" style="margin-top: 5px; font-weight: bold")
+        span(class="item-1") Remarks:
+            span(class="item-1") _________________

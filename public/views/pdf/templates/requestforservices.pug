@@ -1,0 +1,43 @@
+doctype html 
+html 
+  head 
+    style
+      include ../../styles/requestforservices.css
+body
+  header
+    div(class="header-info")
+      p(class="header-info-p1") Leyte Normal University
+      p(class="header-info-p2") Tacloban City
+      p(class="header-info-p3") OFFICE OF THE ADMINISTRATIVE OFFICER
+  div(class="main")
+    h4(class="subject") REQUEST FOR SERVICES
+    p(class="date")=`DATE: ${new Date().toLocaleString('en-us', { dateStyle: "short"})}`
+    div(class="request-type")
+      span(class="prefix") REQUEST FOR:
+      div(class="type")
+      each type in ["Carpenter", "Plumber", "Electrician", "Janitor/s"]
+        div(class="type-form")
+          input(type="checkbox" class="checkbox")
+          span(class="checkbox-label")=type
+      div(class="type-form")
+        input(type="checkbox" class="checkbox")
+        span(class="checkbox-label") Others (pls. specify) 
+        span(class="other-type-label") _____________
+      div(class="persons-involved")
+        span(class="prefix") Name of person/s involved:
+        p(class="involved") ___________
+    div(class="request-body")
+      span(class="prefix") PURPOSE:
+      span(class="prefix-body") ___________
+  div(class="recipients")
+    div(class="signature")
+      span(class="fixer") Requested by:
+      p(class="user-name")
+      p(class="admin-dept-title") Signature Over Printed Name
+    div(class="signature")
+      span(class="fixer") Approved by:
+      p(class="admin-dept")
+      p(class="admin-dept-title") Chief Administrative Officer-Admin
+
+
+

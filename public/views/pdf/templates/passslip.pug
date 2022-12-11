@@ -1,0 +1,32 @@
+doctype html 
+html 
+  head 
+    style
+      include ../../styles/passslip.css
+  body
+    header
+      img(class="university-logo" src="https://www.lnu.edu.ph/images/logo.png")
+      div(class="header-info")
+        p(class="header-info-p1") Republic of the Philippines
+        p(class="header-info-p2") LEYTE NORMAL UNIVERSITY
+        p(class="header-info-p3") Tacloban City 
+    div(class="main")
+      h4(class="subject") PASS SLIP
+      p(class="date")=`DATE: ${new Date().toLocaleString('en-us', { dateStyle: "short"})}`
+      div(class="name-container")
+        span(class="prefix") NAME:
+        span(class="name") ________________
+      div(class="timeout-container")
+        span(class="prefix") TIMEOUT:
+        span(class="timeout") ________________
+      div(class="request-body")
+        span(class="prefix") PURPOSE:
+        span(class="prefix-body") 
+    div(class="recipients")
+      div(class="signature user-signee")
+        p(class="user-name") 
+        p(class="admin-dept-title") (Signature over Printed Name)
+      div(class="signature")
+        span(class="fixer") Approved by:
+        p(class="admin-dept") 
+        p(class="admin-dept-title") Chief Administrative Officer-Admin
