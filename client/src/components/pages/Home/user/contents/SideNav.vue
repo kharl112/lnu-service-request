@@ -67,6 +67,32 @@ export default {
         tag: "",
       },
     ],
+    help: [
+      {
+        title: "About",
+        icon: "mdi-information",
+        path: "/help/about",
+        tag: "Learn More",
+      },
+      {
+        title: "Tutorials",
+        icon: "mdi-play-box",
+        path: "/help/tutorials",
+        tag: "Explore tutorials",
+      },
+      {
+        title: "Privacy And Policy",
+        icon: "mdi-lock",
+        path: "/help/privacy-and-policy",
+        tag: "Privacy and policy / EULA",
+      },
+      {
+        title: "Downloadable Forms",
+        icon: "mdi-download-box",
+        path: "/help/download-forms",
+        tag: "Download Forms",
+      },
+    ],
   }),
   computed: {
     getFacultyProfile() {
@@ -249,6 +275,20 @@ export default {
           <v-list-item-title class="primary--text">Logout</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+    </v-list>
+
+    <v-list dense>
+      <v-subheader class="font-weight-bold">Help</v-subheader>
+      <v-list-item-group color="grey" v-model="route">
+        <v-list-item v-for="(child, i) in help" :key="i" :value="child.path">
+          <v-list-item-icon>
+            <v-icon v-text="child.icon" />
+          </v-list-item-icon>
+          <v-list-item-content :title="child.tag">
+            <v-list-item-title v-text="child.title" />
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
     </v-list>
   </v-navigation-drawer>
 </template>
