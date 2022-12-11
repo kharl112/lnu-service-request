@@ -217,31 +217,6 @@ export default {
                   </v-subheader>
                 </v-container>
               </v-col>
-              <v-col cols="6" align="end">
-                <v-container>
-                  <v-row justify="end">
-                    <v-tooltip bottom>
-                      <template v-slot:activator="{ on, attrs }">
-                        <v-btn
-                          :disabled="
-                            !edit_mode_password || getLoading.change_password
-                          "
-                          v-bind="attrs"
-                          v-on="on"
-                          @click="handleChangePassword"
-                          color="primary"
-                          small
-                          elevation="0"
-                        >
-                          <v-icon left>mdi-content-save</v-icon>
-                          Cofirm
-                        </v-btn>
-                      </template>
-                      <span>Confirm change of password</span>
-                    </v-tooltip>
-                  </v-row>
-                </v-container>
-              </v-col>
             </v-row>
             <v-divider />
           </v-container>
@@ -295,23 +270,28 @@ export default {
             </v-form>
           </v-container>
         </v-col>
-        <v-col cols="12">
-          <v-divider />
-        </v-col>
-        <v-col cols="12" class="py-5">
-          <v-row justify="space-betwee"></v-row>
-          <a
-            href="/help/privacy-and-policy#privacy_notice"
-            target="__blank"
-            class="text-caption ml-2"
-            >Privacy And Policy</a
-          >
-          <a href="/help/tutorials" target="__blank" class="text-caption ml-4">
-            Tutorials
-          </a>
-          <a href="/help/about" target="__blank" class="text-caption ml-4">
-            About
-          </a>
+        <v-col cols="12" align="end">
+          <v-container>
+            <v-row justify="end">
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    :disabled="
+                      !edit_mode_password || getLoading.change_password
+                    "
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="handleChangePassword"
+                    color="primary"
+                    elevation="0"
+                  >
+                    CONFIRM
+                  </v-btn>
+                </template>
+                <span>Confirm change of password</span>
+              </v-tooltip>
+            </v-row>
+          </v-container>
         </v-col>
       </v-col>
     </v-row>
