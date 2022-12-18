@@ -3,12 +3,6 @@ const service_account_credentials = require("../../../functions/credentials");
 const Request = require("../../../db/models/request_model");
 require("dotenv").config();
 
-// path 
-const path = require('path')
-
-//lnu service account json file
-const PATH_TO_CREDENTIALS = path.resolve(`./lnu-service-account.json`);
-
 module.exports = (() => {
   const upload_file = async (req, res) => {
     try {
@@ -25,8 +19,9 @@ module.exports = (() => {
         ROOT_FOLDER: process.env.ROOT_FOLDER,
       });
 
-      const creds_service_user = require(PATH_TO_CREDENTIALS);
-      const gdrive = await googleDriveInstance.useServiceAccountAuth(creds_service_user);
+      const gdrive = await googleDriveInstance.useServiceAccountAuth(
+        service_account_credentials
+      );
 
       const subFolders = await googleDriveInstance.list({
         parentFolder: process.env.ROOT_FOLDER,
@@ -70,10 +65,10 @@ module.exports = (() => {
 
       return res.send({ message: "upload complete" });
     } catch (error) {
-      console.log(error)
       return res
         .status(500)
         .send({ message: "something went wrong pls try again" });
+      return console.error(error);
     }
   };
   return { upload_file };
