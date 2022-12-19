@@ -101,7 +101,6 @@ module.exports = (() => {
       const token = jwt.sign({ _id: admin_found._id }, process.env.JWT_SECRET, {
         expiresIn: "7d",
       });
-
       return res.send({ token });
     } catch (error) {
       return res
