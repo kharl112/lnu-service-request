@@ -60,6 +60,7 @@ const User = new mongoose.Schema({
   permitted: {
     type: Boolean,
     required: true,
+    default: true
   },
 });
 
