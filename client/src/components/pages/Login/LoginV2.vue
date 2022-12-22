@@ -4,7 +4,18 @@
 import GoogleLogin from "vue-google-login";
 export default {
   name: "Login",
-  data: () => ({}),
+  data: () => ({
+    //install
+    show: false,
+    deferredPrompt: null,
+    //usertype
+    user: "faculty",
+    //login-form
+    form: {
+      email: "",
+      password: "",
+    },
+  }),
   components: {
     GoogleLogin,
   },
@@ -121,10 +132,12 @@ export default {
             <v-col cols="12 text-center font-weight-bold"> OR </v-col>
 
             <v-col cols="12">
-              <form>
+              <v-form ref="form" @submit="handleSubmit">
                 <v-row justify="start">
                   <v-col cols="12">
                     <v-text-field
+                      :disabled="getLoading.login && getLoading.profile"
+                      v-model="form.email"
                       label="Email"
                       placeholder="johndoe@example.com"
                       outlined
@@ -136,12 +149,20 @@ export default {
                   </v-col>
                   <v-col cols="12">
                     <v-text-field
+                      :disabled="getLoading.login && getLoading.profile"
+                      :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
+                      :type="show ? 'text' : 'password'"
+                      v-model="form.password"
+                      @click:append="handleShowPassword"
                       label="Password"
                       outlined
-                      type="password"
                       prepend-inner-icon="mdi-lock"
                       tabindex="2"
+                      hide-details
                     />
+                  </v-col>
+                  <v-col cols="12" class="mt-0 pt-0">
+                    <span class="error--text caption font-weight-bold text-capitalize"> {{ getError }}</span>
                   </v-col>
                   <v-col cols="12" class="pt-0">
                     <v-btn
@@ -151,12 +172,14 @@ export default {
                       large
                       color="primary"
                       tabindex="3"
+                      :disabled="getLoading.login"
+                      :loading="getLoading.login"
                     >
                       Login
                     </v-btn>
                   </v-col>
                 </v-row>
-              </form>
+              </v-form>
             </v-col>
             <v-col cols="12" class="py-0">
               <p class="caption">
