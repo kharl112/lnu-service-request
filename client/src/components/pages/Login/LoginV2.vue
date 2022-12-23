@@ -1,7 +1,7 @@
 <script>
 // import LeftBg1 from "../../svgs/LeftBg1";
 // import LeftBg2 from "../../svgs/LeftBg2";
-import GoogleLogin from "vue-google-login";
+// import GoogleLogin from "vue-google-login";
 export default {
   name: "Login",
   data: () => ({
@@ -17,7 +17,7 @@ export default {
     },
   }),
   components: {
-    GoogleLogin,
+    // GoogleLogin,
   },
   methods: {
     handleShowPassword() {
@@ -63,153 +63,201 @@ export default {
 };
 </script>
 <template>
-  <v-container fluid class="main-container">
-    <v-row
-      justify="center"
-      justify-sm="center"
-      justify-md="start"
-      class="main-container-row"
+  <v-container fluid class="main-container pa-0 ma-0">
+    <v-app-bar
+      elevation="0"
+      outlined
+      class="pa-4 d-none d-sm-block"
+      color="white"
+      style="height: 100%"
     >
-      <v-col cols="12" sm="6" md="4" class="left-container">
-        <v-container fluid class="pa-3 pa-sm-5 pa-md-10">
-          <v-row justify="start">
-            <v-col cols="12" class="d-none d-sm-block">
-              <v-row justify-sm="start" align="center">
+      <v-container fluid>
+        <v-row justify="space-between" align="center">
+          <img
+            src="../../../assets/images/logo-512x512.png"
+            class="lnu-logo"
+            alt="LNU logo"
+            title="Leyte Normal University logo"
+          />
+          <v-col sm="10" md="5">
+            <v-row justify="space-between">
+              <router-link
+                to="/help/about"
+                class="text-decoration-none mt-3 black--text"
+                title="See about page"
+              >
+                About
+              </router-link>
+              <router-link
+                to="/help/privacy-and-policy#privacy_notice"
+                class="text-decoration-none mt-3 black--text"
+                title="privacy and policy page"
+              >
+                Privacy and Policy
+              </router-link>
+              <router-link
+                to="/help/tutorials"
+                class="text-decoration-none mt-3 black--text"
+                title="Explore more tutorials"
+              >
+                Tutorials
+              </router-link>
+              <router-link
+                to="/help/download-forms"
+                class="text-decoration-none mt-3 black--text"
+                title="Download services forms"
+              >
+                Downloadable Forms
+              </router-link>
+            </v-row>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-app-bar>
+    <v-container fluid class="pa-10" style="max-height: 90vh; overflow-y: auto">
+      <v-row justify="start">
+        <v-col cols="12" sm="10" md="5">
+          <v-col cols="12" sm="10">
+            <v-col cols="12" class="my-5 d-block d-sm-none">
+              <v-row justify="center">
                 <img
                   src="../../../assets/images/logo-512x512.png"
-                  class="lnu-logo"
+                  class="lnu-logo-mobile"
                   alt="LNUSR logo"
                   title="LNUSR logo"
                 />
-                <h1 class="primary--text app-name">LNUSR</h1>
               </v-row>
             </v-col>
-            <v-col cols="12">
-              <p class="text-h6 text-sm-h5 d-none d-sm-block">
-                Hi, Welcome Back to Staff's Portal
-              </p>
-              <v-row justify="center" justify-md="start">
-                <v-col cols="12" class="hidden-sm-and-up">
-                  <v-row justify="center" justify-md="start">
-                    <v-col cols="12" class="px-0 pt-0">
-                      <v-row justify="center">
-                        <img
-                          src="../../../assets/images/logo-512x512.png"
-                          class="lnu-logo"
-                          alt="LNUSR logo"
-                          title="LNUSR logo"
-                        />
-                      </v-row>
-                    </v-col>
-                    <p class="primary--text overline font-weight-bold app-name">
-                      LNUSR
-                    </p>
-                  </v-row>
-                </v-col>
-                <v-col cols="12">
-                  <p class="text-caption text-sm-body text-center text-sm-left">
-                    Sign in to continue
+            <p class="text-h6 text-sm-h3 text-md-h2 d-none d-sm-block">
+              Hi, Welcome Back to Staff's Portal
+            </p>
+            <v-row justify="center" justify-md="start">
+              <v-col cols="12" class="hidden-sm-and-up">
+                <v-row justify="center" justify-md="start">
+                  <p class="primary--text overline font-weight-bold app-name">
+                    LNUSR
                   </p>
+                </v-row>
+              </v-col>
+              <v-col cols="12" class="pt-0 d-block d-sm-none">
+                <p class="text-center">For Staffs</p>
+              </v-col>
+              <v-col cols="12">
+                <p class="text-caption text-sm-body text-center text-sm-left">
+                  Sign in to continue
+                </p>
+              </v-col>
+            </v-row>
+          </v-col>
+
+          <v-col cols="12">
+            <v-form ref="form" @submit="handleSubmit">
+              <v-row justify="start">
+                <v-col cols="12" sm="10">
+                  <v-text-field
+                    :disabled="getLoading.login && getLoading.profile"
+                    v-model="form.email"
+                    label="Email"
+                    placeholder="johndoe@example.com"
+                    filled
+                    prepend-inner-icon="mdi-email"
+                    hide-details
+                    tabindex="1"
+                    autofocus
+                  />
+                </v-col>
+                <v-col cols="12" sm="10">
+                  <v-text-field
+                    :disabled="getLoading.login && getLoading.profile"
+                    :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
+                    :type="show ? 'text' : 'password'"
+                    v-model="form.password"
+                    @click:append="handleShowPassword"
+                    label="Password"
+                    filled
+                    prepend-inner-icon="mdi-lock"
+                    tabindex="2"
+                    hide-details
+                  />
+                </v-col>
+                <v-col cols="12" sm="10" class="mt-0 pt-0">
+                  <span
+                    class="error--text caption font-weight-bold text-capitalize"
+                  >
+                    {{ getError }}</span
+                  >
+                </v-col>
+                <v-col cols="12" sm="10" class="pt-0">
+                  <v-btn
+                    type="submit"
+                    block
+                    elevation="0"
+                    large
+                    color="primary"
+                    tabindex="3"
+                    :disabled="getLoading.login"
+                    :loading="getLoading.login"
+                  >
+                    Login
+                  </v-btn>
                 </v-col>
               </v-row>
-            </v-col>
-
-            <v-col cols="12">
-              <GoogleLogin
-                :params="{
-                  client_id:
-                    '426790513527-2488sq4eltf5nmm7n06ob8j059q42aq2.apps.googleusercontent.com',
-                }"
-                style="width: 100%"
+            </v-form>
+          </v-col>
+          <v-col cols="12" class="py-0 mt-5">
+            <p class="caption">
+              New member?
+              <router-link
+                class="text-decoration-none ml-1"
+                to="/register/faculty/step=1"
               >
-                <v-btn outlined block large color="secondary">
-                  <v-icon left>mdi-google</v-icon>
-                  Sign in with google
-                </v-btn>
-              </GoogleLogin>
-            </v-col>
-
-            <v-col cols="12 text-center font-weight-bold"> OR </v-col>
-
-            <v-col cols="12">
-              <v-form ref="form" @submit="handleSubmit">
-                <v-row justify="start">
-                  <v-col cols="12">
-                    <v-text-field
-                      :disabled="getLoading.login && getLoading.profile"
-                      v-model="form.email"
-                      label="Email"
-                      placeholder="johndoe@example.com"
-                      outlined
-                      prepend-inner-icon="mdi-email"
-                      hide-details
-                      tabindex="1"
-                      autofocus
-                    />
-                  </v-col>
-                  <v-col cols="12">
-                    <v-text-field
-                      :disabled="getLoading.login && getLoading.profile"
-                      :append-icon="show ? 'mdi-eye-off' : 'mdi-eye'"
-                      :type="show ? 'text' : 'password'"
-                      v-model="form.password"
-                      @click:append="handleShowPassword"
-                      label="Password"
-                      outlined
-                      prepend-inner-icon="mdi-lock"
-                      tabindex="2"
-                      hide-details
-                    />
-                  </v-col>
-                  <v-col cols="12" class="mt-0 pt-0">
-                    <span class="error--text caption font-weight-bold text-capitalize"> {{ getError }}</span>
-                  </v-col>
-                  <v-col cols="12" class="pt-0">
-                    <v-btn
-                      type="submit"
-                      block
-                      elevation="0"
-                      large
-                      color="primary"
-                      tabindex="3"
-                      :disabled="getLoading.login"
-                      :loading="getLoading.login"
-                    >
-                      Login
-                    </v-btn>
-                  </v-col>
-                </v-row>
-              </v-form>
-            </v-col>
-            <v-col cols="12" class="py-0">
-              <p class="caption">
-                New member?
-                <router-link
-                  class="text-decoration-none ml-1"
-                  to="/register/faculty/step=1"
+                Create account
+              </router-link>
+            </p>
+          </v-col>
+          <v-col cols="12" class="py-0">
+            <p class="caption py-0 my-0">
+              Switch to
+              <router-link
+                class="text-decoration-none ml-1"
+                to="/register/faculty/step=1"
+              >
+                Admin Portal
+              </router-link>
+            </p>
+          </v-col>
+        </v-col>
+        <v-col cols="12">
+          <v-container fluid class="py-10 mt-10">
+            <v-row>
+              <v-col cols="12" sm="6">
+                <span class="primary--text caption"> LNUSR 2022. </span>
+                <span class="black--text caption">
+                  This app is built only for LNU staffs and employees</span
                 >
-                  Create account
-                </router-link>
-              </p>
-            </v-col>
-            <v-col cols="12" class="py-0">
-              <p class="caption py-0 my-0">
-                Switch to
-                <router-link
-                  class="text-decoration-none ml-1"
-                  to="/register/faculty/step=1"
+              </v-col>
+              <v-col cols="12" sm="6" class="text-sm-right">
+                <span class="primary--text caption text-left text-sm-right">
+                  Developed By:</span
                 >
-                  Admin Portal
-                </router-link>
-              </p>
-            </v-col>
-          </v-row>
-        </v-container>
-      </v-col>
-      <v-col sm="6" md="8" class="right-container d-none d-sm-flex">
-        <v-container fluid class="pa-10"> </v-container>
-      </v-col>
-    </v-row>
+                <span class="black--text caption text-left text-sm-right">
+                  The I.T students of
+                  <a href="https://www.lnu.edu.ph/" target="__blank">
+                    Leyte Normal University
+                    <img
+                      src="../../../assets/images/lnu-logo.png"
+                      class="lnu-logo-small"
+                      alt="LNU logo"
+                      title="Leyte Normal University logo"
+                    />
+                  </a>
+                </span>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 <style lang="scss" scoped>
@@ -217,30 +265,35 @@ export default {
   .main-container-row {
     width: 100vw;
     height: 100vh;
-
-    .left-container {
-      overflow-y: auto;
-      max-height: 100vh;
-    }
-    .right-container {
-      background: #1e3163;
-      // background-image: url("https://is2-ssl.mzstatic.com/image/thumb/Purple116/v4/61/fc/7e/61fc7e6f-a623-e2b3-24b5-5310f0b340fa/AppIcon-1x_U007emarketing-0-7-0-0-85-220.png/1200x600wa.png");
-      background-position: right;
-      background-size: contain;
-      background-repeat: no-repeat;
-      // filter: blur(2.3px);
-    }
   }
 }
 
 .lnu-logo {
-  width: 8rem;
+  width: 5rem;
   height: auto;
   margin-top: -10px;
   margin-right: 3px;
 }
+.lnu-logo-mobile {
+  width: 10rem;
+  height: auto;
+}
+
+.lnu-logo-small {
+  width: 25px;
+  margin-bottom: -8px;
+  margin-left: 5px;
+}
 
 .app-name {
-  font-size: 25px !important;
+  font-size: 30px !important;
+}
+
+.mt-3 {
+  border-bottom: 2px solid transparent;
+}
+
+.mt-3:hover {
+  border-bottom: 2px solid #1976d2;
 }
 </style>
