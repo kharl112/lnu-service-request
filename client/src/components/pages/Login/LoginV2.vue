@@ -331,6 +331,49 @@ export default {
         </v-col>
       </v-row>
     </v-container>
+    <v-row class="floating-button d-flex d-sm-flex d-md-none">
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            small
+            v-bind="attrs"
+            v-on="on"
+            @click="goToLink('/track')"
+            color="primary"
+            medium
+            class="ma-2"
+            fab
+          >
+            <v-icon>mdi-map-marker-distance</v-icon>
+          </v-btn>
+        </template>
+        <span> Track request </span>
+      </v-tooltip>
+      <v-tooltip top>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            small
+            v-bind="attrs"
+            v-on="on"
+            @click="install"
+            :color="deferredPrompt ? 'error' : 'grey lighten-1'"
+            medium
+            class="ma-2"
+            fab
+          >
+            <v-icon v-if="deferredPrompt">mdi-download</v-icon>
+            <v-icon v-else>mdi-download-off</v-icon>
+          </v-btn>
+        </template>
+        <span>
+          {{
+            deferredPrompt
+              ? "Install the app"
+              : "This app is not available for installation in your device"
+          }}
+        </span>
+      </v-tooltip>
+    </v-row>
   </v-container>
 </template>
 <style lang="scss" scoped>
@@ -377,5 +420,10 @@ export default {
 
 .welcome-image {
   max-width: 100%;
+}
+.floating-button {
+  position: fixed;
+  bottom: 12px;
+  right: 12px;
 }
 </style>
