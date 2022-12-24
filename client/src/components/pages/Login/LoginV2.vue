@@ -39,6 +39,14 @@ export default {
     goToLink(link) {
       return this.$router.push(link);
     },
+    changeUserType() {
+      if (this.user == "faculty") this.user = "admin";
+      else this.user = "faculty";
+
+      this.form = { email: "", password: "" };
+
+      this.$refs.form_container.scrollTo({ top: 0, behavior: "smooth" });
+    },
   },
   computed: {
     getError() {
@@ -59,6 +67,9 @@ export default {
     });
 
     this.$store.dispatch("message/defaultState", null);
+
+    const hash = this.$route.hash ? this.$route.hash.replace("#", "") : "";
+    this.user = hash ? hash : "faculty";
   },
 };
 </script>
@@ -79,42 +90,50 @@ export default {
             alt="LNU logo"
             title="Leyte Normal University logo"
           />
-          <v-col sm="10" md="5">
+          <v-col sm="8" md="7">
             <v-row justify="space-between">
               <router-link
                 to="/help/about"
-                class="text-decoration-none mt-3 black--text"
+                class="text-decoration-none mt-3 mx-2 black--text"
                 title="See about page"
               >
                 About
               </router-link>
               <router-link
                 to="/help/privacy-and-policy#privacy_notice"
-                class="text-decoration-none mt-3 black--text"
+                class="text-decoration-none mt-3 mx-2 black--text"
                 title="privacy and policy page"
               >
                 Privacy and Policy
               </router-link>
               <router-link
                 to="/help/tutorials"
-                class="text-decoration-none mt-3 black--text"
+                class="text-decoration-none mt-3 mx-2 black--text"
                 title="Explore more tutorials"
               >
                 Tutorials
               </router-link>
               <router-link
                 to="/help/download-forms"
-                class="text-decoration-none mt-3 black--text"
+                class="text-decoration-none mt-3 mx-2 black--text"
                 title="Download services forms"
               >
                 Downloadable Forms
+              </router-link>
+
+              <router-link
+                to="/track"
+                class="text-decoration-none mt-3 mx-2 black--text"
+                title="Download services forms"
+              >
+                Track Requests
               </router-link>
             </v-row>
           </v-col>
         </v-row>
       </v-container>
     </v-app-bar>
-    <v-container fluid class="pa-10" style="max-height: 90vh; overflow-y: auto">
+    <v-container fluid class="pa-10 form-container" ref="form_container">
       <v-row justify="start">
         <v-col cols="12" sm="10" md="5">
           <v-col cols="12" sm="10">
@@ -129,7 +148,8 @@ export default {
               </v-row>
             </v-col>
             <p class="text-h6 text-sm-h3 text-md-h2 d-none d-sm-block">
-              Hi, Welcome Back to Staff's Portal
+              Hi, Welcome Back to
+              {{ user == "faculty" ? "Staffs" : "Admin" }} Portal
             </p>
             <v-row justify="center" justify-md="start">
               <v-col cols="12" class="hidden-sm-and-up">
@@ -140,7 +160,9 @@ export default {
                 </v-row>
               </v-col>
               <v-col cols="12" class="pt-0 d-block d-sm-none">
-                <p class="text-center">For Staffs</p>
+                <p class="text-center text-capitalize">
+                  For {{ user == "faculty" ? "staffs" : "admin" }}
+                </p>
               </v-col>
               <v-col cols="12">
                 <p class="text-caption text-sm-body text-center text-sm-left">
@@ -193,10 +215,10 @@ export default {
                     block
                     elevation="0"
                     large
-                    color="primary"
                     tabindex="3"
                     :disabled="getLoading.login"
                     :loading="getLoading.login"
+                    :color="user == 'faculty' ? 'primary' : 'warning'"
                   >
                     Login
                   </v-btn>
@@ -209,23 +231,77 @@ export default {
               New member?
               <router-link
                 class="text-decoration-none ml-1"
-                to="/register/faculty/step=1"
+                :to="`/register/${user}/step=1`"
               >
                 Create account
               </router-link>
             </p>
           </v-col>
           <v-col cols="12" class="py-0">
-            <p class="caption py-0 my-0">
+            <p class="caption py-0 my-0 text-capitalize">
               Switch to
-              <router-link
+              <a
+                :href="`#${user}`"
+                @click="changeUserType"
                 class="text-decoration-none ml-1"
-                to="/register/faculty/step=1"
               >
-                Admin Portal
-              </router-link>
+                {{ user == "faculty" ? "admin" : "staffs" }} Portal
+              </a>
             </p>
           </v-col>
+        </v-col>
+        <v-col md="7" class="d-none d-md-block">
+          <v-container fluid>
+            <v-row justify="center">
+              <v-col cols="10" class="text-center">
+                <img
+                  v-if="user == 'faculty'"
+                  src="../../../assets/images/welcome_image.png"
+                  class="welcome-image"
+                />
+                <img
+                  v-else
+                  src="../../../assets/images/welcome_image2.png"
+                  class="welcome-image"
+                  style="max-width: 60%"
+                />
+              </v-col>
+              <v-col cols="10" class="py-3 my-6">
+                <h3 class="text-h5 text-center" v-if="user == 'faculty'">
+                  Request Services from LNU Chief Administration Office
+                  Personnels and Services Providers Online
+                </h3>
+                <h3 class="text-h5 text-center" v-else>
+                  Connect with LNU Staffs, Faculty and other LNU Personnels
+                </h3>
+              </v-col>
+              <v-col cols="12" class="text-center">
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      small
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="install"
+                      :color="deferredPrompt ? 'error' : 'grey lighten-1'"
+                      medium
+                    >
+                      Install LNUSR
+                      <v-icon v-if="deferredPrompt">mdi-download</v-icon>
+                      <v-icon v-else>mdi-download-off</v-icon>
+                    </v-btn>
+                  </template>
+                  <span>
+                    {{
+                      deferredPrompt
+                        ? "Install this app"
+                        : "This app is not available for installation"
+                    }}
+                  </span>
+                </v-tooltip>
+              </v-col>
+            </v-row>
+          </v-container>
         </v-col>
         <v-col cols="12">
           <v-container fluid class="py-10 mt-10">
@@ -237,11 +313,8 @@ export default {
                 >
               </v-col>
               <v-col cols="12" sm="6" class="text-sm-right">
-                <span class="primary--text caption text-left text-sm-right">
-                  Developed By:</span
-                >
                 <span class="black--text caption text-left text-sm-right">
-                  The I.T students of
+                  From the <strong>I.T</strong> students of
                   <a href="https://www.lnu.edu.ph/" target="__blank">
                     Leyte Normal University
                     <img
@@ -266,6 +339,11 @@ export default {
     width: 100vw;
     height: 100vh;
   }
+}
+
+.form-container {
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 .lnu-logo {
@@ -295,5 +373,9 @@ export default {
 
 .mt-3:hover {
   border-bottom: 2px solid #1976d2;
+}
+
+.welcome-image {
+  max-width: 100%;
 }
 </style>

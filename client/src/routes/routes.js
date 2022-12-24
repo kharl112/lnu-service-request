@@ -16,4 +16,5 @@ export const routes = [
   login_routes,
   forgot_password_routes,
   about_routes,
+  { path: "/*", redirect: "/" }
 ];
