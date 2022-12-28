@@ -1,8 +1,5 @@
-const nodemailer = require("nodemailer");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const pug = require("pug");
-const path = require("path");
 require("dotenv").config();
 
 const User = require("../../../db/models/user_model");
@@ -10,10 +7,10 @@ const Admin = require("../../../db/models/admin_model");
 const Unit = require("../../../db/models/unit_model");
 const Role = require("../../../db/models/role_model");
 
-const generateEmail = require("../../../functions/generateEmail");
 const generateToken = require("../../../functions/generateToken");
 const validate = require("../../../validation/user_validation");
 const { Name } = require("../../../functions/generateProfile");
+const createMisNotification = require("../../../functions/createMisNotification");
 
 module.exports = (() => {
   const create = async (req, res) => {
@@ -55,6 +52,13 @@ module.exports = (() => {
     try {
       const new_user = await user.save();
       const new_token = await generateToken(null, new_user.staff_id);
+
+      // create notification for mis
+      createMisNotification({
+        initiator: new_user,
+        title: "New employee account created",
+        description: `${new_user.name.firstname} created it's new account`,
+      });
 
       const token = jwt.sign({ _id: new_user._id }, process.env.JWT_SECRET, {
         expiresIn: "7d",

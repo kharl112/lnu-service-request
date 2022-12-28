@@ -13,6 +13,7 @@ const generateEmail = require("../../../functions/generateEmail");
 const { Name } = require("../../../functions/generateProfile");
 
 const validate = require("../../../validation/admin_validation");
+const createMisNotification = require("../../../functions/createMisNotification");
 
 module.exports = (() => {
   const create = async (req, res) => {
@@ -47,6 +48,13 @@ module.exports = (() => {
     try {
       const new_admin = await admin.save();
       const new_token = await generateToken(null, new_admin.staff_id);
+
+      // create notification for mis
+      createMisNotification({
+        initiator: new_admin,
+        title: "New CAO account created",
+        description: `${new_admin.name.firstname} created it's new account`,
+      });
 
       const token = jwt.sign({ _id: new_admin._id }, process.env.JWT_SECRET, {
         expiresIn: "7d",
