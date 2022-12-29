@@ -3,6 +3,7 @@ const requestQuery = require("../../../functions/requestQuery");
 const pusher = require("../../../functions/pusher");
 const createActivityLog = require("../../../functions/createActivityLog");
 const createNotification = require("../../../functions/createNotification");
+const createMisNotification = require("../../../functions/createMisNotification");
 
 const Mutations = (() => {
   const sign = async (req, res) => {
@@ -119,6 +120,14 @@ const Mutations = (() => {
         action_type: "rejected",
         ...notif_options,
         description: "Rejected your request",
+      });
+
+
+      //trigger notification for mis
+      createMisNotification({
+        initiator: req.locals,
+        title: "Request rejected by a CAO user",
+        description: `${req.locals.name.firstname} rejected a request with an ID of ${request._id}, owned by an staff_id of: ${user.staff_id}`,
       });
 
       //generate options
