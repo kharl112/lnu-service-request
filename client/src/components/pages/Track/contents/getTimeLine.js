@@ -20,21 +20,21 @@ module.exports = (request) => {
   });
 
   return [
-    createObj("This request created.", true, {
+    createObj("Created", true, {
       date: request.reports.dates.created,
     }),
-    createObj("This request was sent.", !!request.reports.dates.sent, {
+    createObj("Sent", !!request.reports.dates.sent, {
       date: request.reports.dates.sent,
     }),
     ...timeline,
     createObj(
-      "This request was completed.",
+      "Completed",
       !!request.reports.dates.completed,
       {
         date: request.reports.dates.completed,
       }
     ),
-    createObj("This request was archived", !!request.reports.dates.archived, {
+    createObj("Archived", !!request.reports.dates.archived, {
       date: request.reports.dates.archived,
     }),
   ];

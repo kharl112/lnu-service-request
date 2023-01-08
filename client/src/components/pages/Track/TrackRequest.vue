@@ -54,7 +54,7 @@ export default {
     getDescription(name, description) {
       const { firstname, lastname } = name;
       if (typeof name === "object")
-        return `This request was signed by ${firstname} ${lastname} (${this.getDepartment(
+        return `Signed by ${firstname} ${lastname} (${this.getDepartment(
           description
         )}).`;
       return name;
