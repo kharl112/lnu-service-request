@@ -314,7 +314,7 @@ export default {
               </v-col>
               <v-col cols="12" sm="6" class="text-sm-right">
                 <span class="black--text caption text-left text-sm-right">
-                  From the <strong>I.T</strong> students of
+                  From the <strong>I.T</strong> and Computer Education Unit of
                   <a href="https://www.lnu.edu.ph/" target="__blank">
                     Leyte Normal University
                     <img
