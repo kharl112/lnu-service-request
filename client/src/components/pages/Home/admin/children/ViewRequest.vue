@@ -282,7 +282,7 @@ export default {
             <v-card flat>
               <v-card-text>
                 <v-row align="center" justify="center">
-                  <v-btn-toggle>
+                  <v-btn-toggle dense>
                     <v-btn
                       title="Sign this request"
                       v-if="getSignatureLevel === 1"

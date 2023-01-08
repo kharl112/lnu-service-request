@@ -344,6 +344,49 @@ const Mutations = (() => {
     }
   };
 
+  const create_copy = async (req, res) => {
+    const { _id } = req.params;
+    if (!_id) return res.status(402).send({ message: "request parameter is missing" })
+
+    const request = await Request.findById(_id);
+    if (!request) return res.status(404).send({ message: "requested data not found" });
+
+    // return console.log(request)
+
+    //create a default values
+    const new_request = {
+      _id: nanoid(9),
+      schedule_date: request.schedule_date,
+      hideSignatures: request.hideSignatures,
+      subject: request.subject,
+      service_id: request.service_id,
+      body: request.body,
+      options: request.options,
+      service_provider: { ...request.service_provider, signature: null },
+      user: { ...request.user, signature: null },
+      admin: { ...request.admin, signature: null },
+      reports: { ...request.reports, status: "created" },
+    }
+
+    try {
+      const request_copy = new Request(new_request);
+      await request_copy.save();
+
+      //generate options
+      const activity_options = {
+        user: { staff_id: req.locals.staff_id, user_type: "user" },
+        request_id: request_copy._id,
+        description: "copied a service request to draft",
+      };
+
+      //save activity
+      await createActivityLog(activity_options);
+      return res.send({ message: `request copied`, request_id: request_copy._id });
+    } catch (error) {
+      return res.status(500).send({ message: "something wen't wrong please try again" });
+    }
+  }
+
   return {
     create,
     update,
@@ -351,6 +394,7 @@ const Mutations = (() => {
     send,
     mark_as_completed,
     mark_as_archived,
+    create_copy
   };
 })();
 

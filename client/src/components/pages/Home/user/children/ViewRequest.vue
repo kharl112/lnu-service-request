@@ -39,6 +39,9 @@ export default {
     pdfLoading() {
       return this.$store.getters["pdf/getLoading"];
     },
+    copyDraftLoading() {
+      return this.$store.getters["request/getLoading"].copy;
+    },
     blobUrl() {
       return this.$store.getters["pdf/getBlobURL"];
     },
@@ -96,7 +99,6 @@ export default {
     },
     copyToClipBoard() {
       var copy_id = document.getElementById("directory_id");
-      console.log(copy_id);
       copy_id.select();
       copy_id.setSelectionRange(0, 99999);
       try {
@@ -293,7 +295,7 @@ export default {
             <v-card flat>
               <v-card-text>
                 <v-row align="center" justify="center">
-                  <v-btn-toggle>
+                  <v-btn-toggle dense>
                     <v-btn
                       @click="hideAndSeekSignature"
                       v-if="isProvider && getSignatureLevel === 2"
@@ -306,7 +308,7 @@ export default {
                       :disabled="pdfLoading.download"
                       @click="downloadPDF"
                     >
-                      <span class="hidden-sm-and-down">Download PDF</span>
+                      <span class="hidden-sm-and-down">PDF</span>
                       <v-icon :right="!isMobile">mdi-download</v-icon>
                     </v-btn>
                     <v-btn
@@ -331,15 +333,17 @@ export default {
                         req_info.reports.status === 'sent' &&
                         getSignatureLevel === 3
                       "
+                      title="mark this request as completed"
                     >
-                      <span class="hidden-sm-and-down">Mark as Completed</span>
+                      <span class="hidden-sm-and-down">Complete</span>
                       <v-icon :right="!isMobile">mdi-check</v-icon>
                     </v-btn>
                     <v-btn
                       v-if="req_info.reports.status === 'completed' && isUser"
                       @click="hideAndSeekModify('archive')"
+                      title="mark this request as archived"
                     >
-                      <span class="hidden-sm-and-down">Mark as Archived</span>
+                      <span class="hidden-sm-and-down">Archive</span>
                       <v-icon :right="!isMobile">mdi-archive</v-icon>
                     </v-btn>
                   </v-btn-toggle>
@@ -348,100 +352,28 @@ export default {
             </v-card>
           </v-col>
         </v-row>
-        <!-- 
-        <v-row justify="start" v-if="req_info.reports.status !== 'rejected'">
+
+        <v-row justify="start" v-else>
           <v-col cols="12" class="pb-7">
-            <v-card class="mx-auto pb-5 pt-2 px-5" outlined>
-              <v-subheader class="text-h6 font-weight-bold pl-0 my-3">
-                Tools
-              </v-subheader>
-              <v-row justify="space-between">
-                <v-col
-                  class="py-1"
-                  v-if="isProvider && getSignatureLevel === 2"
-                >
-                  <v-btn
-                    @click="hideAndSeekSignature"
-                    small
-                    outlined
-                    color="light"
-                  >
-                    <v-icon left> mdi-signature </v-icon>
-                    E-Signature
-                  </v-btn>
-                </v-col>
-                <v-col class="py-1">
-                  <v-btn
-                    :disabled="pdfLoading.download"
-                    @click="downloadPDF"
-                    small
-                    outlined
-                    color="error"
-                  >
-                    <v-icon left>mdi-download</v-icon>
-                    Download PDF
-                  </v-btn>
-                </v-col>
-                <v-col class="py-1">
-                  <v-btn
-                    :to="`/track?id=${$route.params._id}`"
-                    small
-                    outlined
-                    color="primary"
-                  >
-                    <v-icon left> mdi-map-marker-distance </v-icon>
-                    Track Request
-                  </v-btn>
-                </v-col>
-                <v-col
-                  class="py-1"
-                  v-if="req_info.reports.status !== 'archived'"
-                >
-                  <v-btn
-                    @click="hideAndSeekUpload"
-                    small
-                    outlined
-                    color="success"
-                  >
-                    <v-icon left> mdi-upload</v-icon>
-                    Upload Files
-                  </v-btn>
-                </v-col>
-                <v-col
-                  class="mt-3"
-                  v-if="
-                    req_info.reports.status === 'sent' &&
-                    getSignatureLevel === 3
-                  "
-                >
-                  <v-btn
-                    @click="hideAndSeekModify('complete')"
-                    small
-                    outlined
-                    color="light"
-                  >
-                    Mark as Completed
-                  </v-btn>
-                </v-col>
-                <v-col
-                  class="mt-3"
-                  v-if="req_info.reports.status === 'completed' && isUser"
-                >
-                  <v-btn
-                    @click="hideAndSeekModify('archive')"
-                    class="overline text-no-wrap clickable-text warning--text"
-                    small
-                    outlined
-                    color="warning"
-                  >
-                    Mark as Archived
-                  </v-btn>
-                </v-col>
-              </v-row>
+            <v-card flat>
+              <v-card-text>
+                <v-row align="center" justify="center">
+                  <v-btn-toggle dense>
+                    <v-btn
+                      v-if="isUser"
+                      title="make a copy of this request to draft"
+                      :loading="copyDraftLoading"
+                      @click="hideAndSeekModify('copy')"
+                    >
+                      <span class="hidden-sm-and-down">Make a Copy</span>
+                      <v-icon :right="!isMobile">mdi-clipboard-file</v-icon>
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-row>
+              </v-card-text>
             </v-card>
           </v-col>
         </v-row>
-        -->
       </v-col>
       <UploadFile
         v-if="upload_view.shown"

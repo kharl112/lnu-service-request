@@ -40,6 +40,8 @@ route.post(
   userAuth,
   Faculty.Mutations.mark_as_archived
 );
+route.post("/faculty/copy/:_id", userAuth, Faculty.Mutations.create_copy);
+
 
 route.get("/faculty/drafts", userAuth, Faculty.Views.drafts);
 route.get("/faculty/sent", userAuth, Faculty.Views.sent);

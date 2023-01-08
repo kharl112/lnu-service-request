@@ -29,6 +29,7 @@ const request = {
       sign: false,
       mark: false,
       reject: false,
+      copy: false,
     },
   }),
   getters: {
@@ -375,6 +376,23 @@ const request = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
+    Copy: async ({ commit, dispatch }, { request_id }) => {
+      commit("setLoading", { loading: true, type: "copy" });
+      try {
+        const { data } = await axios.post(
+          `/api/request/faculty/copy/${request_id}`, {},
+          { headers: { Authorization: localStorage.getItem("Authorization") } }
+        );
+
+        commit("setLoading", { loading: false, type: "copy" });
+        dispatch("message/successMessage", data.message, { root: true });
+        router.push(`/faculty/home/edit/${data.request_id}`);
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "copy" });
+        dispatch("message/errorMessage", message, { root: true });
+      }
+    }
   },
 };
 
