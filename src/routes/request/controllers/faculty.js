@@ -113,7 +113,7 @@ const Mutations = (() => {
     if (error) return res.status(400).send(error.details[0]);
 
     const isSent = req.body.reports.status === "sent";
-    delete req.body.reports;
+    req.body.reports.sent = isSent ? new Date() : null;
 
     try {
       const update_request = await Request.findOneAndUpdate(
@@ -130,10 +130,29 @@ const Mutations = (() => {
             signature: null,
             reports: { date: null, remarks: null },
           },
-          "reports.status": isSent ? "sent" : "created",
-          "reports.dates.sent": isSent ? new Date() : null,
+          reports: req.body.reports
         }
       );
+
+      // notification to admin
+      if (isSent) {
+        //create notif default option
+        const notif_options = {
+          user: {
+            staff_id: req.body.admin.staff_id,
+            user_type: "admin",
+          },
+          action_type: "received",
+          request_id: _id,
+          initiator: req.locals.name,
+          description: "Sent you a service request",
+        };
+
+        //trigger pusher and save notification
+        await createNotification({
+          ...notif_options,
+        });
+      }
 
       //generate options
       const activity_options = {
