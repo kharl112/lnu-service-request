@@ -84,12 +84,19 @@ export default {
     >
       <v-container fluid>
         <v-row justify="space-between" align="center">
-          <img
-            src="../../../assets/images/logo-512x512.png"
-            class="lnu-logo"
-            alt="LNU logo"
-            title="Leyte Normal University logo"
-          />
+          <v-col md="5" sm="4">
+            <v-row align="center">
+              <img
+                src="../../../assets/images/logo-512x512.png"
+                class="lnu-logo"
+                alt="LNU logo"
+                title="Leyte Normal University logo"
+              />
+              <h1 class="overline primary--text hidden-sm-and-down">
+                LNU Service Requesting System
+              </h1>
+            </v-row>
+          </v-col>
           <v-col sm="8" md="7">
             <v-row justify="space-between">
               <router-link
@@ -156,6 +163,11 @@ export default {
                 <v-row justify="center" justify-md="start">
                   <p class="primary--text overline font-weight-bold app-name">
                     LNUSR
+                  </p>
+                </v-row>
+                <v-row justify="center" justify-md="start">
+                  <p class="primary--text overline">
+                    LNU Service Requesting System
                   </p>
                 </v-row>
               </v-col>
