@@ -214,18 +214,18 @@ export default {
                 Google Drive Files
               </v-subheader>
               <v-row>
-                <v-simple-table class="table-row" elevation="1">
+                <v-simple-table class="table-row mb-3" elevation="1">
                   <thead>
                     <tr>
-                      <th class="text-left">ID</th>
-                      <th class="text-left">Directory Status</th>
+                      <th class="text-left hidden">ID</th>
+                      <th class="text-left hidden">Directory Status</th>
                       <th class="text-left">Last Modified</th>
                       <th class="text-left">Last Person Modified</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td>
+                      <td class="hidden">
                         <v-text-field
                           @click="copyToClipBoard"
                           class="caption"
@@ -237,7 +237,7 @@ export default {
                         />
                         <span class="caption text-sm-body-2" v-else> NA </span>
                       </td>
-                      <td class="caption text-sm-body-2">
+                      <td class="caption text-sm-body-2 hidden">
                         {{
                           req_info.options.file ? "Active" : "Not yet created"
                         }}
@@ -270,8 +270,29 @@ export default {
                     @click="goToDrive()"
                   >
                     <v-icon left> mdi-google-drive </v-icon>
-                    View Files in Google Drive
+                    View Files
                   </v-chip>
+                  <v-chip
+                    title="Upload files to GoogleDrive"
+                    v-if="
+                      req_info.reports.status !== 'archived' &&
+                      getSignatureLevel >= 2 &&
+                      req_info.reports.status !== 'rejected'
+                    "
+                    color="green"
+                    label
+                    text-color="white"
+                    @click="hideAndSeekUpload"
+                    class="ml-2"
+                  >
+                    <v-icon> mdi-folder-google-drive</v-icon>
+                    <span>Upload files</span>
+                  </v-chip>
+                </v-col>
+                <v-col cols="12">
+                  <p class="caption text--secondary py-0 mb-0">
+                    Check or upload files and documents for this request.
+                  </p>
                 </v-col>
               </v-row>
             </v-card>
@@ -299,19 +320,7 @@ export default {
                       <span class="hidden-sm-and-down">Download PDF</span>
                       <v-icon :right="!isMobile">mdi-download</v-icon>
                     </v-btn>
-                    <v-btn
-                      title="Upload files to GoogleDrive"
-                      v-if="
-                        req_info.reports.status !== 'archived' &&
-                        getSignatureLevel >= 2
-                      "
-                      @click="hideAndSeekUpload"
-                    >
-                      <span class="hidden-sm-and-down">Upload</span>
-                      <v-icon :right="!isMobile">
-                        mdi-folder-google-drive</v-icon
-                      >
-                    </v-btn>
+
                     <v-btn :to="`/track?id=${$route.params._id}`">
                       <span class="hidden-sm-and-down">Track</span>
                       <v-icon :right="!isMobile"
@@ -461,5 +470,8 @@ export default {
 }
 .table-row {
   width: 100%;
+}
+.hidden {
+  display: none;
 }
 </style>
