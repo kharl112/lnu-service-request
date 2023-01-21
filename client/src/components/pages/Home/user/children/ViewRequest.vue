@@ -282,8 +282,42 @@ export default {
                     @click="goToDrive()"
                   >
                     <v-icon left> mdi-google-drive </v-icon>
-                    View Files in Google Drive
+                    View Files
                   </v-chip>
+                  <v-chip
+                    title="Upload files to GoogleDrive"
+                    v-if="
+                      req_info.reports.status !== 'archived' && 
+                      req_info.reports.status !== 'rejected'
+                    "
+                    text-color="white"
+                    @click="hideAndSeekUpload"
+                    color="green"
+                    label
+                    class="ml-2"
+                  >
+                    <v-icon left>mdi-upload</v-icon>
+                    <span>Upload files</span>
+                  </v-chip>
+                </v-col>
+                <v-col cols="12">
+                  <p class="caption text--secondary py-0 mb-0">
+                    Check or upload files and documents for this request.
+                  </p>
+                </v-col>
+                <v-col cols="12" class="py-0">
+                  <p class="caption text--secondary py-0">
+                    Last uploader:
+                    <span class="text-decoration-underline">
+                      {{
+                        req_info.options.file
+                          ? getFullName(
+                              req_info.options.file.last_uploader.name
+                            )
+                          : "NA"
+                      }}
+                    </span>
+                  </p>
                 </v-col>
               </v-row>
             </v-card>
@@ -311,16 +345,7 @@ export default {
                       <span class="hidden-sm-and-down">PDF</span>
                       <v-icon :right="!isMobile">mdi-download</v-icon>
                     </v-btn>
-                    <v-btn
-                      title="Upload files to GoogleDrive"
-                      @click="hideAndSeekUpload"
-                      v-if="req_info.reports.status !== 'archived'"
-                    >
-                      <span class="hidden-sm-and-down">Upload</span>
-                      <v-icon :right="!isMobile"
-                        >mdi-folder-google-drive</v-icon
-                      >
-                    </v-btn>
+
                     <v-btn :to="`/track?id=${$route.params._id}`">
                       <span class="hidden-sm-and-down">Track</span>
                       <v-icon :right="!isMobile"
