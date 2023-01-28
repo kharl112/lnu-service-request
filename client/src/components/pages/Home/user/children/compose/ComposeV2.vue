@@ -240,7 +240,7 @@ export default {
                   >
                     <v-tab v-show="!isMobile"> Information </v-tab>
                     <v-tab v-show="!isMobile"> Services </v-tab>
-                    <v-tab v-show="!isMobile"> Recipients </v-tab>
+                    <v-tab v-show="!isMobile"> Service Provider </v-tab>
 
                     <!-- Info -->
                     <v-tab-item class="pt-0 pt-sm-4 pt-md-1">
@@ -376,7 +376,7 @@ export default {
                         <v-col cols="12" class="py-0 pt-2">
                           <v-container fluid class="py-0">
                             <v-subheader class="text-h6 px-0">
-                              Recipients
+                              Service Provider
                             </v-subheader>
                           </v-container>
                         </v-col>
