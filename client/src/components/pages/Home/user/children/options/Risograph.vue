@@ -64,7 +64,13 @@ export default {
                 </p>
               </v-col>
               <v-col cols="12" class="pt-0 pb-0">
-                <v-radio-group v-model="options.with_paper">
+                <v-radio-group
+                  v-model="options.with_paper"
+                  :rules="[
+                    (v) =>
+                      v == true || v == false || 'you need to select an option',
+                  ]"
+                >
                   <span class="mb-2 body-1 secondary--text">With Paper? </span>
                   <v-row justify="start">
                     <v-col cols="12" md="6" class="pt-3 pb-2">
@@ -83,7 +89,13 @@ export default {
                 <v-divider />
               </v-col>
               <v-col cols="12" class="pb-0">
-                <v-radio-group v-model="options.back_to_back">
+                <v-radio-group
+                  v-model="options.back_to_back"
+                  :rules="[
+                    (v) =>
+                      v == true || v == false || 'you need to select an option',
+                  ]"
+                >
                   <span class="mb-2 body-1 secondary--text"
                     >Back to back?
                   </span>
