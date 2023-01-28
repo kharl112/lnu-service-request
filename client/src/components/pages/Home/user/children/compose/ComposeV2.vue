@@ -91,6 +91,9 @@ export default {
       this.tab = index;
     },
     incrementTabIndex() {
+      if (this.tab == 0 && !this.$refs.info_form.validate()) return;
+      if (this.tab == 1 && !this.$refs.service_form.validate()) return;
+
       this.tab = this.tab + 1;
     },
     decrementTabIndex() {
@@ -255,106 +258,117 @@ export default {
                         </v-col>
 
                         <v-col cols="12" class="pl-sm-6">
-                          <v-row justify="start">
-                            <v-col cols="12" class="pb-0">
-                              <v-text-field
-                                v-model="form.subject"
-                                @change="handleSetLocalStorage"
-                                autofocus
-                                outlined
-                                :rules="rules"
-                                label="Subject"
-                                title="Description of your request (required)"
-                                dense
-                                counter
-                                maxlength="50"
-                              />
-                            </v-col>
-                            <v-col cols="12" class="py-0">
-                              <v-textarea
-                                rows="15"
-                                class="body-2"
-                                v-model="form.body"
-                                @change="handleSetLocalStorage"
-                                outlined
-                                height="100%"
-                                :rules="rules"
-                                label="Purpose"
-                                title="Purpose/Body of your request (required)"
-                                auto-grow
-                              />
-                            </v-col>
-                            <v-col cols="12" class="py-0">
-                              <v-text-field
-                                type="date"
-                                v-model="form.schedule_date"
-                                @change="handleSetLocalStorage"
-                                outlined
-                                :rules="rules"
-                                label="Schedule Date"
-                                title="Purpose/Body of your request (required)"
-                                persistent-hint
-                                hint="Your preferred schedule date"
-                                required
-                                :min="new Date().toISOString().split('T')[0]"
-                              />
-                            </v-col>
-                          </v-row>
+                          <v-form ref="info_form">
+                            <v-row justify="start">
+                              <v-col cols="12" class="pb-0">
+                                <v-text-field
+                                  v-model="form.subject"
+                                  @change="handleSetLocalStorage"
+                                  autofocus
+                                  outlined
+                                  :rules="rules"
+                                  label="Subject"
+                                  title="Description of your request (required)"
+                                  dense
+                                  counter
+                                  maxlength="50"
+                                />
+                              </v-col>
+                              <v-col cols="12" class="py-0">
+                                <v-textarea
+                                  rows="15"
+                                  class="body-2"
+                                  v-model="form.body"
+                                  @change="handleSetLocalStorage"
+                                  outlined
+                                  height="100%"
+                                  :rules="rules"
+                                  label="Purpose"
+                                  title="Purpose/Body of your request (required)"
+                                  auto-grow
+                                />
+                              </v-col>
+                              <v-col cols="12" class="py-0">
+                                <v-text-field
+                                  type="date"
+                                  v-model="form.schedule_date"
+                                  @change="handleSetLocalStorage"
+                                  outlined
+                                  :rules="rules"
+                                  label="Schedule Date"
+                                  title="Purpose/Body of your request (required)"
+                                  persistent-hint
+                                  hint="Your preferred schedule date"
+                                  required
+                                  :min="new Date().toISOString().split('T')[0]"
+                                />
+                              </v-col>
+                            </v-row>
+                          </v-form>
                         </v-col>
                       </v-card>
                     </v-tab-item>
                     <!-- Service Type  -->
                     <v-tab-item class="pt-0 pt-sm-4 pt-md-1">
-                      <v-card flat class="px-md-10 px-sm-5">
-                        <v-col cols="12" class="py-0 pt-2">
-                          <v-container fluid class="py-0">
-                            <v-subheader class="text-h6 px-0">
-                              Services
-                            </v-subheader>
-                          </v-container>
-                        </v-col>
-
-                        <v-col cols="12" class="pt-0 pb-6 px-6">
-                          <v-divider />
-                        </v-col>
-
-                        <v-col cols="12">
-                          <v-col cols="12" sm="6" class="py-0">
-                            <v-autocomplete
-                              v-model="form.service_id"
-                              outlined
-                              label="Service Type"
-                              title="Select service type (required)"
-                              :rules="others ? rules : []"
-                              :items="getAllServices"
-                              @change="handleChangeService"
-                              item-text="type"
-                              item-value="_id"
-                              dense
-                              persistent-hint
-                              hint="Choose your form type - Pass slip, Risograph and more"
-                            />
+                      <v-form ref="service_form">
+                        <v-card flat class="px-md-10 px-sm-5">
+                          <v-col cols="12" class="py-0 pt-2">
+                            <v-container fluid class="py-0">
+                              <v-subheader class="text-h6 px-0">
+                                Services
+                              </v-subheader>
+                            </v-container>
                           </v-col>
-                          <v-col cols="12" class="pb-0" v-if="!form.service_id">
-                            <v-text-field
-                              v-model="form.other_service"
-                              label="Custom Service"
-                              title="Create your own service type"
-                              hint="please specify custom service"
-                              outlined
-                              dense
-                            />
-                          </v-col>
-                          <v-col cols="12" class="my-5">
+
+                          <v-col cols="12" class="pt-0 pb-6 px-6">
                             <v-divider />
                           </v-col>
-                          <component
-                            :options="form.options"
-                            :rules="rules"
-                            :is="getOptionalComponent()"
-                          />
-                        </v-col>
-                      </v-card>
+
+                          <v-col cols="12">
+                            <v-col cols="12" sm="6" class="py-0">
+                              <v-autocomplete
+                                v-model="form.service_id"
+                                outlined
+                                label="Service Type"
+                                title="Select service type (required)"
+                                :rules="others ? rules : []"
+                                :items="getAllServices"
+                                @change="handleChangeService"
+                                item-text="type"
+                                item-value="_id"
+                                dense
+                                persistent-hint
+                                hint="Choose your form type - Pass slip, Risograph and more"
+                              />
+                            </v-col>
+                            <v-col
+                              cols="12"
+                              class="pb-0"
+                              v-if="!form.service_id"
+                            >
+                              <v-text-field
+                                v-model="form.other_service"
+                                label="Custom Service"
+                                :rules="[
+                                  (v) => !!v || 'this field is required',
+                                ]"
+                                title="Create your own service type"
+                                hint="please specify custom service"
+                                outlined
+                                dense
+                              />
+                            </v-col>
+                            <v-col cols="12" class="my-5">
+                              <v-divider />
+                            </v-col>
+                            <component
+                              :options="form.options"
+                              :rules="rules"
+                              :is="getOptionalComponent()"
+                            />
+                          </v-col>
+                        </v-card>
+                      </v-form>
                     </v-tab-item>
                     <!-- Others -->
                     <v-tab-item class="pt-0 pt-sm-4 pt-md-1">

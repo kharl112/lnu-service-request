@@ -11,7 +11,6 @@ export default {
       return format(date, "yyyy-MM-dd").toString();
     },
     dateValidate() {
-      console.log("helloworld");
       this.$store.dispatch("message/errorMessage", "No Selected Date");
     },
   },
