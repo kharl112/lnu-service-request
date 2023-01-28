@@ -239,8 +239,12 @@ export default {
                     @change="onChangeTabs"
                   >
                     <v-tab v-show="!isMobile"> Information </v-tab>
-                    <v-tab v-show="!isMobile"> Services </v-tab>
-                    <v-tab v-show="!isMobile"> Service Provider </v-tab>
+                    <v-tab v-show="!isMobile" :disabled="this.tab < 1">
+                      Services
+                    </v-tab>
+                    <v-tab v-show="!isMobile" :disabled="this.tab < 2">
+                      Service Provider
+                    </v-tab>
 
                     <!-- Info -->
                     <v-tab-item class="pt-0 pt-sm-4 pt-md-1">
@@ -394,7 +398,7 @@ export default {
                                   @change="handleSetLocalStorage"
                                   :rules="rules"
                                   small
-                                  :items="getAllAdmin"
+                                  :items="[getAllAdmin[0]]"
                                   class="caption"
                                   item-text="name"
                                   item-value="staff_id"
