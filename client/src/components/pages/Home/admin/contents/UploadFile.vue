@@ -7,9 +7,7 @@ export default {
   },
   data: () => ({
     file: null,
-    rules: [
-      (v) => !v || v.size < 250000000 || "File size should be less than 25mb",
-    ],
+    rules: [],
   }),
   computed: {
     getUploadLoading() {
@@ -63,6 +61,7 @@ export default {
                   :rules="rules"
                   v-model="file"
                   label="Select File"
+                  multiple
                   show-size
                   large
                   outlined
