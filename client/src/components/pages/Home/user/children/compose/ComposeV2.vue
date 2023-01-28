@@ -142,8 +142,8 @@ export default {
         );
 
       if (!this.$route.params._id)
-        this.$store.dispatch("request/Create", this.form);
-      else this.$store.dispatch("request/Edit", this.form);
+        this.$store.dispatch("request/Create", this.form, this.$refs.form);
+      else this.$store.dispatch("request/Edit", this.form, this.$refs.form);
     },
     handleSetLocalStorage() {
       localStorage.setItem("compose", JSON.stringify(this.form));

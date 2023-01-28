@@ -47,11 +47,13 @@ module.exports = (() => {
           mimeType: "application/vnd.google-apps.folder",
         }));
 
-      const uploadedFile = await googleDriveInstance.create({
-        parentFolder: subDirectory.id,
-        name: req.file.originalname,
-        source: req.file.buffer,
-        mimeType: req.file.mimetype,
+      req.files.forEach(async (file) => {
+        const uploadedFile = await googleDriveInstance.create({
+          parentFolder: subDirectory.id,
+          name: file.originalname,
+          source: file.buffer,
+          mimeType: file.mimetype,
+        });
       });
 
       const file = {

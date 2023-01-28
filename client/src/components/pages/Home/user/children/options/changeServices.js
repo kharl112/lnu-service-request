@@ -10,6 +10,7 @@ const changeServices = (id) => {
         with_paper: false,
         back_to_back: false,
         documents: [],
+        files: [],
       },
     },
     {

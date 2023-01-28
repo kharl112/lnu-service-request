@@ -97,6 +97,7 @@ const Mutations = (() => {
 
       return res.send({
         message: `request ${req.body.reports.status}`,
+        request_id: _id
       });
     } catch (error) {
       return res
@@ -167,7 +168,10 @@ const Mutations = (() => {
       //save activity
       const activity = await createActivityLog(activity_options);
 
-      return res.send({ message: "request letter updated" });
+      return res.send({
+        message: "request letter updated",
+        request_id: _id
+      });
     } catch (error) {
       return res
         .status(500)

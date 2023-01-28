@@ -7,9 +7,7 @@ export default {
   },
   data: () => ({
     file: null,
-    rules: [
-      (v) => !v || v.size < 250000000 || "File size should be less than 25mb",
-    ],
+    rules: [],
   }),
   computed: {
     getUploadLoading() {
@@ -66,6 +64,7 @@ export default {
                   show-size
                   large
                   outlined
+                  multiple
                 />
               </v-col>
               <v-col cols="12" class="pt-0" v-if="getUploadLoading">

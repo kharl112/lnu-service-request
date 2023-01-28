@@ -16,6 +16,29 @@ const gdrive = {
     setUploadPercent: (state, percent) => (state.upload_percent = percent),
   },
   actions: {
+    UploadFiles: async ({ commit }, { form_ref, files, request_id, user_type }) => {
+      const formData = new FormData(form_ref);
+
+      formData.append("directory", request_id);
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files", files[i]);
+      }
+
+      await axios({
+        method: "post",
+        url: `/api/${user_type}/drive/upload/files`,
+        data: formData,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("Authorization"),
+        },
+        onUploadProgress: (event) => {
+          const { loaded, total } = event;
+          commit("setUploadPercent", Math.floor((loaded * 100) / total));
+        },
+      });
+
+    },
     UploadFile: async (
       { commit, dispatch },
       { form_ref, file, request_id, user_type }
@@ -25,23 +48,7 @@ const gdrive = {
       commit("setUploadPercent", 0);
 
       try {
-        const formData = new FormData(form_ref);
-        formData.append("file", file);
-        formData.append("directory", request_id);
-        const { data } = await axios({
-          method: "post",
-          url: `/api/${user_type}/drive/upload/file`,
-          data: formData,
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: localStorage.getItem("Authorization"),
-          },
-          onUploadProgress: (event) => {
-            const { loaded, total } = event;
-            commit("setUploadPercent", Math.floor((loaded * 100) / total));
-          },
-        });
-
+        await dispatch("UploadFiles", { form_ref, files: file, request_id, user_type });
         commit("setLoading", { type: "upload", loading: false });
         commit("setUploadPercent", 0);
 
@@ -53,7 +60,8 @@ const gdrive = {
           },
           { root: true }
         );
-        dispatch("message/successMessage", data.message, {
+
+        dispatch("message/successMessage", "Files Uploaded", {
           root: true,
         });
       } catch (error) {

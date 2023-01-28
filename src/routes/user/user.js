@@ -19,9 +19,9 @@ route.post("/login", Mutations.login);
 route.post("/reset/password/:_id_token", Mutations.reset_pass);
 route.post("/change/password", userAuth, Mutations.change_pass);
 route.post(
-  "/drive/upload/file",
+  "/drive/upload/files",
   userAuth,
-  upload.single("file"),
+  upload.array("files"),
   GDrive.upload_file
 );
 

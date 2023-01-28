@@ -65,17 +65,25 @@ const request = {
       commit("setPendings", []);
       commit("setSigned", []);
     },
-    Create: async ({ commit, dispatch }, form) => {
+    Create: async ({ commit, dispatch }, form, ref) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "create" });
       try {
-        await axios.post("/api/request/create", form, {
+
+        const { data } = await axios.post("/api/request/create", form, {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
+
+        if (form.options.files && form.options.files.length) {
+          const files = form.options.files;
+          await dispatch("gdrive/UploadFiles", { form_ref: ref, files, request_id: data.request_id, user_type: "user" }, { root: true })
+        }
+
         commit("setLoading", { loading: false, type: "create" });
         dispatch("message/successMessage", "request letter created", {
           root: true,
         });
+
         router.push(
           form.reports.status === "created"
             ? "/faculty/home/drafts"
@@ -89,14 +97,20 @@ const request = {
         dispatch(`${user}/Profile`, null, { root: true });
       }
     },
-    Edit: async ({ commit, dispatch }, form) => {
+    Edit: async ({ commit, dispatch }, form, ref) => {
       dispatch("message/defaultState", null, { root: true });
       commit("setLoading", { loading: true, type: "edit" });
       const { _id } = router.history.current.params;
       try {
-        await axios.post(`/api/request/faculty/update/${_id}`, form, {
+        const { data } = await axios.post(`/api/request/faculty/update/${_id}`, form, {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
+
+        if (form.options.files && form.options.files.length) {
+          const files = form.options.files;
+          await dispatch("gdrive/UploadFiles", { form_ref: ref, files, request_id: data.request_id, user_type: "user" }, { root: true })
+        }
+
         dispatch("message/successMessage", "request letter updated", {
           root: true,
         });

@@ -185,6 +185,20 @@ export default {
               <v-col cols="12" class="pa-0">
                 <v-divider />
               </v-col>
+              <v-col cols="12" class="mt-5">
+                <v-file-input
+                  v-model="options.files"
+                  multiple
+                  show-size
+                  truncate-length="6"
+                  color="primary"
+                  outlined
+                  dense
+                  hide-messages
+                  placeholder="Upload Documents"
+                  :rules="[rules.isRequired]"
+                ></v-file-input>
+              </v-col>
               <v-col cols="12">
                 <v-btn block color="primary" elevation="0" @click="newDocument">
                   Create New
