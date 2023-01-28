@@ -5,7 +5,10 @@ export default {
     options: Object,
   },
   data: () => ({
-    rules: [(v) => !/\d/gi.test(v) || "this field does not require a number"],
+    rules: [
+      (v) => !/\d/gi.test(v) || "this field does not require a number",
+      (v) => !!v || "this field is required",
+    ],
     services_types: ["", "Carpenter", "Plumber", "Electrician", "Janitor/s"],
   }),
   methods: {
@@ -76,7 +79,7 @@ export default {
         <v-container fluid class="px-0 pb-0">
           <v-subheader class="secondary--text px-0">
             <v-icon color="secondary" class="mr-2">mdi-information</v-icon>
-            Person/s Involved (Optional)
+            Person/s Involved
           </v-subheader>
           <v-divider />
 
