@@ -392,7 +392,7 @@ export default {
                         <v-col cols="12">
                           <v-container fluid class="pt-2 pb-0">
                             <v-row justify="start" align="start" dense>
-                              <v-col cols="12" sm="6">
+                              <v-col cols="12" sm="6" class="d-none">
                                 <v-autocomplete
                                   v-model="form.admin.staff_id"
                                   @change="handleSetLocalStorage"
