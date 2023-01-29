@@ -125,7 +125,10 @@ export default {
                   outlined
                   dense
                   hide-messages
+                  prepend-inner-icon="mdi-paperclip"
+                  prepend-icon=""
                   placeholder="Upload Documents"
+                  required
                   :rules="[rules.isRequired]"
                 ></v-file-input>
               </v-col>
