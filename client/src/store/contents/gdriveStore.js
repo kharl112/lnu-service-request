@@ -38,6 +38,8 @@ const gdrive = {
         },
       });
 
+      commit("setUploadPercent", 0);
+
     },
     UploadFile: async (
       { commit, dispatch },

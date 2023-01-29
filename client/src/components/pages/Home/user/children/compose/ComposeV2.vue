@@ -35,6 +35,12 @@ export default {
     tab: 0,
   }),
   computed: {
+    getUploadLoading() {
+      return this.$store.getters["gdrive/getLoading"].upload;
+    },
+    getUploadPercent() {
+      return this.$store.getters["gdrive/getUploadPercent"];
+    },
     isEditMode() {
       return this.$route.fullPath.split("/").at(-1) != "compose";
     },
@@ -467,6 +473,12 @@ export default {
 
                   <v-col cols="12" sm="10" class="pr-sm-12 mt-10 mt-sm-15">
                     <v-divider />
+                    <!-- Loading Upload  -->
+                    <v-col cols="12" v-if="getUploadPercent">
+                      <p class="overline">Uploading files...</p>
+                      <v-progress-linear v-model="getUploadPercent" height="5">
+                      </v-progress-linear>
+                    </v-col>
                   </v-col>
 
                   <v-col cols="12" class="pr-sm-12">
