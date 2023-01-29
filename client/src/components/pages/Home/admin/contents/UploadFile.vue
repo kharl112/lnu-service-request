@@ -53,7 +53,7 @@ export default {
         <v-col cols="12" class="ma-1 mt-4">
           <form ref="form" @submit="handleSubmitFile">
             <v-row justify="center">
-              <v-col cols="12" class="pb-0">
+              <v-col cols="12">
                 <v-file-input
                   :disabled="getUploadLoading"
                   prepend-icon=""
@@ -65,12 +65,12 @@ export default {
                   show-size
                   large
                   outlined
+                  hide-details
                 />
-              </v-col>
-              <v-col cols="12" class="pt-0" v-if="getUploadLoading">
-                <v-progress-linear v-model="getUploadPercent" height="20">
-                  <strong>{{ getUploadPercent }}%</strong>
-                </v-progress-linear>
+                <v-col cols="12" class="pt-2 px-0" v-if="getUploadLoading">
+                  <v-progress-linear color="primary" v-model="getUploadPercent">
+                  </v-progress-linear>
+                </v-col>
               </v-col>
               <v-col cols="12" align="center" class="py-0">
                 <v-btn
