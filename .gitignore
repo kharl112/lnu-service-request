@@ -1,3 +1,4 @@
 node_modules
 .env
 lnu-service*.json
+test.js

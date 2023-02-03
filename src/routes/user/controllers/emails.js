@@ -36,11 +36,12 @@ module.exports = (() => {
     const mail = nodemailer.createTransport(generateEmail.transport);
 
     try {
+
       const html = pug.renderFile(
         path.join(__dirname + "../../../../../public/views/reset_password.pug"),
         {
           form: {
-            link: `https://lnusr.herokuapp.com/faculty/forgot/password/reset/${token}`,
+            link: `https://${req.headers.host}/forgot/password/reset/${token}?user_type=faculty`,
             firstname: email_found.name.firstname,
           },
         }

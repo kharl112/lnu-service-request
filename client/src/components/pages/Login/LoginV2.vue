@@ -221,6 +221,11 @@ export default {
                     {{ getError }}</span
                   >
                 </v-col>
+                <v-col cols="12" sm="10" class="my-0 pt-0">
+                  <router-link to="/forgot/password/step=1" class="text-caption">
+                    I forgot my password
+                  </router-link>
+                </v-col>
                 <v-col cols="12" sm="10" class="pt-0">
                   <v-btn
                     type="submit"

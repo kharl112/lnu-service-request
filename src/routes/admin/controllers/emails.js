@@ -39,7 +39,7 @@ module.exports = (() => {
         path.join(__dirname + "../../../../../public/views/reset_password.pug"),
         {
           form: {
-            link: `https://lnusr.herokuapp.com/admin/forgot/password/reset/${token}`,
+            link: `https://${req.headers.host}/forgot/password/reset/${token}?user_type=admin`,
             firstname: email_found.name.firstname,
           },
         }

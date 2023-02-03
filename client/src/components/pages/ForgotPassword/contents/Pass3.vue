@@ -14,7 +14,7 @@ export default {
   },
   computed: {
     getUserType() {
-      return this.$route.params.user_type;
+      return this.$route.query.user_type;
     },
     getLoading() {
       return this.$store.getters[`${this.getUserType}/getLoading`];
@@ -43,7 +43,7 @@ export default {
             Reset your password
           </v-card-title>
         </v-col>
-        <v-col cols="12" class="pt-0 pb-0 ">
+        <v-col cols="12" class="pt-0 pb-0">
           <v-divider v-if="!getLoading.reset_password" />
           <v-progress-linear
             v-else
@@ -52,7 +52,7 @@ export default {
             color="primary"
           />
         </v-col>
-        <v-col cols="12" class="pt-2 pb-0 ">
+        <v-col cols="12" class="pt-2 pb-0">
           <v-subheader class="pa-0 text-left">
             Make sure your password is long and unique
           </v-subheader>
@@ -66,7 +66,7 @@ export default {
             dense
           />
         </v-col>
-        <v-col cols="12" class="pt-0 pb-0 ">
+        <v-col cols="12" class="pt-0 pb-0">
           <v-text-field
             v-model="password.new_2"
             :rules="[rules.password[0](password.new_1), rules.password[1]]"
