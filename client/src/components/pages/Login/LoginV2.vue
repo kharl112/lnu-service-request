@@ -222,7 +222,10 @@ export default {
                   >
                 </v-col>
                 <v-col cols="12" sm="10" class="my-0 pt-0">
-                  <router-link to="/forgot/password/step=1" class="text-caption">
+                  <router-link
+                    to="/forgot/password/step=1"
+                    class="text-caption"
+                  >
                     I forgot my password
                   </router-link>
                 </v-col>
@@ -243,7 +246,7 @@ export default {
               </v-row>
             </v-form>
           </v-col>
-          <v-col cols="12" class="py-0 mt-5">
+          <v-col cols="12" class="py-0 mt-5" v-if="user === 'faculty'">
             <p class="caption">
               New member?
               <router-link

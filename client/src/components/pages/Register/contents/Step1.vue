@@ -60,6 +60,7 @@ export default {
         item-text="text"
         item-value="value"
         hide-messages
+        class="d-none"
       />
       <v-text-field
         class="input"
