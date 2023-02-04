@@ -65,6 +65,9 @@ export default {
       }
       return;
     },
+    handleSetAvailability() {
+      this.$store.dispatch("faculty/setAvailability");
+    },
   },
   created() {
     this.resetForm();
@@ -105,6 +108,7 @@ export default {
           <v-divider />
         </v-container>
       </v-col>
+
       <v-col cols="12" sm="6" md="7">
         <v-form ref="form" :disabled="getLoading.profile || getLoading.update">
           <v-row>
@@ -211,6 +215,19 @@ export default {
                       label="Role/Position"
                       dense
                     />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-divider />
+                  </v-col>
+                  <!-- Availability -->
+                  <v-col cols="12">
+                    <v-switch
+                      v-model="form.availability"
+                      label="Availability"
+                      messages="Exclude/Include yourself from the list of service providers available."
+                      @change="handleSetAvailability"
+                      :disabled="getLoading.availability"
+                    ></v-switch>
                   </v-col>
                 </v-row>
               </v-container>

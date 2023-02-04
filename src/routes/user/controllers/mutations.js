@@ -199,5 +199,16 @@ module.exports = (() => {
     }
   };
 
-  return { create, update, login, reset_pass, change_pass };
+  const setAvailability = async (req, res) => {
+    try {
+      const user_found = await User.findOneAndUpdate({ staff_id: req.locals.staff_id }, { availability: !req.locals.availability });
+      if (!user_found) return res.status(400).send({ message: "account not found" });
+
+      res.send({ message: "action completed" });
+    } catch (error) {
+      res.status(500).send({ message: "something wen't wrong" })
+    }
+  }
+
+  return { create, update, login, reset_pass, change_pass, setAvailability };
 })();

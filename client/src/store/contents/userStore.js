@@ -19,6 +19,7 @@ const faculty = {
       all_users: false,
       send_email_link: false,
       reset_password: false,
+      availability: false
     },
   }),
   getters: {
@@ -204,6 +205,26 @@ const faculty = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
+    setAvailability: async ({ commit, dispatch }) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "availability" });
+
+      try {
+
+        const { data } = await axios.post("/api/user/change/availability", {}, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+
+        await dispatch("Profile");
+
+        commit("setLoading", { loading: false, type: "availability" });
+        dispatch("message/successMessage", data.message, { root: true });
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "availability" });
+        dispatch("message/errorMessage", message, { root: true });
+      }
+    }
   },
 };
 

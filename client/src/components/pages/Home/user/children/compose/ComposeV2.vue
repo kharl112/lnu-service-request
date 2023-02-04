@@ -435,7 +435,34 @@ export default {
                                   @click:prepend-inner="
                                     form.service_provider.staff_id = ''
                                   "
-                                />
+                                >
+                                  <template v-slot:item="data">
+                                    <v-list-item-content>
+                                      <v-list-item-title :class="data.item.availability ? 'primary--text' : 'secondary--text'">
+                                        {{ data.item.text }}
+                                        <v-chip
+                                          color="primary"
+                                          class="ml-2"
+                                          x-small
+                                          v-if="data.item.availability"
+                                        >
+                                          Available
+                                        </v-chip>
+                                        <v-chip
+                                          color="gray"
+                                          class="ml-2"
+                                          x-small
+                                          v-else
+                                        >
+                                          Unavailable
+                                        </v-chip>
+                                      </v-list-item-title>
+                                      <v-list-item-subtitle
+                                        v-html="data.item.department"
+                                      ></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                  </template>
+                                </v-autocomplete>
                               </v-col>
                             </v-row>
                           </v-container>

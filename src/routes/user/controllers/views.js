@@ -88,11 +88,13 @@ module.exports = (() => {
 
     return res.send(
       all_service_providers.map((node) => ({
-        text: `${Name.getFullName(node.name)} (${Department.getFullDepartment({
+        text: `${Name.getFullName(node.name)}`,
+        department: `${Department.getFullDepartment({
           unit: node.unit,
           role: node.role,
-        })})`,
+        })}`,
         staff_id: node.staff_id,
+        availability: !!node.availability
       }))
     );
   };
