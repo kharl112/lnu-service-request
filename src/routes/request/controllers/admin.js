@@ -180,7 +180,7 @@ const Views = (() => {
   const signed = async (req, res) => {
     const admin_signed = await Request.aggregate(
       requestQuery({
-        "admin.staff_id": req.locals.staff_id,
+        // "admin.staff_id": req.locals.staff_id,
         "user.signature": { $ne: null },
         "admin.signature": { $ne: null },
         $and: [
@@ -195,7 +195,7 @@ const Views = (() => {
   const archives = async (req, res) => {
     const admin_archives = await Request.aggregate(
       requestQuery({
-        "admin.staff_id": req.locals.staff_id,
+        // "admin.staff_id": req.locals.staff_id,
         "reports.status": "archived",
       })
     );
@@ -208,7 +208,7 @@ const Views = (() => {
     try {
       const form = await Request.findOne({
         _id,
-        "admin.staff_id": req.locals.staff_id,
+        // "admin.staff_id": req.locals.staff_id,
       }).select({
         _id: 0,
         __v: 0,

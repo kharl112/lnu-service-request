@@ -40,7 +40,7 @@ route.post("/faculty/create/id=:id", userAuth, async (req, res) => {
     const html = pug.renderFile(
       path.join(
         PROJECT_PATH +
-          `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+        `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
       ),
       { form }
     );
@@ -101,7 +101,7 @@ route.post("/provider/create/id=:id", userAuth, async (req, res) => {
     const html = pug.renderFile(
       path.join(
         PROJECT_PATH +
-          `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+        `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
       ),
       { form }
     );
@@ -136,7 +136,10 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
   try {
     const id = req.params.id;
     const [form] = await Request.aggregate(
-      requestQuery({ _id: id, "admin.staff_id": req.locals.staff_id })
+      requestQuery({
+        _id: id,
+        // "admin.staff_id": req.locals.staff_id
+      })
     );
 
     form.user.department = Department.getFullDepartment(form.user.department);
@@ -159,7 +162,7 @@ route.post("/admin/create/id=:id", adminAuth, async (req, res) => {
     const html = pug.renderFile(
       path.join(
         PROJECT_PATH +
-          `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
+        `/public/views/pdf/${form.service[0].component.toLowerCase()}.pug`
       ),
       { form }
     );
