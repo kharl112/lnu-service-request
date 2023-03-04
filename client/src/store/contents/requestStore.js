@@ -23,6 +23,7 @@ const request = {
       signed: false,
       tracked: false,
       delete_selected: false,
+      send_selected: false,
       info: false,
       send: false,
       edit: false,
@@ -262,6 +263,31 @@ const request = {
       } catch (error) {
         const { message } = error.response.data || error;
         commit("setLoading", { loading: false, type: "delete_selected" });
+        commit("setDeleteSelected", []);
+        dispatch("message/errorMessage", message, { root: true });
+      }
+    },
+    SendSelected: async ({ commit, getters, dispatch }) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "send_selected" });
+      try {
+        const { data } = await axios.post(
+          "/api/request/faculty/send/selected",
+          { send_selected: getters.getDeleteSelected },
+          {
+            headers: { Authorization: localStorage.getItem("Authorization") },
+          }
+        );
+        commit("setLoading", { loading: false, type: "send_selected" });
+        commit("setDeleteSelected", []);
+        dispatch("message/successMessage", data.message, {
+          root: true,
+        });
+
+        dispatch("Drafts");
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "send_selected" });
         commit("setDeleteSelected", []);
         dispatch("message/errorMessage", message, { root: true });
       }
