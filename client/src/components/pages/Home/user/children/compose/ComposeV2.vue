@@ -418,7 +418,7 @@ export default {
                                   "
                                 />
                               </v-col>
-                              <v-col cols="12" sm="6">
+                              <v-col cols="12" sm="6" v-if="getOptionalComponent() !== 'PassSlip'">
                                 <v-autocomplete
                                   v-model="form.service_provider.staff_id"
                                   @change="handleSetLocalStorage"
