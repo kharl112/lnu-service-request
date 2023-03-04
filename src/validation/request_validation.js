@@ -73,11 +73,4 @@ const deleteSelected = (body) => {
   return schema.validate(body);
 };
 
-const sendSelected = (body) => {
-  const schema = Joi.object({
-    send_selected: Joi.array().min(1).required(),
-  }).required();
-  return schema.validate(body);
-};
-
-module.exports = { create, edit, deleteSelected, sendSelected };
+module.exports = { create, edit, deleteSelected };
