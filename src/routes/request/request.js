@@ -23,11 +23,6 @@ route.post(
   Faculty.Mutations.delete_drafts
 );
 route.post(
-  "/faculty/send/selected",
-  userAuth,
-  Faculty.Mutations.send_drafts
-);
-route.post(
   "/faculty/update/:_id",
   userAuth,
   createService,

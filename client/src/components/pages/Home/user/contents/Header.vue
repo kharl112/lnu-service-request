@@ -42,9 +42,6 @@ export default {
     handleDeleteSelected() {
       return this.$store.dispatch("request/DeleteSelected");
     },
-    handleSendSelected() {
-      return this.$store.dispatch("request/SendSelected");
-    },
     handleRefresh() {
       return location.reload();
     },
@@ -61,11 +58,7 @@ export default {
   <v-container fluid class="pa-0">
     <v-row justify="end" align-items="center">
       <v-col cols="12" class="">
-        <v-row
-          justify="space-between"
-          align-items="center"
-          class="mt-4 pr-sm-5"
-        >
+        <v-row justify="space-between" align-items="center" class="mt-4">
           <div v-if="isMobile">
             <v-tooltip bottom>
               <template v-slot:activator="{ on, attrs }">
@@ -167,14 +160,14 @@ export default {
                   icon
                   color="error"
                   :disabled="
-                    !getDeleteSelected[0] || getLoading.delete_selected
+                    !getDeleteSelected[0] && !getLoading.delete_selected
                   "
                   class="mx-1"
                   v-bind="attrs"
                   v-on="on"
                 >
                   <v-badge
-                    :color="getLoading.delete_selected ? '#bdbdbd' : 'error'"
+                    color="error"
                     offset-x="-18"
                     offset-y="-1"
                     v-if="getDeleteSelected[0]"
@@ -186,36 +179,11 @@ export default {
               </template>
               <span>Delete Selected Drafts</span>
             </v-tooltip>
-
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  @click="handleSendSelected"
-                  icon
-                  color="success"
-                  :disabled="!getDeleteSelected[0] || getLoading.send_selected"
-                  class="mx-1"
-                  v-bind="attrs"
-                  v-on="on"
-                >
-                  <v-badge
-                    :color="getLoading.send_selected ? '#bdbdbd' : 'success'"
-                    offset-x="-18"
-                    offset-y="-1"
-                    v-if="getDeleteSelected[0]"
-                    :content="getDeleteSelected.length"
-                    size="small"
-                  />
-                  <v-icon size="25">mdi-send</v-icon>
-                </v-btn>
-              </template>
-              <span>Delete Selected Drafts</span>
-            </v-tooltip>
           </div>
+          <v-col cols="12" class="pa-0 pt-2">
+            <v-divider />
+          </v-col>
         </v-row>
-        <v-col cols="12" class="pa-0 pt-5">
-          <v-divider />
-        </v-col>
       </v-col>
     </v-row>
   </v-container>

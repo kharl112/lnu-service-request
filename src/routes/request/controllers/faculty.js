@@ -210,56 +210,13 @@ const Mutations = (() => {
     }
   };
 
-  const send_drafts = async (req, res) => {
-    try {
-      const { error } = validate.sendSelected(req.body);
-      if (error) return res.status(400).send(error.details[0]);
-
-      const selected = await Request.updateMany({
-        "user.staff_id": req.locals.staff_id,
-        _id: { $in: req.body.send_selected },
-        $and: [{
-          "user.signature": {
-            $ne: null
-          }
-        }, { "user.signature": { $ne: "" } }],
-      },
-        { "reports.status": "sent", "reports.dates.sent": new Date() }
-      );
-
-      const sentCount = selected ? Array.isArray(selected) ? selected.length : 1 : 0;
-      const description = `sent ${sentCount} requests from drafts`;
-
-      if (sentCount) {
-        //generate options
-        const activity_options = {
-          user: {
-            staff_id: req.locals.staff_id,
-            user_type: "user",
-          },
-          request_id: null,
-          description,
-        };
-
-        //save activity
-        await createActivityLog(activity_options);
-      }
-
-      return res.send({ message: description });
-    } catch (error) {
-      res
-        .status(500)
-        .send({ message: "something went wrong, please try again." });
-    }
-  }
-
   const send = async (req, res) => {
     const { _id } = req.params;
     if (!_id) return res.status(400).send({ message: "empty parameter" });
 
     const _request = await Request.findById(_id);
     if (!_request)
-      return res.status(404).send({ message: "Requested data not found" });
+      return res.status(404).send({ message: "Requested data not foundI" });
 
     if (!_request.user.signature)
       return res
@@ -460,8 +417,7 @@ const Mutations = (() => {
     send,
     mark_as_completed,
     mark_as_archived,
-    create_copy,
-    send_drafts
+    create_copy
   };
 })();
 
