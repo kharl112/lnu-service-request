@@ -2,7 +2,7 @@ const changeServices = (id) => {
   const services = [
     {
       id: "62d7f8f2d6d6d829a8107a4e",
-      obj: { name: "", timeout: "", date: "" },
+      obj: { name: "", timeout: "", date: "", reason: "" },
     },
     {
       id: "62d7fb8f6ca91b2b7f7f9e80",

@@ -73,6 +73,23 @@ export default {
           prepend-inner-icon="mdi-calendar"
         />
       </v-col>
+      <v-col cols="12" class="py-0">
+        <v-subheader class="py-0 px-0 font-weight-black text-uppercase">
+           Reason of leaving the premises:
+        </v-subheader>
+      </v-col>
+      <v-col cols="12" class="py-0">
+        <v-textarea
+          rows="3"
+          class="body-2"
+          v-model="options.reason"
+          outlined
+          height="100%"
+          :rules="rules"
+          label=""
+          auto-grow
+        />
+      </v-col>
     </v-row>
   </v-col>
 </template>
