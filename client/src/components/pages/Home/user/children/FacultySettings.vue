@@ -216,10 +216,10 @@ export default {
                       dense
                     />
                   </v-col>
-                  <v-col cols="12">
+                  <!-- <v-col cols="12">
                     <v-divider />
                   </v-col>
-                  <!-- Availability -->
+                  Availability
                   <v-col cols="12">
                     <v-switch
                       v-model="form.availability"
@@ -228,7 +228,7 @@ export default {
                       @change="handleSetAvailability"
                       :disabled="getLoading.availability"
                     ></v-switch>
-                  </v-col>
+                  </v-col> -->
                 </v-row>
               </v-container>
             </v-col>
