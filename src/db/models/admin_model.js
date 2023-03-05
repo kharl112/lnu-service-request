@@ -52,6 +52,11 @@ const Admin = new mongoose.Schema({
     required: true,
     default: true,
   },
+  availability: {
+    type: Boolean,
+    required: true,
+    default: true
+  }
 });
 
 module.exports = mongoose.model("Admin", Admin);

@@ -16,6 +16,7 @@ const admin = {
       all_admin: false,
       reset_password: false,
       send_email_link: false,
+      availability: false,
     },
   }),
   getters: {
@@ -183,6 +184,26 @@ const admin = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
+    setAvailability: async ({ commit, dispatch }) => {
+      dispatch("message/defaultState", null, { root: true });
+      commit("setLoading", { loading: true, type: "availability" });
+
+      try {
+
+        const { data } = await axios.post("/api/admin/change/availability", {}, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+
+        await dispatch("Profile");
+
+        commit("setLoading", { loading: false, type: "availability" });
+        dispatch("message/successMessage", data.message, { root: true });
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type: "availability" });
+        dispatch("message/errorMessage", message, { root: true });
+      }
+    }
   },
 };
 

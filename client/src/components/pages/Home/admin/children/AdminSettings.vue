@@ -56,6 +56,9 @@ export default {
       }
       return;
     },
+    handleSetAvailability() {
+      this.$store.dispatch("admin/setAvailability");
+    },
   },
   created() {
     this.resetForm();
@@ -165,6 +168,19 @@ export default {
                       persistent-hint
                       dense
                     />
+                  </v-col>
+                  <v-col cols="12">
+                    <v-divider />
+                  </v-col>
+                  <!-- Availability -->
+                  <v-col cols="12">
+                    <v-switch
+                      v-model="form.availability"
+                      label="Availability"
+                      messages="set your availability"
+                      @change="handleSetAvailability"
+                      :disabled="getLoading.availability"
+                    ></v-switch>
                   </v-col>
                 </v-row>
               </v-container>

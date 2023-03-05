@@ -18,6 +18,7 @@ route.post("/update", adminAuth, Mutations.update);
 route.post("/login", Mutations.login);
 route.post("/reset/password/:_id_token", Mutations.reset_pass);
 route.post("/change/password", adminAuth, Mutations.change_pass);
+route.post("/change/availability", adminAuth, Mutations.setAvailability);
 route.post(
   "/drive/upload/files",
   adminAuth,

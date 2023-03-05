@@ -18,6 +18,7 @@ module.exports = (() => {
       all_admin.map((node, index) => ({
         name: Name.getFullName(node.name),
         staff_id: node.staff_id,
+        availability: !!node.availability
       }))
     );
   };

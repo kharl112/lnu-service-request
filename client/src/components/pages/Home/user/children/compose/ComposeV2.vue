@@ -416,9 +416,43 @@ export default {
                                   @click:prepend-inner="
                                     form.admin.staff_id = ''
                                   "
-                                />
+                                >
+                                  <template v-slot:item="data">
+                                    <v-list-item-content>
+                                      <v-list-item-title
+                                        :class="
+                                          data.item.availability
+                                            ? 'primary--text'
+                                            : 'secondary--text'
+                                        "
+                                      >
+                                        {{ data.item.name }}
+                                        <v-chip
+                                          color="primary"
+                                          class="ml-2"
+                                          x-small
+                                          v-if="data.item.availability"
+                                        >
+                                          Available
+                                        </v-chip>
+                                        <v-chip
+                                          color="gray"
+                                          class="ml-2"
+                                          x-small
+                                          v-else
+                                        >
+                                          Unavailable
+                                        </v-chip>
+                                      </v-list-item-title>
+                                    </v-list-item-content>
+                                  </template>
+                                </v-autocomplete>
                               </v-col>
-                              <v-col cols="12" sm="6" v-if="getOptionalComponent() !== 'PassSlip'">
+                              <v-col
+                                cols="12"
+                                sm="6"
+                                v-if="getOptionalComponent() !== 'PassSlip'"
+                              >
                                 <v-autocomplete
                                   v-model="form.service_provider.staff_id"
                                   @change="handleSetLocalStorage"
@@ -438,9 +472,9 @@ export default {
                                 >
                                   <template v-slot:item="data">
                                     <v-list-item-content>
-                                      <v-list-item-title :class="data.item.availability ? 'primary--text' : 'secondary--text'">
+                                      <v-list-item-title>
                                         {{ data.item.text }}
-                                        <v-chip
+                                        <!-- <v-chip
                                           color="primary"
                                           class="ml-2"
                                           x-small
@@ -455,7 +489,7 @@ export default {
                                           v-else
                                         >
                                           Unavailable
-                                        </v-chip>
+                                        </v-chip> -->
                                       </v-list-item-title>
                                       <v-list-item-subtitle
                                         v-html="data.item.department"
