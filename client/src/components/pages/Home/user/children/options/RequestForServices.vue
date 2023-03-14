@@ -72,7 +72,7 @@ export default {
           dense
         />
       </v-col>
-      <v-col cols="12" class="pb-0">
+      <!-- <v-col cols="12" class="pb-0">
         <v-divider />
       </v-col>
       <v-col cols="12">
@@ -92,7 +92,7 @@ export default {
             title="Enter each person/s involved name (comma separated)"
           />
         </v-container>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-col>
 </template>

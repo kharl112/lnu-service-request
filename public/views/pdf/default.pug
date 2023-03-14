@@ -17,10 +17,10 @@ body
     div(class="request-type")
       span(class="prefix") REQUEST FOR:
       p(class="type")=form.service_type
-    if form.options.persons_involved[0]
-      div(class="persons-involved")
-        span(class="prefix") Name of person/s involved:
-        p(class="involved")=form.options.persons_involved.toString()
+    //- if form.options.persons_involved[0]
+    //-   div(class="persons-involved")
+    //-     span(class="prefix") Name of person/s involved:
+    //-     p(class="involved")=form.options.persons_involved.toString()
     div(class="request-body")
       span(class="prefix") PURPOSE:
       | !{form.body}

@@ -26,11 +26,11 @@ body
         span(class="checkbox-label") Others (pls. specify) 
         if ["Carpenter", "Plumber", "Electrician", "Janitor/s"].indexOf(form.options.type) === -1
           span(class="other-type-label")=form.options.type 
-    if form.options.persons_involved[0]
-      div(class="persons-involved")
-        span(class="prefix") Name of person/s involved:
-        each person in form.options.persons_involved
-          p(class="involved")=person
+    //- if form.options.persons_involved[0]
+    //-   div(class="persons-involved")
+    //-     span(class="prefix") Name of person/s involved:
+    //-     each person in form.options.persons_involved
+    //-       p(class="involved")=person
     div(class="request-body")
       span(class="prefix") PURPOSE:
       span(class="prefix-body")=form.body

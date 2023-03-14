@@ -249,7 +249,8 @@ export default {
                       Services
                     </v-tab>
                     <v-tab v-show="!isMobile" :disabled="this.tab < 2">
-                      Service Provider
+                      <!-- Service Provider -->
+                      CAO & Signature
                     </v-tab>
 
                     <!-- Info -->
@@ -358,7 +359,7 @@ export default {
                             >
                               <v-text-field
                                 v-model="form.other_service"
-                                label="Custom Service"
+                                label="Name your custom service"
                                 :rules="[
                                   (v) => !!v || 'this field is required',
                                 ]"
@@ -386,7 +387,7 @@ export default {
                         <v-col cols="12" class="py-0 pt-2">
                           <v-container fluid class="py-0">
                             <v-subheader class="text-h6 px-0">
-                              Service Provider
+                              Cao
                             </v-subheader>
                           </v-container>
                         </v-col>
@@ -451,7 +452,7 @@ export default {
                               <v-col
                                 cols="12"
                                 sm="6"
-                                v-if="getOptionalComponent() !== 'PassSlip'"
+                                v-if="false"
                               >
                                 <v-autocomplete
                                   v-model="form.service_provider.staff_id"

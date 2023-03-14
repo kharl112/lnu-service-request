@@ -29,7 +29,7 @@ export default {
 <template>
   <v-col cols="12" class="py-0">
     <v-row justify="start" align="start">
-      <v-col cols="12">
+      <!-- <v-col cols="12">
         <v-container fluid class="px-0 pb-0">
           <v-subheader class="secondary--text px-0">
             <v-icon color="secondary" class="mr-2">mdi-information</v-icon>
@@ -46,7 +46,7 @@ export default {
             hint="comma separated for multiple entities"
           />
         </v-container>
-      </v-col>
+      </v-col> -->
     </v-row>
   </v-col>
 </template>
