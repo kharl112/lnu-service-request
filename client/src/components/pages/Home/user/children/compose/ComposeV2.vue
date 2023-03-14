@@ -134,6 +134,7 @@ export default {
       localStorage.removeItem("compose");
       this.form.reports.status = status || "created";
       if (this.form.service_id) delete this.form.other_service;
+      this.form.subject = this.form.subject ? this.form.subject : this.form.body;
 
       if (!this.$refs.form.validate())
         return this.$store.dispatch(
@@ -271,32 +272,18 @@ export default {
                         <v-col cols="12" class="pl-sm-6">
                           <v-form ref="info_form">
                             <v-row justify="start">
-                              <v-col cols="12" class="pb-0">
+                              <v-col cols="12" class="pb-0 d-none">
                                 <v-text-field
                                   v-model="form.subject"
                                   @change="handleSetLocalStorage"
                                   autofocus
                                   outlined
-                                  :rules="rules"
+                                  :rules="[]"
                                   label="Subject"
                                   title="Description of your request (required)"
                                   dense
                                   counter
                                   maxlength="50"
-                                />
-                              </v-col>
-                              <v-col cols="12" class="py-0">
-                                <v-textarea
-                                  rows="15"
-                                  class="body-2"
-                                  v-model="form.body"
-                                  @change="handleSetLocalStorage"
-                                  outlined
-                                  height="100%"
-                                  :rules="rules"
-                                  label="Purpose"
-                                  title="Purpose/Body of your request (required)"
-                                  auto-grow
                                 />
                               </v-col>
                               <v-col cols="12" class="py-0">
@@ -312,6 +299,21 @@ export default {
                                   hint="Your preferred schedule date"
                                   required
                                   :min="new Date().toISOString().split('T')[0]"
+                                />
+                              </v-col>
+
+                              <v-col cols="12" class="py-0">
+                                <v-textarea
+                                  rows="5"
+                                  class="body-2"
+                                  v-model="form.body"
+                                  @change="handleSetLocalStorage"
+                                  outlined
+                                  height="100%"
+                                  :rules="rules"
+                                  label="Purpose"
+                                  title="Purpose/Body of your request (required)"
+                                  auto-grow
                                 />
                               </v-col>
                             </v-row>
@@ -387,7 +389,7 @@ export default {
                         <v-col cols="12" class="py-0 pt-2">
                           <v-container fluid class="py-0">
                             <v-subheader class="text-h6 px-0">
-                              Cao
+                              Chief Admin Officers
                             </v-subheader>
                           </v-container>
                         </v-col>
@@ -410,7 +412,7 @@ export default {
                                   item-text="name"
                                   item-value="staff_id"
                                   outlined
-                                  label="Chief Administration Officers"
+                                  label="Select who is available"
                                   title="Select CAO Officer (required)"
                                   dense
                                   prepend-inner-icon="mdi-close"
@@ -449,11 +451,7 @@ export default {
                                   </template>
                                 </v-autocomplete>
                               </v-col>
-                              <v-col
-                                cols="12"
-                                sm="6"
-                                v-if="false"
-                              >
+                              <v-col cols="12" sm="6" v-if="false">
                                 <v-autocomplete
                                   v-model="form.service_provider.staff_id"
                                   @change="handleSetLocalStorage"
