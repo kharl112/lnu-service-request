@@ -51,6 +51,9 @@ export default {
       if (service_provider.signature) level++;
       return level;
     },
+    getAllServiceProviders() {
+      return this.$store.getters["faculty/getAllServiceProviders"];
+    },
   },
   methods: {
     getDate(date) {
@@ -112,6 +115,12 @@ export default {
         id: this.$route.params._id,
       });
     },
+    selectServiceProvider(staff_id) {
+      return this.$store.dispatch("request/SelectServiceProvider", {
+        staff_id,
+        request_id: this.$route.params._id,
+      });
+    },
   },
   mounted() {
     this.$store.dispatch("pdf/previewPDF", {
@@ -120,6 +129,11 @@ export default {
     });
 
     if (this.isMobile) this.doc_view.shown = false;
+
+    this.$store.dispatch(
+      "faculty/allServiceProviders",
+      this.req_info.user.staff_id
+    );
   },
 };
 </script>
@@ -203,6 +217,60 @@ export default {
                     </tr>
                   </tbody>
                 </v-simple-table>
+                <v-col
+                  cols="12"
+                  class="px-0"
+                  v-if="
+                    !req_info.service_provider.signature &&
+                    req_info.reports.status === 'sent'
+                  "
+                >
+                  <v-divider />
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  v-if="
+                    !req_info.service_provider.signature &&
+                    req_info.reports.status === 'sent'
+                  "
+                >
+                  <v-autocomplete
+                    :items="getAllServiceProviders"
+                    @change="selectServiceProvider"
+                    :value="req_info.service_provider.staff_id"
+                    class="caption"
+                    item-text="text"
+                    item-value="staff_id"
+                    outlined
+                    title="Select a service provider (optional)"
+                    label="Select Service Provider (optional)"
+                    hide-details
+                    dense
+                  >
+                    <template v-slot:item="data">
+                      <v-list-item-content>
+                        <v-list-item-title>
+                          {{ data.item.text }}
+                          <v-chip
+                            color="primary"
+                            class="ml-2"
+                            x-small
+                            v-if="data.item.availability"
+                          >
+                            Available
+                          </v-chip>
+                          <v-chip color="gray" class="ml-2" x-small v-else>
+                            Unavailable
+                          </v-chip>
+                        </v-list-item-title>
+                        <v-list-item-subtitle
+                          v-html="data.item.department"
+                        ></v-list-item-subtitle>
+                      </v-list-item-content>
+                    </template>
+                  </v-autocomplete>
+                </v-col>
               </v-row>
             </v-card>
           </v-col>

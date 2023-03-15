@@ -190,11 +190,11 @@ const faculty = {
         dispatch("message/errorMessage", message, { root: true });
       }
     },
-    allServiceProviders: async ({ commit, dispatch, state }) => {
+    allServiceProviders: async ({ commit, dispatch, state }, staff_id) => {
       if (!state.all_service_providers[0])
         commit("setLoading", { loading: true, type: "all_service_providers" });
       try {
-        const { data } = await axios.get("/api/user/provider/all", {
+        const { data } = await axios.get(`/api/user/provider/all?staff_id=${staff_id ? staff_id : ''}`, {
           headers: { Authorization: localStorage.getItem("Authorization") },
         });
         commit("setLoading", { loading: false, type: "all_service_providers" });

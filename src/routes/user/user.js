@@ -32,6 +32,6 @@ route.post("/send/email/link", Emails.send);
 route.get("/profile", userAuth, Views.profile);
 route.get("/all", adminAuth, Views.all);
 route.get("/permitted", adminAuth, Views.permitted);
-route.get("/provider/all", userAuth, Views.all_providers);
+route.get("/provider/all", Views.all_providers);
 
 module.exports = route;

@@ -1,9 +1,9 @@
 const Request = require("../../../db/models/request_model");
 const requestQuery = require("../../../functions/requestQuery");
-const pusher = require("../../../functions/pusher");
 const createActivityLog = require("../../../functions/createActivityLog");
 const createNotification = require("../../../functions/createNotification");
 const createMisNotification = require("../../../functions/createMisNotification");
+const User = require("../../../db/models/user_model");
 
 const Mutations = (() => {
   const sign = async (req, res) => {
@@ -151,7 +151,28 @@ const Mutations = (() => {
     }
   };
 
-  return { sign, reject };
+  const select_service_provider = async (req, res) => {
+    const { staff_id, request_id } = req.body;
+    try {
+
+      if (!staff_id || !request_id) return res.status(402).send({ message: "invalid: missing parameters " });
+
+      const sp_found = await User.findOne({ staff_id });
+      if (!sp_found) return res.status(402).send({ message: "service provider not found" })
+
+      const req_found = await Request.findOneAndUpdate({ _id: request_id, "user.staff_id": { $ne: staff_id } }, { service_provider: { staff_id, signature: null } });
+      if (!req_found) return res.status(402).send({ message: "requested data not found" })
+
+      res.send({ message: "service provider set" })
+
+    } catch (error) {
+      return res
+        .status(500)
+        .send({ message: "something went wrong, please try again." });
+    }
+  }
+
+  return { sign, reject, select_service_provider };
 })();
 
 const Views = (() => {

@@ -31,6 +31,7 @@ const request = {
       mark: false,
       reject: false,
       copy: false,
+      select_service_provider: false,
     },
   }),
   getters: {
@@ -432,7 +433,27 @@ const request = {
         commit("setLoading", { loading: false, type: "copy" });
         dispatch("message/errorMessage", message, { root: true });
       }
+    },
+    SelectServiceProvider: async ({ commit, dispatch }, { request_id, staff_id }) => {
+      const type = "select_service_provider";
+      commit("setLoading", { loading: true, type });
+      try {
+        const { data } = await axios.post(
+          `/api/request/admin/select/service-provider`, { request_id, staff_id },
+          { headers: { Authorization: localStorage.getItem("Authorization") } }
+        );
+
+        commit("setLoading", { loading: false, type });
+        dispatch("message/successMessage", data.message, { root: true });
+        dispatch("pdf/previewPDF", { user_type: "admin", id: request_id }, { root: true });
+      } catch (error) {
+        const { message } = error.response.data || error;
+        commit("setLoading", { loading: false, type });
+        dispatch("message/errorMessage", message, { root: true });
+      }
     }
+
+
   },
 };
 

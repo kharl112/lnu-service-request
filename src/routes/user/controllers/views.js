@@ -56,8 +56,10 @@ module.exports = (() => {
   };
 
   const all_providers = async (req, res) => {
+    const { staff_id } = req.query;
+    const _staff_id = req.locals ? req.locals.staff_id : staff_id;
     const all_service_providers = await User.aggregate([
-      { $match: { staff_id: { $ne: req.locals.staff_id }, permitted: true } },
+      { $match: _staff_id ? { staff_id: { $ne: _staff_id }, permitted: true } : { permitted: true } },
       {
         $lookup: {
           from: "roles",

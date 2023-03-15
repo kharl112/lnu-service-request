@@ -62,6 +62,7 @@ route.get("/provider/signed", userAuth, Provider.Views.signed);
 
 route.post("/admin/sign", adminAuth, Admin.Mutations.sign);
 route.post("/admin/reject", adminAuth, Admin.Mutations.reject);
+route.post("/admin/select/service-provider", adminAuth, Admin.Mutations.select_service_provider);
 
 route.get("/admin/all", adminAuth, Admin.Views.all);
 route.get("/admin/pendings", adminAuth, Admin.Views.pendings);
