@@ -34,6 +34,7 @@ const update = (body) => {
       prefix: Joi.string().allow(""),
       suffixes: Joi.string().allow(""),
     }).required(),
+    availability: Joi.boolean().allow(null)
   });
   return schema.validate(body);
 };

@@ -42,6 +42,7 @@ const update = (body) => {
       unit_id: validString.min(24).max(24),
       role_id: validString.min(24).max(24),
     }).required(),
+    availability: Joi.boolean().allow(null)
   });
   return schema.validate(body);
 };
