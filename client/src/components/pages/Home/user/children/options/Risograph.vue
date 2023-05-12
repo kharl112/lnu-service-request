@@ -142,6 +142,7 @@ export default {
                     <thead>
                       <tr>
                         <th class="text-left">Document Title</th>
+                        <th class="text-left">Description</th>
                         <th class="text-center">No. of copies</th>
                         <th class="text-center">No. of pages</th>
                         <th class="text-center">Total copies produced</th>
@@ -159,6 +160,12 @@ export default {
                             :rules="[rules.isRequired]"
                             dense
                             v-model="doc.title"
+                          />
+                        </td>
+                        <td class="text-center">
+                          <v-text-field
+                            title="Enter description"
+                            dense
                           />
                         </td>
                         <td class="text-center">
