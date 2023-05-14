@@ -26,17 +26,20 @@ body
     table(class="data-table")
       tr(class="tb-row")
         th(class="tb-data") Title
+        th(class="tb-data") Description
         th(class="tb-data") No. of Copies
         th(class="tb-data") No. of Pages
         th(class="tb-data") Total No. of Copies Produced
       each doc in form.options.documents
         tr(class="tb-row")
           td(class="tb-data")=doc.title
+          td(class="tb-data")=doc.description || 'N\A'
           td(class="tb-data")=doc.copies
           td(class="tb-data")=doc.pages
           td(class="tb-data")=`${doc.produced === "0" ? doc.produced : parseInt(doc.copies * doc.pages)}`
       tr(class="tb-row")
         td(class="tb-data total-output") TOTAL OUTPUT
+        td(class="tb-data")
         td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies), 0)}`
         td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.pages), 0)}`
         td(class="tb-data")=`${form.options.documents.reduce((init, node) => init + parseInt(node.copies * node.pages), 0)}`

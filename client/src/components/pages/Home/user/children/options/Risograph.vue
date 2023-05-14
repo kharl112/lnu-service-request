@@ -5,7 +5,7 @@ export default {
     options: Object,
   },
   data: () => ({
-    idle: { title: "", copies: 1, pages: 1, produced: 0 },
+    idle: { title: "", description: "", copies: 1, pages: 1, produced: 0 },
     rules: {
       isNumber: (v) =>
         (/\d/gi.test(v) && parseInt(v) >= 0) || "a valid number is required",
@@ -166,6 +166,7 @@ export default {
                           <v-text-field
                             title="Enter description"
                             dense
+                            v-model="doc.description"
                           />
                         </td>
                         <td class="text-center">
