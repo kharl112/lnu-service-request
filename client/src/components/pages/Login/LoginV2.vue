@@ -1,7 +1,4 @@
 <script>
-// import LeftBg1 from "../../svgs/LeftBg1";
-// import LeftBg2 from "../../svgs/LeftBg2";
-// import GoogleLogin from "vue-google-login";
 export default {
   name: "Login",
   data: () => ({
@@ -154,30 +151,34 @@ export default {
                 />
               </v-row>
             </v-col>
-            <p class="text-h6 text-sm-h3 text-md-h2 d-none d-sm-block">
+            <p
+              class="text-h6 text-sm-h3 text-md-h2 d-none d-sm-block white--text"
+            >
               Hi, Welcome Back to
               {{ user == "faculty" ? "Staffs" : "Admin" }} Portal
             </p>
             <v-row justify="center" justify-md="start">
               <v-col cols="12" class="hidden-sm-and-up">
                 <v-row justify="center" justify-md="start">
-                  <p class="primary--text overline font-weight-bold app-name">
+                  <p class="overline font-weight-bold app-name white--text">
                     LNUSR
                   </p>
                 </v-row>
                 <v-row justify="center" justify-md="start">
-                  <p class="primary--text overline">
+                  <p class="overline white--text">
                     LNU Service Requesting System
                   </p>
                 </v-row>
               </v-col>
               <v-col cols="12" class="pt-0 d-block d-sm-none">
-                <p class="text-center text-capitalize">
+                <p class="text-center text-capitalize white--text">
                   For {{ user == "faculty" ? "staffs" : "admin" }}
                 </p>
               </v-col>
               <v-col cols="12">
-                <p class="text-caption text-sm-body text-center text-sm-left">
+                <p
+                  class="text-caption text-sm-body text-center text-sm-left white--text"
+                >
                   Sign in to continue
                 </p>
               </v-col>
@@ -198,6 +199,7 @@ export default {
                     hide-details
                     tabindex="1"
                     autofocus
+                    dark
                   />
                 </v-col>
                 <v-col cols="12" sm="10">
@@ -211,7 +213,11 @@ export default {
                     filled
                     prepend-inner-icon="mdi-lock"
                     tabindex="2"
+                    color="white"
+                    bg-color="white"
+                    class="text-input"
                     hide-details
+                    dark
                   />
                 </v-col>
                 <v-col cols="12" sm="10" class="mt-0 pt-0">
@@ -224,7 +230,7 @@ export default {
                 <v-col cols="12" sm="10" class="my-0 pt-0">
                   <router-link
                     to="/forgot/password/step=1"
-                    class="text-caption"
+                    class="text-caption white--text"
                   >
                     I forgot my password
                   </router-link>
@@ -233,7 +239,7 @@ export default {
                   <v-btn
                     type="submit"
                     block
-                    elevation="0"
+                    elevation="2"
                     large
                     tabindex="3"
                     :disabled="getLoading.login"
@@ -246,28 +252,33 @@ export default {
               </v-row>
             </v-form>
           </v-col>
-          <v-col cols="12" class="py-0 mt-5" v-if="user === 'faculty'">
+          <v-col cols="12" class="py-0 mt-5 white--text">
             <p class="caption">
               New member?
               <router-link
-                class="text-decoration-none ml-1"
+                class="ml-1 white--text"
                 :to="`/register/${user}/step=1`"
               >
                 Create account
               </router-link>
             </p>
           </v-col>
-          <v-col cols="12" class="py-0">
-            <p class="caption py-0 my-0 text-capitalize">
+          <v-col cols="12" class="py-0 white--text">
+            <v-chip
+              class="caption py-0 my-0 text-capitalize"
+              :color="user == 'faculty' ? 'warning' : 'primary'"
+            >
               Switch to
               <a
                 :href="`#${user}`"
                 @click="changeUserType"
-                class="text-decoration-none ml-1"
+                class="ml-1 white--text text-decoration-none"
               >
-                {{ user == "faculty" ? "admin" : "staffs" }} Portal
+                <strong>
+                  {{ user == "faculty" ? "admin" : "staffs" }} Portal
+                </strong>
               </a>
-            </p>
+            </v-chip>
           </v-col>
         </v-col>
         <v-col md="7" class="d-none d-md-block">
@@ -275,24 +286,21 @@ export default {
             <v-row justify="center">
               <v-col cols="10" class="text-center">
                 <img
-                  v-if="user == 'faculty'"
-                  src="../../../assets/images/welcome_image.png"
+                  src="../../../assets/images/lnu-logo.png"
                   class="welcome-image"
-                />
-                <img
-                  v-else
-                  src="../../../assets/images/welcome_image2.png"
-                  class="welcome-image"
-                  style="max-width: 60%"
                 />
               </v-col>
-              <v-col cols="10" class="py-3 my-6">
-                <h3 class="text-h5 text-center" v-if="user == 'faculty'">
-                  Request Services from LNU Chief Administration Office
-                  Personnels and Services Providers Online
+              <v-col cols="10" class="py-3 my-6 welcome-text">
+                <h3
+                  class="text-h4 text-center white--text"
+                  v-if="user == 'faculty'"
+                >
+                  Request Services from <strong> LNU </strong>Chief
+                  Administration Office Personnels and Services Providers Online
                 </h3>
-                <h3 class="text-h5 text-center" v-else>
-                  Connect with LNU Staffs, Faculty and other LNU Personnels
+                <h3 class="text-h4 text-center white--text" v-else>
+                  Connect with <strong>LNU </strong>Staffs, Faculty and other
+                  <strong>LNU </strong>Personnels
                 </h3>
               </v-col>
               <v-col cols="12" class="text-center">
@@ -305,6 +313,7 @@ export default {
                       @click="install"
                       :color="deferredPrompt ? 'error' : 'grey lighten-1'"
                       medium
+                      v-if="deferredPrompt"
                     >
                       Install LNUSR
                       <v-icon v-if="deferredPrompt">mdi-download</v-icon>
@@ -327,23 +336,31 @@ export default {
           <v-container fluid class="py-10 mt-10">
             <v-row>
               <v-col cols="12" sm="6">
-                <span class="primary--text caption"> LNUSR 2022. </span>
-                <span class="black--text caption">
+                <span class="white--text caption">
+                  <strong>LNUSR 2022. </strong></span
+                >
+                <span class="white--text caption">
                   This app is built only for LNU staffs and employees</span
                 >
               </v-col>
               <v-col cols="12" sm="6" class="text-sm-right">
-                <span class="black--text caption text-left text-sm-right">
-                  From the <strong>I.T</strong> and Computer Education Unit of
-                  <a href="https://www.lnu.edu.ph/" target="__blank">
-                    Leyte Normal University
-                    <img
-                      src="../../../assets/images/lnu-logo.png"
-                      class="lnu-logo-small"
-                      alt="LNU logo"
-                      title="Leyte Normal University logo"
-                    />
-                  </a>
+                <span class="white--text caption text-left text-sm-right">
+                  <v-chip>
+                    From the I.T and Computer Education Unit of
+                    <a
+                      href="https://www.lnu.edu.ph/"
+                      target="__blank"
+                      class="ml-1"
+                    >
+                      Leyte Normal University
+                      <img
+                        src="../../../assets/images/lnu-logo.png"
+                        class="lnu-logo-small"
+                        alt="LNU logo"
+                        title="Leyte Normal University logo"
+                      />
+                    </a>
+                  </v-chip>
                 </span>
               </v-col>
             </v-row>
@@ -402,6 +419,11 @@ export default {
     width: 100vw;
     height: 100vh;
   }
+
+  background-image: url(../../../assets/images/lnu_cme_blur.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .form-container {
@@ -445,5 +467,8 @@ export default {
   position: fixed;
   bottom: 12px;
   right: 12px;
+}
+.welcome-text {
+  text-shadow: 2px 1px 4px black !important;
 }
 </style>
